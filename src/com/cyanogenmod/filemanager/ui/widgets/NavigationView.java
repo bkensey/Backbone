@@ -21,16 +21,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
-import android.os.storage.StorageVolume;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.cyanogenmod.filemanager.FileManagerApplication;
 import com.cyanogenmod.filemanager.R;
 import com.cyanogenmod.filemanager.adapters.FileSystemObjectAdapter;
@@ -39,29 +33,17 @@ import com.cyanogenmod.filemanager.console.ConsoleAllocException;
 import com.cyanogenmod.filemanager.listeners.OnHistoryListener;
 import com.cyanogenmod.filemanager.listeners.OnRequestRefreshListener;
 import com.cyanogenmod.filemanager.listeners.OnSelectionListener;
-import com.cyanogenmod.filemanager.model.Directory;
-import com.cyanogenmod.filemanager.model.FileSystemObject;
-import com.cyanogenmod.filemanager.model.ParentDirectory;
-import com.cyanogenmod.filemanager.model.Symlink;
+import com.cyanogenmod.filemanager.model.*;
 import com.cyanogenmod.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.cyanogenmod.filemanager.parcelables.SearchInfoParcelable;
-import com.cyanogenmod.filemanager.preferences.AccessMode;
-import com.cyanogenmod.filemanager.preferences.DisplayRestrictions;
-import com.cyanogenmod.filemanager.preferences.FileManagerSettings;
-import com.cyanogenmod.filemanager.preferences.NavigationLayoutMode;
-import com.cyanogenmod.filemanager.preferences.ObjectIdentifier;
-import com.cyanogenmod.filemanager.preferences.Preferences;
+import com.cyanogenmod.filemanager.preferences.*;
 import com.cyanogenmod.filemanager.ui.ThemeManager;
 import com.cyanogenmod.filemanager.ui.ThemeManager.Theme;
 import com.cyanogenmod.filemanager.ui.policy.DeleteActionPolicy;
 import com.cyanogenmod.filemanager.ui.policy.IntentsActionPolicy;
 import com.cyanogenmod.filemanager.ui.widgets.FlingerListView.OnItemFlingerListener;
 import com.cyanogenmod.filemanager.ui.widgets.FlingerListView.OnItemFlingerResponder;
-import com.cyanogenmod.filemanager.util.CommandHelper;
-import com.cyanogenmod.filemanager.util.DialogHelper;
-import com.cyanogenmod.filemanager.util.ExceptionUtil;
-import com.cyanogenmod.filemanager.util.FileHelper;
-import com.cyanogenmod.filemanager.util.StorageHelper;
+import com.cyanogenmod.filemanager.util.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1188,7 +1170,7 @@ public class NavigationView extends RelativeLayout implements
         this.mChRooted = true;
 
         //Change to first storage volume
-        StorageVolume[] volumes =
+        FileSystemStorageVolume[] volumes =
                 StorageHelper.getStorageVolumes(getContext());
         if (volumes != null && volumes.length > 0) {
             changeCurrentDir(volumes[0].getPath(), false, true, false, null, null);
@@ -1220,7 +1202,7 @@ public class NavigationView extends RelativeLayout implements
 
         // Check if the path is owned by one of the storage volumes
         if (!StorageHelper.isPathInStorageVolume(newDir)) {
-            StorageVolume[] volumes = StorageHelper.getStorageVolumes(getContext());
+            FileSystemStorageVolume[] volumes = StorageHelper.getStorageVolumes(getContext());
             if (volumes != null && volumes.length > 0) {
                 return volumes[0].getPath();
             }

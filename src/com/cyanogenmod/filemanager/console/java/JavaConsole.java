@@ -17,23 +17,15 @@
 package com.cyanogenmod.filemanager.console.java;
 
 import android.content.Context;
-import android.os.storage.StorageVolume;
 import android.util.Log;
-
 import com.cyanogenmod.filemanager.commands.ChangeCurrentDirExecutable;
 import com.cyanogenmod.filemanager.commands.Executable;
 import com.cyanogenmod.filemanager.commands.ExecutableFactory;
 import com.cyanogenmod.filemanager.commands.SIGNAL;
 import com.cyanogenmod.filemanager.commands.java.JavaExecutableFactory;
 import com.cyanogenmod.filemanager.commands.java.Program;
-import com.cyanogenmod.filemanager.console.CommandNotFoundException;
-import com.cyanogenmod.filemanager.console.Console;
-import com.cyanogenmod.filemanager.console.ConsoleAllocException;
-import com.cyanogenmod.filemanager.console.ExecutionException;
-import com.cyanogenmod.filemanager.console.InsufficientPermissionsException;
-import com.cyanogenmod.filemanager.console.NoSuchFileOrDirectory;
-import com.cyanogenmod.filemanager.console.OperationTimeoutException;
-import com.cyanogenmod.filemanager.console.ReadOnlyFilesystemException;
+import com.cyanogenmod.filemanager.console.*;
+import com.cyanogenmod.filemanager.model.FileSystemStorageVolume;
 import com.cyanogenmod.filemanager.model.Identity;
 import com.cyanogenmod.filemanager.util.StorageHelper;
 
@@ -78,7 +70,7 @@ public final class JavaConsole extends Console {
             }
 
             //Retrieve the current directory from the first storage volume
-            StorageVolume[] vols = StorageHelper.getStorageVolumes(this.mCtx);
+            FileSystemStorageVolume[] vols = StorageHelper.getStorageVolumes(this.mCtx);
             if (vols == null || vols.length == 0) {
                 throw new ConsoleAllocException("Can't stat any directory"); //$NON-NLS-1$
             }

@@ -18,19 +18,13 @@ package com.cyanogenmod.filemanager.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.content.*;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.storage.StorageVolume;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -40,12 +34,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ListPopupWindow;
 import android.widget.Toast;
-
 import com.cyanogenmod.filemanager.R;
 import com.cyanogenmod.filemanager.adapters.CheckableListAdapter;
 import com.cyanogenmod.filemanager.adapters.CheckableListAdapter.CheckableItem;
 import com.cyanogenmod.filemanager.console.ConsoleBuilder;
 import com.cyanogenmod.filemanager.model.FileSystemObject;
+import com.cyanogenmod.filemanager.model.FileSystemStorageVolume;
 import com.cyanogenmod.filemanager.preferences.DisplayRestrictions;
 import com.cyanogenmod.filemanager.preferences.FileManagerSettings;
 import com.cyanogenmod.filemanager.preferences.Preferences;
@@ -430,7 +424,7 @@ public class PickerActivity extends Activity
      */
     private void showStorageVolumesPopUp(View anchor) {
         // Create a list (but not checkable)
-        final StorageVolume[] volumes = StorageHelper.getStorageVolumes(PickerActivity.this);
+        final FileSystemStorageVolume[] volumes = StorageHelper.getStorageVolumes(PickerActivity.this);
         List<CheckableItem> descriptions = new ArrayList<CheckableItem>();
         if (volumes != null) {
             int cc = volumes.length;

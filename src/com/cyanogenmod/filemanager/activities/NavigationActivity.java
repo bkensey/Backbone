@@ -20,11 +20,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
@@ -32,22 +28,10 @@ import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.os.storage.StorageVolume;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.*;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListPopupWindow;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.cyanogenmod.filemanager.FileManagerApplication;
 import com.cyanogenmod.filemanager.R;
 import com.cyanogenmod.filemanager.activities.preferences.SettingsPreferences;
@@ -60,36 +44,20 @@ import com.cyanogenmod.filemanager.console.ConsoleBuilder;
 import com.cyanogenmod.filemanager.console.NoSuchFileOrDirectory;
 import com.cyanogenmod.filemanager.listeners.OnHistoryListener;
 import com.cyanogenmod.filemanager.listeners.OnRequestRefreshListener;
-import com.cyanogenmod.filemanager.model.DiskUsage;
-import com.cyanogenmod.filemanager.model.FileSystemObject;
-import com.cyanogenmod.filemanager.model.History;
-import com.cyanogenmod.filemanager.model.MountPoint;
+import com.cyanogenmod.filemanager.model.*;
 import com.cyanogenmod.filemanager.parcelables.HistoryNavigable;
 import com.cyanogenmod.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.cyanogenmod.filemanager.parcelables.SearchInfoParcelable;
-import com.cyanogenmod.filemanager.preferences.AccessMode;
-import com.cyanogenmod.filemanager.preferences.FileManagerSettings;
-import com.cyanogenmod.filemanager.preferences.NavigationLayoutMode;
-import com.cyanogenmod.filemanager.preferences.ObjectIdentifier;
-import com.cyanogenmod.filemanager.preferences.Preferences;
+import com.cyanogenmod.filemanager.preferences.*;
 import com.cyanogenmod.filemanager.ui.ThemeManager;
 import com.cyanogenmod.filemanager.ui.ThemeManager.Theme;
 import com.cyanogenmod.filemanager.ui.dialogs.ActionsDialog;
 import com.cyanogenmod.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.cyanogenmod.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
-import com.cyanogenmod.filemanager.ui.widgets.Breadcrumb;
-import com.cyanogenmod.filemanager.ui.widgets.ButtonItem;
-import com.cyanogenmod.filemanager.ui.widgets.NavigationCustomTitleView;
-import com.cyanogenmod.filemanager.ui.widgets.NavigationView;
+import com.cyanogenmod.filemanager.ui.widgets.*;
 import com.cyanogenmod.filemanager.ui.widgets.NavigationView.OnNavigationRequestMenuListener;
 import com.cyanogenmod.filemanager.ui.widgets.NavigationView.OnNavigationSelectionChangedListener;
-import com.cyanogenmod.filemanager.ui.widgets.SelectionView;
-import com.cyanogenmod.filemanager.util.AndroidHelper;
-import com.cyanogenmod.filemanager.util.CommandHelper;
-import com.cyanogenmod.filemanager.util.DialogHelper;
-import com.cyanogenmod.filemanager.util.ExceptionUtil;
-import com.cyanogenmod.filemanager.util.FileHelper;
-import com.cyanogenmod.filemanager.util.StorageHelper;
+import com.cyanogenmod.filemanager.util.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -608,7 +576,7 @@ public class NavigationActivity extends Activity
                                     SETTINGS_INITIAL_DIR.getDefaultValue());
                     if (NavigationActivity.this.mChRooted) {
                         // Initial directory is the first external sdcard (sdcard, emmc, usb, ...)
-                        StorageVolume[] volumes =
+                        FileSystemStorageVolume[] volumes =
                                 StorageHelper.getStorageVolumes(NavigationActivity.this);
                         if (volumes != null && volumes.length > 0) {
                             initialDir = volumes[0].getPath();

@@ -17,17 +17,11 @@
 package com.cyanogenmod.filemanager.adapters;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.android.internal.view.menu.MenuBuilder;
 import com.cyanogenmod.filemanager.R;
+import com.cyanogenmod.filemanager.menu.MenuBuilder2;
 import com.cyanogenmod.filemanager.ui.ThemeManager;
 import com.cyanogenmod.filemanager.ui.ThemeManager.Theme;
 
@@ -49,7 +43,7 @@ public class SimpleMenuListAdapter extends BaseAdapter {
     public SimpleMenuListAdapter(Context context, int menuResourceId) {
         super();
         this.mContext = context;
-        this.mMenu = new MenuBuilder(context);
+        this.mMenu = new MenuBuilder2(context);
         this.mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflateMenu(menuResourceId);
     }
