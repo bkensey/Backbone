@@ -23,10 +23,10 @@
       android:title="@string/pref_themes_selection_category">
 
       <!-- Themes selector -->
-      <com.cyanogenmod.filemanager.ui.preferences.ThemeSelectorPreference
+      <com.brandroidtools.filemanager.ui.preferences.ThemeSelectorPreference
         android:key="cm_filemanager_theme"
         android:persistent="true"
-        android:defaultValue="com.cyanogenmod.filemanager:light" />
+        android:defaultValue="com.brandroidtools.filemanager:light" />
 
     </PreferenceCategory>
 

@@ -16,21 +16,21 @@
 
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:filemanager="http://schemas.android.com/apk/res/com.cyanogenmod.filemanager"
+  xmlns:filemanager="http://schemas.android.com/apk/res/com.brandroidtools.filemanager"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical">
 
   <!-- Navigation View -->
-  <com.cyanogenmod.filemanager.ui.widgets.NavigationView
+<!--  <com.brandroidtools.filemanager.ui.widgets.NavigationView
     android:id="@+id/navigation_view"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
-    filemanager:navigation="browsable" />
+    filemanager:navigation="browsable" />-->
 
   <!-- SelectionBar -->
-  <com.cyanogenmod.filemanager.ui.widgets.SelectionView
+  <com.brandroidtools.filemanager.ui.widgets.SelectionView
     android:id="@+id/navigation_selectionbar"
     android:layout_width="match_parent"
     android:layout_height="@dimen/small_row_height"
@@ -38,6 +38,6 @@
     android:visibility="invisible" />
 
   <!-- StatusBar -->
-  <include layout="@layout/navigation_view_statusbar" />
+<!--  <include layout="@layout/navigation_view_statusbar" />-->
 
 </LinearLayout>

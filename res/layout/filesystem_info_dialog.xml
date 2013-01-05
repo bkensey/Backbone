@@ -259,7 +259,7 @@
     android:layout_below="@id/filesystem_tabs"
     android:visibility="gone" >
 
-    <com.cyanogenmod.filemanager.ui.widgets.DiskUsageGraph
+    <com.brandroidtools.filemanager.ui.widgets.DiskUsageGraph
       android:id="@+id/filesystem_disk_usage_graph"
       android:layout_width="0dip"
       android:layout_height="wrap_content"

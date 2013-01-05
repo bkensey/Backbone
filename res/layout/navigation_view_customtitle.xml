@@ -19,7 +19,7 @@
   android:layout_height="match_parent"
   android:orientation="horizontal">
 
-  <com.cyanogenmod.filemanager.ui.widgets.NavigationCustomTitleView
+  <com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView
     android:id="@+id/navigation_title_flipper"
     android:layout_width="0dp"
     android:layout_height="match_parent"
@@ -32,7 +32,7 @@
     <!-- The configuration layout (sort, layout, other options, ...) -->
     <include layout="@layout/navigation_view_customtitle_configuration" />
 
-  </com.cyanogenmod.filemanager.ui.widgets.NavigationCustomTitleView>
+  </com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView>
 
   <LinearLayout
     android:id="@+id/navigation_title_landscape_holder"
