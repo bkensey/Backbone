@@ -27,7 +27,6 @@ import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.storage.StorageVolume;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -38,8 +37,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.internal.util.XmlUtils;
 import com.cyanogenmod.filemanager.FileManagerApplication;
 import com.cyanogenmod.filemanager.R;
 import com.cyanogenmod.filemanager.adapters.BookmarksAdapter;
@@ -47,6 +44,7 @@ import com.cyanogenmod.filemanager.console.NoSuchFileOrDirectory;
 import com.cyanogenmod.filemanager.model.Bookmark;
 import com.cyanogenmod.filemanager.model.Bookmark.BOOKMARK_TYPE;
 import com.cyanogenmod.filemanager.model.FileSystemObject;
+import com.cyanogenmod.filemanager.model.FileSystemStorageVolume;
 import com.cyanogenmod.filemanager.preferences.AccessMode;
 import com.cyanogenmod.filemanager.preferences.Bookmarks;
 import com.cyanogenmod.filemanager.preferences.FileManagerSettings;
@@ -57,10 +55,7 @@ import com.cyanogenmod.filemanager.ui.dialogs.InitialDirectoryDialog;
 import com.cyanogenmod.filemanager.ui.widgets.FlingerListView;
 import com.cyanogenmod.filemanager.ui.widgets.FlingerListView.OnItemFlingerListener;
 import com.cyanogenmod.filemanager.ui.widgets.FlingerListView.OnItemFlingerResponder;
-import com.cyanogenmod.filemanager.util.CommandHelper;
-import com.cyanogenmod.filemanager.util.DialogHelper;
-import com.cyanogenmod.filemanager.util.ExceptionUtil;
-import com.cyanogenmod.filemanager.util.StorageHelper;
+import com.cyanogenmod.filemanager.util.*;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -549,7 +544,7 @@ public class BookmarksActivity extends Activity implements OnItemClickListener, 
 
         try {
             //Recovery sdcards from storage manager
-            StorageVolume[] volumes = StorageHelper.getStorageVolumes(getApplication());
+            FileSystemStorageVolume[] volumes = StorageHelper.getStorageVolumes(getApplication());
             int cc = volumes.length;
             for (int i = 0; i < cc ; i++) {
                 if (volumes[i].getPath().toLowerCase().indexOf("usb") != -1) { //$NON-NLS-1$
