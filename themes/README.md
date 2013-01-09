@@ -10,9 +10,9 @@ This packages brings with the next themes:
 For build new themes, developers should:
 
  - Create a new package that contains an activity with:
-       * Permission: com.cyanogenmod.filemanager.permissions.READ_THEME
-       * Action: com.cyanogenmod.filemanager.actions.MAIN_THEME
-       * Category: com.cyanogenmod.filemanager.categories.THEME
+       * Permission: com.brandroid.filemanager.permissions.READ_THEME
+       * Action: com.brandroid.filemanager.actions.MAIN_THEME
+       * Category: com.brandroid.filemanager.categories.THEME
  - Define the themes_ids, themes_names and themes_descriptions arrays-strings
    definitions for the themes that the package support.
  - Create a xxx_theme.xml for every theme that the package support, where the

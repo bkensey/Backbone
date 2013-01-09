@@ -45,6 +45,6 @@
 }
 
 #don't note test classes
--dontnote com.cyanogenmod.filemanager.commands.**Test**
--dontnote com.cyanogenmod.filemanager.console.**Test**
+-dontnote com.brandroid.filemanager.commands.**Test**
+-dontnote com.brandroid.filemanager.console.**Test**
 
