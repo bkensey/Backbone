@@ -16,14 +16,14 @@
 
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:filemanager="http://schemas.android.com/apk/res/com.cyanogenmod.filemanager"
+  xmlns:filemanager="http://schemas.android.com/apk/res/com.brandroidtools.filemanager"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="@color/default_background"
   android:orientation="vertical">
 
   <!-- Breadcrumb -->
-  <com.cyanogenmod.filemanager.ui.widgets.BreadcrumbView
+  <com.brandroidtools.filemanager.ui.widgets.BreadcrumbView
     android:id="@+id/breadcrumb_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/default_row_height"
@@ -33,7 +33,7 @@
   <include layout="@layout/vertical_divider" />
 
   <!-- Picker Navigation View -->
-  <com.cyanogenmod.filemanager.ui.widgets.NavigationView
+  <com.brandroidtools.filemanager.ui.widgets.NavigationView
     android:id="@+id/navigation_view"
     android:layout_width="match_parent"
     android:layout_height="0dp"

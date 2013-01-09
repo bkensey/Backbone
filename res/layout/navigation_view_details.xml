@@ -14,7 +14,7 @@
      limitations under the License.
  -->
 
-<com.cyanogenmod.filemanager.ui.widgets.FlingerListView
+<com.brandroidtools.filemanager.ui.widgets.FlingerListView
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/navigation_view_layout"
   android:layout_width="match_parent"
