@@ -37,7 +37,7 @@
     android:background="@drawable/bg_holo_selectionbar"
     android:visibility="invisible" />
 
-  <!-- StatusBar -->
-  <include layout="@layout/navigation_view_statusbar" />
+<!--  &lt;!&ndash; StatusBar &ndash;&gt;
+  <include layout="@layout/navigation_view_statusbar" />-->
 
 </LinearLayout>

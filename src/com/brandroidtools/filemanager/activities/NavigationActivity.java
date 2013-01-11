@@ -232,8 +232,9 @@ public class NavigationActivity extends Activity
 
     private int mCurrentNavigationView;
 
-    private ViewGroup mActionBar;
+    private ActionBar mActionBar;
     private SelectionView mSelectionBar;
+    private Menu mMainOptionsMenu;
 
     private boolean mExitFlag = false;
     private long mExitBackTimeout = -1;
@@ -303,17 +304,20 @@ public class NavigationActivity extends Activity
         //Navigation views
         initNavigationViews();
 
-        //Initialize action bars
+
+        //Initialize action bar
+        mActionBar = getActionBar();
         initTitleActionBar();
-        initStatusActionBar();
+        //initStatusActionBar();
         initSelectionBar();
 
+
         // Adjust layout (only when start on landscape mode)
-        int orientation = getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            onLayoutChanged();
-        }
-        this.mOrientation = orientation;
+//        int orientation = getResources().getConfiguration().orientation;
+//        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            onLayoutChanged();
+//        }
+//        this.mOrientation = orientation;
 
         // Apply the theme
         applyTheme();
@@ -350,15 +354,6 @@ public class NavigationActivity extends Activity
 
         //Check the intent action
         checkIntent(intent);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        onLayoutChanged();
     }
 
     /**
@@ -460,53 +455,11 @@ public class NavigationActivity extends Activity
         breadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
 
         //Configure the action bar options
-        getActionBar().setBackgroundDrawable(
+        mActionBar.setBackgroundDrawable(
                 getResources().getDrawable(R.drawable.bg_holo_titlebar));
-        getActionBar().setDisplayOptions(
+        mActionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        getActionBar().setCustomView(titleLayout);
-    }
-
-    /**
-     * Method that initializes the statusbar of the activity.
-     */
-    private void initStatusActionBar() {
-        //Performs a width calculation of buttons. Buttons exceeds the width
-        //of the action bar should be hidden
-        //This application not use android ActionBar because the application
-        //make uses of the title and bottom areas, and wants to force to show
-        //the overflow button (without care of physical buttons)
-        this.mActionBar = (ViewGroup)findViewById(R.id.navigation_actionbar);
-        this.mActionBar.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(
-                    View v, int left, int top, int right, int bottom, int oldLeft,
-                    int oldTop, int oldRight, int oldBottom) {
-                //Get the width of the action bar
-                int w = v.getMeasuredWidth();
-
-                //Wake through children calculation his dimensions
-                int bw = (int)getResources().getDimension(R.dimen.default_buttom_width);
-                int cw = 0;
-                final ViewGroup abView = ((ViewGroup)v);
-                int cc = abView.getChildCount();
-                for (int i = 0; i < cc; i++) {
-                    View child = abView.getChildAt(i);
-                    child.setVisibility(cw + bw > w ? View.INVISIBLE : View.VISIBLE);
-                    cw += bw;
-                }
-            }
-        });
-
-        // Have overflow menu?
-        View overflow = findViewById(R.id.ab_overflow);
-        boolean showOptionsMenu = AndroidHelper.showOptionsMenu(getApplicationContext());
-        overflow.setVisibility(showOptionsMenu ? View.VISIBLE : View.GONE);
-        this.mOptionsAnchorView = showOptionsMenu ? overflow : this.mActionBar;
-
-        // Show the status bar
-        View statusBar = findViewById(R.id.navigation_statusbar_portrait_holder);
-        statusBar.setVisibility(View.VISIBLE);
+        mActionBar.setCustomView(titleLayout);
     }
 
     /**
@@ -680,17 +633,63 @@ public class NavigationActivity extends Activity
      * {@inheritDoc}
      */
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        mMainOptionsMenu = menu;
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.navigation, menu);
+
+        // Calling super after populating the menu is necessary here to ensure
+        // that the action bar helpers have a chance to handle this event.
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       switch (item.getItemId()) {
-          case android.R.id.home:
-              if ((getActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP)
-                      == ActionBar.DISPLAY_HOME_AS_UP) {
-                  checkBackAction();
-              }
-              return true;
-          default:
-             return super.onOptionsItemSelected(item);
-       }
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if ((getActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP)
+                        == ActionBar.DISPLAY_HOME_AS_UP) {
+                    checkBackAction();
+                }
+                return true;
+            case R.id.mnu_settings:
+                //Settings
+                Intent settings = new Intent(
+                        NavigationActivity.this, SettingsPreferences.class);
+                startActivity(settings);
+                break;
+
+            case R.id.ab_actions:
+                openActionsDialog(getCurrentNavigationView().getCurrentDir(), true);
+                break;
+
+            case R.id.ab_bookmarks:
+                openBookmarks();
+                break;
+
+            case R.id.ab_history:
+                openHistory();
+                break;
+
+            case R.id.ab_search:
+                openSearch();
+                break;
+
+            default:
+               return super.onOptionsItemSelected(item);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -762,29 +761,6 @@ public class NavigationActivity extends Activity
             case R.id.ab_selection_done:
                 //Show information of the filesystem
                 getCurrentNavigationView().onDeselectAll();
-                break;
-
-            //######################
-            //Action Bar buttons
-            //######################
-            case R.id.ab_actions:
-                openActionsDialog(getCurrentNavigationView().getCurrentDir(), true);
-                break;
-
-            case R.id.ab_bookmarks:
-                openBookmarks();
-                break;
-
-            case R.id.ab_history:
-                openHistory();
-                break;
-
-            case R.id.ab_search:
-                openSearch();
-                break;
-
-            case R.id.ab_overflow:
-                showOverflowPopUp(view);
                 break;
 
             default:
@@ -1022,14 +998,14 @@ public class NavigationActivity extends Activity
         SimpleMenuListAdapter adapter =
                 new HighlightedSimpleMenuListAdapter(this, R.menu.navigation);
         Menu menu = adapter.getMenu();
-        int cc = this.mActionBar.getChildCount();
-        for (int i = 0, j = this.mActionBar.getChildCount() - 1; i < cc; i++, j--) {
-            View child = this.mActionBar.getChildAt(i);
-            boolean visible = child.getVisibility() == View.VISIBLE;
-            if (visible) {
-                menu.removeItem(menu.getItem(j).getItemId());
-            }
-        }
+//        int cc = this.mActionBar.getChildCount();
+//        for (int i = 0, j = this.mActionBar.getChildCount() - 1; i < cc; i++, j--) {
+//            View child = this.mActionBar.getChildAt(i);
+//            boolean visible = child.getVisibility() == View.VISIBLE;
+//            if (visible) {
+//                menu.removeItem(menu.getItem(j).getItemId());
+//            }
+//        }
 
         final ListPopupWindow popup = DialogHelper.createListPopupWindow(this, adapter, anchor);
         popup.setOnItemClickListener(new OnItemClickListener() {
@@ -1482,84 +1458,6 @@ public class NavigationActivity extends Activity
     }
 
     /**
-     * Method that reconfigures the layout for better fit in portrait and landscape modes
-     */
-    private void onLayoutChanged() {
-        Theme theme = ThemeManager.getCurrentTheme(this);
-
-        // Apply only when the orientation was changed
-        int orientation = getResources().getConfiguration().orientation;
-        if (this.mOrientation == orientation) return;
-        this.mOrientation = orientation;
-
-        if (this.mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // Landscape mode
-            ViewGroup statusBar = (ViewGroup)findViewById(R.id.navigation_statusbar);
-            if (statusBar.getParent() != null) {
-                ViewGroup parent = (ViewGroup) statusBar.getParent();
-                parent.removeView(statusBar);
-            }
-
-            // Calculate the action button size (all the buttons must fit in the title bar)
-            int bw = (int)getResources().getDimension(R.dimen.default_buttom_width);
-            int abw = this.mActionBar.getChildCount() * bw;
-            int rbw = 0;
-            int cc = statusBar.getChildCount();
-            for (int i = 0; i < cc; i++) {
-                View child = statusBar.getChildAt(i);
-                if (child instanceof ButtonItem) {
-                    rbw += bw;
-                }
-            }
-            int w = abw + rbw;
-            boolean showOptionsMenu = AndroidHelper.showOptionsMenu(getApplicationContext());
-            if (!showOptionsMenu) {
-                w -= bw;
-            }
-
-            // Add to the new location
-            ViewGroup newParent = (ViewGroup)findViewById(R.id.navigation_title_landscape_holder);
-            LinearLayout.LayoutParams params =
-                    new LinearLayout.LayoutParams(
-                            w,
-                            ViewGroup.LayoutParams.MATCH_PARENT);
-            statusBar.setLayoutParams(params);
-            newParent.addView(statusBar);
-
-            // Apply theme
-            theme.setBackgroundDrawable(this, statusBar, "titlebar_drawable"); //$NON-NLS-1$
-
-            // Hide holder
-            View holder = findViewById(R.id.navigation_statusbar_portrait_holder);
-            holder.setVisibility(View.GONE);
-
-        } else {
-            // Portrait mode
-            ViewGroup statusBar = (ViewGroup)findViewById(R.id.navigation_statusbar);
-            if (statusBar.getParent() != null) {
-                ViewGroup parent = (ViewGroup) statusBar.getParent();
-                parent.removeView(statusBar);
-            }
-
-            // Add to the new location
-            ViewGroup newParent = (ViewGroup)findViewById(
-                    R.id.navigation_statusbar_portrait_holder);
-            LinearLayout.LayoutParams params =
-                    new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT);
-            statusBar.setLayoutParams(params);
-            newParent.addView(statusBar);
-
-            // Apply theme
-            theme.setBackgroundDrawable(this, statusBar, "statusbar_drawable"); //$NON-NLS-1$
-
-            // Show holder
-            newParent.setVisibility(View.VISIBLE);
-        }
-    }
-
-    /**
      * Method that applies the current theme to the activity
      * @hide
      */
@@ -1570,14 +1468,13 @@ public class NavigationActivity extends Activity
 
         //- ActionBar
         theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
-        //- StatusBar
-        View v = findViewById(R.id.navigation_statusbar);
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            theme.setBackgroundDrawable(this, v, "titlebar_drawable"); //$NON-NLS-1$
-        } else {
-            theme.setBackgroundDrawable(this, v, "statusbar_drawable"); //$NON-NLS-1$
-        }
-        v = findViewById(R.id.ab_overflow);
+
+        /*
+        TODO: Either find a way to update action item icons via current methods or ensure the theme update mechanism
+        can trigger a normal theme update.
+        */
+        View v;
+        /*        View v = findViewById(R.id.ab_overflow);
         theme.setImageDrawable(this, (ImageView)v, "ab_overflow_drawable"); //$NON-NLS-1$
         v = findViewById(R.id.ab_actions);
         theme.setImageDrawable(this, (ImageView)v, "ab_actions_drawable"); //$NON-NLS-1$
@@ -1586,7 +1483,7 @@ public class NavigationActivity extends Activity
         v = findViewById(R.id.ab_bookmarks);
         theme.setImageDrawable(this, (ImageView)v, "ab_bookmarks_drawable"); //$NON-NLS-1$
         v = findViewById(R.id.ab_history);
-        theme.setImageDrawable(this, (ImageView)v, "ab_history_drawable"); //$NON-NLS-1$
+        theme.setImageDrawable(this, (ImageView)v, "ab_history_drawable"); //$NON-NLS-1$*/
         //- Expanders
         v = findViewById(R.id.ab_configuration);
         theme.setImageDrawable(this, (ImageView)v, "expander_open_drawable"); //$NON-NLS-1$
