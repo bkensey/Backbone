@@ -20,7 +20,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
@@ -28,9 +33,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences;
@@ -43,20 +59,37 @@ import com.brandroidtools.filemanager.console.ConsoleBuilder;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
-import com.brandroidtools.filemanager.model.*;
+import com.brandroidtools.filemanager.model.DiskUsage;
+import com.brandroidtools.filemanager.model.FileSystemObject;
+import com.brandroidtools.filemanager.model.FileSystemStorageVolume;
+import com.brandroidtools.filemanager.model.History;
+import com.brandroidtools.filemanager.model.MountPoint;
 import com.brandroidtools.filemanager.parcelables.HistoryNavigable;
 import com.brandroidtools.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.brandroidtools.filemanager.parcelables.SearchInfoParcelable;
-import com.brandroidtools.filemanager.preferences.*;
+import com.brandroidtools.filemanager.preferences.AccessMode;
+import com.brandroidtools.filemanager.preferences.FileManagerSettings;
+import com.brandroidtools.filemanager.preferences.NavigationLayoutMode;
+import com.brandroidtools.filemanager.preferences.ObjectIdentifier;
+import com.brandroidtools.filemanager.preferences.Preferences;
 import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.dialogs.ActionsDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
-import com.brandroidtools.filemanager.ui.widgets.*;
+import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
+import com.brandroidtools.filemanager.ui.widgets.ButtonItem;
+import com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView;
+import com.brandroidtools.filemanager.ui.widgets.NavigationView;
 import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnNavigationRequestMenuListener;
 import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnNavigationSelectionChangedListener;
-import com.brandroidtools.filemanager.util.*;
+import com.brandroidtools.filemanager.ui.widgets.SelectionView;
+import com.brandroidtools.filemanager.util.AndroidHelper;
+import com.brandroidtools.filemanager.util.CommandHelper;
+import com.brandroidtools.filemanager.util.DialogHelper;
+import com.brandroidtools.filemanager.util.ExceptionUtil;
+import com.brandroidtools.filemanager.util.FileHelper;
+import com.brandroidtools.filemanager.util.StorageHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -532,9 +565,7 @@ public class NavigationActivity extends Activity
 
                     //Ensure initial is an absolute directory
                     try {
-                        initialDir =
-                                CommandHelper.getAbsolutePath(
-                                        NavigationActivity.this, initialDir, null);
+                        initialDir = new File(initialDir).getAbsolutePath();
                     } catch (Throwable e) {
                         Log.e(TAG, "Resolve of initital directory fails", e); //$NON-NLS-1$
                         String msg =
@@ -1133,7 +1164,6 @@ public class NavigationActivity extends Activity
         bundle.putString(
                 SearchActivity.EXTRA_SEARCH_DIRECTORY,
                 getCurrentNavigationView().getCurrentDir());
-        // TODO VoiceSearch icon is not shown. This must be a bug of CM. Verify with a test app.
         startSearch(Preferences.getLastSearch(), true, bundle, false);
         return true;
     }
@@ -1463,6 +1493,9 @@ public class NavigationActivity extends Activity
         Theme theme = ThemeManager.getCurrentTheme(this);
         theme.setBaseTheme(this, false);
 
+        //- Layout
+        View v = findViewById(R.id.navigation_layout);
+        theme.setBackgroundDrawable(this, v, "background_drawable"); //$NON-NLS-1$
         //- ActionBar
         theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
 
@@ -1470,7 +1503,7 @@ public class NavigationActivity extends Activity
         TODO: Either find a way to update action item icons via current methods or ensure the theme update mechanism
         can trigger a normal theme update.
         */
-        View v;
+
         /*        View v = findViewById(R.id.ab_overflow);
         theme.setImageDrawable(this, (ImageView)v, "ab_overflow_drawable"); //$NON-NLS-1$
         v = findViewById(R.id.ab_actions);

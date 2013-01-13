@@ -13,19 +13,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
  -->
-
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-  <!-- The identifiers of the themes that this app contains. All the resources
-       of every theme MUST be qualified with the identifier of the theme -->
-  <string-array name="themes_ids" translatable="false">
-    <item>dark</item>
-  </string-array>
-  <string-array name="themes_names" translatable="false">
-    <item>@string/dark_theme_name</item>
-  </string-array>
-  <string-array name="themes_descriptions" translatable="false">
-    <item>@string/dark_theme_desc</item>
-  </string-array>
-
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="app_name">Bestandsbeheerderthema\'s</string>
+  <string name="app_description">Thema\'s voor de bestandsbeheerder van CyanogenMod</string>
+  <string name="dark_theme_name">Donker thema</string>
+  <string name="dark_theme_desc">Donkere kleuren voor de bestandsbeheerder</string>
 </resources>

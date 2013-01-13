@@ -17,6 +17,7 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:filemanager="http://schemas.android.com/apk/res/com.brandroidtools.filemanager"
+  android:id="@+id/navigation_layout"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical">
@@ -37,7 +38,7 @@
     android:background="@drawable/bg_holo_selectionbar"
     android:visibility="invisible" />
 
-<!--  &lt;!&ndash; StatusBar &ndash;&gt;
-  <include layout="@layout/navigation_view_statusbar" />-->
+  <!-- StatusBar -->
+  <!--<include layout="@layout/navigation_view_statusbar" />-->
 
 </LinearLayout>

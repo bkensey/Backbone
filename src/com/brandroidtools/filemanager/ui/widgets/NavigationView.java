@@ -24,7 +24,15 @@ import android.os.AsyncTask;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.adapters.FileSystemObjectAdapter;
@@ -33,17 +41,30 @@ import com.brandroidtools.filemanager.console.ConsoleAllocException;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.listeners.OnSelectionListener;
-import com.brandroidtools.filemanager.model.*;
+import com.brandroidtools.filemanager.model.Directory;
+import com.brandroidtools.filemanager.model.FileSystemObject;
+import com.brandroidtools.filemanager.model.FileSystemStorageVolume;
+import com.brandroidtools.filemanager.model.ParentDirectory;
+import com.brandroidtools.filemanager.model.Symlink;
 import com.brandroidtools.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.brandroidtools.filemanager.parcelables.SearchInfoParcelable;
-import com.brandroidtools.filemanager.preferences.*;
+import com.brandroidtools.filemanager.preferences.AccessMode;
+import com.brandroidtools.filemanager.preferences.DisplayRestrictions;
+import com.brandroidtools.filemanager.preferences.FileManagerSettings;
+import com.brandroidtools.filemanager.preferences.NavigationLayoutMode;
+import com.brandroidtools.filemanager.preferences.ObjectIdentifier;
+import com.brandroidtools.filemanager.preferences.Preferences;
 import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.policy.DeleteActionPolicy;
 import com.brandroidtools.filemanager.ui.policy.IntentsActionPolicy;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerListener;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerResponder;
-import com.brandroidtools.filemanager.util.*;
+import com.brandroidtools.filemanager.util.CommandHelper;
+import com.brandroidtools.filemanager.util.DialogHelper;
+import com.brandroidtools.filemanager.util.ExceptionUtil;
+import com.brandroidtools.filemanager.util.FileHelper;
+import com.brandroidtools.filemanager.util.StorageHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -817,15 +838,18 @@ public class NavigationView extends RelativeLayout implements
                                             final List<FileSystemObject> files =
                                                     (List<FileSystemObject>)taskParams[0];
                                             NavigationView.this.mAdapterView.post(
-                                                    new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            onPostExecuteTask(
-                                                                    files, addToHistory,
-                                                                    isNewHistory, hasChanged,
-                                                                    searchInfo, fNewDir, scrollTo);
-                                                        }
-                                                    });
+                                                new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        onPostExecuteTask(
+                                                                files, addToHistory,
+                                                                isNewHistory, hasChanged,
+                                                                searchInfo, fNewDir, scrollTo);
+
+                                                        // Do animation
+                                                        fadeEfect(false);
+                                                    }
+                                                });
                                             return Boolean.TRUE;
                                         }
 
@@ -839,10 +863,41 @@ public class NavigationView extends RelativeLayout implements
                          * {@inheritDoc}
                          */
                         @Override
+                        protected void onPreExecute() {
+                            // Do animation
+                            fadeEfect(true);
+                        }
+
+
+
+                        /**
+                         * {@inheritDoc}
+                         */
+                        @Override
                         protected void onPostExecute(List<FileSystemObject> files) {
-                            onPostExecuteTask(
-                                    files, addToHistory, isNewHistory,
-                                    hasChanged, searchInfo, fNewDir, scrollTo);
+                            if (files != null) {
+                                onPostExecuteTask(
+                                        files, addToHistory, isNewHistory,
+                                        hasChanged, searchInfo, fNewDir, scrollTo);
+
+                                // Do animation
+                                fadeEfect(false);
+                            }
+                        }
+
+                        /**
+                         * Method that performs a fade animation.
+                         *
+                         * @param out Fade out (true); Fade in (false)
+                         */
+                        void fadeEfect(boolean out) {
+                            Animation fadeAnim = out ?
+                                                     new AlphaAnimation(1, 0) :
+                                                     new AlphaAnimation(0, 1);
+                            fadeAnim.setDuration(50L);
+                            fadeAnim.setFillAfter(true);
+                            fadeAnim.setInterpolator(new AccelerateInterpolator());
+                            NavigationView.this.startAnimation(fadeAnim);
                         }
                    };
             task.execute(fNewDir);
@@ -1003,23 +1058,30 @@ public class NavigationView extends RelativeLayout implements
             FileSystemObject fso = ((FileSystemObjectAdapter)parent.getAdapter()).getItem(position);
             if (fso instanceof ParentDirectory) {
                 changeCurrentDir(fso.getParent(), true, false, false, null, null);
+                return;
             } else if (fso instanceof Directory) {
                 changeCurrentDir(fso.getFullPath(), true, false, false, null, null);
+                return;
             } else if (fso instanceof Symlink) {
                 Symlink symlink = (Symlink)fso;
                 if (symlink.getLinkRef() != null && symlink.getLinkRef() instanceof Directory) {
                     changeCurrentDir(
                             symlink.getLinkRef().getFullPath(), true, false, false, null, null);
+                    return;
                 }
+
+                // Open the link ref
+                fso = symlink.getLinkRef();
+            }
+
+            // Open the file (edit or pick)
+            if (this.mNavigationMode.compareTo(NAVIGATION_MODE.BROWSABLE) == 0) {
+                // Open the file with the preferred registered app
+                IntentsActionPolicy.openFileSystemObject(getContext(), fso, false, null, null);
             } else {
-                if (this.mNavigationMode.compareTo(NAVIGATION_MODE.BROWSABLE) == 0) {
-                    // Open the file with the preferred registered app
-                    IntentsActionPolicy.openFileSystemObject(getContext(), fso, false, null, null);
-                } else {
-                    // Request a file pick selection
-                    if (this.mOnFilePickedListener != null) {
-                        this.mOnFilePickedListener.onFilePicked(fso);
-                    }
+                // Request a file pick selection
+                if (this.mOnFilePickedListener != null) {
+                    this.mOnFilePickedListener.onFilePicked(fso);
                 }
             }
         } catch (Throwable ex) {

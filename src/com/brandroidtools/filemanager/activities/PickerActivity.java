@@ -18,9 +18,14 @@ package com.brandroidtools.filemanager.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +39,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ListPopupWindow;
 import android.widget.Toast;
+
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.adapters.CheckableListAdapter;
 import com.brandroidtools.filemanager.adapters.CheckableListAdapter.CheckableItem;
@@ -52,6 +58,7 @@ import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnFilePickedList
 import com.brandroidtools.filemanager.util.DialogHelper;
 import com.brandroidtools.filemanager.util.ExceptionUtil;
 import com.brandroidtools.filemanager.util.FileHelper;
+import com.brandroidtools.filemanager.util.MimeTypeHelper;
 import com.brandroidtools.filemanager.util.StorageHelper;
 
 import java.io.File;
@@ -178,6 +185,10 @@ public class PickerActivity extends Activity
         String mimeType = getIntent().getType();
         Log.d(TAG, "PickerActivity. type: " + String.valueOf(mimeType)); //$NON-NLS-1$
         if (mimeType != null) {
+            if (!MimeTypeHelper.isMimeTypeKnown(this, mimeType)) {
+                Log.i(TAG, "Mime type " + mimeType + " unknown, falling back to wildcard.");
+                mimeType = MimeTypeHelper.ALL_MIME_TYPES;
+            }
             restrictions.put(DisplayRestrictions.MIME_TYPE_RESTRICTION, mimeType);
         }
         // Other restrictions
