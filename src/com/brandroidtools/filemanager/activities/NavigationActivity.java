@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.*;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
@@ -234,14 +233,9 @@ public class NavigationActivity extends Activity
 
     private ActionBar mActionBar;
     private SelectionView mSelectionBar;
-    private Menu mMainOptionsMenu;
 
     private boolean mExitFlag = false;
     private long mExitBackTimeout = -1;
-
-    private View mOptionsAnchorView;
-
-    private int mOrientation;
 
     /**
      * @hide
@@ -439,13 +433,13 @@ public class NavigationActivity extends Activity
                 (NavigationCustomTitleView)titleLayout.findViewById(R.id.navigation_title_flipper);
         title.setOnHistoryListener(this);
         Breadcrumb breadcrumb = (Breadcrumb)title.findViewById(R.id.breadcrumb_view);
-        int cc = this.mNavigationViews.length;
-        for (int i = 0; i < cc; i++) {
-            this.mNavigationViews[i].setBreadcrumb(breadcrumb);
-            this.mNavigationViews[i].setOnHistoryListener(this);
-            this.mNavigationViews[i].setOnNavigationSelectionChangedListener(this);
-            this.mNavigationViews[i].setOnNavigationOnRequestMenuListener(this);
-            this.mNavigationViews[i].setCustomTitle(title);
+
+        for (NavigationView navigationView : mNavigationViews) {
+            navigationView.setBreadcrumb(breadcrumb);
+            navigationView.setOnHistoryListener(this);
+            navigationView.setOnNavigationSelectionChangedListener(this);
+            navigationView.setOnNavigationOnRequestMenuListener(this);
+            navigationView.setCustomTitle(title);
         }
 
         // Set the free disk space warning level of the breadcrumb widget
@@ -614,10 +608,6 @@ public class NavigationActivity extends Activity
      */
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            showOverflowPopUp(this.mOptionsAnchorView);
-            return true;
-        }
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (checkBackAction()) {
                 return true;
@@ -634,7 +624,6 @@ public class NavigationActivity extends Activity
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        mMainOptionsMenu = menu;
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.navigation, menu);
 
@@ -657,33 +646,40 @@ public class NavigationActivity extends Activity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //######################
+            // Home/Up button
+            //######################
             case android.R.id.home:
                 if ((getActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP)
                         == ActionBar.DISPLAY_HOME_AS_UP) {
                     checkBackAction();
                 }
                 return true;
+
+            //######################
+            // Action Buttons
+            //######################
+            case R.id.mnu_actions:
+                openActionsDialog(getCurrentNavigationView().getCurrentDir(), true);
+                break;
+
+            case R.id.mnu_bookmarks:
+                openBookmarks();
+                break;
+
+            case R.id.mnu_history:
+                openHistory();
+                break;
+
+            case R.id.mnu_search:
+                openSearch();
+                break;
+
             case R.id.mnu_settings:
                 //Settings
                 Intent settings = new Intent(
                         NavigationActivity.this, SettingsPreferences.class);
                 startActivity(settings);
-                break;
-
-            case R.id.ab_actions:
-                openActionsDialog(getCurrentNavigationView().getCurrentDir(), true);
-                break;
-
-            case R.id.ab_bookmarks:
-                openBookmarks();
-                break;
-
-            case R.id.ab_history:
-                openHistory();
-                break;
-
-            case R.id.ab_search:
-                openSearch();
                 break;
 
             default:
@@ -693,7 +689,9 @@ public class NavigationActivity extends Activity
     }
 
     /**
-     * Method invoked when an action item is clicked.
+     * Method invoked when a custom action item is clicked. This does not handle action items populated by the default
+     * action bar menu inflater.  It does handle the custom action buttons from the "Navigation View" as views instead
+     * of MenuItems.  The Navigation View is the custom view inserted into the top action bar.
      *
      * @param view The button pushed
      */
@@ -1433,9 +1431,8 @@ public class NavigationActivity extends Activity
         if (!this.mChRooted) return;
         this.mChRooted = false;
 
-        int cc = this.mNavigationViews.length;
-        for (int i = 0; i < cc; i++) {
-            this.mNavigationViews[i].exitChRooted();
+        for (NavigationView navigationView : mNavigationViews) {
+            navigationView.exitChRooted();
         }
     }
 

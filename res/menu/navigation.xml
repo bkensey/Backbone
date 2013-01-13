@@ -18,6 +18,11 @@
 
   <!-- Actions -->
   <item
+      android:id="@+id/mnu_actions"
+      android:showAsAction="ifRoom"
+      android:icon="@drawable/ic_holo_light_contextual_action"
+      android:title="@string/menu_history"/>
+  <item
     android:id="@+id/mnu_history"
     android:showAsAction="ifRoom"
     android:icon="@drawable/ic_holo_light_history"
