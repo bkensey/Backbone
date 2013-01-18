@@ -396,7 +396,7 @@ public class NavigationView extends RelativeLayout implements
     }
 
     /**
-     * Method that returns the custom title fragment associated with this navigation view.
+     * Method that returns the custom title view associated with this navigation view.
      *
      * @return NavigationCustomTitleView The custom title view fragment
      */
