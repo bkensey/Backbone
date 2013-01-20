@@ -1349,6 +1349,8 @@ public class NavigationActivity extends FragmentActivity
         theme.setBackgroundDrawable(this, v, "background_drawable"); //$NON-NLS-1$
         //- ActionBar
         theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
+        //- Split ActionBar
+        theme.setSplitActionBarDrawable(this, getActionBar(), "statusbar_drawable"); //$NON-NLS-1$
 
         /*
         TODO: Either find a way to update action item icons via current methods or ensure the theme update mechanism

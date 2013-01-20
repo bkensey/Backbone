@@ -453,6 +453,27 @@ public final class ThemeManager {
         }
 
         /**
+         * Method that sets the split drawable of an ActionBar
+         *
+         * @param ctx The current context
+         * @param actionBar The action bar
+         * @param resource The string resource
+         */
+        public void setSplitActionBarDrawable(Context ctx, ActionBar actionBar, String resource) {
+            String resId = String.format("%s_%s", this.mId, resource); //$NON-NLS-1$
+            int id = this.mResources.getIdentifier(resId, "drawable", this.mPackage); //$NON-NLS-1$
+            if (id != 0) {
+                actionBar.setSplitBackgroundDrawable(this.mResources.getDrawable(id));
+                return;
+            }
+
+            // Default theme
+            id = mDefaultTheme.mResources.getIdentifier(
+                    resource, "drawable", mDefaultTheme.mPackage); //$NON-NLS-1$
+            actionBar.setSplitBackgroundDrawable(mDefaultTheme.mResources.getDrawable(id));
+        }
+
+        /**
          * Method that sets the background drawable of a View
          *
          * @param ctx The current context
@@ -463,14 +484,22 @@ public final class ThemeManager {
             String resId = String.format("%s_%s", this.mId, resource); //$NON-NLS-1$
             int id = this.mResources.getIdentifier(resId, "drawable", this.mPackage); //$NON-NLS-1$
             if (id != 0) {
-                view.setBackground(this.mResources.getDrawable(id));
+                if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    view.setBackgroundDrawable(this.mResources.getDrawable(id));
+                } else {
+                    view.setBackground(this.mResources.getDrawable(id));
+                }
                 return;
             }
 
             // Default theme
             id = mDefaultTheme.mResources.getIdentifier(
                     resource, "drawable", mDefaultTheme.mPackage); //$NON-NLS-1$
-            view.setBackground(mDefaultTheme.mResources.getDrawable(id));
+            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                view.setBackgroundDrawable(mDefaultTheme.mResources.getDrawable(id));
+            } else {
+                view.setBackground(mDefaultTheme.mResources.getDrawable(id));
+            }
         }
 
         /**
