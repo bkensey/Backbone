@@ -23,6 +23,7 @@
   <string name="no">No</string>
   <string name="all">Todo</string>
   <string name="overwrite">Sobrescribir</string>
+  <string name="select">Seleccionar</string>
   <string name="search_result_name">Buscar: <xliff:g id="terms">%1$s</xliff:g></string>
   <string name="loading_message">Cargando\u2026</string>
   <string name="cancelled_message">Cancelado</string>
@@ -51,7 +52,7 @@
   <string name="msgs_read_only_filesystem">El sistema de archivos es de solo-lectura. Intente montarlo como lectura-escritura antes de repetir la operación.</string>
   <string name="msgs_illegal_argument">Argumento ilegal. Invocación fallida.</string>
   <string name="msgs_unresolved_inconsistencies">La operación no está permitida porque podría crear inconsistencias.</string>
-  <string name="msgs_operation_not_allowed_in_current_directory">La operación no está permitida en la carpeta actual.</string>
+  <string name="msgs_operation_not_allowed_in_current_directory">La operación no está permitida en la carpeta actual.\n\nLa carpeta de destino no puede ser una subcarpeta de la actual o ser la misma que la actual.</string>
   <string name="msgs_push_again_to_exit">Pulse de nuevo para salir.</string>
   <string name="msgs_not_registered_app">No hay ninguna aplicación registrada para abrir el tipo de archivo seleccionado.</string>
   <string name="msgs_overwrite_files">Alguno de los archivos existe en la carpeta de destino. \n\n¿Sobrescribir?</string>
@@ -114,7 +115,9 @@
   <string name="fso_properties_dialog_link">Enlace:</string>
   <string name="fso_properties_dialog_size">Tamaño:</string>
   <string name="fso_properties_dialog_contains">Contenido:</string>
-  <string name="fso_properties_dialog_date">Último acceso:</string>
+  <string name="fso_properties_dialog_last_accessed_date">Accedido:</string>
+  <string name="fso_properties_dialog_last_modified_date">Modificado:</string>
+  <string name="fso_properties_dialog_last_changed_date">Cambiado:</string>
   <string name="fso_properties_dialog_owner">Propietario:</string>
   <string name="fso_properties_dialog_group">Grupo:</string>
   <string name="fso_properties_dialog_others">Otros:</string>
@@ -128,6 +131,13 @@
     <item quantity="one">1 archivo</item>
     <item quantity="other"><xliff:g id="files">%1$d</xliff:g> archivos</item>
   </plurals>
+  <string name="fso_properties_dialog_include_in_media_scan">Omitir escan.\nmedios:</string>
+  <string name="fso_failed_to_allow_media_scan">Fallo al permitir el escaneado de medios</string>
+  <string name="fso_failed_to_prevent_media_scan">Fallo al impedir el escaneado de medios</string>
+  <string name="fso_delete_nomedia_dir_title">Borrar carpeta \'.nomedia\'</string>
+  <string name="fso_delete_nomedia_dir_body">Esta carpeta contiene una carpeta \'.nomedia\'.\n\n¿Borrar la carpeta y todo su contenido?</string>
+  <string name="fso_delete_nomedia_non_empty_title">Borrar archivo \'.nomedia\'</string>
+  <string name="fso_delete_nomedia_non_empty_body">Esta carpeta contiene un archivo \'.nomedia\' que no está vacío.\n\n¿Continuar?</string>
   <string name="history">Historial</string>
   <string name="msgs_history_empty">El historial está vacío.</string>
   <string name="msgs_history_unknown">Elemento desconocido en el historial.</string>
@@ -149,6 +159,7 @@
   <string name="searching">Por favor, espere\u2026</string>
   <string name="searching_action_label">Búsqueda en progreso</string>
   <string name="picker_title">Seleccionar archivo</string>
+  <string name="directory_picker_title">Seleccionar carpeta</string>
   <string name="editor">Editor</string>
   <string name="editor_invalid_file_msg">Archivo inválido.</string>
   <string name="editor_file_not_found_msg">Archivo no encontrado.</string>
@@ -208,8 +219,8 @@
   <string name="actions_menu_deselect_all">Desmarcar todo</string>
   <string name="actions_menu_select">Marcar</string>
   <string name="actions_menu_deselect">Desmarcar</string>
-  <string name="actions_menu_paste_selection">Pegar selección</string>
-  <string name="actions_menu_move_selection">Mover selección</string>
+  <string name="actions_menu_paste_selection">Pegar aquí</string>
+  <string name="actions_menu_move_selection">Mover aquí</string>
   <string name="actions_menu_delete_selection">Borrar selección</string>
   <string name="actions_menu_compress_selection">Comprimir selección</string>
   <string name="actions_menu_create_link">Crear enlace</string>

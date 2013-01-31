@@ -18,16 +18,21 @@ package com.brandroidtools.filemanager.console.java;
 
 import android.content.Context;
 import android.util.Log;
-import com.brandroidtools.filemanager.commands.ChangeCurrentDirExecutable;
+
 import com.brandroidtools.filemanager.commands.Executable;
 import com.brandroidtools.filemanager.commands.ExecutableFactory;
 import com.brandroidtools.filemanager.commands.SIGNAL;
 import com.brandroidtools.filemanager.commands.java.JavaExecutableFactory;
 import com.brandroidtools.filemanager.commands.java.Program;
-import com.brandroidtools.filemanager.console.*;
-import com.brandroidtools.filemanager.model.FileSystemStorageVolume;
+import com.brandroidtools.filemanager.console.CommandNotFoundException;
+import com.brandroidtools.filemanager.console.Console;
+import com.brandroidtools.filemanager.console.ConsoleAllocException;
+import com.brandroidtools.filemanager.console.ExecutionException;
+import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
+import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
+import com.brandroidtools.filemanager.console.OperationTimeoutException;
+import com.brandroidtools.filemanager.console.ReadOnlyFilesystemException;
 import com.brandroidtools.filemanager.model.Identity;
-import com.brandroidtools.filemanager.util.StorageHelper;
 
 /**
  * An implementation of a {@link Console} based on a java implementation.<br/>
@@ -40,7 +45,6 @@ public final class JavaConsole extends Console {
     private static final String TAG = "JavaConsole"; //$NON-NLS-1$
 
     private boolean mActive;
-    private String mCurrentDir;
 
     private final Context mCtx;
     private final int mBufferSize;
@@ -49,14 +53,12 @@ public final class JavaConsole extends Console {
      * Constructor of <code>JavaConsole</code>
      *
      * @param ctx The current context
-     * @param initialDir The initial directory
      * @param bufferSize The buffer size
      */
-    public JavaConsole(Context ctx, String initialDir, int bufferSize) {
+    public JavaConsole(Context ctx, int bufferSize) {
         super();
         this.mCtx = ctx;
         this.mBufferSize = bufferSize;
-        this.mCurrentDir = initialDir;
     }
 
     /**
@@ -68,21 +70,6 @@ public final class JavaConsole extends Console {
             if (isTrace()) {
                 Log.v(TAG, "Allocating Java console"); //$NON-NLS-1$
             }
-
-            //Retrieve the current directory from the first storage volume
-            FileSystemStorageVolume[] vols = StorageHelper.getStorageVolumes(this.mCtx);
-            if (vols == null || vols.length == 0) {
-                throw new ConsoleAllocException("Can't stat any directory"); //$NON-NLS-1$
-            }
-
-            // Test to change to current directory
-            ChangeCurrentDirExecutable currentDirCmd =
-                    getExecutableFactory().
-                        newCreator().createChangeCurrentDirExecutable(this.mCurrentDir);
-            execute(currentDirCmd);
-
-            // Tested. Is not active
-            this.mCurrentDir = vols[0].getPath();
             this.mActive = true;
         } catch (Exception e) {
             Log.e(TAG, "Failed to allocate Java console", e); //$NON-NLS-1$
@@ -140,24 +127,6 @@ public final class JavaConsole extends Console {
     @Override
     public boolean isActive() {
         return this.mActive;
-    }
-
-    /**
-     * Method that returns the current directory of the console
-     *
-     * @return String The current directory
-     */
-    public String getCurrentDir() {
-        return this.mCurrentDir;
-    }
-
-    /**
-     * Method that sets the current directory of the console
-     *
-     * @param currentDir The current directory
-     */
-    public void setCurrentDir(String currentDir) {
-        this.mCurrentDir = currentDir;
     }
 
     /**

@@ -149,7 +149,10 @@ public class DirectoryInlineAutocompleteTextView
 
         //Get the new parent
         String newParent = FileHelper.getParentDir(new File(value));
-        if (newParent != null && !newParent.endsWith(File.separator)) {
+        if (newParent == null) {
+            newParent = FileHelper.ROOT_DIRECTORY;
+        }
+        if (!newParent.endsWith(File.separator)) {
             newParent += File.separator;
         }
         if (value.compareTo(File.separator) == 0) {

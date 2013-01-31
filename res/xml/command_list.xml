@@ -39,20 +39,16 @@
   <command commandId="bash" commandPath="/system/bin/sh" commandArgs="" />
   <command commandId="su" commandPath="/system/xbin/su" commandArgs="" />
 
-  <!-- Directory -->
-  <command commandId="cd" commandPath="cd" commandArgs="%1$s" />
-  <command commandId="pwd" commandPath="/system/xbin/pwd" commandArgs="-P" />
-
   <!-- Console info -->
   <command commandId="groups" commandPath="/system/xbin/groups" commandArgs="" />
   <command commandId="id" commandPath="/system/bin/id" commandArgs="-Gn" />
 
   <!-- FileSystem -->
-  <command commandId="mount" commandPath="/system/bin/mount" commandArgs="-o %1$s,remount -t auto %2$s %3$s" />
+  <command commandId="mount" commandPath="/system/bin/mount" commandArgs="-o %1$s,remount -t %2$s %3$s" />
   <command commandId="mountpointinfo" commandPath="/system/bin/mount" commandArgs="" />
 
   <!-- List/Find/Info -->
-  <command commandId="ls" commandPath="/system/bin/ls" commandArgs="%1$s 1&gt; /dev/null &amp;&amp; /system/xbin/stat -t %1$s* 2&gt;&amp;1" />
+  <command commandId="ls" commandPath="/system/bin/ls" commandArgs="%1$s 1&gt; /dev/null &amp;&amp; /system/xbin/stat -t %1$s.* %1$s* 2&gt; /dev/null" />
   <command commandId="fileinfo" commandPath="/system/xbin/stat" commandArgs="-t %1$s 2&gt;&amp;1" />
   <command commandId="find" commandPath="/system/xbin/find" commandArgs="%1$s \\( -name %2$s -o -name %3$s -o -name %4$s -o -name %5$s -o -name %6$s \\) -exec /system/xbin/stat -t {} 2&gt;&amp;1 \\;" />
   <command commandId="quickfoldersearch" commandPath="/system/bin/ls" commandArgs="-aFd %1$s.* %1$s* 2&gt; /dev/null | /system/xbin/grep -e '^d' -e '^ld' | /system/xbin/cut -d&quot; &quot; -f2-" />

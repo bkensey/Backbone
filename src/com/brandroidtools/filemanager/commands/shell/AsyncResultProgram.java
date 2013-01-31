@@ -51,7 +51,7 @@ public abstract class AsyncResultProgram
      * @hide
      */
     final List<Byte> mPartialDataType;
-    private final Object mSync = new Object();
+    final Object mSync = new Object();
     /**
      * @hide
      */
@@ -106,7 +106,7 @@ public abstract class AsyncResultProgram
      * @hide
      */
     public final void onRequestStartParsePartialResult() {
-        this.mWorkerThread = new AsyncResultProgramThread(this.mSync);
+        this.mWorkerThread = new AsyncResultProgramThread();
         this.mWorkerThread.start();
 
         //Notify start to command class
@@ -131,17 +131,12 @@ public abstract class AsyncResultProgram
             this.mSync.notify();
         }
         synchronized (this.mTerminateSync) {
-            try {
-                this.mSync.wait();
-            } catch (Exception e) {
-                /**NON BLOCK**/
-            }
-            try {
-                if (this.mWorkerThread.isAlive()) {
-                    this.mWorkerThread.interrupt();
+            if (this.mWorkerThread.isAlive()) {
+                try {
+                    this.mTerminateSync.wait();
+                } catch (Exception e) {
+                    /**NON BLOCK**/
                 }
-            } catch (Exception e) {
-                /**NON BLOCK**/
             }
         }
 
@@ -353,16 +348,12 @@ public abstract class AsyncResultProgram
      */
     private class AsyncResultProgramThread extends Thread {
         boolean mAlive = true;
-        private final Object mSyncObj;
 
         /**
          * Constructor of <code>AsyncResultProgramThread</code>.
-         *
-         * @param sync The synchronized object
          */
-        AsyncResultProgramThread(Object sync) {
+        AsyncResultProgramThread() {
             super();
-            this.mSyncObj = sync;
         }
 
         /**
@@ -373,12 +364,9 @@ public abstract class AsyncResultProgram
             try {
                 this.mAlive = true;
                 while (this.mAlive) {
-                   synchronized (this.mSyncObj) {
-                       this.mSyncObj.wait();
+                   synchronized (AsyncResultProgram.this.mSync) {
+                       AsyncResultProgram.this.mSync.wait();
                        while (AsyncResultProgram.this.mPartialData.size() > 0) {
-                           if (!this.mAlive) {
-                               return;
-                           }
                            Byte type = AsyncResultProgram.this.mPartialDataType.remove(0);
                            String data = AsyncResultProgram.this.mPartialData.remove(0);
                            try {

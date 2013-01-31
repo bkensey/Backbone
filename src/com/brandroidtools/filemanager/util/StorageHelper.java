@@ -126,12 +126,13 @@ public final class StorageHelper {
      * @return boolean If the path is in a volume storage
      */
     public static boolean isPathInStorageVolume(String path) {
+        String fso = FileHelper.getAbsPath(path);
         FileSystemStorageVolume[] volumes =
                 getStorageVolumes(FileManagerApplication.getInstance().getApplicationContext());
         int cc = volumes.length;
         for (int i = 0; i < cc; i++) {
             FileSystemStorageVolume vol = volumes[i];
-            if (path.startsWith(vol.getPath())) {
+            if (fso.startsWith(vol.getPath())) {
                 return true;
             }
         }

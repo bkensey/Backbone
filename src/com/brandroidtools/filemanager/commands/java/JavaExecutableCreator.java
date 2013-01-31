@@ -18,14 +18,12 @@ package com.brandroidtools.filemanager.commands.java;
 
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.commands.AsyncResultListener;
-import com.brandroidtools.filemanager.commands.ChangeCurrentDirExecutable;
 import com.brandroidtools.filemanager.commands.ChangeOwnerExecutable;
 import com.brandroidtools.filemanager.commands.ChangePermissionsExecutable;
 import com.brandroidtools.filemanager.commands.CompressExecutable;
 import com.brandroidtools.filemanager.commands.CopyExecutable;
 import com.brandroidtools.filemanager.commands.CreateDirExecutable;
 import com.brandroidtools.filemanager.commands.CreateFileExecutable;
-import com.brandroidtools.filemanager.commands.CurrentDirExecutable;
 import com.brandroidtools.filemanager.commands.DeleteDirExecutable;
 import com.brandroidtools.filemanager.commands.DeleteFileExecutable;
 import com.brandroidtools.filemanager.commands.DiskUsageExecutable;
@@ -81,15 +79,6 @@ public class JavaExecutableCreator implements ExecutableCreator {
      * {@inheritDoc}
      */
     @Override
-    public ChangeCurrentDirExecutable createChangeCurrentDirExecutable(String dir)
-            throws CommandNotFoundException {
-        return new ChangeCurrentDirCommand(this.mConsole, dir);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public ChangeOwnerExecutable createChangeOwnerExecutable(
             String fso, User newUser, Group newGroup) throws CommandNotFoundException {
         throw new CommandNotFoundException("Not implemented"); //$NON-NLS-1$
@@ -129,14 +118,6 @@ public class JavaExecutableCreator implements ExecutableCreator {
     public CreateFileExecutable createCreateFileExecutable(String file)
             throws CommandNotFoundException {
         return new CreateFileCommand(file);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public CurrentDirExecutable createCurrentDirExecutable() throws CommandNotFoundException {
-        return new CurrentDirCommand(this.mConsole);
     }
 
     /**

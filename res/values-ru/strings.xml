@@ -49,7 +49,7 @@
   <string name="msgs_cant_create_console">Не удаётся получить необходимые привилегии</string>
   <string name="msgs_privileged_console_alloc_failed">Невозможно запустить в Root-режиме. Переключение в безопасный режим</string>
   <string name="msgs_settings_save_failure">Настройка не может быть применена или сохранена</string>
-  <string name="msgs_settings_invalid_initial_directory">Начальная папка "<xliff:g id="initial_dir">%1$s</xliff:g>" недоступна. Переход в корневую папку</string>
+  <string name="msgs_settings_invalid_initial_directory">Начальная папка \"<xliff:g id="initial_dir">%1$s</xliff:g>\" недоступна. Переход в корневую папку</string>
 
   <string name="msgs_success">Операция прошла успешно</string>
   <string name="msgs_unknown">Были обнаружены ошибки. Операция завершилась неудачно</string>
@@ -139,7 +139,9 @@
   <string name="fso_properties_dialog_link">Ссылка:</string>
   <string name="fso_properties_dialog_size">Размер:</string>
   <string name="fso_properties_dialog_contains">Содержит:</string>
-  <string name="fso_properties_dialog_date">Посл. доступ:</string>
+  <string name="fso_properties_dialog_last_accessed_date">Доступ:</string>
+  <string name="fso_properties_dialog_last_modified_date">Модифиц.:</string>
+  <string name="fso_properties_dialog_last_changed_date">Изменено:</string>
   <string name="fso_properties_dialog_owner">Владелец:</string>
   <string name="fso_properties_dialog_group">Группа:</string>
   <string name="fso_properties_dialog_others">Другое:</string>
@@ -153,6 +155,14 @@
     <item quantity="one">1 файл</item>
     <item quantity="other"><xliff:g id="files">%1$d</xliff:g> файл(-ов,-а)</item>
   </plurals>
+
+  <string name="fso_properties_dialog_include_in_media_scan">Исключить поиск медиа:</string>
+  <string name="fso_failed_to_allow_media_scan">Не удалось произвести поиск медиа файлов</string>
+  <string name="fso_failed_to_prevent_media_scan">Не удалось отменить поиск медиа файлов</string>
+  <string name="fso_delete_nomedia_dir_title">Удалить каталог .nomedia</string>
+  <string name="fso_delete_nomedia_dir_body">Этот каталог содержит .nomedia.\n\nВы действительно хотите удалить его со всем содержимым?</string>
+  <string name="fso_delete_nomedia_non_empty_title">Удалить файл .nomedia</string>
+  <string name="fso_delete_nomedia_non_empty_body">Этот каталог содержит файл .nomedia.\n\nВы действительно хотите удалить его?</string>
 
   <string name="history">История</string>
   <string name="msgs_history_empty">История пуста</string>
@@ -234,6 +244,7 @@
   <string name="actions_menu_open_with">Открыть в\u2026</string>
   <string name="actions_menu_execute">Выполнить</string>
   <string name="actions_menu_send">Отправить</string>
+  <string name="actions_menu_send_selection">Отправить выбранное</string>
   <string name="actions_menu_compress">Сжать</string>
   <string name="actions_menu_extract">Извлечь</string>
   <string name="actions_menu_delete">Удалить</string>

@@ -35,6 +35,7 @@
     <string name="no">Nem</string>
     <string name="all">Mind</string>
     <string name="overwrite">Felülír</string>
+    <string name="select">Kijelöl</string>
 
     <!-- The root directory name -->
     <string name="root_directory_name"><![CDATA[<Root folder>]]></string>
@@ -100,7 +101,7 @@
     <!-- The operation will cause inconsistencies -->
     <string name="msgs_unresolved_inconsistencies">A művelet nem engedélyezett, mert következetlenséget okozna.</string>
     <!-- Operation not permitted in current directory -->
-    <string name="msgs_operation_not_allowed_in_current_directory">A művelet nem engedélyezett a jelenlegi mappában.</string>
+    <string name="msgs_operation_not_allowed_in_current_directory">A művelet nem engedélyezett a jelenlegi mappában.\n\nA célmappa nem lehet azonos a forrásmappával, és nem lehet annak almappája.</string>
 
     <!-- The advice message prior to exit the application -->
     <string name="msgs_push_again_to_exit">Nyomja meg mégegyszer a kilépéshez.</string>
@@ -237,8 +238,12 @@
     <string name="fso_properties_dialog_size">Méret:</string>
     <!-- Fso Properties Dialog * Contains Label -->
     <string name="fso_properties_dialog_contains">Tartalmaz:</string>
-    <!-- Fso Properties Dialog * Date Label -->
-    <string name="fso_properties_dialog_date">Utolsó hozzáférés:</string>
+    <!-- Fso Properties Dialog * Last Accessed Time Label -->
+    <string name="fso_properties_dialog_last_accessed_date">Elérés ideje:</string>
+    <!-- Fso Properties Dialog * Last Modified Time Label -->
+    <string name="fso_properties_dialog_last_modified_date">Módosítás ideje:</string>
+    <!-- Fso Properties Dialog * Last Changed Time -->
+    <string name="fso_properties_dialog_last_changed_date">Adatváltozás ideje:</string>
     <!-- Fso Properties Dialog * Owner Label -->
     <string name="fso_properties_dialog_owner">Tulajdonos:</string>
     <!-- Fso Properties Dialog * Group Label -->
@@ -258,6 +263,15 @@
       <item quantity="one">1 fájl</item>-->
       <item quantity="other"><xliff:g id="files">%1$d</xliff:g> fájl</item>
     </plurals>
+
+    <!-- Fso Properties Dialog * Skip media scan -->
+    <string name="fso_properties_dialog_include_in_media_scan">Médiakeresés kihagyása:</string>
+    <string name="fso_failed_to_allow_media_scan">Sikertelen a médiakeresés engedélyezése</string>
+    <string name="fso_failed_to_prevent_media_scan">Sikertelen a médiakeresés letiltása</string>
+    <string name="fso_delete_nomedia_dir_title">.nomedia könyvtár törlése</string>
+    <string name="fso_delete_nomedia_dir_body">Ez a könyvtár tartalmaz .nomedia könyvtárat.\n\nBiztosan törli a tartalmával együtt?</string>
+    <string name="fso_delete_nomedia_non_empty_title">.nomedia fájl törlése</string>
+    <string name="fso_delete_nomedia_non_empty_body">Ez a könyvtár egy nem üres .nomedia fájlt tartalmaz.\n\nBiztosan törli?</string>
 
     <!-- History * History activity title -->
     <string name="history">Előzmények</string>
@@ -297,6 +311,7 @@
 
     <!-- Picker Activity * Dialog title -->
     <string name="picker_title">Válasszon fájlt</string>
+    <string name="directory_picker_title">Válasszon könyvtárat</string>
 
     <!-- Editor * Editor activity title -->
     <string name="editor">Szerkesztő</string>
@@ -333,7 +348,7 @@
     <!-- Initial directory dialog title -->
     <string name="initial_directory_dialog_title">Kezdőkönyvtár</string>
     <!-- Initial directory label -->
-    <string name="initial_directory_label">Válasszon kezdőkonyvtárat:</string>
+    <string name="initial_directory_label">Válasszon kezdőkönyvtárat:</string>
     <!-- Initial directory is relative -->
     <string name="initial_directory_relative_msg">Relatív útvonalak nem használhatóak.</string>
     <!-- Initial directory error message -->
@@ -403,9 +418,9 @@
     <!-- Actions Dialog * Menu * Deselect -->
     <string name="actions_menu_deselect">Elvet</string>
     <!-- Actions Dialog * Menu * Paste selection -->
-    <string name="actions_menu_paste_selection">Kijelöltek beillesztése</string>
+    <string name="actions_menu_paste_selection">Kijelöltek beillesztése ide</string>
     <!-- Actions Dialog * Menu * Move selection -->
-    <string name="actions_menu_move_selection">Kijelöltek mozgatása</string>
+    <string name="actions_menu_move_selection">Kijelöltek mozgatása ide</string>
     <!-- Actions Dialog * Menu * Delete selection -->
     <string name="actions_menu_delete_selection">Kijelöltek törlése</string>
     <!-- Actions Dialog * Menu * Compress selection -->
@@ -420,6 +435,8 @@
     <string name="actions_menu_execute">Futtatás</string>
     <!-- Actions Dialog * Menu * Send -->
     <string name="actions_menu_send">Küldés</string>
+    <!-- Actions Dialog * Menu * Send selection -->
+    <string name="actions_menu_send_selection">Kijelöltek küldése</string>
     <!-- Actions Dialog * Menu * Compress -->
     <string name="actions_menu_compress">Tömörítés</string>
     <!-- Actions Dialog * Menu * Extract -->

@@ -17,14 +17,12 @@
 package com.brandroidtools.filemanager.commands.shell;
 
 import com.brandroidtools.filemanager.commands.AsyncResultListener;
-import com.brandroidtools.filemanager.commands.ChangeCurrentDirExecutable;
 import com.brandroidtools.filemanager.commands.ChangeOwnerExecutable;
 import com.brandroidtools.filemanager.commands.ChangePermissionsExecutable;
 import com.brandroidtools.filemanager.commands.CompressExecutable;
 import com.brandroidtools.filemanager.commands.CopyExecutable;
 import com.brandroidtools.filemanager.commands.CreateDirExecutable;
 import com.brandroidtools.filemanager.commands.CreateFileExecutable;
-import com.brandroidtools.filemanager.commands.CurrentDirExecutable;
 import com.brandroidtools.filemanager.commands.DeleteDirExecutable;
 import com.brandroidtools.filemanager.commands.DeleteFileExecutable;
 import com.brandroidtools.filemanager.commands.DiskUsageExecutable;
@@ -73,19 +71,6 @@ public class ShellExecutableCreator implements ExecutableCreator {
     ShellExecutableCreator(ShellConsole console) {
         super();
         this.mConsole = console;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ChangeCurrentDirExecutable createChangeCurrentDirExecutable(String dir)
-            throws CommandNotFoundException {
-        try {
-            return new ChangeCurrentDirCommand(dir);
-        } catch (InvalidCommandDefinitionException icdEx) {
-            throw new CommandNotFoundException("ChangeCurrentDirCommand", icdEx); //$NON-NLS-1$
-        }
     }
 
     /**
@@ -150,18 +135,6 @@ public class ShellExecutableCreator implements ExecutableCreator {
             return new CreateFileCommand(file);
         } catch (InvalidCommandDefinitionException icdEx) {
             throw new CommandNotFoundException("CreateFileCommand", icdEx); //$NON-NLS-1$
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public CurrentDirExecutable createCurrentDirExecutable() throws CommandNotFoundException {
-        try {
-            return new CurrentDirCommand();
-        } catch (InvalidCommandDefinitionException icdEx) {
-            throw new CommandNotFoundException("CurrentDirCommand", icdEx); //$NON-NLS-1$
         }
     }
 

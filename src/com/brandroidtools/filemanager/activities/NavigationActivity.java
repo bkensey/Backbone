@@ -20,7 +20,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
@@ -31,8 +36,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.brandroidtools.filemanager.FileManagerApplication;
@@ -65,7 +74,12 @@ import com.brandroidtools.filemanager.ui.widgets.NavigationView;
 import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnNavigationRequestMenuListener;
 import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnNavigationSelectionChangedListener;
 import com.brandroidtools.filemanager.ui.widgets.SelectionView;
-import com.brandroidtools.filemanager.util.*;
+import com.brandroidtools.filemanager.util.AndroidHelper;
+import com.brandroidtools.filemanager.util.CommandHelper;
+import com.brandroidtools.filemanager.util.DialogHelper;
+import com.brandroidtools.filemanager.util.ExceptionUtil;
+import com.brandroidtools.filemanager.util.FileHelper;
+import com.brandroidtools.filemanager.util.StorageHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -1242,7 +1256,7 @@ public class NavigationActivity extends FragmentActivity
                     public void onClick(DialogInterface alertDialog, int which) {
                         if (which == DialogInterface.BUTTON_NEGATIVE) {
                             // We don't have any console
-                            // Show exception and exists
+                            // Show exception and exit
                             DialogHelper.showToast(
                                     NavigationActivity.this,
                                     R.string.msgs_cant_create_console, Toast.LENGTH_LONG);

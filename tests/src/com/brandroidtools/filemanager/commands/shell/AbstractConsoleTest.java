@@ -20,14 +20,11 @@ import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.console.Console;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
 import com.brandroidtools.filemanager.console.shell.ShellConsole;
-import com.brandroidtools.filemanager.util.FileHelper;
 
 /**
  * An abstract class that manages tests that needs a console.
  */
 public abstract class AbstractConsoleTest extends android.test.AndroidTestCase {
-
-    private static final String INITIAL_DIR = FileHelper.ROOT_DIRECTORY;
 
     private Console mConsole;
 
@@ -46,9 +43,9 @@ public abstract class AbstractConsoleTest extends android.test.AndroidTestCase {
         //Setup the console
         if (isRootConsoleNeeded()) {
             FileManagerApplication.changeBackgroundConsoleToPriviligedConsole();
-            this.mConsole = ConsoleBuilder.createPrivilegedConsole(getContext(), INITIAL_DIR);
+            this.mConsole = ConsoleBuilder.createPrivilegedConsole(getContext());
         } else {
-            this.mConsole = ConsoleBuilder.createNonPrivilegedConsole(getContext(), INITIAL_DIR);
+            this.mConsole = ConsoleBuilder.createNonPrivilegedConsole(getContext());
         }
 
         super.setUp();
