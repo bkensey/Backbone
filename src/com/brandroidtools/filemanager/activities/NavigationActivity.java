@@ -16,6 +16,7 @@
 
 package com.brandroidtools.filemanager.activities;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +30,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -36,12 +38,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.*;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.brandroidtools.filemanager.FileManagerApplication;
@@ -274,6 +272,7 @@ public class NavigationActivity extends FragmentActivity
     /**
      * {@inheritDoc}
      */
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle state) {
 
@@ -293,7 +292,7 @@ public class NavigationActivity extends FragmentActivity
 
         //Initialize nfc adapter
         NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (mNfcAdapter != null) {
+        if (mNfcAdapter != null && Build.VERSION.SDK_INT > 15) {
             mNfcAdapter.setBeamPushUrisCallback(new NfcAdapter.CreateBeamUrisCallback() {
                 @Override
                 public Uri[] createBeamUris(NfcEvent event) {
