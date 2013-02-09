@@ -54,6 +54,7 @@ import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
 import com.brandroidtools.filemanager.ui.widgets.ButtonItem;
 import com.brandroidtools.filemanager.ui.widgets.NavigationView;
+import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnDirectoryChangedListener;
 import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnFilePickedListener;
 import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnDirectoryChangedListener;
 import com.brandroidtools.filemanager.util.DialogHelper;
