@@ -14,8 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
@@ -30,10 +28,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.NavigationActivity;
@@ -57,8 +52,6 @@ import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerLi
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerResponder;
 import com.brandroidtools.filemanager.util.*;
 
-import java.io.File;
-
 public class NavigationFragment extends Fragment implements
         AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
         BreadcrumbListener, OnSelectionChangedListener, OnSelectionListener, OnRequestRefreshListener {
@@ -72,10 +65,10 @@ public class NavigationFragment extends Fragment implements
         /**
          * Method invoked when the selection changed.
          *
-         * @param navView The navigation view that generate the event
+         * @param navFragment The navigation fragment that generates the event
          * @param selectedItems The new selected items
          */
-        void onSelectionChanged(NavigationView navView, List<FileSystemObject> selectedItems);
+        void onSelectionChanged(NavigationFragment navFragment, List<FileSystemObject> selectedItems);
     }
 
     /**
@@ -87,10 +80,10 @@ public class NavigationFragment extends Fragment implements
          * Method invoked when a request to show the menu associated
          * with an item is started.
          *
-         * @param navView The navigation view that generate the event
+         * @param navFragment The navigation fragment that generates the event
          * @param item The item for which the request was started
          */
-        void onRequestMenu(NavigationView navView, FileSystemObject item);
+        void onRequestMenu(NavigationFragment navFragment, FileSystemObject item);
     }
 
     /**
@@ -151,7 +144,7 @@ public class NavigationFragment extends Fragment implements
                     return true;
                 }
             } catch (Exception e) {
-                ExceptionUtil.translateException(getContext(), e, true, false);
+                ExceptionUtil.translateException(mActivity, e, true, false);
             }
             return false;
         }
@@ -166,10 +159,10 @@ public class NavigationFragment extends Fragment implements
                 FileSystemObject fso = adapter.getItem(position);
                 if (fso != null) {
                     DeleteActionPolicy.removeFileSystemObject(
-                            getContext(),
+                            mActivity,
                             fso,
-                            NavigationView.this,
-                            NavigationView.this,
+                            NavigationFragment.this,
+                            NavigationFragment.this,
                             responder);
                     return;
                 }
@@ -178,7 +171,7 @@ public class NavigationFragment extends Fragment implements
                 responder.cancel();
 
             } catch (Exception e) {
-                ExceptionUtil.translateException(getContext(), e, true, false);
+                ExceptionUtil.translateException(mActivity, e, true, false);
                 responder.cancel();
             }
         }
@@ -211,6 +204,10 @@ public class NavigationFragment extends Fragment implements
     /**
      * @hide
      */
+    RelativeLayout mNavigationViewHolder;
+    /**
+     * @hide
+     */
     Breadcrumb mBreadcrumb;
     /**
      * @hide
@@ -234,8 +231,6 @@ public class NavigationFragment extends Fragment implements
     //The current layout identifier (is shared for all the mode layout)
     private static final int RESOURCE_CURRENT_LAYOUT = R.id.navigation_view_layout;
 
-    NavigationView[] mNavigationViews;
-    private int mCurrentNavigationView;
     private NavigationActivity mActivity;
 
     /**
@@ -243,9 +238,6 @@ public class NavigationFragment extends Fragment implements
      */
     Handler mHandler;
 
-    /**
-     * When creating, retrieve this instance's number from its arguments.
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -256,7 +248,6 @@ public class NavigationFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.navigation, container, false);
-
     }
 
     /**
@@ -267,7 +258,7 @@ public class NavigationFragment extends Fragment implements
         super.onActivityCreated(state);
 
         //Navigation views
-        initNavigationViews();
+        initNavigationViewContainer();
 
         // Apply the theme
         applyTheme();
@@ -278,16 +269,9 @@ public class NavigationFragment extends Fragment implements
             @Override
             public void run() {
                 //Initialize navigation
-                int cc = NavigationFragment.this.mNavigationViews.length;
-                for (int i = 0; i < cc; i++) {
-                    initNavigation(i, false);
-                }
-
-                //Check the intent action
-                //checkIntent(getIntent());
-            }
+                initNavigation(false);
+            };
         });
-
     }
 
     /**
@@ -307,23 +291,23 @@ public class NavigationFragment extends Fragment implements
     /**
      * Method that initializes the navigation views of the activity
      */
-    private void initNavigationViews() {
-        this.mNavigationViews = new NavigationView[1];
-        this.mCurrentNavigationView = 0;
-        //- 0
-        this.mNavigationViews[0] = (NavigationView)getView().findViewById(R.id.navigation_view);
-        this.mNavigationViews[0].setId(0);
+    private void initNavigationViewContainer() {
+        mNavigationViewHolder = (RelativeLayout)getView().findViewById(R.id.navigation_view_container);
+        TypedArray a = mActivity.obtainStyledAttributes(R.styleable.Navigable);
+        try {
+            init(a);
+        } finally {
+            a.recycle();
+        }
     }
 
     /**
      * Method that initializes the navigation.
      *
-     * @param viewId The navigation view identifier where apply the navigation
      * @param restore Initialize from a restore info
      * @hide
      */
-    void initNavigation(final int viewId, final boolean restore) {
-        final NavigationView navigationView = getNavigationView(viewId);
+    void initNavigation(final boolean restore) {
         this.mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -387,41 +371,13 @@ public class NavigationFragment extends Fragment implements
                     // request if exists
                     String navigateTo = mActivity.getIntent().getStringExtra(mActivity.EXTRA_NAVIGATE_TO);
                     if (navigateTo != null && navigateTo.length() > 0) {
-                        navigationView.changeCurrentDir(navigateTo);
+                        NavigationFragment.this.changeCurrentDir(navigateTo);
                     } else {
-                        navigationView.changeCurrentDir(initialDir);
+                        NavigationFragment.this.changeCurrentDir(initialDir);
                     }
                 }
             }
         });
-    }
-
-    /**
-     * Method that returns the current navigation view.
-     *
-     * @return NavigationView The current navigation view
-     */
-    public NavigationView getCurrentNavigationView() {
-        return getNavigationView(this.mCurrentNavigationView);
-    }
-
-    /**
-     * Method that returns the requested navigation view.
-     *
-     * @param viewId The view to return
-     * @return NavigationView The requested navigation view
-     */
-    public NavigationView getNavigationView(int viewId) {
-        if (this.mNavigationViews == null) return null;
-        return this.mNavigationViews[viewId];
-    }
-
-    void applyTheme() {
-        //- NavigationView
-        int cc = this.mNavigationViews.length;
-        for (int i = 0; i < cc; i++) {
-            getNavigationView(i).applyTheme();
-        }
     }
 
     /**
@@ -743,13 +699,13 @@ public class NavigationFragment extends Fragment implements
             AdapterView<ListAdapter> newView = null;
             int itemResourceId = -1;
             if (newMode.compareTo(NavigationLayoutMode.ICONS) == 0) {
-                newView = (AdapterView<ListAdapter>)inflate(
-                        getContext(), RESOURCE_MODE_ICONS_LAYOUT, null);
+                newView = (AdapterView<ListAdapter>)mNavigationViewHolder.inflate(
+                        mActivity, RESOURCE_MODE_ICONS_LAYOUT, null);
                 itemResourceId = RESOURCE_MODE_ICONS_ITEM;
 
             } else if (newMode.compareTo(NavigationLayoutMode.SIMPLE) == 0) {
-                newView =  (AdapterView<ListAdapter>)inflate(
-                        getContext(), RESOURCE_MODE_SIMPLE_LAYOUT, null);
+                newView =  (AdapterView<ListAdapter>)mNavigationViewHolder.inflate(
+                        mActivity, RESOURCE_MODE_SIMPLE_LAYOUT, null);
                 itemResourceId = RESOURCE_MODE_SIMPLE_ITEM;
 
                 // Set the flinger listener (only when navigate)
@@ -761,8 +717,8 @@ public class NavigationFragment extends Fragment implements
                 }
 
             } else if (newMode.compareTo(NavigationLayoutMode.DETAILS) == 0) {
-                newView =  (AdapterView<ListAdapter>)inflate(
-                        getContext(), RESOURCE_MODE_DETAILS_LAYOUT, null);
+                newView =  (AdapterView<ListAdapter>)mNavigationViewHolder.inflate(
+                        mActivity, RESOURCE_MODE_DETAILS_LAYOUT, null);
                 itemResourceId = RESOURCE_MODE_DETAILS_ITEM;
 
                 // Set the flinger listener (only when navigate)
@@ -777,10 +733,10 @@ public class NavigationFragment extends Fragment implements
             //Get the current adapter and its adapter list
             List<FileSystemObject> files = new ArrayList<FileSystemObject>(this.mFiles);
             final AdapterView<ListAdapter> current =
-                    (AdapterView<ListAdapter>)findViewById(RESOURCE_CURRENT_LAYOUT);
+                    (AdapterView<ListAdapter>)getView().findViewById(RESOURCE_CURRENT_LAYOUT);
             FileSystemObjectAdapter adapter =
                     new FileSystemObjectAdapter(
-                            getContext(),
+                            mActivity,
                             new ArrayList<FileSystemObject>(),
                             itemResourceId,
                             this.mNavigationMode.compareTo(NAVIGATION_MODE.PICKABLE) == 0);
@@ -795,7 +751,7 @@ public class NavigationFragment extends Fragment implements
                     adapter.setSelectedItems(currentAdapter.getSelectedItems());
                     currentAdapter.dispose();
                 }
-                removeView(current);
+                mNavigationViewHolder.removeView(current);
             }
             this.mFiles = files;
             adapter.addAll(files);
@@ -804,11 +760,11 @@ public class NavigationFragment extends Fragment implements
             //Set the adapter
             this.mAdapter = adapter;
             newView.setAdapter(this.mAdapter);
-            newView.setOnItemClickListener(NavigationView.this);
+            newView.setOnItemClickListener(NavigationFragment.this);
 
             //Add the new layout
             this.mAdapterView = newView;
-            addView(newView, 0);
+            mNavigationViewHolder.addView(newView, 0);
             this.mCurrentMode = newMode;
 
             // Pick mode doesn't implements the onlongclick
@@ -931,12 +887,12 @@ public class NavigationFragment extends Fragment implements
                         protected List<FileSystemObject> doInBackground(String... params) {
                             try {
                                 //Reset the custom title view and returns to breadcrumb
-                                if (NavigationView.this.mTitle != null) {
-                                    NavigationView.this.mTitle.post(new Runnable() {
+                                if (NavigationFragment.this.mTitle != null) {
+                                    NavigationFragment.this.mTitle.post(new Runnable() {
                                         @Override
                                         public void run() {
                                             try {
-                                                NavigationView.this.mTitle.restoreView();
+                                                NavigationFragment.this.mTitle.restoreView();
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -946,9 +902,9 @@ public class NavigationFragment extends Fragment implements
 
 
                                 //Start of loading data
-                                if (NavigationView.this.mBreadcrumb != null) {
+                                if (NavigationFragment.this.mBreadcrumb != null) {
                                     try {
-                                        NavigationView.this.mBreadcrumb.startLoading();
+                                        NavigationFragment.this.mBreadcrumb.startLoading();
                                     } catch (Throwable ex) {
                                         /**NON BLOCK**/
                                     }
@@ -956,32 +912,31 @@ public class NavigationFragment extends Fragment implements
 
                                 //Get the files, resolve links and apply configuration
                                 //(sort, hidden, ...)
-                                List<FileSystemObject> files = NavigationView.this.mFiles;
+                                List<FileSystemObject> files = NavigationFragment.this.mFiles;
                                 if (!useCurrent) {
-                                    files = CommandHelper.listFiles(getContext(), fNewDir, null);
+                                    files = CommandHelper.listFiles(mActivity, fNewDir, null);
                                 }
                                 return files;
                             } catch (final ConsoleAllocException e) {
                                 //Show exception and exists
-                                NavigationView.this.post(new Runnable() {
+                                mNavigationViewHolder.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Context ctx = getContext();
-                                        Log.e(TAG, ctx.getString(
+                                        Log.e(TAG, mActivity.getString(
                                                 R.string.msgs_cant_create_console), e);
-                                        DialogHelper.showToast(ctx,
+                                        DialogHelper.showToast(mActivity,
                                                 R.string.msgs_cant_create_console,
                                                 Toast.LENGTH_LONG);
-                                        ((Activity)ctx).finish();
+                                        mActivity.finish();
                                     }
                                 });
                                 return null;
 
                             } catch (Exception ex) {
                                 //End of loading data
-                                if (NavigationView.this.mBreadcrumb != null) {
+                                if (NavigationFragment.this.mBreadcrumb != null) {
                                     try {
-                                        NavigationView.this.mBreadcrumb.endLoading();
+                                        NavigationFragment.this.mBreadcrumb.endLoading();
                                     } catch (Throwable ex2) {
                                         /**NON BLOCK**/
                                     }
@@ -1032,7 +987,7 @@ public class NavigationFragment extends Fragment implements
                                             }
                                         };
                                 ExceptionUtil.translateException(
-                                        getContext(), ex, false, true, exListener);
+                                        mActivity, ex, false, true, exListener);
                             }
                             return null;
                         }
@@ -1069,8 +1024,7 @@ public class NavigationFragment extends Fragment implements
                          * @param out Fade out (true); Fade in (false)
                          */
                         void fadeEfect(final boolean out) {
-                            Activity activity = (Activity)getContext();
-                            activity.runOnUiThread(new Runnable() {
+                            mActivity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Animation fadeAnim = out ?
@@ -1079,7 +1033,7 @@ public class NavigationFragment extends Fragment implements
                                     fadeAnim.setDuration(50L);
                                     fadeAnim.setFillAfter(true);
                                     fadeAnim.setInterpolator(new AccelerateInterpolator());
-                                    NavigationView.this.startAnimation(fadeAnim);
+                                    mNavigationViewHolder.startAnimation(fadeAnim);
                                 }
                             });
                         }
@@ -1161,7 +1115,7 @@ public class NavigationFragment extends Fragment implements
 
             //End of loading data
             try {
-                NavigationView.this.mBreadcrumb.endLoading();
+                NavigationFragment.this.mBreadcrumb.endLoading();
             } catch (Throwable ex) {
                 /**NON BLOCK**/
             }
@@ -1178,7 +1132,7 @@ public class NavigationFragment extends Fragment implements
     private void loadData(final List<FileSystemObject> files) {
         //Notify data to adapter view
         final AdapterView<ListAdapter> view =
-                (AdapterView<ListAdapter>)findViewById(RESOURCE_CURRENT_LAYOUT);
+                (AdapterView<ListAdapter>)getView().findViewById(RESOURCE_CURRENT_LAYOUT);
         FileSystemObjectAdapter adapter = (FileSystemObjectAdapter)view.getAdapter();
         adapter.clear();
         adapter.addAll(files);
@@ -1232,7 +1186,7 @@ public class NavigationFragment extends Fragment implements
             changeCurrentDir(fso.getFullPath(), searchInfo);
         } else {
             // Open the file with the preferred registered app
-            IntentsActionPolicy.openFileSystemObject(getContext(), fso, false, null, null);
+            IntentsActionPolicy.openFileSystemObject(mActivity, fso, false, null, null);
         }
     }
 
@@ -1264,7 +1218,7 @@ public class NavigationFragment extends Fragment implements
             // Open the file (edit or pick)
             if (this.mNavigationMode.compareTo(NAVIGATION_MODE.BROWSABLE) == 0) {
                 // Open the file with the preferred registered app
-                IntentsActionPolicy.openFileSystemObject(getContext(), fso, false, null, null);
+                IntentsActionPolicy.openFileSystemObject(mActivity, fso, false, null, null);
             } else {
                 // Request a file pick selection
                 if (this.mOnFilePickedListener != null) {
@@ -1272,7 +1226,7 @@ public class NavigationFragment extends Fragment implements
                 }
             }
         } catch (Throwable ex) {
-            ExceptionUtil.translateException(getContext(), ex);
+            ExceptionUtil.translateException(mActivity, ex);
         }
     }
 
@@ -1420,7 +1374,7 @@ public class NavigationFragment extends Fragment implements
 
         //Change to first storage volume
         FileSystemStorageVolume[] volumes =
-                StorageHelper.getStorageVolumes(getContext());
+                StorageHelper.getStorageVolumes(mActivity);
         if (volumes != null && volumes.length > 0) {
             changeCurrentDir(volumes[0].getPath(), false, true, false, null, null);
         }
@@ -1451,7 +1405,7 @@ public class NavigationFragment extends Fragment implements
 
         // Check if the path is owned by one of the storage volumes
         if (!StorageHelper.isPathInStorageVolume(newDir)) {
-            FileSystemStorageVolume[] volumes = StorageHelper.getStorageVolumes(getContext());
+            FileSystemStorageVolume[] volumes = StorageHelper.getStorageVolumes(mActivity);
             if (volumes != null && volumes.length > 0) {
                 return volumes[0].getPath();
             }
@@ -1469,14 +1423,14 @@ public class NavigationFragment extends Fragment implements
         }
 
         //- Redraw the adapter view
-        ThemeManager.Theme theme = ThemeManager.getCurrentTheme(getContext());
-        theme.setBackgroundDrawable(getContext(), this, "background_drawable"); //$NON-NLS-1$
+        ThemeManager.Theme theme = ThemeManager.getCurrentTheme(mActivity);
+        theme.setBackgroundDrawable(mActivity, mNavigationViewHolder, "background_drawable"); //$NON-NLS-1$
         if (this.mAdapter != null) {
             this.mAdapter.notifyThemeChanged();
         }
         if (this.mAdapterView instanceof ListView) {
             ((ListView)this.mAdapterView).setDivider(
-                    theme.getDrawable(getContext(), "horizontal_divider_drawable")); //$NON-NLS-1$
+                    theme.getDrawable(mActivity, "horizontal_divider_drawable")); //$NON-NLS-1$
         }
         refresh();
     }

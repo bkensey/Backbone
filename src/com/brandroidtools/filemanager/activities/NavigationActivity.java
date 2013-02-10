@@ -54,6 +54,8 @@ import com.brandroidtools.filemanager.console.ConsoleAllocException;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
 import com.brandroidtools.filemanager.fragments.NavigationFragment;
+import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationRequestMenuListener;
+import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationSelectionChangedListener;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.model.*;
@@ -68,9 +70,6 @@ import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
 import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
 import com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView;
-import com.brandroidtools.filemanager.ui.widgets.NavigationView;
-import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnNavigationRequestMenuListener;
-import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnNavigationSelectionChangedListener;
 import com.brandroidtools.filemanager.ui.widgets.SelectionView;
 import com.brandroidtools.filemanager.util.AndroidHelper;
 import com.brandroidtools.filemanager.util.CommandHelper;
@@ -176,7 +175,7 @@ public class NavigationActivity extends FragmentActivity
                                 SETTINGS_DISK_USAGE_WARNING_LEVEL.getId()) == 0) {
 
                             // Set the free disk space warning level of the breadcrumb widget
-                            Breadcrumb breadcrumb = getCurrentNavigationFragmentView().getBreadcrumb();
+                            Breadcrumb breadcrumb = getCurrentNavigationFragment().getBreadcrumb();
                             String fds = Preferences.getSharedPreferences().getString(
                                     FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getId(),
                                     (String)FileManagerSettings.
@@ -189,7 +188,7 @@ public class NavigationActivity extends FragmentActivity
                         // Case sensitive sort
                         if (key.compareTo(FileManagerSettings.
                                 SETTINGS_CASE_SENSITIVE_SORT.getId()) == 0) {
-                            getCurrentNavigationFragmentView().refresh();
+                            getCurrentNavigationFragment().refresh();
                             return;
                         }
 
@@ -202,7 +201,7 @@ public class NavigationActivity extends FragmentActivity
                                                 ((Boolean)FileManagerSettings.
                                                         SETTINGS_USE_FLINGER.
                                                             getDefaultValue()).booleanValue());
-                            getCurrentNavigationFragmentView().setUseFlinger(useFlinger);
+                            getCurrentNavigationFragment().setUseFlinger(useFlinger);
                             return;
                         }
 
@@ -231,7 +230,7 @@ public class NavigationActivity extends FragmentActivity
                     try {
                         FileSystemObject fso = CommandHelper.getFileInfo(context, file, null);
                         if (fso != null) {
-                            getCurrentNavigationFragmentView().refresh(fso);
+                            getCurrentNavigationFragment().refresh(fso);
                         }
                     } catch (Exception e) {
                         ExceptionUtil.translateException(context, e, true, false);
@@ -297,7 +296,7 @@ public class NavigationActivity extends FragmentActivity
                 @Override
                 public Uri[] createBeamUris(NfcEvent event) {
                     List<FileSystemObject> selectedFiles =
-                            getCurrentNavigationFragmentView().getSelectedFiles();
+                            getCurrentNavigationFragment().getSelectedFiles();
                     if (selectedFiles.size() > 0) {
                         List<Uri> fileUri = new ArrayList<Uri>();
                         for (FileSystemObject f : selectedFiles) {
@@ -372,20 +371,20 @@ public class NavigationActivity extends FragmentActivity
     /**
      * Method that returns the current navigation view.
      *
-     * @return NavigationView The current navigation view
+     * @return NavigationFragment The current navigation view
      */
-    public NavigationView getCurrentNavigationFragmentView() {
-        return mPagerAdapter.getFragment(mViewPager, mViewPager.getCurrentItem()).getCurrentNavigationView();
+    public NavigationFragment getCurrentNavigationFragment() {
+        return mPagerAdapter.getFragment(mViewPager, mViewPager.getCurrentItem());
     }
 
     /**
      * Method that returns the requested navigation view.
      *
      * @param fragmentNum The fragment to return
-     * @return NavigationView The requested navigation view
+     * @return NavigationFragment The requested navigation view
      */
-    public NavigationView getNavigationFragmentView(int fragmentNum) {
-        return mPagerAdapter.getFragment(mViewPager, fragmentNum).getCurrentNavigationView();
+    public NavigationFragment getNavigationFragment(int fragmentNum) {
+        return mPagerAdapter.getFragment(mViewPager, fragmentNum);
     }
 
     /**
@@ -474,12 +473,12 @@ public class NavigationActivity extends FragmentActivity
         title.setOnHistoryListener(this);
         Breadcrumb breadcrumb = (Breadcrumb)title.findViewById(R.id.breadcrumb_view);
 
-        NavigationView navigationView = getCurrentNavigationFragmentView();
-        navigationView.setBreadcrumb(breadcrumb);
-        navigationView.setOnHistoryListener(this);
-        navigationView.setOnNavigationSelectionChangedListener(this);
-        navigationView.setOnNavigationOnRequestMenuListener(this);
-        navigationView.setCustomTitle(title);
+        NavigationFragment navigationFragment = getCurrentNavigationFragment();
+        navigationFragment.setBreadcrumb(breadcrumb);
+        navigationFragment.setOnHistoryListener(this);
+        navigationFragment.setOnNavigationSelectionChangedListener(this);
+        navigationFragment.setOnNavigationOnRequestMenuListener(this);
+        navigationFragment.setCustomTitle(title);
 
 
         // Set the free disk space warning level of the breadcrumb widget
@@ -518,7 +517,7 @@ public class NavigationActivity extends FragmentActivity
             //- SearchActivity.EXTRA_SEARCH_DIRECTORY
             searchIntent.putExtra(
                     SearchActivity.EXTRA_SEARCH_DIRECTORY,
-                    getCurrentNavigationFragmentView().getCurrentDir());
+                    getCurrentNavigationFragment().getCurrentDir());
             //- SearchManager.APP_DATA
             if (intent.getBundleExtra(SearchManager.APP_DATA) != null) {
                 Bundle bundle = new Bundle();
@@ -544,7 +543,7 @@ public class NavigationActivity extends FragmentActivity
         // Navigate to the requested path
         String navigateTo = intent.getStringExtra(EXTRA_NAVIGATE_TO);
         if (navigateTo != null && navigateTo.length() >= 0) {
-            getCurrentNavigationFragmentView().changeCurrentDir(navigateTo);
+            getCurrentNavigationFragment().changeCurrentDir(navigateTo);
         }
     }
 
@@ -615,7 +614,7 @@ public class NavigationActivity extends FragmentActivity
             // Action Buttons
             //######################
             case R.id.mnu_actions:
-                openActionsDialog(getCurrentNavigationFragmentView().getCurrentDir(), true);
+                openActionsDialog(getCurrentNavigationFragment().getCurrentDir(), true);
                 break;
 
             case R.id.mnu_bookmarks:
@@ -657,13 +656,13 @@ public class NavigationActivity extends FragmentActivity
             //######################
             case R.id.ab_configuration:
                 //Show navigation view configuration toolbar
-                getCurrentNavigationFragmentView().getCustomTitle().showConfigurationView();
+                getCurrentNavigationFragment().getCustomTitle().showConfigurationView();
                 getActionBar().setDisplayHomeAsUpEnabled(true);
                 getActionBar().setHomeButtonEnabled(true);
                 break;
             case R.id.ab_close:
                 //Hide navigation view configuration toolbar
-                getCurrentNavigationFragmentView().getCustomTitle().hideConfigurationView();
+                getCurrentNavigationFragment().getCustomTitle().hideConfigurationView();
                 break;
 
             //######################
@@ -671,8 +670,8 @@ public class NavigationActivity extends FragmentActivity
             //######################
             case R.id.ab_filesystem_info:
                 //Show information of the filesystem
-                MountPoint mp = getCurrentNavigationFragmentView().getBreadcrumb().getMountPointInfo();
-                DiskUsage du = getCurrentNavigationFragmentView().getBreadcrumb().getDiskUsageInfo();
+                MountPoint mp = getCurrentNavigationFragment().getBreadcrumb().getMountPointInfo();
+                DiskUsage du = getCurrentNavigationFragment().getBreadcrumb().getDiskUsageInfo();
                 showMountPointInfo(mp, du);
                 break;
 
@@ -713,7 +712,7 @@ public class NavigationActivity extends FragmentActivity
             //######################
             case R.id.ab_selection_done:
                 //Show information of the filesystem
-                getCurrentNavigationFragmentView().onDeselectAll();
+                getCurrentNavigationFragment().onDeselectAll();
                 break;
 
             default:
@@ -735,7 +734,7 @@ public class NavigationActivity extends FragmentActivity
                                     getSerializableExtra(EXTRA_BOOKMARK_SELECTION);
                         if (fso != null) {
                             //Open the fso
-                            getCurrentNavigationFragmentView().open(fso);
+                            getCurrentNavigationFragment().open(fso);
                         }
                     }
                     break;
@@ -764,7 +763,7 @@ public class NavigationActivity extends FragmentActivity
                                 data.getParcelableExtra(EXTRA_SEARCH_LAST_SEARCH_DATA);
                         if (fso != null) {
                             //Goto to new directory
-                            getCurrentNavigationFragmentView().open(fso, searchInfo);
+                            getCurrentNavigationFragment().open(fso, searchInfo);
                         }
                     } else if (resultCode == RESULT_CANCELED) {
                         SearchInfoParcelable searchInfo =
@@ -775,7 +774,7 @@ public class NavigationActivity extends FragmentActivity
                         } else {
                             // I don't know is the search view was changed, so try to do a refresh
                             // of the navigation view
-                            getCurrentNavigationFragmentView().refresh(true);
+                            getCurrentNavigationFragment().refresh(true);
                         }
                     }
                     break;
@@ -816,13 +815,13 @@ public class NavigationActivity extends FragmentActivity
     public void onRequestRefresh(Object o, boolean clearSelection) {
         if (o instanceof FileSystemObject) {
             // Refresh only the item
-            this.getCurrentNavigationFragmentView().refresh((FileSystemObject)o);
+            this.getCurrentNavigationFragment().refresh((FileSystemObject) o);
         } else if (o == null) {
             // Refresh all
-            getCurrentNavigationFragmentView().refresh();
+            getCurrentNavigationFragment().refresh();
         }
         if (clearSelection) {
-            this.getCurrentNavigationFragmentView().onDeselectAll();
+            this.getCurrentNavigationFragment().onDeselectAll();
         }
     }
 
@@ -833,7 +832,7 @@ public class NavigationActivity extends FragmentActivity
     public void onRequestRemove(Object o, boolean clearSelection) {
         if (o instanceof FileSystemObject) {
             // Remove from view
-            this.getCurrentNavigationFragmentView().removeItem((FileSystemObject)o);
+            this.getCurrentNavigationFragment().removeItem((FileSystemObject) o);
 
             //Remove from history
             removeFromHistory((FileSystemObject)o);
@@ -841,7 +840,7 @@ public class NavigationActivity extends FragmentActivity
             onRequestRefresh(null, clearSelection);
         }
         if (clearSelection) {
-            this.getCurrentNavigationFragmentView().onDeselectAll();
+            this.getCurrentNavigationFragment().onDeselectAll();
         }
     }
 
@@ -857,7 +856,7 @@ public class NavigationActivity extends FragmentActivity
      * {@inheritDoc}
      */
     @Override
-    public void onSelectionChanged(NavigationView navView, List<FileSystemObject> selectedItems) {
+    public void onSelectionChanged(NavigationFragment navFragment, List<FileSystemObject> selectedItems) {
         this.mSelectionBar.setSelection(selectedItems);
     }
 
@@ -865,7 +864,7 @@ public class NavigationActivity extends FragmentActivity
      * {@inheritDoc}
      */
     @Override
-    public void onRequestMenu(NavigationView navView, FileSystemObject item) {
+    public void onRequestMenu(NavigationFragment navFragment, FileSystemObject item) {
         // Show the actions dialog
         openActionsDialog(item, false);
     }
@@ -892,7 +891,7 @@ public class NavigationActivity extends FragmentActivity
                 try {
                     if (setting.compareTo(FileManagerSettings.SETTINGS_LAYOUT_MODE) == 0) {
                         //Need to change the layout
-                        getCurrentNavigationFragmentView().changeViewMode(
+                        getCurrentNavigationFragment().changeViewMode(
                                 NavigationLayoutMode.fromId(value));
                     } else {
                         //Save and refresh
@@ -913,7 +912,7 @@ public class NavigationActivity extends FragmentActivity
                                             ((Boolean)setting.getDefaultValue()).booleanValue());
                             Preferences.savePreference(setting, Boolean.valueOf(!newval), false);
                         }
-                        getCurrentNavigationFragmentView().refresh();
+                        getCurrentNavigationFragment().refresh();
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Error applying navigation option", e); //$NON-NLS-1$
@@ -928,7 +927,7 @@ public class NavigationActivity extends FragmentActivity
 
                 } finally {
                     adapter.dispose();
-                    getCurrentNavigationFragmentView().getCustomTitle().restoreView();
+                    getCurrentNavigationFragment().getCustomTitle().restoreView();
                 }
 
             }
@@ -967,7 +966,7 @@ public class NavigationActivity extends FragmentActivity
             @Override
             public void onRemount(MountPoint mountPoint) {
                 //Update the statistics of breadcrumb, only if mount point is the same
-                Breadcrumb breadcrumb = getCurrentNavigationFragmentView().getBreadcrumb();
+                Breadcrumb breadcrumb = getCurrentNavigationFragment().getBreadcrumb();
                 if (breadcrumb.getMountPointInfo().compareTo(mountPoint) == 0) {
                     breadcrumb.updateMountPointInfo();
                 }
@@ -984,12 +983,12 @@ public class NavigationActivity extends FragmentActivity
      */
     private boolean checkBackAction() {
         // We need a basic structure to check this
-        if (getCurrentNavigationFragmentView() == null) return false;
+        if (getCurrentNavigationFragment() == null) return false;
 
         //Check if the configuration view is showing. In this case back
         //action must be "close configuration"
-        if (getCurrentNavigationFragmentView().getCustomTitle().isConfigurationViewShowing()) {
-            getCurrentNavigationFragmentView().getCustomTitle().restoreView();
+        if (getCurrentNavigationFragment().getCustomTitle().isConfigurationViewShowing()) {
+            getCurrentNavigationFragment().getCustomTitle().restoreView();
             return true;
         }
 
@@ -1023,7 +1022,7 @@ public class NavigationActivity extends FragmentActivity
         Bundle bundle = new Bundle();
         bundle.putString(
                 SearchActivity.EXTRA_SEARCH_DIRECTORY,
-                getCurrentNavigationFragmentView().getCurrentDir());
+                getCurrentNavigationFragment().getCurrentDir());
         startSearch(Preferences.getLastSearch(), true, bundle, false);
         return true;
     }
@@ -1052,11 +1051,11 @@ public class NavigationActivity extends FragmentActivity
                 //Navigation
                 NavigationViewInfoParcelable info =
                         (NavigationViewInfoParcelable)realHistory.getItem();
-                int viewId = info.getId();
-                NavigationView view = getNavigationFragmentView(viewId);
+                int fragId = info.getId();
+                NavigationFragment fragment = getNavigationFragment(fragId);
                 // Selected items must not be restored from on history navigation
-                info.setSelectedFiles(view.getSelectedFiles());
-                view.onRestoreState(info);
+                info.setSelectedFiles(fragment.getSelectedFiles());
+                fragment.onRestoreState(info);
 
             } else if (realHistory.getItem() instanceof SearchInfoParcelable) {
                 //Search (open search with the search results)
@@ -1175,9 +1174,9 @@ public class NavigationActivity extends FragmentActivity
                 // If have a FileSystemObject reference then there is no need to search
                 // the path (less resources used)
                 if (item instanceof FileSystemObject) {
-                    getCurrentNavigationFragmentView().removeItem((FileSystemObject)item);
+                    getCurrentNavigationFragment().removeItem((FileSystemObject) item);
                 } else {
-                    getCurrentNavigationFragmentView().removeItem((String)item);
+                    getCurrentNavigationFragment().removeItem((String) item);
                 }
             }
             return;
@@ -1186,7 +1185,7 @@ public class NavigationActivity extends FragmentActivity
         // Show the dialog
         ActionsDialog dialog = new ActionsDialog(this, fso, global, false);
         dialog.setOnRequestRefreshListener(this);
-        dialog.setOnSelectionListener(getCurrentNavigationFragmentView());
+        dialog.setOnSelectionListener(getCurrentNavigationFragment());
         dialog.show();
     }
 
@@ -1299,8 +1298,8 @@ public class NavigationActivity extends FragmentActivity
 
         for (int x = 0; x < mPagerAdapter.getCount();x++) {
             NavigationFragment navigationFragment = (NavigationFragment) mPagerAdapter.getItem(x);
-            navigationFragment.getCurrentNavigationView().createChRooted();
-            navigationFragment.getCurrentNavigationView().onDeselectAll();
+            navigationFragment.createChRooted();
+            navigationFragment.onDeselectAll();
 
         }
 
@@ -1319,7 +1318,7 @@ public class NavigationActivity extends FragmentActivity
 
         for (int x = 0; x < mPagerAdapter.getCount();x++) {
             NavigationFragment navigationFragment = (NavigationFragment) mPagerAdapter.getItem(x);
-            navigationFragment.getCurrentNavigationView().exitChRooted();
+            navigationFragment.exitChRooted();
 
         }
     }

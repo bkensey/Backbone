@@ -23,8 +23,8 @@
   android:orientation="vertical">
 
   <!-- Navigation View -->
-  <RelativeView
-    android:id="@+id/navigation_view"
+  <RelativeLayout
+    android:id="@+id/navigation_view_container"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
