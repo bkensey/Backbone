@@ -23,7 +23,7 @@
   android:orientation="vertical">
 
   <!-- Navigation View -->
-  <com.brandroidtools.filemanager.ui.widgets.NavigationView
+  <RelativeView
     android:id="@+id/navigation_view"
     android:layout_width="match_parent"
     android:layout_height="0dp"
