@@ -99,7 +99,7 @@ import java.util.List;
  */
 public class NavigationActivity extends FragmentActivity
     implements OnHistoryListener, OnRequestRefreshListener,
-    OnNavigationRequestMenuListener, OnNavigationSelectionChangedListener, OnPageChangeListener {
+    OnNavigationRequestMenuListener, OnPageChangeListener {
 
     private static final String TAG = "NavigationActivity"; //$NON-NLS-1$
 
@@ -476,7 +476,6 @@ public class NavigationActivity extends FragmentActivity
         NavigationFragment navigationFragment = getCurrentNavigationFragment();
         navigationFragment.setBreadcrumb(breadcrumb);
         navigationFragment.setOnHistoryListener(this);
-        navigationFragment.setOnNavigationSelectionChangedListener(this);
         navigationFragment.setOnNavigationOnRequestMenuListener(this);
         navigationFragment.setCustomTitle(title);
 
@@ -850,14 +849,6 @@ public class NavigationActivity extends FragmentActivity
     @Override
     public void onNavigateTo(Object o) {
         // Ignored
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onSelectionChanged(NavigationFragment navFragment, List<FileSystemObject> selectedItems) {
-        this.mSelectionBar.setSelection(selectedItems);
     }
 
     /**

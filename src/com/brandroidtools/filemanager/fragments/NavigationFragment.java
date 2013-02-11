@@ -57,19 +57,6 @@ public class NavigationFragment extends Fragment implements
     private static final String TAG = "NavigationFragment"; //$NON-NLS-1$
 
     /**
-     * An interface to communicate selection changes events.
-     */
-    public interface OnNavigationSelectionChangedListener {
-        /**
-         * Method invoked when the selection changed.
-         *
-         * @param navFragment The navigation fragment that generates the event
-         * @param selectedItems The new selected items
-         */
-        void onSelectionChanged(NavigationFragment navFragment, List<FileSystemObject> selectedItems);
-    }
-
-    /**
      * An interface to communicate a request for show the menu associated
      * with an item.
      */
@@ -187,7 +174,6 @@ public class NavigationFragment extends Fragment implements
     private final Object mSync = new Object();
 
     private OnHistoryListener mOnHistoryListener;
-    private OnNavigationSelectionChangedListener mOnNavigationSelectionChangedListener;
     private OnNavigationRequestMenuListener mOnNavigationRequestMenuListener;
     private OnFilePickedListener mOnFilePickedListener;
     private OnDirectoryChangedListener mOnDirectoryChangedListener;
@@ -546,16 +532,6 @@ public class NavigationFragment extends Fragment implements
      */
     public void setOnHistoryListener(OnHistoryListener onHistoryListener) {
         this.mOnHistoryListener = onHistoryListener;
-    }
-
-    /**
-     * Method that sets the listener which communicates selection changes.
-     *
-     * @param onNavigationSelectionChangedListener The listener reference
-     */
-    public void setOnNavigationSelectionChangedListener(
-            OnNavigationSelectionChangedListener onNavigationSelectionChangedListener) {
-        this.mOnNavigationSelectionChangedListener = onNavigationSelectionChangedListener;
     }
 
     /**
@@ -1283,9 +1259,7 @@ public class NavigationFragment extends Fragment implements
      */
     @Override
     public void onSelectionChanged(final List<FileSystemObject> selectedItems) {
-        if (this.mOnNavigationSelectionChangedListener != null) {
-            this.mOnNavigationSelectionChangedListener.onSelectionChanged(this, selectedItems);
-        }
+        updateSelectionMode();
     }
 
     /**
@@ -1341,7 +1315,7 @@ public class NavigationFragment extends Fragment implements
     }
 
     public int onRequestSelectionCount() {
-        return mAdapter.getCount();
+        return mAdapter.getSelectedItemsCount();
     }
 
     /**
@@ -1351,7 +1325,7 @@ public class NavigationFragment extends Fragment implements
      */
     public void updateSelectionMode() {
         final int numSelected = onRequestSelectionCount();
-        if ((numSelected == 0)) {
+        if (numSelected == 0) {
             finishSelectionMode();
             return;
         }

@@ -495,6 +495,10 @@ public class FileSystemObjectAdapter
         this.mSelectedItems = selectedItems;
     }
 
+    public int getSelectedItemsCount() {
+        return mSelectedItems.size();
+    }
+
     /**
      * {@inheritDoc}
      */
