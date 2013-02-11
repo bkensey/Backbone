@@ -67,4 +67,11 @@ public interface OnSelectionListener {
      * @return String The current directory.
      */
     String onRequestCurrentDir();
+
+    /**
+     * Method that request the number of selected items.
+     *
+     * @return String The current directory.
+     */
+    int onRequestSelectionCount();
 }

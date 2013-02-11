@@ -1274,6 +1274,11 @@ public class NavigationView extends RelativeLayout implements
         return this.mCurrentDir;
     }
 
+    @Override
+    public int onRequestSelectionCount() {
+        return this.mAdapter.getCount();
+    }
+
     /**
      * Method that creates a ChRooted environment, protecting the user to break anything
      * in the device

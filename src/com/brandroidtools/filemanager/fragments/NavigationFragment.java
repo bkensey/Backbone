@@ -22,9 +22,7 @@ import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -45,8 +43,8 @@ import com.brandroidtools.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.brandroidtools.filemanager.parcelables.SearchInfoParcelable;
 import com.brandroidtools.filemanager.preferences.*;
 import com.brandroidtools.filemanager.ui.ThemeManager;
-import com.brandroidtools.filemanager.ui.policy.DeleteActionPolicy;
-import com.brandroidtools.filemanager.ui.policy.IntentsActionPolicy;
+import com.brandroidtools.filemanager.ui.actionmode.SelectionModeCallback;
+import com.brandroidtools.filemanager.ui.policy.*;
 import com.brandroidtools.filemanager.ui.widgets.*;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerListener;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerResponder;
@@ -217,6 +215,10 @@ public class NavigationFragment extends Fragment implements
      * @hide
      */
     AdapterView<?> mAdapterView;
+    /**
+     * @hide
+     */
+    private SelectionModeCallback mSelectionModeCallback;
 
     //The layout for icons mode
     private static final int RESOURCE_MODE_ICONS_LAYOUT = R.layout.navigation_view_icons;
@@ -1161,7 +1163,7 @@ public class NavigationFragment extends Fragment implements
             return false;
         }
 
-        onRequestMenu(fso);
+        updateSelectionMode();
         return true; //Always consume the event
     }
 
@@ -1336,6 +1338,62 @@ public class NavigationFragment extends Fragment implements
         if (this.mAdapter != null) {
             this.mAdapter.deselectedAllVisibleItems();
         }
+    }
+
+    public int onRequestSelectionCount() {
+        return mAdapter.getCount();
+    }
+
+    /**
+     * Show/hide the "selection" action mode, according to the number of
+     * selected messages and the visibility of the fragment. Also update the
+     * content (title and menus) if necessary.
+     */
+    public void updateSelectionMode() {
+        final int numSelected = onRequestSelectionCount();
+        if ((numSelected == 0)) {
+            finishSelectionMode();
+            return;
+        }
+        if (isInSelectionMode()) {
+            updateSelectionModeView();
+        } else {
+            mSelectionModeCallback = new SelectionModeCallback(mActivity, true, false);
+            mSelectionModeCallback.setOnRequestRefreshListener(mActivity);
+            mSelectionModeCallback.setOnSelectionListener(this);
+            mActivity.startActionMode(mSelectionModeCallback);
+        }
+    }
+
+    /**
+     * Finish the "selection" action mode.
+     *
+     * Note this method finishes the contextual mode, but does *not* clear the
+     * selection. If you want to do so use {@link #onDeselectAll()} instead.
+     */
+    private void finishSelectionMode() {
+        if (isInSelectionMode()) {
+            mSelectionModeCallback.setClosedByUser(false);
+            mSelectionModeCallback.finish();
+        }
+    }
+
+    /**
+     * @return true if the list is in the "selection" mode.
+     */
+    private boolean isInSelectionMode() {
+        if (mSelectionModeCallback == null) {
+            return false;
+        } else if (mSelectionModeCallback.inSelectionMode()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /** Update the "selection" action mode bar */
+    private void updateSelectionModeView() {
+        mSelectionModeCallback.refresh();
     }
 
     /**
