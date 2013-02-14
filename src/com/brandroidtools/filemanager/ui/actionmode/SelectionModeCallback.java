@@ -35,7 +35,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
     boolean mClosedByUser = true;
     private Activity mActivity;
     private ActionMode mSelectionMode;
-    private final Boolean mGlobal;
+    private Boolean mGlobal;
     private final Boolean mSearch;
     private final Boolean mChRooted;
 
@@ -53,12 +53,10 @@ public class SelectionModeCallback implements ActionMode.Callback {
      * Constructor of <code>ActionsDialog</code>.
      *
      * @param activity The current Activity context
-     * @param global If the menu to display will be the global one (Global actions)
      * @param search If the call is from search activity
      */
-    public SelectionModeCallback (Activity activity, Boolean global, Boolean search) {
+    public SelectionModeCallback (Activity activity, Boolean search) {
         this.mActivity = activity;
-        this.mGlobal = global;
         this.mSearch = search;
         this.mChRooted = FileManagerApplication.getAccessMode().compareTo(AccessMode.SAFE) == 0;
     }
@@ -109,15 +107,17 @@ public class SelectionModeCallback implements ActionMode.Callback {
             selection = this.mOnSelectionListener.onRequestSelectedFiles();
         }
 
+        // Determine the need for single file (not global) and multiple selection (global) operations
+        if (selection.size() == 1) {
+            this.mFso = selection.get(0);
+            this.mGlobal = false;
+        } else {
+            this.mGlobal = true;
+        }
+
         /*
          * SINGLE FILE ACTIONS
          */
-
-        if (selection.size() == 1) {
-            this.mFso = selection.get(0);
-        } else {
-            this.mFso = null;
-        }
 
         //- Check actions that needs a valid reference
         if (!this.mGlobal && this.mFso != null) {

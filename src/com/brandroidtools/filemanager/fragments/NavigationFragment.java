@@ -1332,7 +1332,7 @@ public class NavigationFragment extends Fragment implements
         if (isInSelectionMode()) {
             updateSelectionModeView();
         } else {
-            mSelectionModeCallback = new SelectionModeCallback(mActivity, true, false);
+            mSelectionModeCallback = new SelectionModeCallback(mActivity, false);
             mSelectionModeCallback.setOnRequestRefreshListener(mActivity);
             mSelectionModeCallback.setOnSelectionListener(this);
             mActivity.startActionMode(mSelectionModeCallback);

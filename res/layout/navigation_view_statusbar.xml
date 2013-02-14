@@ -33,7 +33,7 @@
         android:layout_alignParentRight="true"
         android:contentDescription="@string/actionbar_button_overflow_cd"
         android:onClick="onActionBarItemClick"
-        android:src="@drawable/ic_holo_light_overflow" />
+        android:src="@drawable/ic_holo_dark_overflow" />
 
     <com.brandroidtools.filemanager.ui.widgets.ButtonItem
       android:id="@+id/ab_actions"
@@ -57,7 +57,7 @@
         android:layout_alignParentRight="true"
         android:contentDescription="@string/actionbar_button_search_cd"
         android:onClick="onActionBarItemClick"
-        android:src="@drawable/ic_holo_light_search"
+        android:src="@drawable/ic_holo_dark_search"
         android:visibility="invisible" />
 
       <com.brandroidtools.filemanager.ui.widgets.ButtonItem
@@ -67,7 +67,7 @@
         android:layout_toLeftOf="@id/ab_search"
         android:contentDescription="@string/actionbar_button_bookmarks_cd"
         android:onClick="onActionBarItemClick"
-        android:src="@drawable/ic_holo_light_bookmarks"
+        android:src="@drawable/ic_holo_dark_bookmarks"
         android:visibility="invisible" />
 
       <com.brandroidtools.filemanager.ui.widgets.ButtonItem
@@ -77,7 +77,7 @@
         android:layout_toLeftOf="@id/ab_bookmarks"
         android:contentDescription="@string/actionbar_button_history_cd"
         android:onClick="onActionBarItemClick"
-        android:src="@drawable/ic_holo_light_history"
+        android:src="@drawable/ic_holo_dark_history"
         android:visibility="invisible" />
 
     </RelativeLayout>

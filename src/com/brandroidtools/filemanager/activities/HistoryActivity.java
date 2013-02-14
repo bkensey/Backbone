@@ -181,7 +181,7 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
         title.setText(R.string.history);
         title.setContentDescription(getString(R.string.history));
         ButtonItem configuration = (ButtonItem)customTitle.findViewById(R.id.ab_button1);
-        configuration.setImageResource(R.drawable.ic_holo_light_overflow);
+        configuration.setImageResource(R.drawable.ic_holo_dark_overflow);
         configuration.setContentDescription(getString(R.string.actionbar_button_overflow_cd));
 
         View status = findViewById(R.id.history_status);

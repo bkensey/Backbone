@@ -20,22 +20,22 @@
   <item
       android:id="@+id/mnu_actions"
       android:showAsAction="ifRoom"
-      android:icon="@drawable/ic_holo_light_contextual_action"
+      android:icon="@drawable/ic_holo_dark_contextual_action"
       android:title="@string/menu_history"/>
   <item
     android:id="@+id/mnu_history"
     android:showAsAction="ifRoom"
-    android:icon="@drawable/ic_holo_light_history"
+    android:icon="@drawable/ic_holo_dark_history"
     android:title="@string/menu_history"/>
   <item
     android:id="@+id/mnu_bookmarks"
     android:showAsAction="ifRoom"
-    android:icon="@drawable/ic_holo_light_bookmarks"
+    android:icon="@drawable/ic_holo_dark_bookmarks"
     android:title="@string/menu_bookmarks"/>
   <item
     android:id="@+id/mnu_search"
     android:showAsAction="ifRoom"
-    android:icon="@drawable/ic_holo_light_search"
+    android:icon="@drawable/ic_holo_dark_search"
     android:title="@string/menu_search"/>
 
   <!-- Overflow actions -->

@@ -403,10 +403,10 @@ public final class ThemeManager {
                     String.format("%s_%s", this.mId, "base_theme"); //$NON-NLS-1$ //$NON-NLS-2$
             int id = this.mResources.getIdentifier(resId, "string", this.mPackage); //$NON-NLS-1$
             if (id != 0) {
-                String base = this.mResources.getString(id, "holo_light"); //$NON-NLS-1$
+                String base = this.mResources.getString(id, "holo_light_darkactionbar"); //$NON-NLS-1$
                 int themeId = base.compareTo("holo") == 0 ? //$NON-NLS-1$
                                 R.style.FileManager_Theme_Holo :
-                                R.style.FileManager_Theme_Holo_Light;
+                                R.style.FileManager_Theme_Holo_Light_DarkActionBar;
                 if (overlay) {
                     themeId = base.compareTo("holo") == 0 ? //$NON-NLS-1$
                             R.style.FileManager_Theme_Holo_Overlay :
@@ -419,10 +419,10 @@ public final class ThemeManager {
             // Default theme
             id = mDefaultTheme.mResources.getIdentifier(
                     "base_theme", "string", mDefaultTheme.mPackage); //$NON-NLS-1$ //$NON-NLS-2$
-            String base = this.mResources.getString(id, "holo_light"); //$NON-NLS-1$
+            String base = this.mResources.getString(id, "holo_light_darkactionbar"); //$NON-NLS-1$
             int themeId = base.compareTo("holo") == 0 ? //$NON-NLS-1$
                             R.style.FileManager_Theme_Holo :
-                            R.style.FileManager_Theme_Holo_Light;
+                            R.style.FileManager_Theme_Holo_Light_DarkActionBar;
             if (overlay) {
                 themeId = base.compareTo("holo") == 0 ? //$NON-NLS-1$
                         R.style.FileManager_Theme_Holo_Overlay :

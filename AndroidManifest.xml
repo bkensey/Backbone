@@ -36,7 +36,7 @@
     android:icon="@drawable/ic_launcher"
     android:label="@string/app_name"
     android:largeHeap="true"
-    android:theme="@style/FileManager.Theme.Holo.Light" >
+    android:theme="@style/FileManager.Theme.Holo.Light.DarkActionBar" >
 
     <meta-data
       android:name="android.app.default_searchable"
