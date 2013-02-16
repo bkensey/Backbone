@@ -47,6 +47,10 @@
     <item name="actionIconAddBookmark">@drawable/ic_action_holo_dark</item>
     <item name="actionIconAddShortcut">@drawable/ic_action_holo_dark</item>
     <item name="actionIconOpenParentFolder">@drawable/ic_action_holo_dark</item>
+    <item name="actionIconSelectAll">@drawable/ic_action_holo_dark_select_all</item>
+
+    <item name="indicatorIconFolder">@drawable/ic_indicator_holo_dark_folder</item>
+    <item name="indicatorIconFile">@drawable/ic_indicator_holo_dark_file</item>
 
   </style>
   <style name="FileManager.Theme.Holo" parent="@android:style/Theme.Holo">
@@ -76,6 +80,20 @@
     <item name="android:background">@color/default_background</item>
     <item name="android:backgroundStacked">@color/default_background</item>
     <item name="android:backgroundSplit">@color/default_background</item>
+  </style>
+
+  <!-- Action mode count-->
+  <style name="selectedCount">
+      <item name="android:layout_width">wrap_content</item>
+      <item name="android:layout_height">wrap_content</item>
+      <item name="android:layout_gravity">center_vertical</item>
+      <item name="android:layout_centerVertical">true</item>
+      <item name="android:layout_marginLeft">8dip</item>
+      <item name="android:singleLine">true</item>
+      <item name="android:includeFontPadding">false</item>
+      <!-- Use dp rather than sp for size since starts large and must not get too large -->
+      <item name="android:textSize">32dp</item>
+      <item name="android:textColor">#fff3f3f3</item>
   </style>
 
   <!-- Title -->

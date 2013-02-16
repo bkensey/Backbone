@@ -705,8 +705,13 @@ public class NavigationActivity extends FragmentActivity
             //Selection Actions
             //######################
             case R.id.ab_selection_done:
-                //Show information of the filesystem
+                // Show information of the filesystem
                 getCurrentNavigationFragment().onDeselectAll();
+                break;
+
+            case R.id.ab_select_all:
+                // Select all items in the visible navigation fragment
+                getCurrentNavigationFragment().onSelectAllVisibleItems();
                 break;
 
             default:

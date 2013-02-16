@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.*;
 import android.widget.ShareActionProvider;
+import android.widget.TextView;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
@@ -47,6 +48,9 @@ public class SelectionModeCallback implements ActionMode.Callback {
     private MenuItem mActionAddShortcut;
     private MenuItem mActionOpenParentFolder;
     private ShareActionProvider mShareActionProvider;
+
+    private TextView mFileCount;
+    private TextView mFolderCount;
 
     private boolean pasteReady = false;
 
@@ -108,6 +112,11 @@ public class SelectionModeCallback implements ActionMode.Callback {
         MenuInflater inflater = mActivity.getMenuInflater();
         inflater.inflate(R.menu.actionmode, menu);
 
+        View customTitle = mActivity.getLayoutInflater().inflate(R.layout.navigation_action_mode_test, null, false);
+        mFileCount = (TextView)customTitle.findViewById(R.id.file_count);
+        mFolderCount = (TextView)customTitle.findViewById(R.id.folder_count);
+        mode.setCustomView(customTitle);
+
         mActionFolderProperties = menu.findItem(R.id.mnu_actions_properties_current_folder);
         mActionRefresh = menu.findItem(R.id.mnu_actions_refresh);
         mActionNewDirectory = menu.findItem(R.id.mnu_actions_new_directory);
@@ -147,13 +156,33 @@ public class SelectionModeCallback implements ActionMode.Callback {
      */
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        int folders = 0;
+        int files = 0;
+        String folderCount;
+        String fileCount;
+
         // Get selection
         List<FileSystemObject> selection = null;
         if (this.mOnSelectionListener != null) {
             selection = this.mOnSelectionListener.onRequestSelectedFiles();
         }
 
-        //TODO: Fix the mActionCreateLinkGlobal flag
+        // Count selection
+        for (FileSystemObject fso : selection) {
+            if (FileHelper.isDirectory(fso)) {
+                folders++;
+            } else {
+                files++;
+            }
+        }
+        folderCount = Integer.toString(folders);
+        fileCount = Integer.toString(files);
+
+        // Display selection counts
+        mFolderCount.setText(folderCount);
+        mFileCount.setText(fileCount);
+
+        //TODO: Figure out how to change/fix the mActionCreateLinkGlobal flag
         this.mGlobal = false;
 
         // Reset action item visibility
@@ -292,9 +321,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
                 mActionSendSelection.setVisible(false);
             } else {
                 boolean areAllFiles = true;
-                int cc = selection.size();
-                for (int i = 0; i < cc; i++) {
-                    FileSystemObject fso = selection.get(i);
+                for (FileSystemObject fso : selection) {
                     if (FileHelper.isDirectory(fso)) {
                         areAllFiles = false;
                         break;
@@ -394,24 +421,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
             case R.id.mnu_actions_refresh:
                 if (this.mOnRequestRefreshListener != null) {
                     this.mOnRequestRefreshListener.onRequestRefresh(null, false); //Refresh all
-                }
-                break;
-
-            //- Select/Deselect
-            case R.id.mnu_actions_select:
-            case R.id.mnu_actions_deselect:
-                if (this.mOnSelectionListener != null) {
-                    this.mOnSelectionListener.onToggleSelection(this.mFso);
-                }
-                break;
-            case R.id.mnu_actions_select_all:
-                if (this.mOnSelectionListener != null) {
-                    this.mOnSelectionListener.onSelectAllVisibleItems();
-                }
-                break;
-            case R.id.mnu_actions_deselect_all:
-                if (this.mOnSelectionListener != null) {
-                    this.mOnSelectionListener.onDeselectAllVisibleItems();
                 }
                 break;
 

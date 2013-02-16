@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+    <TextView
+            android:id="@+id/folder_count"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="4dp"
+            style="@style/selectedCount"
+            android:text="0"/>
+
+    <ImageView
+            android:id="@+id/indicatorIconFolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/indicatorIconFolder"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/folder_count"
+            android:layout_marginRight="8dp"
+            />
+
+    <TextView
+            android:id="@+id/file_count"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/indicatorIconFolder"
+            android:layout_marginRight="4dp"
+            style="@style/selectedCount"
+            android:text="0"/>
+
+    <ImageView
+            android:id="@+id/indicatorIconFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:background="?attr/indicatorIconFile"
+            android:layout_toRightOf="@+id/file_count"/>
+
+    <ImageButton
+            android:id="@+id/ab_select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            style="?android:attr/actionButtonStyle"
+            android:src="?attr/actionIconSelectAll"
+            android:onClick="onActionBarItemClick" />
+
+</RelativeLayout>
