@@ -52,7 +52,7 @@
     <!-- The drawable for the actions action bar button -->
     <drawable name="ab_actions_drawable">@drawable/ic_holo_dark_contextual_action</drawable>
     <!-- The drawable for the search action bar button -->
-    <drawable name="ab_search_drawable">@drawable/ic_holo_dark_search</drawable>
+    <drawable name="ab_search_drawable">@drawable/ic_action_holo_dark_search</drawable>
     <!-- The drawable for the bookmarks action bar button -->
     <drawable name="ab_bookmarks_drawable">@drawable/ic_holo_dark_bookmarks</drawable>
     <!-- The drawable for the history action bar button -->

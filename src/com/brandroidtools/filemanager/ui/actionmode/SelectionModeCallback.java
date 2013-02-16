@@ -20,14 +20,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectionModeCallback implements ActionMode.Callback {
-    private MenuItem mCut;
-    private MenuItem mCopy;
-    private MenuItem mPaste;
-    private MenuItem mArchive;
-    private MenuItem mDelete;
-    private MenuItem mShare;
-    private MenuItem mRename;
-    private MenuItem mDetails;
+    private MenuItem mActionFolderProperties;
+    private MenuItem mActionRefresh;
+    private MenuItem mActionNewDirectory;
+    private MenuItem mActionNewFile;
+    private MenuItem mActionPasteSelection;
+    private MenuItem mActionMoveSelection;
+    private MenuItem mActionDeleteSelection;
+    private MenuItem mActionCompressSelection;
+    private MenuItem mActionCreateLinkGlobal;
+    private MenuItem mActionSendSelection;
+    private MenuItem mActionAddFolderBookmark;
+    private MenuItem mActionAddFolderShortcut;
+    private MenuItem mActionProperties;
+    private MenuItem mActionOpen;
+    private MenuItem mActionOpenWith;
+    private MenuItem mActionDelete;
+    private MenuItem mActionRename;
+    private MenuItem mActionCompress;
+    private MenuItem mActionExtract;
+    private MenuItem mActionCreateCopy;
+    private MenuItem mActionCreateLink;
+    private MenuItem mActionExecute;
+    private MenuItem mActionSend;
+    private MenuItem mActionAddBookmark;
+    private MenuItem mActionAddShortcut;
+    private MenuItem mActionOpenParentFolder;
     private ShareActionProvider mShareActionProvider;
 
     private boolean pasteReady = false;
@@ -36,6 +54,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
     private Activity mActivity;
     private ActionMode mSelectionMode;
     private Boolean mGlobal;
+    private Boolean mMultiSelection;
     private final Boolean mSearch;
     private final Boolean mChRooted;
 
@@ -87,7 +106,34 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mSelectionMode = mode;
 
         MenuInflater inflater = mActivity.getMenuInflater();
-        inflater.inflate(R.menu.actions, menu);
+        inflater.inflate(R.menu.actionmode, menu);
+
+        mActionFolderProperties = menu.findItem(R.id.mnu_actions_properties_current_folder);
+        mActionRefresh = menu.findItem(R.id.mnu_actions_refresh);
+        mActionNewDirectory = menu.findItem(R.id.mnu_actions_new_directory);
+        mActionNewFile = menu.findItem(R.id.mnu_actions_new_file);
+        mActionPasteSelection = menu.findItem(R.id.mnu_actions_paste_selection);
+        mActionMoveSelection = menu.findItem(R.id.mnu_actions_move_selection);
+        mActionDeleteSelection = menu.findItem(R.id.mnu_actions_delete_selection);
+        mActionCompressSelection = menu.findItem(R.id.mnu_actions_compress_selection);
+        mActionCreateLinkGlobal = menu.findItem(R.id.mnu_actions_create_link_global);
+        mActionSendSelection = menu.findItem(R.id.mnu_actions_send_selection);
+        mActionAddFolderBookmark = menu.findItem(R.id.mnu_actions_add_to_bookmarks_current_folder);
+        mActionAddFolderShortcut = menu.findItem(R.id.mnu_actions_add_shortcut_current_folder);
+        mActionProperties = menu.findItem(R.id.mnu_actions_properties);
+        mActionOpen = menu.findItem(R.id.mnu_actions_open);
+        mActionOpenWith = menu.findItem(R.id.mnu_actions_open_with);
+        mActionDelete = menu.findItem(R.id.mnu_actions_delete);
+        mActionRename = menu.findItem(R.id.mnu_actions_rename);
+        mActionCompress = menu.findItem(R.id.mnu_actions_compress);
+        mActionExtract = menu.findItem(R.id.mnu_actions_extract);
+        mActionCreateCopy = menu.findItem(R.id.mnu_actions_create_copy);
+        mActionCreateLink = menu.findItem(R.id.mnu_actions_create_link);
+        mActionExecute = menu.findItem(R.id.mnu_actions_execute);
+        mActionSend = menu.findItem(R.id.mnu_actions_send);
+        mActionAddBookmark = menu.findItem(R.id.mnu_actions_add_to_bookmarks);
+        mActionAddShortcut = menu.findItem(R.id.mnu_actions_add_shortcut);
+        mActionOpenParentFolder = menu.findItem(R.id.mnu_actions_open_parent_folder);
 
         // Set file with share history to the provider and set the share intent.
 //        mShareActionProvider = (ShareActionProvider) mShare.getActionProvider();
@@ -107,12 +153,64 @@ public class SelectionModeCallback implements ActionMode.Callback {
             selection = this.mOnSelectionListener.onRequestSelectedFiles();
         }
 
+        //TODO: Fix the mActionCreateLinkGlobal flag
+        this.mGlobal = false;
+
+        // Reset action item visibility
+        mActionFolderProperties.setVisible(false); //TODO: move to main menu
+        mActionRefresh.setVisible(false); //TODO: move to main menu
+        mActionNewDirectory.setVisible(false); //TODO: move to main menu
+        mActionNewFile.setVisible(false); //TODO: move to main menu
+        mActionPasteSelection.setVisible(true);
+        mActionMoveSelection.setVisible(true);
+        mActionDeleteSelection.setVisible(true);
+        mActionCompressSelection.setVisible(true);
+        mActionCreateLinkGlobal.setVisible(true);
+        mActionSendSelection.setVisible(true);
+        mActionAddFolderBookmark.setVisible(true);
+        mActionAddFolderShortcut.setVisible(true);
+        mActionProperties.setVisible(true);
+        mActionOpen.setVisible(true);
+        mActionOpenWith.setVisible(true);
+        mActionDelete.setVisible(true);
+        mActionRename.setVisible(true);
+        mActionCompress.setVisible(true);
+        mActionExtract.setVisible(true);
+        mActionCreateCopy.setVisible(true);
+        mActionCreateLink.setVisible(true);
+        mActionExecute.setVisible(true);
+        mActionSend.setVisible(true);
+        mActionAddBookmark.setVisible(true);
+        mActionAddShortcut.setVisible(true);
+        mActionOpenParentFolder.setVisible(true);
+
         // Determine the need for single file (not global) and multiple selection (global) operations
         if (selection.size() == 1) {
             this.mFso = selection.get(0);
-            this.mGlobal = false;
+            this.mMultiSelection = false;
+
+            // Hide multi target actions when only one item is selected
+            mActionMoveSelection.setVisible(false);
+            mActionDeleteSelection.setVisible(false);
+            mActionCompressSelection.setVisible(false);
+            mActionSendSelection.setVisible(false);
         } else {
-            this.mGlobal = true;
+            this.mMultiSelection = true;
+
+            // Hide single target actions when multiple items are selected
+            mActionProperties.setVisible(false);
+            mActionOpen.setVisible(false);
+            mActionOpenWith.setVisible(false);
+            mActionDelete.setVisible(false);
+            mActionRename.setVisible(false);
+            mActionCompress.setVisible(false);
+            mActionExtract.setVisible(false);
+            mActionCreateCopy.setVisible(false);
+            mActionCreateLink.setVisible(false);
+            mActionExecute.setVisible(false);
+            mActionSend.setVisible(false);
+            mActionAddBookmark.setVisible(false);
+            mActionAddShortcut.setVisible(false);
         }
 
         /*
@@ -121,48 +219,30 @@ public class SelectionModeCallback implements ActionMode.Callback {
 
         //- Check actions that needs a valid reference
         if (!this.mGlobal && this.mFso != null) {
-            //- Select/Deselect -> Only one of them
-            if (this.mOnSelectionListener != null) {
-                boolean selected =
-                        SelectionHelper.isFileSystemObjectSelected(
-                                this.mOnSelectionListener.onRequestSelectedFiles(),
-                                this.mFso);
-                menu.removeItem(selected ? R.id.mnu_actions_select : R.id.mnu_actions_deselect);
-
-            } else {
-                // Remove both menus
-                menu.removeItem(R.id.mnu_actions_select);
-                menu.removeItem(R.id.mnu_actions_deselect);
-
-                // Not allowed because we need a list of the current files (only from navigation
-                // activity)
-                menu.removeItem(R.id.mnu_actions_rename);
-                menu.removeItem(R.id.mnu_actions_create_copy);
-            }
 
             //- Open/Open with -> Only when the fso is not a folder and is not a system file
             if (FileHelper.isDirectory(this.mFso) || FileHelper.isSystemFile(this.mFso)) {
-                menu.removeItem(R.id.mnu_actions_open);
-                menu.removeItem(R.id.mnu_actions_open_with);
-                menu.removeItem(R.id.mnu_actions_send);
+                mActionOpen.setVisible(false);
+                mActionOpenWith.setVisible(false);
+                mActionSend.setVisible(false);
             }
 
             // Create link (not allow in storage volume)
             if (StorageHelper.isPathInStorageVolume(this.mFso.getFullPath())) {
-                menu.removeItem(R.id.mnu_actions_create_link);
+                mActionCreateLink.setVisible(false);
             }
 
             //Execute only if mime/type category is EXEC
             MimeTypeHelper.MimeTypeCategory category = MimeTypeHelper.getCategory(this.mActivity, this.mFso);
             if (category.compareTo(MimeTypeHelper.MimeTypeCategory.EXEC) != 0) {
-                menu.removeItem(R.id.mnu_actions_execute);
+                mActionExecute.setVisible(false);
             }
         }
 
         //- Add to bookmarks -> Only directories
         if (this.mFso != null && FileHelper.isRootDirectory(this.mFso)) {
-            menu.removeItem(R.id.mnu_actions_add_to_bookmarks);
-            menu.removeItem(R.id.mnu_actions_add_to_bookmarks_current_folder);
+            mActionAddBookmark.setVisible(false);
+            mActionAddFolderBookmark.setVisible(false);
         }
 
         /*
@@ -170,98 +250,89 @@ public class SelectionModeCallback implements ActionMode.Callback {
          */
 
         //- Paste/Move only when have a selection
-        if (this.mGlobal) {
-            if (selection == null || selection.size() == 0 ||
-                    (this.mFso != null && !FileHelper.isDirectory(this.mFso))) {
-                // Remove paste/move actions
-                menu.removeItem(R.id.mnu_actions_paste_selection);
-                menu.removeItem(R.id.mnu_actions_move_selection);
-                menu.removeItem(R.id.mnu_actions_delete_selection);
-            }
+        if (!this.mMultiSelection) {
+            // Remove multiple selection paste/move actions
+            mActionPasteSelection.setVisible(false);
+            mActionMoveSelection.setVisible(false);
+            mActionDeleteSelection.setVisible(false);
         }
         //- Create link
         if (this.mGlobal && (selection == null || selection.size() == 0 || selection.size() > 1)) {
             // Only when one item is selected
-            menu.removeItem(R.id.mnu_actions_create_link_global);
+            mActionCreateLinkGlobal.setVisible(false); //TODO: consider moving to main menu
         } else if (this.mGlobal  && selection != null) {
             // Create link (not allow in storage volume)
             FileSystemObject fso = selection.get(0);
             if (StorageHelper.isPathInStorageVolume(fso.getFullPath())) {
-                menu.removeItem(R.id.mnu_actions_create_link);
+                mActionCreateLink.setVisible(false);
             }
         } else if (!this.mGlobal) {
             // Create link (not allow in storage volume)
             if (StorageHelper.isPathInStorageVolume(this.mFso.getFullPath())) {
-                menu.removeItem(R.id.mnu_actions_create_link);
+                mActionCreateLink.setVisible(false);
             }
         }
 
         //- Compress/Uncompress (only when selection is available)
-        if (this.mOnSelectionListener != null) {
-            //Compress
-            if (this.mGlobal) {
-                if (selection == null || selection.size() == 0) {
-                    menu.removeItem(R.id.mnu_actions_compress_selection);
-                }
-            } else {
-                // Ignore for system files
-                if (this.mFso instanceof SystemFile) {
-                    menu.removeItem(R.id.mnu_actions_compress);
-                }
-            }
-            //Uncompress (Only supported files)
-            if (!this.mGlobal && !FileHelper.isSupportedUncompressedFile(this.mFso)) {
-                menu.removeItem(R.id.mnu_actions_extract);
-            }
 
-            // Send multiple (only regular files)
-            if (this.mGlobal) {
-                if (selection == null || selection.size() == 0) {
-                    menu.removeItem(R.id.mnu_actions_send_selection);
-                } else {
-                    boolean areAllFiles = true;
-                    int cc = selection.size();
-                    for (int i = 0; i < cc; i++) {
-                        FileSystemObject fso = selection.get(i);
-                        if (FileHelper.isDirectory(fso)) {
-                            areAllFiles = false;
-                            break;
-                        }
+        //Compress
+        if (this.mMultiSelection) {
+            mActionCompress.setVisible(false);
+        } else {
+            mActionCompressSelection.setVisible(false);
+        }
+        //Uncompress (Only for single supported files)
+        if (!this.mMultiSelection && !FileHelper.isSupportedUncompressedFile(this.mFso)) {
+            mActionExtract.setVisible(false);
+        }
+
+        // Send multiple (only regular files)
+        if (this.mGlobal) {
+            if (selection == null || selection.size() == 0) {
+                mActionSendSelection.setVisible(false);
+            } else {
+                boolean areAllFiles = true;
+                int cc = selection.size();
+                for (int i = 0; i < cc; i++) {
+                    FileSystemObject fso = selection.get(i);
+                    if (FileHelper.isDirectory(fso)) {
+                        areAllFiles = false;
+                        break;
                     }
-                    if (!areAllFiles) {
-                        menu.removeItem(R.id.mnu_actions_send_selection);
-                    }
+                }
+                if (!areAllFiles) {
+                    mActionSendSelection.setVisible(false);
                 }
             }
         }
 
         // Not allowed in search
         if (this.mSearch) {
-            menu.removeItem(R.id.mnu_actions_extract);
-            menu.removeItem(R.id.mnu_actions_compress);
-            menu.removeItem(R.id.mnu_actions_create_link);
+            mActionExtract.setVisible(false);
+            mActionCompress.setVisible(false);
+            mActionCreateLink.setVisible(false);
         }
 
         // Not allowed if not in search
         if (!this.mSearch) {
-            menu.removeItem(R.id.mnu_actions_open_parent_folder);
+            mActionOpenParentFolder.setVisible(false);
         }
 
         // Remove not-ChRooted actions (actions that can't be present when running in
         // unprivileged mode)
         if (this.mChRooted) {
-            menu.removeItem(R.id.mnu_actions_create_link);
-            menu.removeItem(R.id.mnu_actions_create_link_global);
-            menu.removeItem(R.id.mnu_actions_execute);
+            mActionCreateLink.setVisible(false);
+            mActionCreateLinkGlobal.setVisible(false);
+            mActionExecute.setVisible(false);
 
             // NOTE: This actions are not implemented in chrooted environments. The reason is
             // that the main target of this application is CyanogenMod (a rooted environment).
             // Adding this actions requires the use of commons-compress, an external Apache
             // library that will add more size to the ending apk.
             // For now, will maintain without implementation. Maybe, in the future.
-            menu.removeItem(R.id.mnu_actions_compress);
-            menu.removeItem(R.id.mnu_actions_compress_selection);
-            menu.removeItem(R.id.mnu_actions_extract);
+            mActionCompress.setVisible(false);
+            mActionCompressSelection.setVisible(false);
+            mActionExtract.setVisible(false);
         }
         return true;
     }

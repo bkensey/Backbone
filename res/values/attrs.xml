@@ -42,4 +42,35 @@
     </attr>
   </declare-styleable>
 
+  <declare-styleable name="FileManager">
+    <attr name="actionIconFolderProperties" format="reference" />
+      <attr name="actionIconRefresh" format="reference" />
+      <attr name="actionIconNewDirectory" format="reference" />
+      <attr name="actionIconNewFile" format="reference" />
+      <attr name="actionIconPasteSelection" format="reference" />
+      <attr name="actionIconMoveSelection" format="reference" />
+      <attr name="actionIconDeleteSelection" format="reference" />
+      <attr name="actionIconCompressSelection" format="reference" />
+      <attr name="actionIconCreateLinkGlobal" format="reference" />
+      <attr name="actionIconSendSelection" format="reference" />
+      <attr name="actionIconAddFolderBookmark" format="reference" />
+      <attr name="actionIconAddFolderShortcut" format="reference" />
+      <attr name="actionIconProperties" format="reference" />
+      <attr name="actionIconOpen" format="reference" />
+      <attr name="actionIconOpenWith" format="reference" />
+      <attr name="actionIconDelete" format="reference" />
+      <attr name="actionIconRename" format="reference" />
+      <attr name="actionIconCompress" format="reference" />
+      <attr name="actionIconExtract" format="reference" />
+      <attr name="actionIconCreateCopy" format="reference" />
+      <attr name="actionIconCreateLink" format="reference" />
+      <attr name="actionIconExecute" format="reference" />
+      <attr name="actionIconSend" format="reference" />
+      <attr name="actionIconAddBookmark" format="reference" />
+      <attr name="actionIconAddShortcut" format="reference" />
+      <attr name="actionIconOpenParentFolder" format="reference" />
+
+
+  </declare-styleable>
+
 </resources>
