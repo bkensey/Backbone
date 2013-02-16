@@ -160,6 +160,11 @@ public class NavigationActivity extends FragmentActivity
     // exit, and the toast is shown again after the first tap.
     private static final int RELEASE_EXIT_CHECK_TIMEOUT = 3500;
 
+    // The flag indicating whether or not the application is just starting up.
+    // Used in initializing the action bar's breadcrumb once the fragments have
+    // finished loading.
+    private boolean mFirstRun = true;
+
     private final BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -248,6 +253,9 @@ public class NavigationActivity extends FragmentActivity
     private List<History> mHistory;
 
     private ActionBar mActionBar;
+    private View mTitleLayout;
+    private NavigationCustomTitleView mTitle;
+    private Breadcrumb mBreadcrumb;
     private SelectionView mSelectionBar;
 
     public NavigationFragmentPagerAdapter mPagerAdapter;
@@ -438,58 +446,47 @@ public class NavigationActivity extends FragmentActivity
      */
     private void initTitleActionBar() {
         //Inflate the view and associate breadcrumb
-        View titleLayout = getLayoutInflater().inflate(
+        mTitleLayout = getLayoutInflater().inflate(
                 R.layout.navigation_view_customtitle, null, false);
-        NavigationCustomTitleView title =
-                (NavigationCustomTitleView)titleLayout.findViewById(R.id.navigation_title_flipper);
-        title.setOnHistoryListener(this);
-        Breadcrumb breadcrumb = (Breadcrumb)title.findViewById(R.id.breadcrumb_view);
+        mTitle = (NavigationCustomTitleView)mTitleLayout.findViewById(R.id.navigation_title_flipper);
+        mBreadcrumb = (Breadcrumb)mTitle.findViewById(R.id.breadcrumb_view);
 
+        mTitle.setOnHistoryListener(this);
         // Set the free disk space warning level of the breadcrumb widget
         String fds = Preferences.getSharedPreferences().getString(
                 FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getId(),
                 (String)FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getDefaultValue());
-        breadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
-
+        mBreadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
         //Configure the action bar options
-        mActionBar.setBackgroundDrawable(
-                getResources().getDrawable(R.drawable.bg_holo_titlebar));
         mActionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        mActionBar.setCustomView(titleLayout);
+        mActionBar.setCustomView(mTitleLayout);
     }
 
     /**
      * Method that updates the titlebar of the activity.
      */
-    private void updateTitleActionBar() {
-        //Inflate the view and associate breadcrumb
-        View titleLayout = getLayoutInflater().inflate(
-                R.layout.navigation_view_customtitle, null, false);
-        NavigationCustomTitleView title =
-                (NavigationCustomTitleView)titleLayout.findViewById(R.id.navigation_title_flipper);
-        title.setOnHistoryListener(this);
-        Breadcrumb breadcrumb = (Breadcrumb)title.findViewById(R.id.breadcrumb_view);
+    public void updateTitleActionBar() {
+
+        mTitle.setOnHistoryListener(this);
 
         NavigationFragment navigationFragment = getCurrentNavigationFragment();
-        navigationFragment.setBreadcrumb(breadcrumb);
+        navigationFragment.setBreadcrumb(mBreadcrumb);
         navigationFragment.setOnHistoryListener(this);
         navigationFragment.setOnNavigationOnRequestMenuListener(this);
-        navigationFragment.setCustomTitle(title);
+        navigationFragment.setCustomTitle(mTitle);
 
 
         // Set the free disk space warning level of the breadcrumb widget
         String fds = Preferences.getSharedPreferences().getString(
                 FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getId(),
                 (String)FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getDefaultValue());
-        breadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
+        mBreadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
 
         //Configure the action bar options
-        mActionBar.setBackgroundDrawable(
-                getResources().getDrawable(R.drawable.bg_holo_titlebar));
         mActionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        mActionBar.setCustomView(titleLayout);
+        mActionBar.setCustomView(mTitleLayout);
     }
 
     /**
@@ -1414,4 +1411,13 @@ public class NavigationActivity extends FragmentActivity
     public void onPageScrollStateChanged(int state) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    public boolean isFirstRun() {
+        return mFirstRun;
+    }
+
+    public void setFirstRun(boolean firstRun) {
+        this.mFirstRun = firstRun;
+    }
+
 }

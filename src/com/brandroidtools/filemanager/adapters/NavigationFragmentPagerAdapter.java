@@ -10,6 +10,7 @@ package com.brandroidtools.filemanager.adapters;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -81,23 +82,48 @@ public class NavigationFragmentPagerAdapter extends PagerAdapter {
 
     /**
      * Return the Fragment associated with a specified position.
+     *
+     * @param position the integer position of the requested fragment within the Pager Adapter
      */
     public Fragment getItem(int position) {
-        // if (debug) Log.i(TAG, "getItem @ " + position);
         NavigationFragment myFragment = NavigationFragment.newInstance(position);
-        // mPageReferenceMap.put(position, myFragment);
         return myFragment;
     }
 
+    /**
+     * This function is the reason why this class is a full copy of
+     * FragmentPagerAdapter and not an implementation. The app required the
+     * ability to call functions on each FileListFragment from the main class.
+     * This function needed to be able to reference mFragmentManger.
+     *
+     * @param container
+     * @param position
+     * @return FileListFragment
+     */
+    public NavigationFragment getFragment(ViewGroup container, int position) {
+        String name = makeFragmentName(container.getId(), position);
+        NavigationFragment fragment = (NavigationFragment) mFragmentManager.findFragmentByTag(name);
+        return fragment;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getCount() {
         return mNumPages;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void startUpdate(ViewGroup container) {
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         if (mCurTransaction == null) {
@@ -126,21 +152,8 @@ public class NavigationFragmentPagerAdapter extends PagerAdapter {
     }
 
     /**
-     * This function is the reason why this class is a full copy of
-     * FragmentPagerAdapter and not an implementation. The app required the
-     * ability to call functions on each FileListFragment from the main class.
-     * This function needed to be able to reference mFragmentManger.
-     *
-     * @param container
-     * @param position
-     * @return FileListFragment
+     * {@inheritDoc}
      */
-    public NavigationFragment getFragment(ViewGroup container, int position) {
-        String name = makeFragmentName(container.getId(), position);
-        NavigationFragment fragment = (NavigationFragment) mFragmentManager.findFragmentByTag(name);
-        return fragment;
-    }
-
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         if (mCurTransaction == null) {
@@ -151,6 +164,9 @@ public class NavigationFragmentPagerAdapter extends PagerAdapter {
         mCurTransaction.detach((Fragment) object);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         Fragment fragment = (Fragment) object;
@@ -167,6 +183,9 @@ public class NavigationFragmentPagerAdapter extends PagerAdapter {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void finishUpdate(ViewGroup container) {
         if (mCurTransaction != null) {
@@ -176,16 +195,25 @@ public class NavigationFragmentPagerAdapter extends PagerAdapter {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return ((Fragment) object).getView() == view;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Parcelable saveState() {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void restoreState(Parcelable state, ClassLoader loader) {
     }

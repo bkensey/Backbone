@@ -258,6 +258,9 @@ public class NavigationFragment extends Fragment implements
             public void run() {
                 //Initialize navigation
                 initNavigation(false);
+                if (mActivity.isFirstRun() == true)
+                    mActivity.updateTitleActionBar();
+                mActivity.setFirstRun(false);
             };
         });
     }
