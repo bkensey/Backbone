@@ -1247,7 +1247,7 @@ public class SearchActivity extends Activity
         //- ActionBar
         theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
         View v = getActionBar().getCustomView().findViewById(R.id.customtitle_title);
-        theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$
+        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
         v = findViewById(R.id.ab_button1);
         theme.setImageDrawable(this, (ImageView)v, "ic_config_drawable"); //$NON-NLS-1$
         // ContentView
@@ -1257,9 +1257,9 @@ public class SearchActivity extends Activity
         v = findViewById(R.id.search_status);
         theme.setBackgroundDrawable(this, v, "statusbar_drawable"); //$NON-NLS-1$
         v = findViewById(R.id.search_status_found_items);
-        theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$
+        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
         v = findViewById(R.id.search_status_query_terms);
-        theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$
+        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
         //ListView
         if (this.mSearchListView.getAdapter() != null) {
             ((SearchResultAdapter)this.mSearchListView.getAdapter()).notifyDataSetChanged();

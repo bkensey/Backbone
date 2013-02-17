@@ -613,7 +613,7 @@ public class BookmarksActivity extends Activity implements OnItemClickListener, 
         //- ActionBar
         theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
         View v = getActionBar().getCustomView().findViewById(R.id.customtitle_title);
-        theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$
+        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
         // -View
         theme.setBackgroundDrawable(
                 this, this.mBookmarksListView, "background_drawable"); //$NON-NLS-1$

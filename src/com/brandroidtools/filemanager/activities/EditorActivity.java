@@ -842,7 +842,7 @@ public class EditorActivity extends Activity implements TextWatcher {
         //- ActionBar
         theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
         View v = getActionBar().getCustomView().findViewById(R.id.customtitle_title);
-        theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$
+        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
         v = findViewById(R.id.ab_button1);
         theme.setImageDrawable(this, (ImageView)v, "ab_save_drawable"); //$NON-NLS-1$
         // -View
