@@ -19,11 +19,6 @@
   <!-- Global Actions -->
 
     <item
-      android:id="@+id/mnu_actions_properties_current_folder"
-      android:icon="?attr/actionIconFolderProperties"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_properties_current_folder"/>
-    <item
       android:id="@+id/mnu_actions_refresh"
       android:icon="?attr/actionIconRefresh"
       android:showAsAction="ifRoom"

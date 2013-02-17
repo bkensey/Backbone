@@ -66,6 +66,7 @@ import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.dialogs.ActionsDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
+import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
 import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
 import com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView;
 import com.brandroidtools.filemanager.ui.widgets.SelectionView;
@@ -607,11 +608,7 @@ public class NavigationActivity extends FragmentActivity
             //######################
             // Action Buttons
             //######################
-            case R.id.mnu_actions:
-                openActionsDialog(getCurrentNavigationFragment().getCurrentDir(), true);
-                break;
-
-            case R.id.mnu_bookmarks:
+             case R.id.mnu_bookmarks:
                 openBookmarks();
                 break;
 
@@ -621,6 +618,10 @@ public class NavigationActivity extends FragmentActivity
 
             case R.id.mnu_search:
                 openSearch();
+                break;
+
+            case R.id.mnu_actions_properties_current_folder:
+                openPropertiesDialog(getCurrentNavigationFragment().getCurrentDir());
                 break;
 
             case R.id.mnu_settings:
@@ -1180,6 +1181,42 @@ public class NavigationActivity extends FragmentActivity
         dialog.show();
     }
 
+    private void openPropertiesDialog(Object item) {
+        // Resolve the full path
+        String path = String.valueOf(item);
+        if (item instanceof FileSystemObject) {
+            path = ((FileSystemObject)item).getFullPath();
+        }
+
+        // Prior to show the dialog, refresh the item reference
+        FileSystemObject fso = null;
+        try {
+            fso = CommandHelper.getFileInfo(this, path, false, null);
+            if (fso == null) {
+                throw new NoSuchFileOrDirectory(path);
+            }
+
+        } catch (Exception e) {
+            // Notify the user
+            ExceptionUtil.translateException(this, e);
+
+            // Remove the object
+            if (e instanceof FileNotFoundException || e instanceof NoSuchFileOrDirectory) {
+                // If have a FileSystemObject reference then there is no need to search
+                // the path (less resources used)
+                if (item instanceof FileSystemObject) {
+                    getCurrentNavigationFragment().removeItem((FileSystemObject) item);
+                } else {
+                    getCurrentNavigationFragment().removeItem((String) item);
+                }
+            }
+            return;
+        }
+
+        InfoActionPolicy.showPropertiesDialog(this, fso, this);
+
+    }
+
     /**
      * Method that opens the bookmarks activity.
      * @hide
@@ -1347,13 +1384,7 @@ public class NavigationActivity extends FragmentActivity
         Theme theme = ThemeManager.getCurrentTheme(this);
         theme.setBaseTheme(this, false);
 
-        //- Layout
-        View v = findViewById(R.id.navigation_pager_layout);
-        theme.setBackgroundDrawable(this, v, "background_drawable"); //$NON-NLS-1$
-        //- ActionBar
-        theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
-        //- Split ActionBar
-        theme.setSplitActionBarDrawable(this, getActionBar(), "statusbar_drawable"); //$NON-NLS-1$
+        View v;
 
         /*
         TODO: Either find a way to update action item icons via current methods or ensure the theme update mechanism
@@ -1381,13 +1412,6 @@ public class NavigationActivity extends FragmentActivity
         theme.setImageDrawable(this, (ImageView)v, "ab_layout_mode_drawable"); //$NON-NLS-1$
         v = findViewById(R.id.ab_view_options);
         theme.setImageDrawable(this, (ImageView)v, "ab_view_options_drawable"); //$NON-NLS-1$
-        //- SelectionBar
-        v = findViewById(R.id.navigation_selectionbar);
-        theme.setBackgroundDrawable(this, v, "selectionbar_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_selection_done);
-        theme.setImageDrawable(this, (ImageView)v, "ab_selection_done_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.navigation_status_selection_label);
-        theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$
     }
 
     @Override
@@ -1400,7 +1424,7 @@ public class NavigationActivity extends FragmentActivity
      * elements that are contextually based on the currently selected page, we
      * need to trigger UI updates after the user swipes to a new page. The pager
      * is contained within the main activity, but the relevant data must be
-     * pushed from the currently selected list fragment. Therefore, the takeOver
+     * pushed from the currently selected list fragment. Therefore, the updateTitleActionBar
      * method is called on the fragment, which then reaches back up and updates
      * the action bar, etc.
      *

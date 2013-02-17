@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectionModeCallback implements ActionMode.Callback {
-    private MenuItem mActionFolderProperties;
     private MenuItem mActionRefresh;
     private MenuItem mActionNewDirectory;
     private MenuItem mActionNewFile;
@@ -117,7 +116,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mFolderCount = (TextView)customTitle.findViewById(R.id.folder_count);
         mode.setCustomView(customTitle);
 
-        mActionFolderProperties = menu.findItem(R.id.mnu_actions_properties_current_folder);
         mActionRefresh = menu.findItem(R.id.mnu_actions_refresh);
         mActionNewDirectory = menu.findItem(R.id.mnu_actions_new_directory);
         mActionNewFile = menu.findItem(R.id.mnu_actions_new_file);
@@ -175,10 +173,10 @@ public class SelectionModeCallback implements ActionMode.Callback {
                 files++;
             }
         }
+
+        // Display selection counts in action mode
         folderCount = Integer.toString(folders);
         fileCount = Integer.toString(files);
-
-        // Display selection counts
         mFolderCount.setText(folderCount);
         mFileCount.setText(fileCount);
 
@@ -186,18 +184,18 @@ public class SelectionModeCallback implements ActionMode.Callback {
         this.mGlobal = false;
 
         // Reset action item visibility
-        mActionFolderProperties.setVisible(false); //TODO: move to main menu
         mActionRefresh.setVisible(false); //TODO: move to main menu
         mActionNewDirectory.setVisible(false); //TODO: move to main menu
         mActionNewFile.setVisible(false); //TODO: move to main menu
+        mActionAddFolderShortcut.setVisible(false);  //TODO: move to main menu
+        mActionAddFolderBookmark.setVisible(false);   //TODO: move to main menu
+
         mActionPasteSelection.setVisible(true);
         mActionMoveSelection.setVisible(true);
         mActionDeleteSelection.setVisible(true);
         mActionCompressSelection.setVisible(true);
         mActionCreateLinkGlobal.setVisible(true);
         mActionSendSelection.setVisible(true);
-        mActionAddFolderBookmark.setVisible(true);
-        mActionAddFolderShortcut.setVisible(true);
         mActionProperties.setVisible(true);
         mActionOpen.setVisible(true);
         mActionOpenWith.setVisible(true);
@@ -240,6 +238,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             mActionSend.setVisible(false);
             mActionAddBookmark.setVisible(false);
             mActionAddShortcut.setVisible(false);
+            mActionCreateLinkGlobal.setVisible(false);
         }
 
         /*
@@ -247,7 +246,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
          */
 
         //- Check actions that needs a valid reference
-        if (!this.mGlobal && this.mFso != null) {
+        if (!mMultiSelection && this.mFso != null) {
 
             //- Open/Open with -> Only when the fso is not a folder and is not a system file
             if (FileHelper.isDirectory(this.mFso) || FileHelper.isSystemFile(this.mFso)) {
@@ -278,18 +277,8 @@ public class SelectionModeCallback implements ActionMode.Callback {
          * MULTI FILE ACTIONS
          */
 
-        //- Paste/Move only when have a selection
-        if (!this.mMultiSelection) {
-            // Remove multiple selection paste/move actions
-            mActionPasteSelection.setVisible(false);
-            mActionMoveSelection.setVisible(false);
-            mActionDeleteSelection.setVisible(false);
-        }
         //- Create link
-        if (this.mGlobal && (selection == null || selection.size() == 0 || selection.size() > 1)) {
-            // Only when one item is selected
-            mActionCreateLinkGlobal.setVisible(false); //TODO: consider moving to main menu
-        } else if (this.mGlobal  && selection != null) {
+        if (this.mGlobal  && selection != null) {
             // Create link (not allow in storage volume)
             FileSystemObject fso = selection.get(0);
             if (StorageHelper.isPathInStorageVolume(fso.getFullPath())) {
@@ -304,33 +293,21 @@ public class SelectionModeCallback implements ActionMode.Callback {
 
         //- Compress/Uncompress (only when selection is available)
 
-        //Compress
-        if (this.mMultiSelection) {
-            mActionCompress.setVisible(false);
-        } else {
-            mActionCompressSelection.setVisible(false);
-        }
         //Uncompress (Only for single supported files)
         if (!this.mMultiSelection && !FileHelper.isSupportedUncompressedFile(this.mFso)) {
             mActionExtract.setVisible(false);
         }
 
         // Send multiple (only regular files)
-        if (this.mGlobal) {
-            if (selection == null || selection.size() == 0) {
-                mActionSendSelection.setVisible(false);
-            } else {
-                boolean areAllFiles = true;
-                for (FileSystemObject fso : selection) {
-                    if (FileHelper.isDirectory(fso)) {
-                        areAllFiles = false;
-                        break;
-                    }
-                }
-                if (!areAllFiles) {
-                    mActionSendSelection.setVisible(false);
-                }
+        boolean areAllFiles = true;
+        for (FileSystemObject fso : selection) {
+            if (FileHelper.isDirectory(fso)) {
+                areAllFiles = false;
+                break;
             }
+        }
+        if (!areAllFiles) {
+            mActionSendSelection.setVisible(false);
         }
 
         // Not allowed in search

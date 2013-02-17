@@ -18,25 +18,25 @@
 
   <!-- Actions -->
   <item
-      android:id="@+id/mnu_actions"
-      android:showAsAction="ifRoom"
-      android:icon="@drawable/ic_holo_dark_contextual_action"
-      android:title="@string/menu_history"/>
-  <item
-    android:id="@+id/mnu_history"
-    android:showAsAction="ifRoom"
-    android:icon="@drawable/ic_holo_dark_history"
-    android:title="@string/menu_history"/>
-  <item
-    android:id="@+id/mnu_bookmarks"
-    android:showAsAction="ifRoom"
-    android:icon="@drawable/ic_holo_dark_bookmarks"
-    android:title="@string/menu_bookmarks"/>
-  <item
     android:id="@+id/mnu_search"
     android:showAsAction="ifRoom"
     android:icon="@drawable/ic_action_holo_dark_search"
     android:title="@string/menu_search"/>
+  <item
+    android:id="@+id/mnu_history"
+    android:showAsAction="ifRoom"
+    android:icon="@drawable/ic_action_holo_dark_history"
+    android:title="@string/menu_history"/>
+  <item
+    android:id="@+id/mnu_bookmarks"
+    android:showAsAction="ifRoom"
+    android:icon="@drawable/ic_action_holo_dark_bookmark"
+    android:title="@string/menu_bookmarks"/>
+  <item
+    android:id="@+id/mnu_actions_properties_current_folder"
+    android:showAsAction="ifRoom"
+    android:icon="?attr/actionIconFolderProperties"
+    android:title="@string/actions_menu_properties_current_folder"/>
 
   <!-- Overflow actions -->
   <item

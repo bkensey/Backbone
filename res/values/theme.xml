@@ -48,7 +48,7 @@
     <drawable name="selectionbar_drawable">@drawable/dark_selectionbar</drawable>
 
     <!-- The drawable for the overflow action bar button -->
-    <drawable name="ab_overflow_drawable">@drawable/ic_holo_dark_overflow</drawable>
+    <drawable name="ab_overflow_drawable">@drawable/ic_action_holo_dark_overflow</drawable>
     <!-- The drawable for the actions action bar button -->
     <drawable name="ab_actions_drawable">@drawable/ic_holo_dark_contextual_action</drawable>
     <!-- The drawable for the search action bar button -->
@@ -56,7 +56,7 @@
     <!-- The drawable for the bookmarks action bar button -->
     <drawable name="ab_bookmarks_drawable">@drawable/ic_holo_dark_bookmarks</drawable>
     <!-- The drawable for the history action bar button -->
-    <drawable name="ab_history_drawable">@drawable/ic_holo_dark_history</drawable>
+    <drawable name="ab_history_drawable">@drawable/ic_action_holo_dark_history</drawable>
     <!-- The drawable for the sort mode of expander bar -->
     <drawable name="ab_sort_mode_drawable">@drawable/ic_holo_dark_sort_alphabetically</drawable>
     <!-- The drawable for the layout mode of expander bar -->
@@ -135,7 +135,7 @@
     <color name="disk_usage_filter_warning_color">@color/disk_usage_color_filter_warning</color>
 
     <!-- ProgressBar -->
-    <drawable name="horizontal_progress_bar">@drawable/progress_horizontal_holo_light</drawable>
+    <drawable name="horizontal_progress_bar">@drawable/dark_progress_horizontal_holo</drawable>
 
     <!-- Autocomplete -->
     <color name="autocomplete_fg_color">@color/black_transparent</color>
