@@ -84,7 +84,7 @@
       <item name="android:includeFontPadding">false</item>
       <!-- Use dp rather than sp for size since starts large and must not get too large -->
       <item name="android:textSize">32dp</item>
-      <item name="android:textColor">#fff3f3f3</item>
+      <item name="android:textColor">@color/action_bar_text_white</item>
   </style>
 
   <!-- Title -->
@@ -93,14 +93,12 @@
     <item name="android:textColor">@android:color/white</item>
     <item name="android:textStyle">bold</item>
   </style>
-
   <!-- The text appearance for breadcrumb information -->
   <style name="breadcrumb_text_appearance">
     <item name="android:textSize">@dimen/primary_text_size</item>
     <item name="android:textColor">@android:color/white</item>
     <item name="android:textStyle">bold</item>
   </style>
-
   <!-- The text appearance for principal information (text that need to be highlighted) -->
   <style name="primary_text_appearance">
     <item name="android:textSize">@dimen/primary_text_size</item>

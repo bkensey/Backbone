@@ -58,11 +58,11 @@
     <!-- The drawable for the history action bar button -->
     <drawable name="ab_history_drawable">@drawable/ic_action_holo_dark_history</drawable>
     <!-- The drawable for the sort mode of expander bar -->
-    <drawable name="ab_sort_mode_drawable">@drawable/ic_holo_dark_sort_alphabetically</drawable>
+    <drawable name="ab_sort_mode_drawable">@drawable/ic_action_holo_dark_sort_alphabetically</drawable>
     <!-- The drawable for the layout mode of expander bar -->
-    <drawable name="ab_layout_mode_drawable">@drawable/ic_holo_dark_layout</drawable>
+    <drawable name="ab_layout_mode_drawable">@drawable/ic_action_holo_dark_layout</drawable>
     <!-- The drawable for the view options of expander bar -->
-    <drawable name="ab_view_options_drawable">@drawable/ic_holo_dark_view</drawable>
+    <drawable name="ab_view_options_drawable">@drawable/ic_action_holo_dark_view</drawable>
     <!-- The drawable for the selection done button -->
     <drawable name="ab_selection_done_drawable">@drawable/ic_holo_dark_accept</drawable>
     <!-- The drawable for the save action bar button -->
@@ -77,6 +77,8 @@
 
     <!-- The text color of TextView controls -->
     <color name="text_color">@color/black_transparent</color>
+    <!-- The text color of Action Bar text -->
+    <color name="action_bar_color">@color/action_bar_text_white</color>
     <!-- The text color of Dialog -->
     <color name="dialog_text_color">@android:color/holo_blue_dark</color>
 

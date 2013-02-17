@@ -23,6 +23,8 @@
   <color name="black_transparent">#99000000</color>
   <!-- A derivated blue from @android:color/holo_blue_light with some transparency -->
   <color name="blue_transparent">#9933b5e5</color>
+  <!-- A white color for use in the action bar -->
+  <color name="action_bar_text_white">#fff3f3f3</color>
 
   <!-- Disk usage total color -->
   <color name="disk_usage_total">#7ecccccc</color>
