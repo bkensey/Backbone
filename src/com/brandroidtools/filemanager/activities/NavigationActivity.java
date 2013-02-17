@@ -66,7 +66,9 @@ import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.dialogs.ActionsDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
+import com.brandroidtools.filemanager.ui.dialogs.InputNameDialog;
 import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
+import com.brandroidtools.filemanager.ui.policy.NewActionPolicy;
 import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
 import com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView;
 import com.brandroidtools.filemanager.ui.widgets.SelectionView;
@@ -620,6 +622,12 @@ public class NavigationActivity extends FragmentActivity
                 openSearch();
                 break;
 
+            //- Create new object
+            case R.id.mnu_actions_new_directory:
+            case R.id.mnu_actions_new_file:
+                showInputNameDialog(item);
+                break;
+
             case R.id.mnu_actions_properties_current_folder:
                 openPropertiesDialog(getCurrentNavigationFragment().getCurrentDir());
                 break;
@@ -858,7 +866,7 @@ public class NavigationActivity extends FragmentActivity
     @Override
     public void onRequestMenu(NavigationFragment navFragment, FileSystemObject item) {
         // Show the actions dialog
-        openActionsDialog(item, false);
+        //openActionsDialog(item, false);
     }
 
     /**
@@ -1137,48 +1145,52 @@ public class NavigationActivity extends FragmentActivity
     }
 
     /**
-     * Method that opens the actions dialog
+     * Method that show a new dialog for input a name.
      *
-     * @param item The path or the {@link com.brandroidtools.filemanager.model.FileSystemObject}
-     * @param global If the menu to display is the one with global actions
+     * @param menuItem The item menu associated
      */
-    private void openActionsDialog(Object item, boolean global) {
-        // Resolve the full path
-        String path = String.valueOf(item);
-        if (item instanceof FileSystemObject) {
-            path = ((FileSystemObject)item).getFullPath();
-        }
+    private void showInputNameDialog(final MenuItem menuItem) {
 
-        // Prior to show the dialog, refresh the item reference
-        FileSystemObject fso = null;
-        try {
-            fso = CommandHelper.getFileInfo(this, path, false, null);
-            if (fso == null) {
-                throw new NoSuchFileOrDirectory(path);
-            }
+        //Show the input name dialog
+        final InputNameDialog inputNameDialog =
+                new InputNameDialog(
+                        this,
+                        getCurrentNavigationFragment().onRequestCurrentItems(),
+                        menuItem.getTitle().toString());
+        inputNameDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                //Retrieve the name an execute the action
+                try {
+                    String name = inputNameDialog.getName();
+                    createNewFileSystemObject(menuItem.getItemId(), name);
 
-        } catch (Exception e) {
-            // Notify the user
-            ExceptionUtil.translateException(this, e);
-
-            // Remove the object
-            if (e instanceof FileNotFoundException || e instanceof NoSuchFileOrDirectory) {
-                // If have a FileSystemObject reference then there is no need to search
-                // the path (less resources used)
-                if (item instanceof FileSystemObject) {
-                    getCurrentNavigationFragment().removeItem((FileSystemObject) item);
-                } else {
-                    getCurrentNavigationFragment().removeItem((String) item);
+                } catch (InflateException e) {
+                    //TODO handle this exception properly
                 }
             }
-            return;
-        }
+        });
+        inputNameDialog.show();
+    }
 
-        // Show the dialog
-        ActionsDialog dialog = new ActionsDialog(this, fso, global, false);
-        dialog.setOnRequestRefreshListener(this);
-        dialog.setOnSelectionListener(getCurrentNavigationFragment());
-        dialog.show();
+    /**
+     * Method that create the a new file system object.
+     *
+     * @param menuId The menu identifier (need to determine the fso type)
+     * @param name The name of the file system object
+     * @hide
+     */
+    void createNewFileSystemObject(final int menuId, final String name) {
+        switch (menuId) {
+            case R.id.mnu_actions_new_directory:
+                NewActionPolicy.createNewDirectory(this, name, getCurrentNavigationFragment(), this);
+                break;
+            case R.id.mnu_actions_new_file:
+                NewActionPolicy.createNewFile(this, name, getCurrentNavigationFragment(), this);
+                break;
+            default:
+                break;
+        }
     }
 
     private void openPropertiesDialog(Object item) {

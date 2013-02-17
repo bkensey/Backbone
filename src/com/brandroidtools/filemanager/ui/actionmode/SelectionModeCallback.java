@@ -184,9 +184,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         this.mGlobal = false;
 
         // Reset action item visibility
-        mActionRefresh.setVisible(false); //TODO: move to main menu
-        mActionNewDirectory.setVisible(false); //TODO: move to main menu
-        mActionNewFile.setVisible(false); //TODO: move to main menu
         mActionAddFolderShortcut.setVisible(false);  //TODO: move to main menu
         mActionAddFolderBookmark.setVisible(false);   //TODO: move to main menu
 
@@ -348,14 +345,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem menuItem) {
 
         switch (menuItem.getItemId()) {
-            //- Create new object
-            case R.id.mnu_actions_new_directory:
-            case R.id.mnu_actions_new_file:
-                if (this.mOnSelectionListener != null) {
-                    showInputNameDialog(menuItem);
-                    return true;
-                }
-                break;
 
             //- Rename
             case R.id.mnu_actions_rename:
@@ -581,35 +570,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
     }
 
     /**
-     * Method that show a new dialog for input a name.
-     *
-     * @param menuItem The item menu associated
-     */
-    private void showInputNameDialog(final MenuItem menuItem) {
-
-        //Show the input name dialog
-        final InputNameDialog inputNameDialog =
-                new InputNameDialog(
-                        this.mActivity,
-                        this.mOnSelectionListener.onRequestCurrentItems(),
-                        menuItem.getTitle().toString());
-        inputNameDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                //Retrieve the name an execute the action
-                try {
-                    String name = inputNameDialog.getName();
-                    createNewFileSystemObject(menuItem.getItemId(), name);
-
-                } catch (InflateException e) {
-                    //TODO handle this exception properly
-                }
-            }
-        });
-        inputNameDialog.show();
-    }
-
-    /**
      * Method that show a new dialog for input a name for an existing fso.
      *
      * @param menuItem The item menu associated
@@ -669,30 +629,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
             }
         });
         inputNameDialog.show();
-    }
-
-    /**
-     * Method that create the a new file system object.
-     *
-     * @param menuId The menu identifier (need to determine the fso type)
-     * @param name The name of the file system object
-     * @hide
-     */
-    void createNewFileSystemObject(final int menuId, final String name) {
-        switch (menuId) {
-            case R.id.mnu_actions_new_directory:
-                NewActionPolicy.createNewDirectory(
-                        this.mActivity, name,
-                        this.mOnSelectionListener, this.mOnRequestRefreshListener);
-                break;
-            case R.id.mnu_actions_new_file:
-                NewActionPolicy.createNewFile(
-                        this.mActivity, name,
-                        this.mOnSelectionListener, this.mOnRequestRefreshListener);
-                break;
-            default:
-                break;
-        }
     }
 
     /**
