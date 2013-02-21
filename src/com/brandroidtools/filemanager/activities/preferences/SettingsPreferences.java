@@ -121,16 +121,8 @@ public class SettingsPreferences extends PreferenceActivity {
      */
     private void initTitleActionBar() {
         //Configure the action bar options
-        getActionBar().setBackgroundDrawable(
-                getResources().getDrawable(R.drawable.bg_holo_titlebar));
-        getActionBar().setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        View customTitle = getLayoutInflater().inflate(R.layout.simple_customtitle, null, false);
-        TextView title = (TextView)customTitle.findViewById(R.id.customtitle_title);
-        title.setText(R.string.pref);
-        title.setContentDescription(getString(R.string.pref));
-        getActionBar().setCustomView(customTitle);
+        getActionBar().setTitle(R.string.pref);
     }
 
     /**
@@ -529,10 +521,6 @@ public class SettingsPreferences extends PreferenceActivity {
         Theme theme = ThemeManager.getCurrentTheme(this);
         theme.setBaseTheme(this, false);
 
-        //- ActionBar
-        theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
-        View v = getActionBar().getCustomView().findViewById(R.id.customtitle_title);
-        theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$
         // -View
         theme.setBackgroundDrawable(
                 this,
