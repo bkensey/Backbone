@@ -26,9 +26,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
@@ -171,42 +169,42 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
      */
     private void initTitleActionBar() {
         //Configure the action bar options
-        getActionBar().setBackgroundDrawable(
-                getResources().getDrawable(R.drawable.bg_holo_titlebar));
-        getActionBar().setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        View customTitle = getLayoutInflater().inflate(R.layout.simple_customtitle, null, false);
-        TextView title = (TextView)customTitle.findViewById(R.id.customtitle_title);
-        title.setText(R.string.history);
-        title.setContentDescription(getString(R.string.history));
-        ButtonItem configuration = (ButtonItem)customTitle.findViewById(R.id.ab_button1);
-        configuration.setImageResource(R.drawable.ic_action_holo_dark_overflow);
-        configuration.setContentDescription(getString(R.string.actionbar_button_overflow_cd));
-
-        View status = findViewById(R.id.history_status);
-        boolean showOptionsMenu = AndroidHelper.showOptionsMenu(getApplicationContext());
-        configuration.setVisibility(showOptionsMenu ? View.VISIBLE : View.GONE);
-        this.mOptionsAnchorView = showOptionsMenu ? configuration : status;
-
-        getActionBar().setCustomView(customTitle);
+        getActionBar().setTitle(R.string.history);
     }
 
     /**
-     * Method invoked when an action item is clicked.
-     *
-     * @param view The button pushed
+     * {@inheritDoc}
      */
-    public void onActionBarItemClick(View view) {
-        switch (view.getId()) {
-            case R.id.ab_button1:
-                //Overflow
-                showOverflowPopUp(view);
-                break;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.history, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-            default:
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                back(true, null);
+                break;
+            case R.id.mnu_clear_history:
+                clearHistory();
                 break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -289,31 +287,12 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
-            case KeyEvent.KEYCODE_MENU:
-                if (!this.mIsEmpty) {
-                    showOverflowPopUp(this.mOptionsAnchorView);
-                }
-                return true;
             case KeyEvent.KEYCODE_BACK:
                 back(true, null);
                 return true;
             default:
                 return super.onKeyUp(keyCode, event);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-       switch (item.getItemId()) {
-          case android.R.id.home:
-              back(true, null);
-              return true;
-          default:
-             return super.onOptionsItemSelected(item);
-       }
     }
 
     /**
@@ -360,33 +339,6 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
     }
 
     /**
-     * Method that shows a popup with the activity main menu.
-     *
-     * @param anchor The anchor of the popup
-     */
-    private void showOverflowPopUp(View anchor) {
-        SimpleMenuListAdapter adapter =
-                new HighlightedSimpleMenuListAdapter(this, R.menu.history);
-        final ListPopupWindow popup =
-                DialogHelper.createListPopupWindow(this, adapter, anchor);
-        popup.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(
-                    final AdapterView<?> parent, final View v,
-                    final int position, final long id) {
-                final int itemId = (int)id;
-                switch (itemId) {
-                    case R.id.mnu_clear_history:
-                        popup.dismiss();
-                        clearHistory();
-                        break;
-                }
-            }
-        });
-        popup.show();
-    }
-
-    /**
      * Method that applies the current theme to the activity
      * @hide
      */
@@ -394,12 +346,6 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
         Theme theme = ThemeManager.getCurrentTheme(this);
         theme.setBaseTheme(this, false);
 
-        //- ActionBar
-        theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
-        View v = getActionBar().getCustomView().findViewById(R.id.customtitle_title);
-        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_button1);
-        theme.setImageDrawable(this, (ImageView)v, "ab_overflow_drawable"); //$NON-NLS-1$
         // -View
         theme.setBackgroundDrawable(this, this.mListView, "background_drawable"); //$NON-NLS-1$
         if (this.mAdapter != null) {
