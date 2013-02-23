@@ -69,9 +69,7 @@ import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountLis
 import com.brandroidtools.filemanager.ui.dialogs.InputNameDialog;
 import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
 import com.brandroidtools.filemanager.ui.policy.NewActionPolicy;
-import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
-import com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView;
-import com.brandroidtools.filemanager.ui.widgets.SelectionView;
+import com.brandroidtools.filemanager.ui.widgets.*;
 import com.brandroidtools.filemanager.util.AndroidHelper;
 import com.brandroidtools.filemanager.util.CommandHelper;
 import com.brandroidtools.filemanager.util.DialogHelper;
@@ -100,7 +98,7 @@ import java.util.List;
  */
 public class NavigationActivity extends FragmentActivity
     implements OnHistoryListener, OnRequestRefreshListener,
-    OnNavigationRequestMenuListener, OnPageChangeListener {
+    OnNavigationRequestMenuListener, OnPageChangeListener, BreadcrumbListener {
 
     private static final String TAG = "NavigationActivity"; //$NON-NLS-1$
 
@@ -837,6 +835,14 @@ public class NavigationActivity extends FragmentActivity
         if (clearSelection) {
             this.getCurrentNavigationFragment().onDeselectAll();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onBreadcrumbItemClick(BreadcrumbItem item) {
+        getCurrentNavigationFragment().changeCurrentDir(item.getItemPath());
     }
 
     /**

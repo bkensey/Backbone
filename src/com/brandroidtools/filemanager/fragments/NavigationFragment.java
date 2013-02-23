@@ -52,7 +52,7 @@ import com.brandroidtools.filemanager.util.*;
 
 public class NavigationFragment extends Fragment implements
         AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
-        BreadcrumbListener, OnSelectionChangedListener, OnSelectionListener, OnRequestRefreshListener {
+        OnSelectionChangedListener, OnSelectionListener, OnRequestRefreshListener {
 
     private static final String TAG = "NavigationFragment"; //$NON-NLS-1$
 
@@ -525,7 +525,7 @@ public class NavigationFragment extends Fragment implements
      */
     public void setBreadcrumb(Breadcrumb breadcrumb) {
         this.mBreadcrumb = breadcrumb;
-        this.mBreadcrumb.addBreadcrumbListener(this);
+        this.mBreadcrumb.addBreadcrumbListener(mActivity);
     }
 
     /**
@@ -1247,14 +1247,6 @@ public class NavigationFragment extends Fragment implements
     @Override
     public void onNavigateTo(Object o) {
         // Ignored
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onBreadcrumbItemClick(BreadcrumbItem item) {
-        changeCurrentDir(item.getItemPath(), true, true, false, null, null);
     }
 
     /**
