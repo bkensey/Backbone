@@ -96,7 +96,7 @@
       android:name=".activities.SearchActivity"
       android:label="@string/search"
       android:launchMode="singleTop"
-      android:uiOptions="none"
+      android:uiOptions="splitActionBarWhenNarrow"
       android:configChanges="orientation|keyboardHidden|screenSize"
       android:windowSoftInputMode="adjustNothing"
       android:exported="false">

@@ -39,7 +39,7 @@
     android:indeterminateOnly="true"
     android:visibility="gone" />
 
-  <RelativeLayout
+<!--  <RelativeLayout
     android:id="@+id/search_status"
     android:layout_width="match_parent"
     android:layout_height="@dimen/default_row_height"
@@ -67,13 +67,14 @@
       android:layout_marginLeft="@dimen/default_margin"
       android:singleLine="true"
       android:textAppearance="@style/secondary_text_appearance" />
-  </RelativeLayout>
+  </RelativeLayout>-->
 
   <com.brandroidtools.filemanager.ui.widgets.FlingerListView
     android:id="@+id/search_listview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_above="@id/search_status"
-    android:visibility="gone" />
+    android:layout_below="@id/search_waiting"
+    android:visibility="gone"
+    android:choiceMode="singleChoice"/>
 
 </RelativeLayout>

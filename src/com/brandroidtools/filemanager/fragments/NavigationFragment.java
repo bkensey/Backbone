@@ -480,7 +480,7 @@ public class NavigationFragment extends Fragment implements
     }
 
     /**
-     * Method that returns the current file list of the navigation view.
+     * Method that returns the current file list of the navigation fragment.
      *
      * @return List<FileSystemObject> The current file list of the navigation view
      */

@@ -33,9 +33,7 @@ import android.provider.SearchRecentSuggestions;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -168,8 +166,7 @@ public class SearchActivity extends Activity
                 AdapterView<?> parent, View view, int position, long id) {
             try {
                 // Response if the item can be removed
-                SearchResultAdapter adapter = (SearchResultAdapter)parent.getAdapter();
-                SearchResult result = adapter.getItem(position);
+                SearchResult result = mSearchResultAdaper.getItem(position);
                 if (result != null && result.getFso() != null) {
                     if (result.getFso() instanceof ParentDirectory) {
                         // This is not possible ...
@@ -189,8 +186,7 @@ public class SearchActivity extends Activity
 
             try {
                 // Response if the item can be removed
-                SearchResultAdapter adapter = (SearchResultAdapter)parent.getAdapter();
-                SearchResult result = adapter.getItem(position);
+                SearchResult result = mSearchResultAdaper.getItem(position);
                 if (result != null && result.getFso() != null) {
                     DeleteActionPolicy.removeFileSystemObject(
                             SearchActivity.this,
@@ -227,15 +223,16 @@ public class SearchActivity extends Activity
     /**
      * @hide
      */
+    SearchResultAdapter mSearchResultAdaper;
+    /**
+     * @hide
+     */
     ProgressBar mSearchWaiting;
     /**
      * @hide
      */
-    TextView mSearchFoundItems;
-    /**
-     * @hide
-     */
-    TextView mSearchTerms;
+    MenuItem mSearchFoundItems;
+
     private View mEmptyListMsg;
 
     private String mSearchDirectory;
@@ -410,21 +407,48 @@ public class SearchActivity extends Activity
      */
     private void initTitleActionBar() {
         //Configure the action bar options
-        getActionBar().setBackgroundDrawable(
-                getResources().getDrawable(R.drawable.bg_holo_titlebar));
-        getActionBar().setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        View customTitle = getLayoutInflater().inflate(R.layout.simple_customtitle, null, false);
+        getActionBar().setTitle(R.string.search);
+    }
 
-        TextView title = (TextView)customTitle.findViewById(R.id.customtitle_title);
-        title.setText(R.string.search);
-        title.setContentDescription(getString(R.string.search));
-        ButtonItem configuration = (ButtonItem)customTitle.findViewById(R.id.ab_button1);
-        configuration.setImageResource(R.drawable.ic_holo_light_config);
-        configuration.setVisibility(View.VISIBLE);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.search, menu);
+        mSearchFoundItems = menu.findItem(R.id.mnu_search_result_number);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-        getActionBar().setCustomView(customTitle);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                back(true, null, false);
+                break;
+            case R.id.mnu_search_settings:
+                //Settings
+                Intent settings = new Intent(this, SettingsPreferences.class);
+                settings.putExtra(
+                        PreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                        SearchPreferenceFragment.class.getName());
+                startActivity(settings);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -452,32 +476,13 @@ public class SearchActivity extends Activity
 
         //Other components
         this.mSearchWaiting = (ProgressBar)findViewById(R.id.search_waiting);
-        this.mSearchFoundItems = (TextView)findViewById(R.id.search_status_found_items);
+        /*TODO: Set this info to the status action icon when "in progress" searching is focused on the list view and
+                not the dialog * /
+/*        this.mSearchFoundItems = (TextView)findViewById(R.id.search_status_found_items);
         setFoundItems(0, ""); //$NON-NLS-1$
         this.mSearchTerms = (TextView)findViewById(R.id.search_status_query_terms);
         this.mSearchTerms.setText(
-                Html.fromHtml(getString(R.string.search_terms, ""))); //$NON-NLS-1$
-    }
-
-    /**
-     * Method invoked when an action item is clicked.
-     *
-     * @param view The button pushed
-     */
-    public void onActionBarItemClick(View view) {
-        switch (view.getId()) {
-            case R.id.ab_button1:
-                //Settings
-                Intent settings = new Intent(this, SettingsPreferences.class);
-                settings.putExtra(
-                        PreferenceActivity.EXTRA_SHOW_FRAGMENT,
-                        SearchPreferenceFragment.class.getName());
-                startActivity(settings);
-                break;
-
-            default:
-                break;
-        }
+                Html.fromHtml(getString(R.string.search_terms, ""))); //$NON-NLS-1$*/
     }
 
     /**
@@ -610,16 +615,15 @@ public class SearchActivity extends Activity
             }
         }
 
-        //Set the listview
+        // Set the listview
         this.mResultList = new ArrayList<FileSystemObject>();
         SearchResultAdapter adapter =
                 new SearchResultAdapter(this,
                         new ArrayList<SearchResult>(), R.layout.search_item, this.mQuery);
         this.mSearchListView.setAdapter(adapter);
 
-        //Set terms
-        this.mSearchTerms.setText(
-                Html.fromHtml(getString(R.string.search_terms, query.getTerms())));
+        // Set terms in action bar title
+        getActionBar().setTitle(getString(R.string.search) + ": \"" + query.getTerms() + "\"");  //$NON-NLS-1$
 
         //Now, do the search in background
         this.mSearchListView.post(new Runnable() {
@@ -719,8 +723,7 @@ public class SearchActivity extends Activity
                 if (terms.endsWith(" | ")) { //$NON-NLS-1$;
                     terms = ""; //$NON-NLS-1$;
                 }
-                SearchActivity.this.mSearchTerms.setText(
-                        Html.fromHtml(getString(R.string.search_terms, terms)));
+                getActionBar().setTitle(getString(R.string.search) + ": \"" + query.getTerms() + "\"");  //$NON-NLS-1$
 
                 try {
                     if (SearchActivity.this.mSearchWaiting != null) {
@@ -808,28 +811,27 @@ public class SearchActivity extends Activity
      * @hide
      */
     void setFoundItems(final int items, final String searchDirectory) {
-        if (this.mSearchFoundItems != null) {
-            this.mSearchFoundItems.post(new Runnable() {
-                @Override
-                public void run() {
-                    String directory = searchDirectory;
-                    if (SearchActivity.this.mChRooted &&
-                            directory != null && directory.length() > 0) {
-                        directory = StorageHelper.getChrootedPath(directory);
-                    }
-
-                    String foundItems =
-                            getResources().
-                                getQuantityString(
-                                    R.plurals.search_found_items, items, Integer.valueOf(items));
-                    SearchActivity.this.mSearchFoundItems.setText(
-                                            getString(
-                                                R.string.search_found_items_in_directory,
-                                                foundItems,
-                                                directory));
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String directory = searchDirectory;
+                if (SearchActivity.this.mChRooted &&
+                        directory != null && directory.length() > 0) {
+                    directory = StorageHelper.getChrootedPath(directory);
                 }
-            });
-        }
+                String foundItems =
+                        getResources().
+                                getQuantityString(
+                                        R.plurals.search_found_items, items, Integer.valueOf(items));
+                if (mSearchFoundItems != null) {
+                    mSearchFoundItems.setTitle(
+                            getString(
+                                    R.string.search_found_items_in_directory,
+                                    foundItems,
+                                    directory));
+                }
+            }
+        });
     }
 
     /**
@@ -844,20 +846,6 @@ public class SearchActivity extends Activity
             default:
                 return super.onKeyUp(keyCode, event);
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-       switch (item.getItemId()) {
-          case android.R.id.home:
-              back(true, null, false);
-              return true;
-          default:
-             return super.onOptionsItemSelected(item);
-       }
     }
 
     /**
@@ -1244,22 +1232,9 @@ public class SearchActivity extends Activity
         Theme theme = ThemeManager.getCurrentTheme(this);
         theme.setBaseTheme(this, false);
 
-        //- ActionBar
-        theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
-        View v = getActionBar().getCustomView().findViewById(R.id.customtitle_title);
-        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_button1);
-        theme.setImageDrawable(this, (ImageView)v, "ic_config_drawable"); //$NON-NLS-1$
         // ContentView
         theme.setBackgroundDrawable(
                 this, getWindow().getDecorView(), "background_drawable"); //$NON-NLS-1$
-        //- StatusBar
-        v = findViewById(R.id.search_status);
-        theme.setBackgroundDrawable(this, v, "statusbar_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.search_status_found_items);
-        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
-        v = findViewById(R.id.search_status_query_terms);
-        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
         //ListView
         if (this.mSearchListView.getAdapter() != null) {
             ((SearchResultAdapter)this.mSearchListView.getAdapter()).notifyDataSetChanged();
