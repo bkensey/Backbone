@@ -455,6 +455,7 @@ public class NavigationActivity extends FragmentActivity
         mBreadcrumb = (Breadcrumb)mTitle.findViewById(R.id.breadcrumb_view);
 
         mTitle.setOnHistoryListener(this);
+
         // Set the free disk space warning level of the breadcrumb widget
         String fds = Preferences.getSharedPreferences().getString(
                 FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getId(),
@@ -471,25 +472,11 @@ public class NavigationActivity extends FragmentActivity
      */
     public void updateTitleActionBar() {
 
-        mTitle.setOnHistoryListener(this);
-
         NavigationFragment navigationFragment = getCurrentNavigationFragment();
         navigationFragment.setBreadcrumb(mBreadcrumb);
         navigationFragment.setOnHistoryListener(this);
         navigationFragment.setOnNavigationOnRequestMenuListener(this);
         navigationFragment.setCustomTitle(mTitle);
-
-
-        // Set the free disk space warning level of the breadcrumb widget
-        String fds = Preferences.getSharedPreferences().getString(
-                FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getId(),
-                (String)FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getDefaultValue());
-        mBreadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
-
-        //Configure the action bar options
-        mActionBar.setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-        mActionBar.setCustomView(mTitleLayout);
     }
 
     /**
@@ -1445,7 +1432,17 @@ public class NavigationActivity extends FragmentActivity
      */
     @Override
     public void onPageSelected(int position) {
-        updateTitleActionBar();
+        // Load the new fragments current dir into the breadcrumb
+        if (this.mBreadcrumb != null) {
+            this.mBreadcrumb.changeBreadcrumbPath(getCurrentNavigationFragment().getCurrentDir(), this.mChRooted);
+        }
+
+        // Tell the breadcrumb that the new fragment will now be the one sending dir changes
+        NavigationFragment navigationFragment = getCurrentNavigationFragment();
+        navigationFragment.setBreadcrumb(mBreadcrumb);
+        navigationFragment.setOnHistoryListener(this);
+        navigationFragment.setOnNavigationOnRequestMenuListener(this);
+        navigationFragment.setCustomTitle(mTitle);
     }
 
     @Override
