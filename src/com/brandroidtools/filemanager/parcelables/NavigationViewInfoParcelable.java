@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A serializer/deserializer class for {@link "NavigationView"}.
+ * A serializer/deserializer class for {@link "NavigationFragment"}.
  */
 public class NavigationViewInfoParcelable extends HistoryNavigable {
 

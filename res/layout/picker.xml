@@ -33,13 +33,11 @@
   <include layout="@layout/vertical_divider" />
 
   <!-- Picker Navigation View -->
-  <com.brandroidtools.filemanager.ui.widgets.NavigationView
-    android:id="@+id/navigation_view"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:layout_marginLeft="@dimen/extra_margin"
-    android:layout_marginRight="@dimen/extra_margin"
-    filemanager:navigation="pickable" />
+  <fragment
+      android:name="com.brandroidtools.filemanager.fragments.NavigationFragment"
+      android:id="@+id/navigation_fragment"
+      android:layout_weight="1"
+      android:layout_width="0dp"
+      android:layout_height="match_parent" />
 
 </LinearLayout>

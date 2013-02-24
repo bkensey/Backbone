@@ -30,6 +30,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -44,6 +45,7 @@ import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.adapters.CheckableListAdapter;
 import com.brandroidtools.filemanager.adapters.CheckableListAdapter.CheckableItem;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
+import com.brandroidtools.filemanager.fragments.NavigationFragment;
 import com.brandroidtools.filemanager.model.FileSystemObject;
 import com.brandroidtools.filemanager.model.FileSystemStorageVolume;
 import com.brandroidtools.filemanager.preferences.DisplayRestrictions;
@@ -53,10 +55,8 @@ import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
 import com.brandroidtools.filemanager.ui.widgets.ButtonItem;
-import com.brandroidtools.filemanager.ui.widgets.NavigationView;
-import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnDirectoryChangedListener;
-import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnFilePickedListener;
-import com.brandroidtools.filemanager.ui.widgets.NavigationView.OnDirectoryChangedListener;
+import com.brandroidtools.filemanager.fragments.NavigationFragment.OnDirectoryChangedListener;
+import com.brandroidtools.filemanager.fragments.NavigationFragment.OnFilePickedListener;
 import com.brandroidtools.filemanager.util.DialogHelper;
 import com.brandroidtools.filemanager.util.ExceptionUtil;
 import com.brandroidtools.filemanager.util.FileHelper;
@@ -70,10 +70,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The activity for allow to use a {@link NavigationView} like, to pick a file from other
+ * The activity for allow to use a {@link FragmentActivity} like, to pick a file from other
  * application.
  */
-public class PickerActivity extends Activity
+public class PickerActivity extends FragmentActivity
         implements OnCancelListener, OnDismissListener, OnFilePickedListener, OnDirectoryChangedListener {
 
     private static final String TAG = "PickerActivity"; //$NON-NLS-1$
@@ -119,7 +119,7 @@ public class PickerActivity extends Activity
     /**
      * @hide
      */
-    NavigationView mNavigationView;
+    NavigationFragment mNavigationFragment;
     private View mRootView;
 
     /**
@@ -173,7 +173,7 @@ public class PickerActivity extends Activity
     }
 
     /**
-     * Method that displays a dialog with a {@link NavigationView} to select the
+     * Method that displays a dialog with a {@link NavigationFragment} to select the
      * proposed file
      */
     private void init() {
@@ -257,12 +257,12 @@ public class PickerActivity extends Activity
         breadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
 
         // Navigation view
-        this.mNavigationView =
-                (NavigationView)this.mRootView.findViewById(R.id.navigation_view);
-        this.mNavigationView.setRestrictions(restrictions);
-        this.mNavigationView.setOnFilePickedListener(this);
-        this.mNavigationView.setOnDirectoryChangedListener(this);
-        this.mNavigationView.setBreadcrumb(breadcrumb);
+        this.mNavigationFragment =
+                (NavigationFragment)getSupportFragmentManager().findFragmentById (R.id.navigation_fragment);
+        this.mNavigationFragment.setRestrictions(restrictions);
+        this.mNavigationFragment.setOnFilePickedListener(this);
+        this.mNavigationFragment.setOnDirectoryChangedListener(this);
+        this.mNavigationFragment.setBreadcrumb(breadcrumb);
 
         // Apply the current theme
         applyTheme();
@@ -317,7 +317,7 @@ public class PickerActivity extends Activity
             @Override
             public void run() {
                 // Navigate to. The navigation view will redirect to the appropriate directory
-                PickerActivity.this.mNavigationView.changeCurrentDir(rootDirectory);
+                PickerActivity.this.mNavigationFragment.changeCurrentDir(rootDirectory);
             }
         });
 
@@ -573,7 +573,7 @@ public class PickerActivity extends Activity
                 popup.dismiss();
                 if (volumes != null) {
                     PickerActivity.this.
-                        mNavigationView.changeCurrentDir(volumes[position].getPath());
+                            mNavigationFragment.changeCurrentDir(volumes[position].getPath());
                 }
             }
         });
@@ -590,6 +590,6 @@ public class PickerActivity extends Activity
 
         // View
         theme.setBackgroundDrawable(this, this.mRootView, "background_drawable"); //$NON-NLS-1$
-        this.mNavigationView.applyTheme();
+        this.mNavigationFragment.applyTheme();
     }
 }

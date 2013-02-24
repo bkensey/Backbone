@@ -107,7 +107,7 @@
       android:label="@string/picker"
       android:uiOptions="none"
       android:configChanges="orientation|keyboardHidden|screenSize"
-      android:theme="@style/FileManager.Theme.Holo.Light.Overlay"
+      android:theme="@style/FileManager.Theme.Holo.Overlay"
       android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.GET_CONTENT" />
