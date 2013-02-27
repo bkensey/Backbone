@@ -30,8 +30,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
     private MenuItem mActionCompressSelection;
     private MenuItem mActionCreateLinkGlobal;
     private MenuItem mActionSendSelection;
-    private MenuItem mActionAddFolderBookmark;
-    private MenuItem mActionAddFolderShortcut;
     private MenuItem mActionProperties;
     private MenuItem mActionOpen;
     private MenuItem mActionOpenWith;
@@ -125,8 +123,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mActionCompressSelection = menu.findItem(R.id.mnu_actions_compress_selection);
         mActionCreateLinkGlobal = menu.findItem(R.id.mnu_actions_create_link_global);
         mActionSendSelection = menu.findItem(R.id.mnu_actions_send_selection);
-        mActionAddFolderBookmark = menu.findItem(R.id.mnu_actions_add_to_bookmarks_current_folder);
-        mActionAddFolderShortcut = menu.findItem(R.id.mnu_actions_add_shortcut_current_folder);
         mActionProperties = menu.findItem(R.id.mnu_actions_properties);
         mActionOpen = menu.findItem(R.id.mnu_actions_open);
         mActionOpenWith = menu.findItem(R.id.mnu_actions_open_with);
@@ -184,9 +180,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         this.mGlobal = false;
 
         // Reset action item visibility
-        mActionAddFolderShortcut.setVisible(false);  //TODO: move to main menu
-        mActionAddFolderBookmark.setVisible(false);   //TODO: move to main menu
-
         mActionPasteSelection.setVisible(true);
         mActionMoveSelection.setVisible(true);
         mActionDeleteSelection.setVisible(true);
@@ -267,7 +260,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         //- Add to bookmarks -> Only directories
         if (this.mFso != null && FileHelper.isRootDirectory(this.mFso)) {
             mActionAddBookmark.setVisible(false);
-            mActionAddFolderBookmark.setVisible(false);
         }
 
         /*
@@ -503,13 +495,11 @@ public class SelectionModeCallback implements ActionMode.Callback {
 
             //- Add to bookmarks
             case R.id.mnu_actions_add_to_bookmarks:
-            case R.id.mnu_actions_add_to_bookmarks_current_folder:
                 BookmarksActionPolicy.addToBookmarks(this.mActivity, this.mFso);
                 break;
 
             //- Add shortcut
             case R.id.mnu_actions_add_shortcut:
-            case R.id.mnu_actions_add_shortcut_current_folder:
                 IntentsActionPolicy.createShortcut(this.mActivity, this.mFso);
                 break;
 
