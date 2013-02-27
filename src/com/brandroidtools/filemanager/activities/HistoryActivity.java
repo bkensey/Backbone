@@ -16,7 +16,6 @@
 
 package com.brandroidtools.filemanager.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,22 +28,14 @@ import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.ListPopupWindow;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.brandroidtools.filemanager.R;
-import com.brandroidtools.filemanager.adapters.HighlightedSimpleMenuListAdapter;
 import com.brandroidtools.filemanager.adapters.HistoryAdapter;
-import com.brandroidtools.filemanager.adapters.SimpleMenuListAdapter;
 import com.brandroidtools.filemanager.model.History;
 import com.brandroidtools.filemanager.preferences.FileManagerSettings;
 import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
-import com.brandroidtools.filemanager.ui.widgets.ButtonItem;
-import com.brandroidtools.filemanager.util.AndroidHelper;
-import com.brandroidtools.filemanager.util.DialogHelper;
 import com.brandroidtools.filemanager.util.ExceptionUtil;
 
 import java.util.ArrayList;
