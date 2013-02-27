@@ -63,7 +63,6 @@ import com.brandroidtools.filemanager.parcelables.SearchInfoParcelable;
 import com.brandroidtools.filemanager.preferences.*;
 import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
-import com.brandroidtools.filemanager.ui.dialogs.ActionsDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
 import com.brandroidtools.filemanager.ui.dialogs.InputNameDialog;
@@ -849,8 +848,7 @@ public class NavigationActivity extends FragmentActivity
      */
     @Override
     public void onRequestMenu(NavigationFragment navFragment, FileSystemObject item) {
-        // Show the actions dialog
-        //openActionsDialog(item, false);
+
     }
 
     /**

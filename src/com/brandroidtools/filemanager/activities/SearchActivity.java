@@ -16,7 +16,6 @@
 
 package com.brandroidtools.filemanager.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -37,11 +36,9 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brandroidtools.filemanager.FileManagerApplication;
@@ -68,11 +65,9 @@ import com.brandroidtools.filemanager.providers.RecentSearchesContentProvider;
 import com.brandroidtools.filemanager.tasks.SearchResultDrawingAsyncTask;
 import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
-import com.brandroidtools.filemanager.ui.dialogs.ActionsDialog;
 import com.brandroidtools.filemanager.ui.dialogs.MessageProgressDialog;
 import com.brandroidtools.filemanager.ui.policy.DeleteActionPolicy;
 import com.brandroidtools.filemanager.ui.policy.IntentsActionPolicy;
-import com.brandroidtools.filemanager.ui.widgets.ButtonItem;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerListener;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerResponder;
@@ -918,10 +913,6 @@ public class SearchActivity extends Activity
             }
             return;
         }
-
-        ActionsDialog dialog = new ActionsDialog(this, fso, false, true);
-        dialog.setOnRequestRefreshListener(this);
-        dialog.show();
     }
 
     /**

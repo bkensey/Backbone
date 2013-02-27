@@ -70,7 +70,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
     private FileSystemObject mFso;
 
     /**
-     * Constructor of <code>ActionsDialog</code>.
+     * Constructor for <code>SelectionModeCallback</code>.
      *
      * @param activity The current Activity context
      * @param search If the call is from search activity
