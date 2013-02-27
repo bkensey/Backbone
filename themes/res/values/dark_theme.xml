@@ -38,9 +38,6 @@
   <!-- The drawable for the status bar -->
   <drawable name="dark_statusbar_drawable">@drawable/dark_statusbar</drawable>
 
-  <!-- The drawable for the selection bar -->
-  <drawable name="dark_selectionbar_drawable">@drawable/dark_selectionbar</drawable>
-
   <!-- The drawable for the overflow action bar button -->
   <drawable name="dark_ab_overflow_drawable">@drawable/ic_holo_dark_overflow</drawable>
   <!-- The drawable for the actions action bar button -->

@@ -29,14 +29,6 @@
             android:layout_weight="1">
     </android.support.v4.view.ViewPager>
 
-    <!-- SelectionBar -->
-    <com.brandroidtools.filemanager.ui.widgets.SelectionView
-            android:id="@+id/navigation_selectionbar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/small_row_height"
-            android:background="@drawable/bg_holo_selectionbar"
-            android:visibility="invisible"/>
-
     <!-- StatusBar -->
     <!--<include layout="@layout/navigation_view_statusbar" />-->
 

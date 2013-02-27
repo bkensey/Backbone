@@ -257,7 +257,6 @@ public class NavigationActivity extends FragmentActivity
     private View mTitleLayout;
     private NavigationCustomTitleView mTitle;
     private Breadcrumb mBreadcrumb;
-    private SelectionView mSelectionBar;
 
     public NavigationFragmentPagerAdapter mPagerAdapter;
     public ViewPager mViewPager;
@@ -330,7 +329,6 @@ public class NavigationActivity extends FragmentActivity
         //Initialize action bar
         mActionBar = getActionBar();
         initTitleActionBar();
-        initSelectionBar();
 
         // Apply the theme
         applyTheme();
@@ -475,13 +473,6 @@ public class NavigationActivity extends FragmentActivity
         navigationFragment.setOnHistoryListener(this);
         navigationFragment.setOnNavigationOnRequestMenuListener(this);
         navigationFragment.setCustomTitle(mTitle);
-    }
-
-    /**
-     * Method that initializes the selectionbar of the activity.
-     */
-    private void initSelectionBar() {
-        this.mSelectionBar = (SelectionView)findViewById(R.id.navigation_selectionbar);
     }
 
     /**
