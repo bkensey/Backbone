@@ -150,7 +150,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mActionSend = menu.findItem(R.id.mnu_actions_send);
         mActionAddBookmark = menu.findItem(R.id.mnu_actions_add_to_bookmarks);
         mActionAddShortcut = menu.findItem(R.id.mnu_actions_add_shortcut);
-        mActionOpenParentFolder = menu.findItem(R.id.mnu_actions_open_parent_folder);
 
         // Set file with share history to the provider and set the share intent.
 //        mShareActionProvider = (ShareActionProvider) mShare.getActionProvider();
@@ -212,7 +211,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mActionSend.setVisible(true);
         mActionAddBookmark.setVisible(true);
         mActionAddShortcut.setVisible(true);
-        mActionOpenParentFolder.setVisible(true);
 
         // Determine the need for single file (not global) and multiple selection (global) operations
         if (selection.size() == 1) {
@@ -308,18 +306,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         }
         if (!areAllFiles) {
             mActionSendSelection.setVisible(false);
-        }
-
-        // Not allowed in search
-        if (this.mSearch) {
-            mActionExtract.setVisible(false);
-            mActionCompress.setVisible(false);
-            mActionCreateLink.setVisible(false);
-        }
-
-        // Not allowed if not in search
-        if (!this.mSearch) {
-            mActionOpenParentFolder.setVisible(false);
         }
 
         // Remove not-ChRooted actions (actions that can't be present when running in
