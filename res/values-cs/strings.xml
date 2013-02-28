@@ -480,7 +480,7 @@
   <!-- Actions Dialog * Menu * Rename -->
   <string name="actions_menu_rename">Přejmenovat</string>
   <!-- Actions Dialog * Menu * Create copy -->
-  <string name="actions_menu_create_copy">Vytvořit kopii</string>
+  <string name="actions_menu_copy">Vytvořit kopii</string>
   <!-- Actions Dialog * Menu * Properties -->
   <string name="actions_menu_properties">Vlastnosti</string>
   <!-- Actions Dialog * Menu * Add to bookmarks -->

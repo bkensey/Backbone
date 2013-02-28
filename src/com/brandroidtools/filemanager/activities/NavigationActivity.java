@@ -49,6 +49,7 @@ import com.brandroidtools.filemanager.console.ConsoleBuilder;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
 import com.brandroidtools.filemanager.fragments.NavigationFragment;
 import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationRequestMenuListener;
+import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.model.*;
@@ -61,6 +62,9 @@ import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
 import com.brandroidtools.filemanager.ui.dialogs.InputNameDialog;
+import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy;
+import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.LinkedResource;
+import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.COPY_MOVE_OPERATION;
 import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
 import com.brandroidtools.filemanager.ui.policy.NewActionPolicy;
 import com.brandroidtools.filemanager.ui.widgets.*;
@@ -89,7 +93,7 @@ import java.util.List;
  * the app is killed, is restarted from his initial state.
  */
 public class NavigationActivity extends FragmentActivity
-    implements OnHistoryListener, OnRequestRefreshListener,
+    implements OnHistoryListener, OnRequestRefreshListener, OnCopyMoveListener,
     OnNavigationRequestMenuListener, OnPageChangeListener, BreadcrumbListener {
 
     private static final String TAG = "NavigationActivity"; //$NON-NLS-1$
@@ -265,6 +269,15 @@ public class NavigationActivity extends FragmentActivity
      * @hide
      */
     Handler mHandler;
+
+    /**
+     * @hide
+     */
+    private List<FileSystemObject> mFilesForPaste;
+    /**
+     * @hide
+     */
+    private COPY_MOVE_OPERATION mPasteOperationType;
 
     /**
      * {@inheritDoc}
@@ -556,7 +569,10 @@ public class NavigationActivity extends FragmentActivity
      */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        // Make paste action visible if there are files available for pasting
+        menu.findItem(R.id.mnu_actions_paste_selection).setVisible(this.onAreFilesMarkedForPaste());
         return super.onPrepareOptionsMenu(menu);
+
     }
 
     /**
@@ -594,6 +610,19 @@ public class NavigationActivity extends FragmentActivity
             case R.id.mnu_actions_new_directory:
             case R.id.mnu_actions_new_file:
                 showInputNameDialog(item);
+                break;
+
+            // Paste selection
+            case R.id.mnu_actions_paste_selection:
+                if (true) {
+                    CopyMoveActionPolicy.triggerCopyMoveFileSystemObjects(
+                            NavigationActivity.this,
+                            this.onRequestFilesMarkedForPaste(),
+                            this.onRequestPasteOperationType(),
+                            getCurrentNavigationFragment(),
+                            getCurrentNavigationFragment(),
+                            NavigationActivity.this);
+                }
                 break;
 
             case R.id.mnu_actions_properties_current_folder:
@@ -1401,6 +1430,9 @@ public class NavigationActivity extends FragmentActivity
         theme.setImageDrawable(this, (ImageView)v, "ab_view_options_drawable"); //$NON-NLS-1$
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         //To change body of implemented methods use File | Settings | File Templates.
@@ -1411,9 +1443,8 @@ public class NavigationActivity extends FragmentActivity
      * elements that are contextually based on the currently selected page, we
      * need to trigger UI updates after the user swipes to a new page. The pager
      * is contained within the main activity, but the relevant data must be
-     * pushed from the currently selected list fragment. Therefore, the updateTitleActionBar
-     * method is called on the fragment, which then reaches back up and updates
-     * the action bar, etc.
+     * pushed from the currently selected list fragment. Therefore, the changeBreadcrumbPath
+     * method is called so that the fragment's current dir can be reflected in the breadcrumbs.
      *
      * @param position the integer index of the currently selected page
      * @return nothing
@@ -1433,17 +1464,75 @@ public class NavigationActivity extends FragmentActivity
         navigationFragment.setCustomTitle(mTitle);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onPageScrollStateChanged(int state) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    /**
+     * Determine whether the "just started up" flag is true or not.
+     */
     public boolean isFirstRun() {
         return mFirstRun;
     }
 
+    /**
+     * Change the app's "just started up" flag
+     */
     public void setFirstRun(boolean firstRun) {
         this.mFirstRun = firstRun;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onMarkFilesForPaste(List<FileSystemObject> filesForPaste, COPY_MOVE_OPERATION pasteOperationType) {
+        this.mFilesForPaste = filesForPaste;
+        this.mPasteOperationType = pasteOperationType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onAreFilesMarkedForPaste() {
+        return this.mFilesForPaste != null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onClearFilesMarkedForPaste() {
+        this.mFilesForPaste = null;
+        this.mPasteOperationType = null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<FileSystemObject> onRequestFilesMarkedForPaste() {
+        return this.mFilesForPaste;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public COPY_MOVE_OPERATION onRequestPasteOperationType() {
+        return this.mPasteOperationType;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String onRequestDestinationDir() {
+        return getCurrentNavigationFragment().getCurrentDir();
+    }
 }

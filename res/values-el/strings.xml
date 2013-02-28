@@ -457,7 +457,7 @@
   <!-- Actions Dialog * Menu * Rename -->
   <string name="actions_menu_rename">Μετονομασία</string>
   <!-- Actions Dialog * Menu * Create copy -->
-  <string name="actions_menu_create_copy">Δημ. αντίγραφου</string>
+  <string name="actions_menu_copy">Δημ. αντίγραφου</string>
   <!-- Actions Dialog * Menu * Properties -->
   <string name="actions_menu_properties">Ιδιότητες</string>
   <!-- Actions Dialog * Menu * Add to bookmarks -->

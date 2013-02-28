@@ -25,6 +25,7 @@ import android.text.Spanned;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
 import com.brandroidtools.filemanager.console.RelaunchableException;
+import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.listeners.OnSelectionListener;
 import com.brandroidtools.filemanager.model.FileSystemObject;
@@ -46,7 +47,7 @@ public final class CopyMoveActionPolicy extends ActionsPolicy {
     /**
      * @hide
      */
-    private enum COPY_MOVE_OPERATION {
+    public enum COPY_MOVE_OPERATION {
         COPY,
         MOVE,
         RENAME,
@@ -118,81 +119,57 @@ public final class CopyMoveActionPolicy extends ActionsPolicy {
     }
 
     /**
-     * Method that copy an existing file system object.
+     * Method that marks a selection of file system object for copy-type paste.
      *
-     * @param ctx The current context
-     * @param fso The file system object
-     * @param onSelectionListener The listener for obtain selection information (required)
-     * @param onRequestRefreshListener The listener for request a refresh (optional)
+     * @param selection The list of files to be marked for copying (required)
+     * @param onCopyMoveListener The listener for request a refresh (optional)
      */
     public static void createCopyFileSystemObject(
-            final Context ctx,
-            final FileSystemObject fso,
-            final OnSelectionListener onSelectionListener,
-            final OnRequestRefreshListener onRequestRefreshListener) {
+            final List<FileSystemObject> selection,
+            final OnCopyMoveListener onCopyMoveListener) {
 
-        // Create a non-existing name
-        List<FileSystemObject> curFiles = onSelectionListener.onRequestCurrentItems();
-        String  newName =
-                FileHelper.createNonExistingName(
-                        ctx, curFiles, fso.getName(), R.string.create_copy_regexp);
-        final File dst = new File(fso.getParent(), newName);
-        File src = new File(fso.getFullPath());
+        onCopyMoveListener.onMarkFilesForPaste(
+                selection,
+                COPY_MOVE_OPERATION.COPY);
+    }
 
-        // Create arguments
-        LinkedResource linkRes = new LinkedResource(src, dst);
-        List<LinkedResource> files = new ArrayList<LinkedResource>(1);
-        files.add(linkRes);
 
-        // Internal copy
-        copyOrMoveFileSystemObjects(
-                ctx,
-                COPY_MOVE_OPERATION.CREATE_COPY,
-                files,
-                onSelectionListener,
-                onRequestRefreshListener);
+    /**
+     * Method that marks a selection of file system object for move-type paste.
+     *
+     * @param selection The list of files to be marked for copying (required)
+     * @param onCopyMoveListener The listener for request a refresh (optional)
+     */
+    public static void createMoveFileSystemObject(
+            final List<FileSystemObject> selection,
+            final OnCopyMoveListener onCopyMoveListener) {
+
+        onCopyMoveListener.onMarkFilesForPaste(
+                selection,
+                COPY_MOVE_OPERATION.MOVE);
     }
 
     /**
-     * Method that copy an existing file system object.
+     * Method that triggers the stored move or copy operation.
      *
      * @param ctx The current context
      * @param files The list of files to copy
+     * @param operationMode the operation mode (COPY/MOVE) of the paste operation
      * @param onSelectionListener The listener for obtain selection information (required)
      * @param onRequestRefreshListener The listener for request a refresh (optional)
      */
-    public static void copyFileSystemObjects(
+    public static void triggerCopyMoveFileSystemObjects(
             final Context ctx,
-            final List<LinkedResource> files,
+            final List<FileSystemObject> files,
+            final COPY_MOVE_OPERATION operationMode,
             final OnSelectionListener onSelectionListener,
-            final OnRequestRefreshListener onRequestRefreshListener) {
+            final OnRequestRefreshListener onRequestRefreshListener,
+            final OnCopyMoveListener onCopyMoveListener) {
         // Internal copy
         copyOrMoveFileSystemObjects(
                 ctx,
-                COPY_MOVE_OPERATION.COPY,
-                files,
-                onSelectionListener,
-                onRequestRefreshListener);
-    }
-
-    /**
-     * Method that copy an existing file system object.
-     *
-     * @param ctx The current context
-     * @param files The list of files to move
-     * @param onSelectionListener The listener for obtain selection information (required)
-     * @param onRequestRefreshListener The listener for request a refresh (optional)
-     */
-    public static void moveFileSystemObjects(
-            final Context ctx,
-            final List<LinkedResource> files,
-            final OnSelectionListener onSelectionListener,
-            final OnRequestRefreshListener onRequestRefreshListener) {
-        // Internal move
-        copyOrMoveFileSystemObjects(
-                ctx,
-                COPY_MOVE_OPERATION.MOVE,
-                files,
+                operationMode,
+                createLinkedResource(files, onCopyMoveListener.onRequestDestinationDir()),
                 onSelectionListener,
                 onRequestRefreshListener);
     }
@@ -532,5 +509,27 @@ public final class CopyMoveActionPolicy extends ActionsPolicy {
             }
         }
         return true;
+    }
+
+    /**
+     * Method that creates a {@link com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.LinkedResource} for the list of object to the
+     * destination directory
+     *
+     * @param items The list of the source items
+     * @param destinationDirectory The destination directory
+     */
+    private static List<CopyMoveActionPolicy.LinkedResource> createLinkedResource(
+            List<FileSystemObject> items, String destinationDirectory) {
+
+        List<CopyMoveActionPolicy.LinkedResource> resources =
+                new ArrayList<CopyMoveActionPolicy.LinkedResource>(items.size());
+        int cc = items.size();
+        for (int i = 0; i < cc; i++) {
+            FileSystemObject fso = items.get(i);
+            File src = new File(fso.getFullPath());
+            File dst = new File(destinationDirectory, fso.getName());
+            resources.add(new CopyMoveActionPolicy.LinkedResource(src, dst));
+        }
+        return resources;
     }
 }

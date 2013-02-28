@@ -17,14 +17,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
   <!-- Global Actions -->
-
     <item
-      android:id="@+id/mnu_actions_paste_selection"
-      android:icon="?attr/actionIconPasteSelection"
+      android:id="@+id/mnu_actions_copy"
+      android:icon="?attr/actionIconCreateCopy"
       android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_paste_selection"/>
+      android:title="@string/actions_menu_copy"/>
     <item
-      android:id="@+id/mnu_actions_move_selection"
+      android:id="@+id/mnu_actions_move"
       android:icon="?attr/actionIconMoveSelection"
       android:showAsAction="ifRoom"
       android:title="@string/actions_menu_move_selection"/>
@@ -95,11 +94,6 @@
       android:icon="?attr/actionIconExtract"
       android:showAsAction="ifRoom"
       android:title="@string/actions_menu_extract"/>
-    <item
-      android:id="@+id/mnu_actions_create_copy"
-      android:icon="?attr/actionIconCreateCopy"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_create_copy"/>
     <item
       android:id="@+id/mnu_actions_create_link"
       android:icon="?attr/actionIconCreateLink"

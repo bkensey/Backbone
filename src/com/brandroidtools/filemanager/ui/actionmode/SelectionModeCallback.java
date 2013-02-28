@@ -7,6 +7,7 @@ import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
+import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.listeners.OnSelectionListener;
 import com.brandroidtools.filemanager.model.FileSystemObject;
@@ -67,6 +68,11 @@ public class SelectionModeCallback implements ActionMode.Callback {
      * @hide
      */
     OnSelectionListener mOnSelectionListener;
+    /**
+     * @hide
+     */
+    OnCopyMoveListener onCopyMoveListener;
+
     private FileSystemObject mFso;
 
     /**
@@ -93,10 +99,19 @@ public class SelectionModeCallback implements ActionMode.Callback {
     /**
      * Method that sets the listener for requesting selection data
      *
-     * @param onSelectionListener The request selection data  listener
+     * @param onSelectionListener The request selection data listener
      */
     public void setOnSelectionListener(OnSelectionListener onSelectionListener) {
         this.mOnSelectionListener = onSelectionListener;
+    }
+
+    /**
+     * Method that sets the listener for marking file selections for paste
+     *
+     * @param onCopyMoveListener The request selection data listener
+     */
+    public void setOnCopyMoveListener(OnCopyMoveListener onCopyMoveListener) {
+        this.onCopyMoveListener = onCopyMoveListener;
     }
 
     /**
@@ -117,8 +132,8 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mActionRefresh = menu.findItem(R.id.mnu_actions_refresh);
         mActionNewDirectory = menu.findItem(R.id.mnu_actions_new_directory);
         mActionNewFile = menu.findItem(R.id.mnu_actions_new_file);
-        mActionPasteSelection = menu.findItem(R.id.mnu_actions_paste_selection);
-        mActionMoveSelection = menu.findItem(R.id.mnu_actions_move_selection);
+        mActionCreateCopy = menu.findItem(R.id.mnu_actions_copy);
+        mActionMoveSelection = menu.findItem(R.id.mnu_actions_move);
         mActionDeleteSelection = menu.findItem(R.id.mnu_actions_delete_selection);
         mActionCompressSelection = menu.findItem(R.id.mnu_actions_compress_selection);
         mActionCreateLinkGlobal = menu.findItem(R.id.mnu_actions_create_link_global);
@@ -130,7 +145,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mActionRename = menu.findItem(R.id.mnu_actions_rename);
         mActionCompress = menu.findItem(R.id.mnu_actions_compress);
         mActionExtract = menu.findItem(R.id.mnu_actions_extract);
-        mActionCreateCopy = menu.findItem(R.id.mnu_actions_create_copy);
         mActionCreateLink = menu.findItem(R.id.mnu_actions_create_link);
         mActionExecute = menu.findItem(R.id.mnu_actions_execute);
         mActionSend = menu.findItem(R.id.mnu_actions_send);
@@ -180,7 +194,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         this.mGlobal = false;
 
         // Reset action item visibility
-        mActionPasteSelection.setVisible(true);
         mActionMoveSelection.setVisible(true);
         mActionDeleteSelection.setVisible(true);
         mActionCompressSelection.setVisible(true);
@@ -207,7 +220,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
             this.mMultiSelection = false;
 
             // Hide multi target actions when only one item is selected
-            mActionMoveSelection.setVisible(false);
             mActionDeleteSelection.setVisible(false);
             mActionCompressSelection.setVisible(false);
             mActionSendSelection.setVisible(false);
@@ -222,7 +234,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
             mActionRename.setVisible(false);
             mActionCompress.setVisible(false);
             mActionExtract.setVisible(false);
-            mActionCreateCopy.setVisible(false);
             mActionCreateLink.setVisible(false);
             mActionExecute.setVisible(false);
             mActionSend.setVisible(false);
@@ -342,6 +353,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             case R.id.mnu_actions_rename:
                 if (this.mOnSelectionListener != null) {
                     showFsoInputNameDialog(menuItem, this.mFso, false);
+                    finish();
                     return true;
                 }
                 break;
@@ -350,6 +362,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             case R.id.mnu_actions_create_link:
                 if (this.mOnSelectionListener != null) {
                     showFsoInputNameDialog(menuItem, this.mFso, true);
+                    finish();
                     return true;
                 }
                 break;
@@ -361,6 +374,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
                     if (selection != null && selection.size() == 1) {
                         showFsoInputNameDialog(menuItem, selection.get(0), true);
                     }
+                    finish();
                     return true;
                 }
                 break;
@@ -373,6 +387,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
                         this.mOnSelectionListener,
                         this.mOnRequestRefreshListener,
                         null);
+                finish();
                 break;
 
             //- Refresh
@@ -386,22 +401,26 @@ public class SelectionModeCallback implements ActionMode.Callback {
             case R.id.mnu_actions_open:
                 IntentsActionPolicy.openFileSystemObject(
                         this.mActivity, this.mFso, false, null, null);
+                finish();
                 break;
             //- Open with
             case R.id.mnu_actions_open_with:
                 IntentsActionPolicy.openFileSystemObject(
                         this.mActivity, this.mFso, true, null, null);
+                finish();
                 break;
 
             //- Execute
             case R.id.mnu_actions_execute:
                 ExecutionActionPolicy.execute(this.mActivity, this.mFso);
+                finish();
                 break;
 
             //- Send
             case R.id.mnu_actions_send:
                 IntentsActionPolicy.sendFileSystemObject(
                         this.mActivity, this.mFso, null, null);
+                finish();
                 break;
             case R.id.mnu_actions_send_selection:
                 if (this.mOnSelectionListener != null) {
@@ -414,33 +433,35 @@ public class SelectionModeCallback implements ActionMode.Callback {
                         IntentsActionPolicy.sendMultipleFileSystemObject(
                                 this.mActivity, selection, null, null);
                     }
+                    finish();
                 }
                 break;
 
-            // Paste selection
-            case R.id.mnu_actions_paste_selection:
+            //- Create copy
+            case R.id.mnu_actions_copy:
+                // Create a copy of the fso
                 if (this.mOnSelectionListener != null) {
                     List<FileSystemObject> selection =
                             this.mOnSelectionListener.onRequestSelectedFiles();
-                    CopyMoveActionPolicy.copyFileSystemObjects(
-                            this.mActivity,
-                            createLinkedResource(selection, this.mFso),
-                            this.mOnSelectionListener,
-                            this.mOnRequestRefreshListener);
+                    CopyMoveActionPolicy.createCopyFileSystemObject(
+                            selection,
+                            this.onCopyMoveListener);
+                    finish();
                 }
                 break;
+
             // Move selection
-            case R.id.mnu_actions_move_selection:
+            case R.id.mnu_actions_move:
                 if (this.mOnSelectionListener != null) {
                     List<FileSystemObject> selection =
                             this.mOnSelectionListener.onRequestSelectedFiles();
-                    CopyMoveActionPolicy.moveFileSystemObjects(
-                            this.mActivity,
-                            createLinkedResource(selection, this.mFso),
-                            this.mOnSelectionListener,
-                            this.mOnRequestRefreshListener);
+                    CopyMoveActionPolicy.createMoveFileSystemObject(
+                            selection,
+                            this.onCopyMoveListener);
+                    finish();
                 }
                 break;
+
             // Delete selection
             case R.id.mnu_actions_delete_selection:
                 if (this.mOnSelectionListener != null) {
@@ -452,6 +473,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
                             this.mOnSelectionListener,
                             this.mOnRequestRefreshListener,
                             null);
+                    finish();
                 }
                 break;
 
@@ -476,18 +498,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
                 if (this.mOnSelectionListener != null) {
                     CompressActionPolicy.compress(
                             this.mActivity,
-                            this.mOnSelectionListener,
-                            this.mOnRequestRefreshListener);
-                }
-                break;
-
-            //- Create copy
-            case R.id.mnu_actions_create_copy:
-                // Create a copy of the fso
-                if (this.mOnSelectionListener != null) {
-                    CopyMoveActionPolicy.createCopyFileSystemObject(
-                            this.mActivity,
-                            this.mFso,
                             this.mOnSelectionListener,
                             this.mOnRequestRefreshListener);
                 }
@@ -531,16 +541,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
         // trying to close the
         // contextual mode again.
         mSelectionMode = null;
-        if (mClosedByUser) {
-            // Clear selection, only when the contextual mode is explicitly
-            // closed by the user.
-            //
-            // We close the contextual mode when the fragment becomes
-            // temporary invisible
-            // (i.e. mIsVisible == false) too, in which case we want to keep
-            // the selection.
-            mOnSelectionListener.onDeselectAll();
-        }
+        mOnSelectionListener.onDeselectAll();
     }
 
     public void finish() {
@@ -619,26 +620,5 @@ public class SelectionModeCallback implements ActionMode.Callback {
             }
         });
         inputNameDialog.show();
-    }
-
-    /**
-     * Method that creates a {@link com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.LinkedResource} for the list of object to the
-     * destination directory
-     *
-     * @param items The list of the source items
-     * @param directory The destination directory
-     */
-    private static List<CopyMoveActionPolicy.LinkedResource> createLinkedResource(
-            List<FileSystemObject> items, FileSystemObject directory) {
-        List<CopyMoveActionPolicy.LinkedResource> resources =
-                new ArrayList<CopyMoveActionPolicy.LinkedResource>(items.size());
-        int cc = items.size();
-        for (int i = 0; i < cc; i++) {
-            FileSystemObject fso = items.get(i);
-            File src = new File(fso.getFullPath());
-            File dst = new File(directory.getFullPath(), fso.getName());
-            resources.add(new CopyMoveActionPolicy.LinkedResource(src, dst));
-        }
-        return resources;
     }
 }

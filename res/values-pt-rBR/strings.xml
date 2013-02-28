@@ -211,7 +211,7 @@
     <string name="actions_menu_extract">Extrair</string>
     <string name="actions_menu_delete">Excluir</string>
     <string name="actions_menu_rename">Renomear</string>
-    <string name="actions_menu_create_copy">Criar cópia</string>
+    <string name="actions_menu_copy">Criar cópia</string>
     <string name="actions_menu_properties">Propriedades</string>
     <string name="actions_menu_add_to_bookmarks">Adicionar aos favoritos</string>
     <string name="actions_menu_add_shortcut">Adicionar atalho</string>

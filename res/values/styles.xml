@@ -38,7 +38,7 @@
     <item name="actionIconRename">@drawable/ic_action_holo_dark</item>
     <item name="actionIconCompress">@drawable/ic_action_holo_dark</item>
     <item name="actionIconExtract">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconCreateCopy">@drawable/ic_action_holo_dark</item>
+    <item name="actionIconCreateCopy">@drawable/ic_action_holo_dark_copy</item>
     <item name="actionIconCreateLink">@drawable/ic_action_holo_dark</item>
     <item name="actionIconExecute">@drawable/ic_action_holo_dark</item>
     <item name="actionIconSend">@drawable/ic_action_holo_dark</item>

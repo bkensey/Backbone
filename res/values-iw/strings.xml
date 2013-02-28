@@ -459,7 +459,7 @@
   <!-- Actions Dialog * Menu * Rename -->
   <string name="actions_menu_rename">שנה שם</string>
   <!-- Actions Dialog * Menu * Create copy -->
-  <string name="actions_menu_create_copy">צור עותק</string>
+  <string name="actions_menu_copy">צור עותק</string>
   <!-- Actions Dialog * Menu * Properties -->
   <string name="actions_menu_properties">מאפיינים</string>
   <!-- Actions Dialog * Menu * Add to bookmarks -->

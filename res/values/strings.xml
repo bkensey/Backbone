@@ -512,7 +512,7 @@
   <!-- Actions Dialog * Menu * Rename -->
   <string name="actions_menu_rename">Rename</string>
   <!-- Actions Dialog * Menu * Create copy -->
-  <string name="actions_menu_create_copy">Create copy</string>
+  <string name="actions_menu_copy">Create copy</string>
   <!-- Actions Dialog * Menu * Properties -->
   <string name="actions_menu_properties">Properties</string>
   <!-- Actions Dialog * Menu * Add to bookmarks -->

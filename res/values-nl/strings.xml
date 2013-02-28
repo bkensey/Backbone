@@ -447,7 +447,7 @@
   <!-- Actions Dialog * Menu * Rename -->
   <string name="actions_menu_rename">Naam wijzigen</string>
   <!-- Actions Dialog * Menu * Create copy -->
-  <string name="actions_menu_create_copy">Kopie maken</string>
+  <string name="actions_menu_copy">Kopie maken</string>
   <!-- Actions Dialog * Menu * Properties -->
   <string name="actions_menu_properties">Eigenschappen</string>
   <!-- Actions Dialog * Menu * Add to bookmarks -->

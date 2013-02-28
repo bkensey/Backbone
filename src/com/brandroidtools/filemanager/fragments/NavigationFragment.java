@@ -1338,6 +1338,7 @@ public class NavigationFragment extends Fragment implements
             mSelectionModeCallback = new SelectionModeCallback(mActivity, false);
             mSelectionModeCallback.setOnRequestRefreshListener(mActivity);
             mSelectionModeCallback.setOnSelectionListener(this);
+            mSelectionModeCallback.setOnCopyMoveListener(mActivity);
             mActivity.startActionMode(mSelectionModeCallback);
         }
     }

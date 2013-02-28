@@ -449,7 +449,7 @@
   <!-- Actions Dialog * Menu * Rename -->
   <string name="actions_menu_rename">Renommer</string>
   <!-- Actions Dialog * Menu * Create copy -->
-  <string name="actions_menu_create_copy">Dupliquer</string>
+  <string name="actions_menu_copy">Dupliquer</string>
   <!-- Actions Dialog * Menu * Properties -->
   <string name="actions_menu_properties">Propriétés</string>
   <!-- Actions Dialog * Menu * Add to bookmarks -->
