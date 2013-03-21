@@ -33,10 +33,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -51,8 +48,6 @@ import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences;
 import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences.EditorPreferenceFragment;
-import com.brandroidtools.filemanager.adapters.HighlightedSimpleMenuListAdapter;
-import com.brandroidtools.filemanager.adapters.SimpleMenuListAdapter;
 import com.brandroidtools.filemanager.commands.AsyncResultListener;
 import com.brandroidtools.filemanager.commands.WriteExecutable;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
@@ -298,7 +293,8 @@ public class EditorActivity extends Activity implements TextWatcher {
     /**
      * @hide
      */
-    ButtonItem mSave;
+    MenuItem mSaveAction;
+    MenuItem mWordWrapAction;
 
     // Word wrap status
     private ViewGroup mWordWrapView;
@@ -389,30 +385,61 @@ public class EditorActivity extends Activity implements TextWatcher {
      */
     private void initTitleActionBar() {
         //Configure the action bar options
-        getActionBar().setBackgroundDrawable(
-                getResources().getDrawable(R.drawable.bg_holo_titlebar));
-        getActionBar().setDisplayOptions(
-                ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        View customTitle = getLayoutInflater().inflate(R.layout.simple_customtitle, null, false);
-        this.mTitle = (TextView)customTitle.findViewById(R.id.customtitle_title);
-        this.mTitle.setText(R.string.editor);
-        this.mTitle.setContentDescription(getString(R.string.editor));
-        this.mSave = (ButtonItem)customTitle.findViewById(R.id.ab_button1);
-        this.mSave.setImageResource(R.drawable.ic_holo_light_save);
-        this.mSave.setContentDescription(getString(R.string.actionbar_button_save_cd));
-        this.mSave.setVisibility(View.GONE);
+        getActionBar().setTitle(R.string.editor);
+    }
 
-        ButtonItem configuration = (ButtonItem)customTitle.findViewById(R.id.ab_button2);
-        configuration.setImageResource(R.drawable.ic_holo_light_overflow);
-        configuration.setContentDescription(getString(R.string.actionbar_button_overflow_cd));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.editor, menu);
+        mSaveAction = menu.findItem(R.id.mnu_save);
+        mWordWrapAction = menu.findItem(R.id.mnu_word_wrap);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-        View status = findViewById(R.id.history_status);
-        boolean showOptionsMenu = AndroidHelper.showOptionsMenu(getApplicationContext());
-        configuration.setVisibility(showOptionsMenu ? View.VISIBLE : View.GONE);
-        this.mOptionsAnchorView = showOptionsMenu ? configuration : status;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        mWordWrapAction.setChecked(this.mWordWrap);
+        mSaveAction.setVisible(this.mDirty);
+        return super.onPrepareOptionsMenu(menu);
+    }
 
-        getActionBar().setCustomView(customTitle);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if ((getActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP)
+                        == ActionBar.DISPLAY_HOME_AS_UP) {
+                    checkDirtyState();
+                }
+                break;
+            case R.id.mnu_save:
+                // Save the file
+                writeFile();
+                break;
+            case R.id.mnu_word_wrap:
+                toggleWordWrap();
+                break;
+            case R.id.mnu_settings:
+                //Settings
+                Intent settings = new Intent(EditorActivity.this, SettingsPreferences.class);
+                settings.putExtra(
+                        PreferenceActivity.EXTRA_SHOW_FRAGMENT,
+                        EditorPreferenceFragment.class.getName());
+                startActivity(settings);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -469,94 +496,11 @@ public class EditorActivity extends Activity implements TextWatcher {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
-            case KeyEvent.KEYCODE_MENU:
-                showOverflowPopUp(this.mOptionsAnchorView);
-                return true;
             case KeyEvent.KEYCODE_BACK:
                 checkDirtyState();
                 return true;
             default:
                 return super.onKeyUp(keyCode, event);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-       switch (item.getItemId()) {
-          case android.R.id.home:
-              if ((getActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP)
-                      == ActionBar.DISPLAY_HOME_AS_UP) {
-                  checkDirtyState();
-              }
-              return true;
-          default:
-             return super.onOptionsItemSelected(item);
-       }
-    }
-
-    /**
-     * Method that shows a popup with the activity main menu.
-     *
-     * @param anchor The anchor of the popup
-     */
-    private void showOverflowPopUp(View anchor) {
-        SimpleMenuListAdapter adapter =
-                new HighlightedSimpleMenuListAdapter(this, R.menu.editor);
-        MenuItem wordWrap = adapter.getMenu().findItem(R.id.mnu_word_wrap);
-        if (wordWrap != null) {
-            wordWrap.setChecked(this.mWordWrap);
-        }
-
-        final ListPopupWindow popup =
-                DialogHelper.createListPopupWindow(this, adapter, anchor);
-        popup.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(
-                    final AdapterView<?> parent, final View v,
-                    final int position, final long id) {
-                final int itemId = (int)id;
-                switch (itemId) {
-                    case R.id.mnu_word_wrap:
-                        popup.dismiss();
-                        toggleWordWrap();
-                        break;
-                    case R.id.mnu_settings:
-                        //Settings
-                        Intent settings = new Intent(EditorActivity.this, SettingsPreferences.class);
-                        settings.putExtra(
-                                PreferenceActivity.EXTRA_SHOW_FRAGMENT,
-                                EditorPreferenceFragment.class.getName());
-                        startActivity(settings);
-                        break;
-                }
-                popup.dismiss();
-            }
-        });
-        popup.show();
-    }
-
-    /**
-     * Method invoked when an action item is clicked.
-     *
-     * @param view The button pushed
-     */
-    public void onActionBarItemClick(View view) {
-        switch (view.getId()) {
-            case R.id.ab_button1:
-                // Save the file
-                writeFile();
-                break;
-
-            case R.id.ab_button2:
-                // Show overflow menu
-                showOverflowPopUp(this.mOptionsAnchorView);
-                break;
-
-            default:
-                break;
         }
     }
 
@@ -607,7 +551,7 @@ public class EditorActivity extends Activity implements TextWatcher {
 
         // Set the title of the dialog
         File f = new File(path);
-        this.mTitle.setText(f.getName());
+        getActionBar().setTitle(f.getName());
 
         // Check that we have access to the file (the real file, not the symlink)
         try {
@@ -921,7 +865,7 @@ public class EditorActivity extends Activity implements TextWatcher {
      */
     void setDirty(boolean dirty) {
         this.mDirty = dirty;
-        this.mSave.setVisibility(dirty ? View.VISIBLE : View.GONE);
+        this.invalidateOptionsMenu();
     }
 
     /**
@@ -976,14 +920,8 @@ public class EditorActivity extends Activity implements TextWatcher {
         Theme theme = ThemeManager.getCurrentTheme(this);
         theme.setBaseTheme(this, false);
 
-        //- ActionBar
-        theme.setTitlebarDrawable(this, getActionBar(), "titlebar_drawable"); //$NON-NLS-1$
-        View v = getActionBar().getCustomView().findViewById(R.id.customtitle_title);
-        theme.setTextColor(this, (TextView)v, "action_bar_text_color"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_button1);
-        theme.setImageDrawable(this, (ImageView)v, "ab_save_drawable"); //$NON-NLS-1$
         // -View
-        v = findViewById(R.id.editor_layout);
+        View v = findViewById(R.id.editor_layout);
         theme.setBackgroundDrawable(this, v, "background_drawable"); //$NON-NLS-1$
         v = findViewById(R.id.editor);
         theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$

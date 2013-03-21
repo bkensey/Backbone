@@ -470,6 +470,12 @@ public class SelectionModeCallback implements ActionMode.Callback {
                         this.mFso,
                         this.mOnRequestRefreshListener);
                 break;
+            //- Checksum
+            case R.id.mnu_actions_compute_checksum:
+                InfoActionPolicy.showComputeChecksumDialog(
+                        this.mActivity,
+                        this.mFso);
+                break;
             //- Compress
             case R.id.mnu_actions_compress:
                 if (this.mOnSelectionListener != null) {
@@ -478,6 +484,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
                             this.mFso,
                             this.mOnSelectionListener,
                             this.mOnRequestRefreshListener);
+                    finish();
                 }
                 break;
             case R.id.mnu_actions_compress_selection:
@@ -486,6 +493,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
                             this.mActivity,
                             this.mOnSelectionListener,
                             this.mOnRequestRefreshListener);
+                    finish();
                 }
                 break;
 

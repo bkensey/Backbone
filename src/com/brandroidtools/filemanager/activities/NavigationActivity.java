@@ -35,12 +35,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.*;
+import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.brandroidtools.filemanager.FileManagerApplication;
@@ -48,11 +44,15 @@ import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences;
 import com.brandroidtools.filemanager.adapters.MenuSettingsAdapter;
 
+import com.brandroidtools.filemanager.adapters.NavigationFragmentPagerAdapter;
 import com.brandroidtools.filemanager.console.Console;
 import com.brandroidtools.filemanager.console.ConsoleAllocException;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
 import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
+import com.brandroidtools.filemanager.fragments.NavigationFragment;
+import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationRequestMenuListener;
+import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.model.DiskUsage;
@@ -71,9 +71,12 @@ import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
-import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
-import com.brandroidtools.filemanager.ui.widgets.ButtonItem;
-import com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView;
+import com.brandroidtools.filemanager.ui.dialogs.InputNameDialog;
+import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy;
+import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.COPY_MOVE_OPERATION;
+import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
+import com.brandroidtools.filemanager.ui.policy.NewActionPolicy;
+import com.brandroidtools.filemanager.ui.widgets.*;
 
 import com.brandroidtools.filemanager.util.AndroidHelper;
 import com.brandroidtools.filemanager.util.CommandHelper;
@@ -104,7 +107,7 @@ import java.util.List;
  */
 public class NavigationActivity extends FragmentActivity
     implements OnHistoryListener, OnRequestRefreshListener, OnCopyMoveListener,
-    OnNavigationRequestMenuListener, OnPageChangeListener, BreadcrumbListener {
+        OnNavigationRequestMenuListener, OnPageChangeListener, BreadcrumbListener {
 
     private static final String TAG = "NavigationActivity"; //$NON-NLS-1$
 
@@ -292,7 +295,6 @@ public class NavigationActivity extends FragmentActivity
     /**
      * {@inheritDoc}
      */
-    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle state) {
 

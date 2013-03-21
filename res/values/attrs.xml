@@ -71,6 +71,8 @@
       <attr name="actionIconOpenParentFolder" format="reference" />
       <attr name="actionIconSelectAll" format="reference" />
       <attr name="actionIconSearchSettings" format="reference" />
+      <attr name="actionIconSave" format="reference" />
+      <attr name="actionIconChecksum" format="reference" />
 
       <attr name="indicatorIconFolder" format="reference" />
       <attr name="indicatorIconFile" format="reference" />

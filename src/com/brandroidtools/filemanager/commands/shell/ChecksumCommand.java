@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.commands.shell;
+package com.brandroidtools.filemanager.commands.shell;
 
-import com.cyanogenmod.filemanager.commands.AsyncResultListener;
-import com.cyanogenmod.filemanager.commands.ChecksumExecutable;
-import com.cyanogenmod.filemanager.commands.SIGNAL;
-import com.cyanogenmod.filemanager.console.CommandNotFoundException;
-import com.cyanogenmod.filemanager.console.ExecutionException;
-import com.cyanogenmod.filemanager.console.InsufficientPermissionsException;
+import com.brandroidtools.filemanager.commands.AsyncResultListener;
+import com.brandroidtools.filemanager.commands.ChecksumExecutable;
+import com.brandroidtools.filemanager.commands.SIGNAL;
+import com.brandroidtools.filemanager.console.CommandNotFoundException;
+import com.brandroidtools.filemanager.console.ExecutionException;
+import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
 
 import java.io.File;
 
@@ -32,7 +32,7 @@ import java.io.File;
  *
  * {@link "http://unixhelp.ed.ac.uk/CGI/man-cgi?md5sum"}
  * {@link "http://unixhelp.ed.ac.uk/CGI/man-cgi?sha1sum"}
- * @see com.cyanogenmod.filemanager.commands.ChecksumExecutable.CHECKSUMS
+ * @see com.brandroidtools.filemanager.commands.ChecksumExecutable.CHECKSUMS
  */
 public class ChecksumCommand extends AsyncResultProgram implements ChecksumExecutable {
 

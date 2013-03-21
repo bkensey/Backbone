@@ -57,7 +57,7 @@
     android:layout_marginLeft="@dimen/extra_large_margin"
     android:layout_marginRight="@dimen/extra_large_margin">
 
-    <com.cyanogenmod.filemanager.ui.widgets.ButtonItem
+    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
       android:id="@+id/bt_md5_clipboard"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
     android:layout_marginRight="@dimen/extra_large_margin"
     android:layout_marginBottom="@dimen/extra_large_margin">
 
-    <com.cyanogenmod.filemanager.ui.widgets.ButtonItem
+    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
       android:id="@+id/bt_sha1_clipboard"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.commands.java;
+package com.brandroidtools.filemanager.commands.java;
 
 import android.util.Log;
 
-import com.android.internal.util.HexDump;
-import com.cyanogenmod.filemanager.commands.AsyncResultListener;
-import com.cyanogenmod.filemanager.commands.ChecksumExecutable;
-import com.cyanogenmod.filemanager.console.ExecutionException;
-import com.cyanogenmod.filemanager.console.InsufficientPermissionsException;
-import com.cyanogenmod.filemanager.console.NoSuchFileOrDirectory;
+import com.brandroidtools.filemanager.commands.AsyncResultListener;
+import com.brandroidtools.filemanager.commands.ChecksumExecutable;
+import com.brandroidtools.filemanager.console.ExecutionException;
+import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
+import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
+import com.brandroidtools.filemanager.util.HexDumpUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -241,7 +241,7 @@ public class ChecksumCommand extends Program implements ChecksumExecutable {
             checkCancelled();
 
             // Finally digest
-            this.mChecksums[type.ordinal()] = HexDump.toHexString(md.digest()).toLowerCase();
+            this.mChecksums[type.ordinal()] = HexDumpUtils.toHexString(md.digest()).toLowerCase();
             checkCancelled();
             if (this.mAsyncResultListener != null) {
                 this.mAsyncResultListener.onPartialResult(this.mChecksums[type.ordinal()]);

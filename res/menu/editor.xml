@@ -16,6 +16,11 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
   <item
+    android:id="@+id/mnu_save"
+    android:icon="?attr/actionIconSave"
+    android:showAsAction="ifRoom"
+    android:title="@string/menu_settings"/>
+  <item
     android:id="@+id/mnu_word_wrap"
     android:showAsAction="never"
     android:checkable="true"

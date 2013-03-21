@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.ui.dialogs;
+package com.brandroidtools.filemanager.ui.dialogs;
 
 import android.app.AlertDialog;
 import android.content.ClipData;
@@ -30,15 +30,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cyanogenmod.filemanager.R;
-import com.cyanogenmod.filemanager.commands.AsyncResultExecutable;
-import com.cyanogenmod.filemanager.commands.AsyncResultListener;
-import com.cyanogenmod.filemanager.model.FileSystemObject;
-import com.cyanogenmod.filemanager.ui.ThemeManager;
-import com.cyanogenmod.filemanager.ui.ThemeManager.Theme;
-import com.cyanogenmod.filemanager.util.CommandHelper;
-import com.cyanogenmod.filemanager.util.DialogHelper;
-import com.cyanogenmod.filemanager.util.ExceptionUtil;
+import com.brandroidtools.filemanager.R;
+import com.brandroidtools.filemanager.commands.AsyncResultExecutable;
+import com.brandroidtools.filemanager.commands.AsyncResultListener;
+import com.brandroidtools.filemanager.model.FileSystemObject;
+import com.brandroidtools.filemanager.ui.ThemeManager;
+import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
+import com.brandroidtools.filemanager.util.CommandHelper;
+import com.brandroidtools.filemanager.util.DialogHelper;
+import com.brandroidtools.filemanager.util.ExceptionUtil;
 /**
  * A class that wraps a dialog for computing the checksums of a {@link FileSystemObject}
  */

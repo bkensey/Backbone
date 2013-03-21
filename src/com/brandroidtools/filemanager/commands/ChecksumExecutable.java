@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.commands;
+package com.brandroidtools.filemanager.commands;
 
 /**
  * An interface that represents an executable for calculate checksum of file system objects.

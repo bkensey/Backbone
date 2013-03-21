@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.commands.shell;
+package com.brandroidtools.filemanager.commands.shell;
 
 import android.os.Environment;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.cyanogenmod.filemanager.commands.AsyncResultListener;
-import com.cyanogenmod.filemanager.commands.ChecksumExecutable;
-import com.cyanogenmod.filemanager.commands.ChecksumExecutable.CHECKSUMS;
-import com.cyanogenmod.filemanager.util.CommandHelper;
+import com.brandroidtools.filemanager.commands.AsyncResultListener;
+import com.brandroidtools.filemanager.commands.ChecksumExecutable;
+import com.brandroidtools.filemanager.commands.ChecksumExecutable.CHECKSUMS;
+import com.brandroidtools.filemanager.util.CommandHelper;
 
 /**
  * A class for testing checksum command.
