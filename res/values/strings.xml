@@ -745,6 +745,22 @@
   <string name="pref_themes_confirmation">Theme was applied successfully.</string>
   <!-- Preferences * Themes * Theme not found message -->
   <string name="pref_themes_not_found">Theme not found.</string>
+  <!-- Preferences * About * FAQ -->
+  <string name="pref_about_faq">FAQ</string>
+  <!-- Preferences * About * FAQ summary -->
+  <string name="pref_about_faq_summary">Tips and answers to commonly asked questions.</string>
+  <!-- Preferences * About * Changelog -->
+  <string name="pref_about_changelog">Changelog</string>
+  <!-- Preferences * About * Privacy Policy -->
+  <string name="pref_about_privacy_policy">Privacy policy</string>
+  <!-- Preferences * About * Credits and licenses -->
+  <string name="pref_about_credits_licenses">Credits and licenses</string>
+  <!-- Preferences * About * Credits and licenses summary -->
+  <string name="pref_about_credits_licenses_summary">Credits and license details for open source software</string>
+  <!-- Preferences * About * Build version -->
+  <string name="pref_about_version">Build version</string>
+  <!-- Preferences * About * Build version summary -->
+  <string name="pref_about_version_num">Version: <xliff:g id="version_num">%1$s</xliff:g></string>
 
   <!-- Preferences * Debug * Capture debug traces -->
   <string name="pref_debug_traces">Log debugging information</string>

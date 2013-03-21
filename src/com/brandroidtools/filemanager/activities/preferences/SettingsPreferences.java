@@ -132,17 +132,6 @@ public class SettingsPreferences extends PreferenceActivity {
     @Override
     public void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.preferences_headers, target);
-
-        // Retrieve the about header
-        Header aboutHeader = target.get(target.size()-1);
-        try {
-            String appver =
-                    this.getPackageManager().getPackageInfo(this.getPackageName(), 0).versionName;
-            aboutHeader.summary = getString(R.string.pref_about_summary, appver);
-        } catch (Exception e) {
-            aboutHeader.summary = getString(R.string.pref_about_summary, ""); //$NON-NLS-1$
-        }
-        aboutHeader.intent = new Intent(getApplicationContext(), ChangeLogActivity.class);
     }
 
     /**
@@ -576,6 +565,69 @@ public class SettingsPreferences extends PreferenceActivity {
                     (ThemeSelectorPreference)findPreference(
                             FileManagerSettings.SETTINGS_THEME.getId());
             this.mThemeSelector.setOnPreferenceChangeListener(this.mOnChangeListener);
+        }
+    }
+
+    /**
+     * A class that manages the search options
+     */
+    public static class AboutPreferenceFragment extends PreferenceFragment {
+
+        private Preference mFaq;
+        private Preference mChangelog;
+        private Preference mPrivacyPolicy;
+        private Preference mCreditsAndLicenses;
+        private Preference mVersion;
+
+        /**
+         * @hide
+         */
+        boolean mLoaded = false;
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            // Change the preference manager
+            getPreferenceManager().setSharedPreferencesName(Preferences.SETTINGS_FILENAME);
+            getPreferenceManager().setSharedPreferencesMode(MODE_PRIVATE);
+            this.mLoaded = false;
+
+            // Add the preferences
+            addPreferencesFromResource(R.xml.preferences_about);
+
+            // Frequently Asked Questions
+            this.mFaq = findPreference("bb_filemanager_faq");
+            this.mFaq.setEnabled(false);
+
+            // Changelog
+            this.mChangelog = findPreference("bb_filemanager_changelog");
+            mChangelog.setIntent(new Intent(getActivity(), ChangeLogActivity.class));
+
+            // Privacy Policy
+            this.mPrivacyPolicy = findPreference("bb_filemanager_privacy_policy");
+            this.mPrivacyPolicy.setEnabled(false);
+
+            // Credits and Open Source Licenses
+            this.mCreditsAndLicenses = findPreference("bb_filemanager_credits_licenses");
+            this.mCreditsAndLicenses.setEnabled(false);
+
+            // Build Version
+            this.mVersion = findPreference("bb_filemanager_version");
+            // Retrieve the about header
+            try {
+                String appver =
+                        getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName;
+                mVersion.setSummary(getString(R.string.pref_about_version_num, appver));
+            } catch (Exception e) {
+                mVersion.setSummary(getString(R.string.pref_about_version_num, "")); //$NON-NLS-1$
+            }
+
+            // Loaded
+            this.mLoaded = true;
         }
     }
 
