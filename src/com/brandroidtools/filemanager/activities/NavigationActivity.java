@@ -16,7 +16,6 @@
 
 package com.brandroidtools.filemanager.activities;
 
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -36,42 +35,53 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences;
 import com.brandroidtools.filemanager.adapters.MenuSettingsAdapter;
-import com.brandroidtools.filemanager.adapters.NavigationFragmentPagerAdapter;
+
+import com.brandroidtools.filemanager.console.Console;
+import com.brandroidtools.filemanager.console.ConsoleAllocException;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
+import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
-import com.brandroidtools.filemanager.fragments.NavigationFragment;
-import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationRequestMenuListener;
-import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
-import com.brandroidtools.filemanager.model.*;
+import com.brandroidtools.filemanager.model.DiskUsage;
+import com.brandroidtools.filemanager.model.FileSystemObject;
+import com.brandroidtools.filemanager.model.History;
+import com.brandroidtools.filemanager.model.MountPoint;
 import com.brandroidtools.filemanager.parcelables.HistoryNavigable;
 import com.brandroidtools.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.brandroidtools.filemanager.parcelables.SearchInfoParcelable;
-import com.brandroidtools.filemanager.preferences.*;
+import com.brandroidtools.filemanager.preferences.AccessMode;
+import com.brandroidtools.filemanager.preferences.FileManagerSettings;
+import com.brandroidtools.filemanager.preferences.NavigationLayoutMode;
+import com.brandroidtools.filemanager.preferences.ObjectIdentifier;
+import com.brandroidtools.filemanager.preferences.Preferences;
 import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
-import com.brandroidtools.filemanager.ui.dialogs.InputNameDialog;
-import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy;
-import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.LinkedResource;
-import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.COPY_MOVE_OPERATION;
-import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
-import com.brandroidtools.filemanager.ui.policy.NewActionPolicy;
-import com.brandroidtools.filemanager.ui.widgets.*;
+import com.brandroidtools.filemanager.ui.widgets.Breadcrumb;
+import com.brandroidtools.filemanager.ui.widgets.ButtonItem;
+import com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView;
+
+import com.brandroidtools.filemanager.util.AndroidHelper;
 import com.brandroidtools.filemanager.util.CommandHelper;
 import com.brandroidtools.filemanager.util.DialogHelper;
 import com.brandroidtools.filemanager.util.ExceptionUtil;
+import com.brandroidtools.filemanager.util.ExceptionUtil.OnRelaunchCommandResult;
 import com.brandroidtools.filemanager.util.FileHelper;
+import com.brandroidtools.filemanager.util.StorageHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;

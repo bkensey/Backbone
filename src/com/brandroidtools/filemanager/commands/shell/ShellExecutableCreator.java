@@ -19,6 +19,7 @@ package com.brandroidtools.filemanager.commands.shell;
 import com.brandroidtools.filemanager.commands.AsyncResultListener;
 import com.brandroidtools.filemanager.commands.ChangeOwnerExecutable;
 import com.brandroidtools.filemanager.commands.ChangePermissionsExecutable;
+import com.brandroidtools.filemanager.commands.ChecksumExecutable;
 import com.brandroidtools.filemanager.commands.CompressExecutable;
 import com.brandroidtools.filemanager.commands.CopyExecutable;
 import com.brandroidtools.filemanager.commands.CreateDirExecutable;
@@ -48,6 +49,8 @@ import com.brandroidtools.filemanager.commands.SendSignalExecutable;
 import com.brandroidtools.filemanager.commands.UncompressExecutable;
 import com.brandroidtools.filemanager.commands.WriteExecutable;
 import com.brandroidtools.filemanager.console.CommandNotFoundException;
+import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
+import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
 import com.brandroidtools.filemanager.console.shell.ShellConsole;
 import com.brandroidtools.filemanager.model.Group;
 import com.brandroidtools.filemanager.model.MountPoint;
@@ -373,6 +376,19 @@ public class ShellExecutableCreator implements ExecutableCreator {
      * {@inheritDoc}
      */
     @Override
+    public ProcessIdExecutable createProcessIdExecutable(int pid)
+            throws CommandNotFoundException {
+        try {
+            return new ProcessIdCommand(pid);
+        } catch (InvalidCommandDefinitionException icdEx) {
+            throw new CommandNotFoundException("ProcessIdCommand", icdEx); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ProcessIdExecutable createProcessIdExecutable(int pid, String processName)
             throws CommandNotFoundException {
         try {
@@ -504,6 +520,21 @@ public class ShellExecutableCreator implements ExecutableCreator {
             return new UncompressCommand(src, dst, asyncResultListener);
         } catch (InvalidCommandDefinitionException icdEx) {
             throw new CommandNotFoundException("UncompressCommand", icdEx); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ChecksumExecutable createChecksumExecutable(
+            String src, AsyncResultListener asyncResultListener)
+            throws CommandNotFoundException, NoSuchFileOrDirectory,
+            InsufficientPermissionsException {
+        try {
+            return new ChecksumCommand(src, asyncResultListener);
+        } catch (InvalidCommandDefinitionException icdEx) {
+            throw new CommandNotFoundException("ChecksumCommand", icdEx); //$NON-NLS-1$
         }
     }
 

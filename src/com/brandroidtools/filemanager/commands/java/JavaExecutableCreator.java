@@ -20,6 +20,7 @@ import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.commands.AsyncResultListener;
 import com.brandroidtools.filemanager.commands.ChangeOwnerExecutable;
 import com.brandroidtools.filemanager.commands.ChangePermissionsExecutable;
+import com.brandroidtools.filemanager.commands.ChecksumExecutable;
 import com.brandroidtools.filemanager.commands.CompressExecutable;
 import com.brandroidtools.filemanager.commands.CopyExecutable;
 import com.brandroidtools.filemanager.commands.CreateDirExecutable;
@@ -287,6 +288,15 @@ public class JavaExecutableCreator implements ExecutableCreator {
      * {@inheritDoc}
      */
     @Override
+    public ProcessIdExecutable createProcessIdExecutable(int pid)
+            throws CommandNotFoundException {
+        throw new CommandNotFoundException("Not implemented"); //$NON-NLS-1$
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public ProcessIdExecutable createProcessIdExecutable(int pid, String processName)
             throws CommandNotFoundException {
         throw new CommandNotFoundException("Not implemented"); //$NON-NLS-1$
@@ -379,6 +389,16 @@ public class JavaExecutableCreator implements ExecutableCreator {
             AsyncResultListener asyncResultListener)
             throws CommandNotFoundException {
         throw new CommandNotFoundException("Not implemented"); //$NON-NLS-1$
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ChecksumExecutable createChecksumExecutable(
+            String src, AsyncResultListener asyncResultListener)
+            throws CommandNotFoundException {
+        return new ChecksumCommand(src, asyncResultListener);
     }
 
 }

@@ -49,6 +49,7 @@
     /system/bin/sh,
     /system/xbin/awk,
     /system/xbin/bunzip2,
+    /system/xbin/busybox,
     /system/xbin/bzip2,
     /system/xbin/cp,
     /system/xbin/cut,
@@ -63,11 +64,19 @@
     /system/xbin/stat,
     /system/xbin/su,
     /system/xbin/tar,
-    /system/xbin/uncompress,
-    /system/xbin/unlzma,
-    /system/xbin/unxz,
-    /system/xbin/unzip,
-    /system/xbin/xargs
+    /system/xbin/xargs,
+    /system/xbin/md5sum,
+    /system/xbin/sha1sum
+  </string>
+
+  <!-- Optional shell commands in a pair=value format -->
+  <string name="shell_optional_commands" translatable="false">
+    zip=/system/xbin/zip,
+    unzip=/system/xbin/unzip,
+    unlzma=/system/xbin/unlzma,
+    unxz=/system/xbin/unxz,
+    uncompress=/system/xbin/uncompress,
+    unrar=/system/xbin/unrar
   </string>
 
   <!-- The mounts file -->

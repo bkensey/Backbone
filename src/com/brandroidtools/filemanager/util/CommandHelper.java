@@ -21,6 +21,7 @@ import android.content.Context;
 import com.brandroidtools.filemanager.commands.AsyncResultListener;
 import com.brandroidtools.filemanager.commands.ChangeOwnerExecutable;
 import com.brandroidtools.filemanager.commands.ChangePermissionsExecutable;
+import com.brandroidtools.filemanager.commands.ChecksumExecutable;
 import com.brandroidtools.filemanager.commands.CompressExecutable;
 import com.brandroidtools.filemanager.commands.CopyExecutable;
 import com.brandroidtools.filemanager.commands.CreateDirExecutable;
@@ -478,7 +479,9 @@ public final class CommandHelper {
         List<FileSystemObject> files = executable.getResult();
         if (files != null && files.size() > 0) {
             // Resolve symlinks prior to return the object
-            FileHelper.resolveSymlinks(context, files);
+            if (followSymlinks) {
+                FileHelper.resolveSymlinks(context, files);
+            }
             return files.get(0);
         }
         return null;
@@ -1007,6 +1010,39 @@ public final class CommandHelper {
     }
 
     /**
+     * Method that retrieves the process identifier of all the processes (a program
+     * owned by the main process of this application).
+     *
+     * @param context The current context (needed if console == null)
+     * @param pid The process id of the shell where the command is running
+     * @param console The console in which execute the program. <code>null</code>
+     * to attach to the default console
+     * @return List<Integer> The processes identifiers of the program or <code>null</code> if not exists
+     * @throws FileNotFoundException If the initial directory not exists
+     * @throws IOException If initial directory couldn't be checked
+     * @throws InvalidCommandDefinitionException If the command has an invalid definition
+     * @throws NoSuchFileOrDirectory If the file or directory was not found
+     * @throws ConsoleAllocException If the console can't be allocated
+     * @throws InsufficientPermissionsException If an operation requires elevated permissions
+     * @throws CommandNotFoundException If the command was not found
+     * @throws OperationTimeoutException If the operation exceeded the maximum time of wait
+     * @throws ExecutionException If the operation returns a invalid exit code
+     * @see ProcessIdExecutable
+     */
+    public static List<Integer> getProcessesIds(
+            Context context, int pid, Console console)
+            throws FileNotFoundException, IOException, ConsoleAllocException,
+            NoSuchFileOrDirectory, InsufficientPermissionsException,
+            CommandNotFoundException, OperationTimeoutException,
+            ExecutionException, InvalidCommandDefinitionException {
+        Console c = ensureConsole(context, console);
+        ProcessIdExecutable executable =
+                c.getExecutableFactory().newCreator().createProcessIdExecutable(pid);
+        execute(context, executable, c);
+        return executable.getResult();
+    }
+
+    /**
      * Method that retrieves the process identifier of a process (a program
      * owned by the main process of this application).
      *
@@ -1037,7 +1073,11 @@ public final class CommandHelper {
         ProcessIdExecutable executable =
                 c.getExecutableFactory().newCreator().createProcessIdExecutable(pid, processName);
         execute(context, executable, c);
-        return executable.getResult();
+        List<Integer> pids = executable.getResult();
+        if (pids != null && pids.size() > 0) {
+            return pids.get(0);
+        }
+        return null;
     }
 
     /**
@@ -1250,9 +1290,18 @@ public final class CommandHelper {
             wrapperListener.mUnmount = unmount;
             wrapperListener.mMountPoint = executable2.getDstWritableMountPoint();
 
-            //- Compress
-            execute(context, executable1, c);
-            return executable1;
+            // Some archive modes requires a new file. Ensure that the created
+            // file doesn't exists
+            DeleteFileExecutable executable3 =
+                                c.getExecutableFactory().
+                                    newCreator().
+                                        createDeleteFileExecutable(compressOutFile);
+            writableExecute(context, executable3, c, true);
+            if(executable3.getResult().booleanValue()){
+                //- Compress
+                execute(context, executable1, c);
+                return executable1;
+            }
         }
         throw new ExecutionException(
                 String.format("Fail to create file %s", compressOutFile)); //$NON-NLS-1$
@@ -1393,6 +1442,41 @@ public final class CommandHelper {
         }
         throw new ExecutionException(
                 String.format("Fail to uncompress to %s", compressOutFile)); //$NON-NLS-1$
+    }
+
+    /**
+     * Method that calculates the checksum of a file system object.
+     *
+     * @param context The current context (needed if console == null)
+     * @param src The source file
+     * @param asyncResultListener The partial result listener
+     * @param console The console in which execute the program.
+     * <code>null</code> to attach to the default console
+     * @return WriteExecutable The command executed in background
+     * @throws FileNotFoundException If the initial directory not exists
+     * @throws IOException If initial directory couldn't be checked
+     * @throws InvalidCommandDefinitionException If the command has an invalid definition
+     * @throws NoSuchFileOrDirectory If the file or directory was not found
+     * @throws ConsoleAllocException If the console can't be allocated
+     * @throws InsufficientPermissionsException If an operation requires elevated permissions
+     * @throws CommandNotFoundException If the command was not found
+     * @throws OperationTimeoutException If the operation exceeded the maximum time of wait
+     * @throws ExecutionException If the operation returns a invalid exit code
+     * @see WriteExecutable
+     */
+    public static ChecksumExecutable checksum(
+            Context context, String src,
+            AsyncResultListener asyncResultListener, Console console)
+            throws FileNotFoundException, IOException, ConsoleAllocException,
+            NoSuchFileOrDirectory, InsufficientPermissionsException,
+            CommandNotFoundException, OperationTimeoutException,
+            ExecutionException, InvalidCommandDefinitionException {
+        Console c = ensureConsole(context, console);
+        ChecksumExecutable executable =
+                c.getExecutableFactory().newCreator().
+                    createChecksumExecutable(src, asyncResultListener);
+        execute(context, executable, c);
+        return executable;
     }
 
     /**

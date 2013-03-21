@@ -15,7 +15,7 @@
  -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-  <string name="app_name">File Manager</string>
+  <string name="app_name">Файловый менеджер</string>
   <string name="app_description">Файловый менеджер CyanogenMod</string>
 
   <string name="device_blockdevice">Блочное устройство</string>
@@ -36,6 +36,8 @@
   <string name="loading_message">Загрузка\u2026</string>
   <string name="cancelled_message">Отменено</string>
   <string name="error_message">Ошибка</string>
+  <string name="copy_text_cd">Нажмите, чтобы скопировать текст в буфер обмена</string>
+  <string name="copy_text_msg">Текст скопирован в буфер обмена</string>
 
   <string name="warning_title">Внимание</string>
   <string name="error_title">Обнаружена ошибка</string>
@@ -64,7 +66,7 @@
   <string name="msgs_read_only_filesystem">Файловая система доступна только для чтения. Попробуйте смонтировать файловую систему для чтения/записи</string>
   <string name="msgs_illegal_argument">Недопустимый аргумент. Вызов не удался</string>
   <string name="msgs_unresolved_inconsistencies">Операция не допускается, поскольку это создаст несоответствия</string>
-  <string name="msgs_operation_not_allowed_in_current_directory">Операция не допускается в текущей папке. \n\nПапка назначения не может быть вложенной папкой источника или самим источником.</string>
+  <string name="msgs_operation_not_allowed_in_current_directory">Операция не допускается в текущей папке. \n\nПапка назначения не может быть вложенной папкой источника или самим источником</string>
 
   <string name="msgs_push_again_to_exit">Нажмите ещё раз для выхода</string>
 
@@ -213,6 +215,7 @@
   <string name="menu_search">Поиск</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_clear_history">Очистить историю</string>
+  <string name="menu_word_wrap">Перенос слов</string>
 
   <string name="create_copy_regexp"><xliff:g id="name">%1$s</xliff:g> - копия <xliff:g id="extension">%2$s</xliff:g></string>
   <string name="create_new_compress_file_regexp"><xliff:g id="name">%1$s</xliff:g> - новый <xliff:g id="extension">%2$s</xliff:g></string>
@@ -253,7 +256,8 @@
   <string name="actions_menu_properties">Свойства</string>
   <string name="actions_menu_add_to_bookmarks">Добавить в закладки</string>
   <string name="actions_menu_add_shortcut">Добавить ярлык</string>
-  <string name="actions_menu_open_parent_folder">Открыть родителя</string>
+  <string name="actions_menu_open_parent_folder">Открыть папку с файлом</string>
+  <string name="actions_menu_compute_checksum">Контрольные суммы</string>
 
   <string name="actions_ask_undone_operation_msg">Это действие не обратимо. Вы хотите продолжить?</string>
 
@@ -277,6 +281,10 @@
   <string name="execution_console_script_execution_time_label">Время:</string>
   <string name="execution_console_script_exitcode_label">Код завершения:</string>
   <string name="execution_console_script_execution_time_text"><xliff:g id="seconds">%1$s</xliff:g> сек.</string>
+
+  <string name="compute_checksum_title">Контрольные суммы</string>
+  <string name="compute_checksum_filename_label">Файл:</string>
+  <string name="compute_checksum_computing_checksum_msg">Расчёт контрольных сумм\u2026</string>
 
   <string name="mime_folder">Папка</string>
   <string name="mime_symlink">Симлинк</string>
@@ -315,15 +323,17 @@
   <string name="pref">Настройки</string>
   <string name="pref_general">Основные настройки</string>
   <string name="pref_search">Настройки поиска</string>
+  <string name="pref_editor">Настройки редактора</string>
   <string name="pref_themes">Темы</string>
   <string name="pref_about">О приложении</string>
 
   <string name="pref_general_behaviour_category">Основные</string>
   <string name="pref_case_sensitive_sort">Учитывать регистр при сортировке</string>
+  <string name="pref_case_sensitive_sort_summary">Сортировка результатов при поиске или навигации</string>
   <string name="pref_disk_usage_warning_level">Предупреждения исп. памяти</string>
   <string name="pref_disk_usage_warning_level_summary" formatted="false">Показывать разноцветные индикации дискового пространства, когда они достигают <xliff:g id="level">%1$s</xliff:g> процентов свободного места</string>
   <string name="pref_compute_folder_statistics">Расчёт статистики по папкам</string>
-  <string name="pref_compute_folder_statistics_on">Внимание! Расчёт статистики по папкам займёт длительное время и потребуется значительное количество системных ресурсов</string>
+  <string name="pref_compute_folder_statistics_on">Внимание! Расчёт статистики по папкам займёт длительное время и потребует значительное количество системных ресурсов</string>
   <string name="pref_use_flinger">Использовать жесты</string>
   <string name="pref_use_flinger_summary">Используйте жест справа налево для удаления файлов или папок</string>
   <string name="pref_general_advanced_settings_category">Расширенные настройки</string>
@@ -348,7 +358,8 @@
   <string name="pref_remove_saved_search_terms">Удалить сохранённые условия поиска</string>
   <string name="pref_remove_saved_search_terms_summary">Нажмите для удаления всех сохранённых условий поиска</string>
   <string name="pref_remove_saved_search_terms_msg">Все сохранённые условия поиска были удалены</string>
-
+  <string name="pref_editor_behaviour_category">Поведение</string>
+  <string name="pref_word_wrap">Перенос слов</string>
   <string name="pref_themes_selection_category">Темы</string>
   <string name="pref_themes_set_theme">Применить</string>
   <string name="pref_themes_no_preview">Превью недоступно</string>

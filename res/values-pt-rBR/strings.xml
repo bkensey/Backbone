@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
  -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">G. de Arquivos</string>
     <string name="app_description">Um gerenciador de arquivos por CyanogenMod</string>
     <string name="device_blockdevice">Bloquear dispositivo</string>
@@ -267,9 +267,10 @@
     <string name="pref_general">Configurações gerais</string>
     <string name="pref_search">Opções de busca</string>
     <string name="pref_about">Sobre</string>
-    <string name="pref_about_summary">Gerenciador de Arquivos v<xliff:g id="version" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g>\nCopyright \u00A9 2012 The CyanogenMod Project</string>
+    <string name="pref_about_summary">Gerenciador de Arquivos v<xliff:g id="version" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g>\nCopyright \u00A9 2013 The CyanogenMod Project</string>
     <string name="pref_general_behaviour_category">Geral</string>
-    <string name="pref_case_sensitive_sort">Usar ordenação sensível a maiúsculas/minúsculas</string>
+    <string name="pref_case_sensitive_sort">Maiúsculas/minúsculas</string>
+    <string name="pref_case_sensitive_sort_summary">Considerar maiúsculas/minúsculas quando navegando ou ordenando resultados de buscas</string>
     <string name="pref_disk_usage_warning_level">Aviso sobre o uso do disco</string>
     <string name="pref_disk_usage_warning_level_summary" formatted="false">Exibir uma cor diferente nos widgets de uso de disco quando chegar a <xliff:g id="level" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> porcento de espaço disponível</string>
     <string name="pref_compute_folder_statistics">Gerar estatísticas da pasta</string>
@@ -302,7 +303,7 @@
     <string name="security_warning_extract">Aviso!\n\nO dispositivo pode ser danificado se, ao extrair arquivos com caminhos relativos ou absolutos, arquivos de sistema forem sobrescritos.\n\nVocê deseja continuar?</string>
     <string name="changelog_title">Registro de mudanças</string>
     <string name="welcome_title">Bem vindo</string>
-    <string name="welcome_msg">Bem vindo ao gerenciador de arquivos CyanogenMod.\n\nEste aplicativo permite você a explorar o sistema de arquivos e fazer operações que podem danificar seu dispositivo. Para previnir danos, o aplicativo irá iniciar em modo seguro e com poucos privilégios.\n\nVocê pode acessar o modo avançado, com todos os privilégios através das Configurações. É sua responsabilidade de garantir que uma operação não danifica seu sistema.\n\nThe CyanogenMod Team.\n</string>
+    <string name="welcome_msg">Bem vindo ao gerenciador de arquivos CyanogenMod.\n\nEste aplicativo permite você a explorar o sistema de arquivos e fazer operações que podem danificar seu dispositivo. Para prevenir danos, o aplicativo irá iniciar em modo seguro e com poucos privilégios.\n\nVocê pode acessar o modo avançado, com todos os privilégios através das Configurações. É sua responsabilidade de garantir que uma operação não danifique seu sistema.\n\nThe CyanogenMod Team.\n</string>
     <string name="themes_author">CyanogenMod</string>
     <string name="pref_themes">Temas</string>
     <string name="pref_themes_selection_category">Temas</string>
@@ -317,7 +318,7 @@
     <string name="fso_properties_dialog_last_changed_date">Alterado:</string>
     <string name="fso_properties_dialog_include_in_media_scan">Pular varredura de mídia:</string>
     <string name="fso_failed_to_allow_media_scan">Falha ao permitir varredura de mídia</string>
-    <string name="fso_failed_to_prevent_media_scan">Falha ao previnir varredura de mídia</string>
+    <string name="fso_failed_to_prevent_media_scan">Falha ao prevenir varredura de mídia</string>
     <string name="fso_delete_nomedia_dir_title">Remover diretório .nomedia</string>
     <string name="fso_delete_nomedia_dir_body">Este diretório contém um diretório .nomedia.\n\nVocê deseja removê-lo e todo seu conteúdo?</string>
     <string name="fso_delete_nomedia_non_empty_title">Remover arquivo .nomedia</string>
@@ -325,4 +326,10 @@
     <string name="actions_menu_send_selection">Enviar seleção</string>
     <string name="select">Selecionar</string>
     <string name="directory_picker_title">Escolha um diretório</string>
+    <string name="copy_text_cd">Toque para copiar texto para área de transferência</string>
+    <string name="copy_text_msg">Texto copiado para área de transferência</string>
+    <string name="actions_menu_compute_checksum">Calcular checksum</string>
+    <string name="compute_checksum_title">Calcular checksum</string>
+    <string name="compute_checksum_filename_label">Arquivo:</string>
+    <string name="compute_checksum_computing_checksum_msg">Calculando checksum\u2026</string>
 </resources>

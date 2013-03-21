@@ -24,7 +24,7 @@
          * holo: @android:style/Theme.Holo
          * holo_light: @android:style/Theme.Holo.Light
   -->
-  <string name="dark_base_theme">holo</string>
+  <string name="dark_base_theme" translatable="false">holo</string>
 
   <!-- The image preview -->
   <drawable name="dark_theme_preview_drawable">@drawable/dark_theme_preview</drawable>
@@ -115,6 +115,7 @@
   <drawable name="dark_ic_usb_drawable">@drawable/ic_holo_dark_usb</drawable>
   <drawable name="dark_ic_user_defined_bookmark_drawable">@drawable/ic_holo_dark_user_defined_bookmark</drawable>
   <!--<drawable name="dark_ic_history_search_drawable">@null</drawable> -->
+  <drawable name="dark_ic_copy_drawable">@drawable/ic_holo_dark_copy</drawable>
 
   <!-- Disk usage graph -->
   <color name="dark_disk_usage_total_color">#7ecccccc</color>

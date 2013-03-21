@@ -14,7 +14,8 @@
      limitations under the License.
  -->
 
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
   <!-- The name of the application -->
   <string name="app_name">Backbone</string>
@@ -61,6 +62,10 @@
   <string name="cancelled_message">Cancelled.</string>
   <!-- Error message -->
   <string name="error_message">Error.</string>
+  <!-- Copy text content description -->
+  <string name="copy_text_cd">Tap to copy text to clipboard</string>
+  <!-- Copy text content message -->
+  <string name="copy_text_msg">Text copied to clipboard</string>
 
   <!-- Warning dialog title -->
   <string name="warning_title">Warning</string>
@@ -416,6 +421,8 @@
   <string name="menu_settings">Settings</string>
   <!-- Menu * History * Clear history -->
   <string name="menu_clear_history">Clear history</string>
+  <!-- Menu * Editor * Word wrap -->
+  <string name="menu_word_wrap">Word wrap</string>
 
   <!-- Regular expression for create copy action -->
   <string name="create_copy_regexp">
@@ -521,6 +528,8 @@
   <string name="actions_menu_add_shortcut">Add shortcut</string>
   <!-- Actions Dialog * Menu * Open parent folder -->
   <string name="actions_menu_open_parent_folder">Open parent</string>
+  <!-- Actions Dialog * Menu * Compute checksum -->
+  <string name="actions_menu_compute_checksum">Compute checksum</string>
 
   <!-- Actions * Ask user prior to do an undone operation. Dialog message -->
   <string name="actions_ask_undone_operation_msg">
@@ -566,6 +575,17 @@
   <!-- Execution console * The script execution time seconds string -->
   <string name="execution_console_script_execution_time_text">
     <xliff:g id="seconds">%1$s</xliff:g> sec.</string>
+
+  <!-- Compute checksum * Title -->
+  <string name="compute_checksum_title">Compute checksum</string>
+  <!-- Compute checksum * The file name label -->
+  <string name="compute_checksum_filename_label">File:</string>
+  <!-- Compute checksum * The MD5 label -->
+  <string name="compute_checksum_md5_label" translatable="false">MD5:</string>
+  <!-- Compute checksum * The SHA1 label -->
+  <string name="compute_checksum_sha1_label" translatable="false">SHA-1:</string>
+  <!-- Compute checksum * The computing checksum message-->
+  <string name="compute_checksum_computing_checksum_msg">Computing checksum\u2026</string>
 
   <!-- Mime/Types * Folder -->
   <string name="mime_folder">Folder</string>
@@ -614,6 +634,7 @@
   <string name="compression_mode_tar_bzip" translatable="false">Tar/bzip (tar.bz2)</string>
   <string name="compression_mode_gzip" translatable="false">Gzip (gz)</string>
   <string name="compression_mode_bzip" translatable="false">Bzip (bz2)</string>
+  <string name="compression_mode_zip" translatable="false">Zip (zip)</string>
 
   <!-- Shortcut. Failed to handle the shortcut -->
   <string name="shortcut_failed_msg">Failed to handle the shortcut.</string>
@@ -628,18 +649,22 @@
   <string name="pref_general">General settings</string>
   <!-- Preferences * Search title -->
   <string name="pref_search">Search options</string>
+  <!-- Preferences * Editor title -->
+  <string name="pref_editor">Editor options</string>
   <!-- Preferences * Themes title -->
   <string name="pref_themes">Themes</string>
   <!-- Preferences * About title -->
   <string name="pref_about">About</string>
   <!-- Preferences * About summary -->
   <string name="pref_about_summary">File Manager v<xliff:g id="version">%1$s</xliff:g>
-    \nCopyright \u00A9 2012 The CyanogenMod Project</string>
+    \nCopyright \u00A9 2013 The CyanogenMod Project</string>
 
   <!-- Preferences * General * Behaviour category -->
   <string name="pref_general_behaviour_category">General</string>
-  <!-- Preferences * General * Case sensitive sort title -->
-  <string name="pref_case_sensitive_sort">Use case-sensitive sorting</string>
+  <!-- Preferences * General * Case sensitive sort and navigating title -->
+  <string name="pref_case_sensitive_sort">Case-sensitive</string>
+  <!-- Preferences * General * Case sensitive sort and navigating summary -->
+  <string name="pref_case_sensitive_sort_summary">Consider case when navigating or sorting search results</string>
   <!-- Preferences * General *Disk usage warning level title -->
   <string name="pref_disk_usage_warning_level">Disk usage warning</string>
   <!-- Preferences * General * Disk usage warning level summary -->
@@ -706,6 +731,10 @@
   <string name="pref_remove_saved_search_terms_summary">Tap to remove all the saved search terms</string>
   <!-- Preferences * Search * Suggestions were truncated -->
   <string name="pref_remove_saved_search_terms_msg">All saved search terms were removed.</string>
+  <!-- Preferences * Editor * Behaviour category -->
+  <string name="pref_editor_behaviour_category">Behaviour</string>
+  <!-- Preferences * Editor * Word wrap -->
+  <string name="pref_word_wrap">Word wrap</string>
   <!-- Preferences * Themes * Themes selection category -->
   <string name="pref_themes_selection_category">Themes</string>
   <!-- Preferences * Themes * Set theme button -->
