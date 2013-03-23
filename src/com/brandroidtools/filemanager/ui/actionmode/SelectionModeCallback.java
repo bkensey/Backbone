@@ -39,10 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectionModeCallback implements ActionMode.Callback {
-    private MenuItem mActionRefresh;
-    private MenuItem mActionNewDirectory;
-    private MenuItem mActionNewFile;
-    private MenuItem mActionPasteSelection;
     private MenuItem mActionMoveSelection;
     private MenuItem mActionDeleteSelection;
     private MenuItem mActionCompressSelection;
@@ -61,6 +57,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
     private MenuItem mActionSend;
     private MenuItem mActionAddBookmark;
     private MenuItem mActionAddShortcut;
+    private MenuItem mActionChecksum;
     private MenuItem mActionOpenParentFolder;
     private ShareActionProvider mShareActionProvider;
 
@@ -146,9 +143,6 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mFolderCount = (TextView)customTitle.findViewById(R.id.folder_count);
         mode.setCustomView(customTitle);
 
-        mActionRefresh = menu.findItem(R.id.mnu_actions_refresh);
-        mActionNewDirectory = menu.findItem(R.id.mnu_actions_new_directory);
-        mActionNewFile = menu.findItem(R.id.mnu_actions_new_file);
         mActionCreateCopy = menu.findItem(R.id.mnu_actions_copy);
         mActionMoveSelection = menu.findItem(R.id.mnu_actions_move);
         mActionDeleteSelection = menu.findItem(R.id.mnu_actions_delete_selection);
@@ -167,6 +161,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
         mActionSend = menu.findItem(R.id.mnu_actions_send);
         mActionAddBookmark = menu.findItem(R.id.mnu_actions_add_to_bookmarks);
         mActionAddShortcut = menu.findItem(R.id.mnu_actions_add_shortcut);
+        mActionChecksum = menu.findItem(R.id.mnu_actions_compute_checksum);
 
         // Set file with share history to the provider and set the share intent.
 //        mShareActionProvider = (ShareActionProvider) mShare.getActionProvider();
@@ -255,6 +250,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             mActionAddBookmark.setVisible(false);
             mActionAddShortcut.setVisible(false);
             mActionCreateLinkGlobal.setVisible(false);
+            mActionChecksum.setVisible(false);
         }
 
         /*
