@@ -1,13 +1,31 @@
 Backbone File Manager
 =====================
 
-Backbone is a brand new file manager project for Android 4.0 and up.  We wrote Backbone to walk the line between intuitive use and powerful functionality, so we've got you covered whether you want to modify system file permissions or just move your photos around.
+Backbone is a brand new file manager for Android 4.0 and up.  We wrote Backbone to strike a balance between intuitive use and powerful functionality so that you'd be covered whether you're to modifying system file permissions or just organizing downloads. 
 
-Android has grown - isn't it time your file manager did the same?  Let Backbone simplify your life and make you awesome.
+Android has matured - isn't it time your file manager did the same?
 
-This source was released under the terms of
-[Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0.html) license.
+Backbone is based on on the amazing [CMFileManager](https://github.com/CyanogenMod/android_packages_apps_CMFileManager) by Jorge Ruesga
 
-Based on the amazing [CMFileManager](https://github.com/jruesga/CMFileManager) by jruesga
+Developed By
+============
 
-Copyright © 2012 BrandroidTools
+* Brandon Bowles
+* Brent Kensey
+
+License
+-------
+
+    Copyright 2013 BrandroidTools
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
