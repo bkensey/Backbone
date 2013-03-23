@@ -402,6 +402,11 @@
   <!-- Bookmarks * Bookmarks * Actions * Bookmark successfully added -->
   <string name="bookmarks_msgs_add_success">The bookmark was added successfully.</string>
 
+  <!-- Licenses * Licenses activity title -->
+  <string name="licenses">Licenses</string>
+  <!-- Licenses * The license list is empty -->
+  <string name="msgs_licenses_empty">No licenses present.</string>
+
   <!-- Initial directory dialog title -->
   <string name="initial_directory_dialog_title">Initial folder</string>
   <!-- Initial directory label -->
@@ -761,6 +766,21 @@
   <string name="pref_about_version">Build version</string>
   <!-- Preferences * About * Build version summary -->
   <string name="pref_about_version_num">Version: <xliff:g id="version_num">%1$s</xliff:g></string>
+
+
+    <!-- Preferences * About * Credits and licenses * CMFileManager -->
+    <string name="pref_license_cmfm" translatable="false"><![CDATA[<a href="https://github.com/CyanogenMod/android_packages_apps_CMFileManager">CyanogenMod File Manager</a>]]></string>
+    <!-- Preferences * About * Build version summary -->
+    <string name="pref_license_cmfm_details" translatable="false">A file manager for AOSP, focused on rooted devices
+      and specially designed for the CyanogenMod Project.
+
+      This source was released under the terms of
+      <![CDATA[<a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>]]>  license.
+
+      Visit <![CDATA[<a href="https://github.com/CyanogenMod">CyanogenMod Github</a>]]> and
+      <![CDATA[<a href="http://review.cyanogenmod.com/">CyanogenMod Code Review</a>]]> to get the source and patches.
+
+      Copyright © 2012 The CyanogenMod Project</string>
 
   <!-- Preferences * Debug * Capture debug traces -->
   <string name="pref_debug_traces">Log debugging information</string>

@@ -613,7 +613,7 @@ public class SettingsPreferences extends PreferenceActivity {
 
             // Credits and Open Source Licenses
             this.mCreditsAndLicenses = findPreference("bb_filemanager_credits_licenses");
-            this.mCreditsAndLicenses.setEnabled(false);
+            mCreditsAndLicenses.setIntent(new Intent(getActivity(), LicenseActivity.class));;
 
             // Build Version
             this.mVersion = findPreference("bb_filemanager_version");

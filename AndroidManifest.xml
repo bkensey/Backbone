@@ -188,6 +188,14 @@
       </intent-filter>
     </activity>
 
+      <activity
+      android:name=".activities.preferences.LicenseActivity"
+      android:label="@string/licenses"
+      android:uiOptions="none"
+      android:configChanges="orientation|keyboardHidden|screenSize"
+      android:exported="false">
+    </activity>
+
   </application>
 
 </manifest>

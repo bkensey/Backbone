@@ -200,7 +200,7 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
     }
 
     /**
-     * Method that initializes the titlebar of the activity.
+     * Method that initializes the history listview of the activity.
      */
     @SuppressWarnings("unchecked")
     private void initHistory() {

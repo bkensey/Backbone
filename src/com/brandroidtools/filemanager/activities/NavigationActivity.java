@@ -79,13 +79,8 @@ import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
 import com.brandroidtools.filemanager.ui.policy.NewActionPolicy;
 import com.brandroidtools.filemanager.ui.widgets.*;
 
-import com.brandroidtools.filemanager.util.AndroidHelper;
-import com.brandroidtools.filemanager.util.CommandHelper;
-import com.brandroidtools.filemanager.util.DialogHelper;
-import com.brandroidtools.filemanager.util.ExceptionUtil;
+import com.brandroidtools.filemanager.util.*;
 import com.brandroidtools.filemanager.util.ExceptionUtil.OnRelaunchCommandResult;
-import com.brandroidtools.filemanager.util.FileHelper;
-import com.brandroidtools.filemanager.util.StorageHelper;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -353,6 +348,10 @@ public class NavigationActivity extends FragmentActivity
 
         // Show welcome message
         showWelcomeMsg();
+
+        // Set Roboto as activity font even for v4.0
+        FontUtils.setRobotoFont(
+                NavigationActivity.this, (ViewGroup) NavigationActivity.this.getWindow().getDecorView());
 
         //Save state
         super.onCreate(state);
