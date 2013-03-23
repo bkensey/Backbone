@@ -349,10 +349,6 @@ public class NavigationActivity extends FragmentActivity
         // Show welcome message
         showWelcomeMsg();
 
-        // Set Roboto as activity font even for v4.0
-        FontUtils.setRobotoFont(
-                NavigationActivity.this, (ViewGroup) NavigationActivity.this.getWindow().getDecorView());
-
         //Save state
         super.onCreate(state);
     }

@@ -40,6 +40,7 @@
 
     <TextView
       android:id="@+id/navigation_view_item_name"
+      android:fontFamily="sans-serif-medium"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_alignParentLeft="true"
@@ -50,6 +51,7 @@
 
     <TextView
       android:id="@+id/navigation_view_item_summary"
+      android:fontFamily="sans-serif-light"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
@@ -60,6 +62,7 @@
 
     <TextView
       android:id="@+id/navigation_view_item_size"
+      android:fontFamily="sans-serif-light"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"

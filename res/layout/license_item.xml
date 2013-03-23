@@ -20,7 +20,7 @@
               android:layout_height="match_parent">
 
     <TextView
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="sans-serif-condensed"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/license_header"
@@ -29,6 +29,7 @@
             android:textSize="32dp"
             android:text="Header"/>
     <TextView
+            android:fontFamily="sans-serif-light"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/license_details"
