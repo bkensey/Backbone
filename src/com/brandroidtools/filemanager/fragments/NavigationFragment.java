@@ -310,31 +310,6 @@ public class NavigationFragment extends Fragment implements
         this.mHandler.post(new Runnable() {
             @Override
             public void run() {
-                //Create the default console (from the preferences)
-                try {
-                    Console console = ConsoleBuilder.getConsole(mActivity);
-                    if (console == null) {
-                        throw new ConsoleAllocException("console == null"); //$NON-NLS-1$
-                    }
-                } catch (Throwable ex) {
-                    if (!mActivity.isChRooted()) {
-                        //Show exception and exists
-                        Log.e(TAG, getString(R.string.msgs_cant_create_console), ex);
-                        // We don't have any console
-                        // Show exception and exists
-                        DialogHelper.showToast(
-                                mActivity,
-                                R.string.msgs_cant_create_console, Toast.LENGTH_LONG);
-                        mActivity.exit();
-                        return;
-                    }
-
-                    // We are in a trouble (something is not allowing creating the console)
-                    // Ask the user to return to prompt or root access mode mode with a
-                    // non-privileged console, prior to make crash the application
-                    mActivity.askOrExit();
-                    return;
-                }
 
                 //Is necessary navigate?
                 if (!restore) {
