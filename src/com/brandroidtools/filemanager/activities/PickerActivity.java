@@ -16,7 +16,6 @@
 
 package com.brandroidtools.filemanager.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -190,7 +189,7 @@ public class PickerActivity extends FragmentActivity
             pickingDirectory = true;
         } else {
             Log.d(TAG, "PickerActivity got unrecognized intent: " + String.valueOf(intent)); //$NON-NLS-1$
-            setResult(Activity.RESULT_CANCELED);
+            setResult(FragmentActivity.RESULT_CANCELED);
             finish();
             return;
         }
@@ -418,7 +417,7 @@ public class PickerActivity extends FragmentActivity
             // and return RESULT_OK result)
             Intent result = new Intent();
             result.setData(getResultUriForFileFromIntent(src, getIntent()));
-            setResult(Activity.RESULT_OK, result);
+            setResult(FragmentActivity.RESULT_OK, result);
             finish();
 
         } else {
@@ -541,7 +540,7 @@ public class PickerActivity extends FragmentActivity
      * Method that cancels the activity
      */
     private void cancel() {
-        setResult(Activity.RESULT_CANCELED);
+        setResult(FragmentActivity.RESULT_CANCELED);
         finish();
     }
 

@@ -298,6 +298,8 @@ public class NavigationActivity extends FragmentActivity
             Log.d(TAG, "NavigationActivity.onCreate"); //$NON-NLS-1$
         }
 
+
+
         // Register the broadcast receiver
         IntentFilter filter = new IntentFilter();
         filter.addAction(FileManagerSettings.INTENT_SETTING_CHANGED);
