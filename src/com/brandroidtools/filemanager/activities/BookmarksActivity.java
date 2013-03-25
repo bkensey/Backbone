@@ -89,7 +89,7 @@ public class BookmarksActivity extends FragmentActivity{
         //Set the main layout of the activity
         setContentView(R.layout.bookmarks);
 
-        FragmentManager fm       = getSupportFragmentManager();
+        /*FragmentManager fm       = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_content); // You can find Fragments just like you would with a
         // View by using FragmentManager.
 
@@ -106,7 +106,7 @@ public class BookmarksActivity extends FragmentActivity{
             ft.add(R.id.fragment_content, new NavigationFragment());
             ft.commit(); // Make sure you call commit or your Fragment will not be added.
             // This is very common mistake when working with Fragments!
-        }
+        }*/
 
 
 

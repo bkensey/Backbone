@@ -20,17 +20,17 @@
   android:layout_height="match_parent"
   android:orientation="vertical">
 
-    <FrameLayout
+<!--    <FrameLayout
         android:id="@+id/fragment_content"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent" />-->
 
     <!-- Picker Navigation View -->
-<!--    <fragment
+    <fragment
         android:name="com.brandroidtools.filemanager.fragments.BookmarksFragment"
         android:id="@+id/bookmarks_fragment"
         android:layout_weight="1"
         android:layout_width="0dp"
-        android:layout_height="match_parent" />-->
+        android:layout_height="match_parent" />
 
 </LinearLayout>
