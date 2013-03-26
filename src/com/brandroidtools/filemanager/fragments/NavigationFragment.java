@@ -22,12 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -35,6 +34,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.*;
+
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.NavigationActivity;

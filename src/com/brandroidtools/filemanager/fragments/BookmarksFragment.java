@@ -17,17 +17,16 @@
 
 package com.brandroidtools.filemanager.fragments;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
@@ -38,12 +37,9 @@ import android.widget.Toast;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.BookmarksActivity;
-import com.brandroidtools.filemanager.activities.NavigationActivity;
 import com.brandroidtools.filemanager.adapters.BookmarksAdapter;
-import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
 import com.brandroidtools.filemanager.model.Bookmark;
 import com.brandroidtools.filemanager.model.Bookmark.BOOKMARK_TYPE;
-import com.brandroidtools.filemanager.model.FileSystemObject;
 import com.brandroidtools.filemanager.model.FileSystemStorageVolume;
 import com.brandroidtools.filemanager.preferences.AccessMode;
 import com.brandroidtools.filemanager.preferences.Bookmarks;
@@ -146,7 +142,7 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
      */
     ListView mBookmarksListView;
 
-    private FragmentActivity mActivity;
+    private Activity mActivity;
 
     private boolean mChRooted;
 
@@ -154,9 +150,9 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
      * {@inheritDoc}
      */
     @Override
-    public void onCreate(Bundle state) {
+    public void onActivityCreated(Bundle state) {
         if (DEBUG) {
-            Log.d(TAG, "BookmarksFragment.onCreate"); //$NON-NLS-1$
+            Log.d(TAG, "BookmarksFragment.onActivityCreated"); //$NON-NLS-1$
         }
 
         mActivity = getActivity();

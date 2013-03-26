@@ -257,7 +257,7 @@ public class PickerActivity extends FragmentActivity
 
         // Navigation view
         this.mNavigationFragment =
-                (NavigationFragment)getSupportFragmentManager().findFragmentById (R.id.navigation_fragment);
+                (NavigationFragment)getFragmentManager().findFragmentById (R.id.navigation_fragment);
         this.mNavigationFragment.setRestrictions(restrictions);
         this.mNavigationFragment.setOnFilePickedListener(this);
         this.mNavigationFragment.setOnDirectoryChangedListener(this);

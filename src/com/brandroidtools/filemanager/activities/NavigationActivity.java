@@ -18,6 +18,7 @@
 package com.brandroidtools.filemanager.activities;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -32,7 +33,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -101,7 +101,7 @@ import java.util.List;
  * {@link android.app.Activity#onRestoreInstanceState(android.os.Bundle)} are not implemented, and every time
  * the app is killed, is restarted from his initial state.
  */
-public class NavigationActivity extends FragmentActivity
+public class NavigationActivity extends Activity
     implements OnHistoryListener, OnRequestRefreshListener, OnCopyMoveListener,
         OnNavigationRequestMenuListener, OnPageChangeListener, BreadcrumbListener {
 
@@ -478,7 +478,7 @@ public class NavigationActivity extends FragmentActivity
         mViewPager = (ViewPager)findViewById(R.id.navigation_pager);
 
         // Plug the ViewPager into the Pager Adapter and set the number of pages
-        mPagerAdapter = new NavigationFragmentPagerAdapter(this, getSupportFragmentManager(), 2);
+        mPagerAdapter = new NavigationFragmentPagerAdapter(this, getFragmentManager(), 2);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setHorizontalScrollBarEnabled(true);
 
