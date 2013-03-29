@@ -146,6 +146,12 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
 
     private boolean mChRooted;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.bookmarks_fragment, container, false);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -168,12 +174,6 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
 
         //Save state
         super.onCreate(state);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.bookmarks_fragment, container, false);
     }
 
     /**
