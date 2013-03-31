@@ -920,10 +920,8 @@ public class EditorActivity extends Activity implements TextWatcher {
         Theme theme = ThemeManager.getCurrentTheme(this);
         theme.setBaseTheme(this, false);
 
-        // -View
-        View v = findViewById(R.id.editor_layout);
-        theme.setBackgroundDrawable(this, v, "background_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.editor);
+        theme.setBackgroundDrawable(this, getWindow().getDecorView(), "background_drawable"); //$NON-NLS-1$
+        View v = findViewById(R.id.editor);
         theme.setTextColor(this, (TextView)v, "text_color"); //$NON-NLS-1$
     }
 

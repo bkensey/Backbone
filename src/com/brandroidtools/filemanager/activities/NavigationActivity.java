@@ -1495,15 +1495,15 @@ public class NavigationActivity extends Activity
     public void onPageSelected(int position) {
         // Load the new fragments current dir into the breadcrumb
         if (this.mBreadcrumb != null) {
-            this.mBreadcrumb.changeBreadcrumbPath(getCurrentNavigationFragment().getCurrentDir(), this.mChRooted);
+            //this.mBreadcrumb.changeBreadcrumbPath(getCurrentNavigationFragment().getCurrentDir(), this.mChRooted);
         }
 
         // Tell the breadcrumb that the new fragment will now be the one sending dir changes
         NavigationFragment navigationFragment = getCurrentNavigationFragment();
-        navigationFragment.setBreadcrumb(mBreadcrumb);
+        //navigationFragment.setBreadcrumb(mBreadcrumb);
         navigationFragment.setOnHistoryListener(this);
         navigationFragment.setOnNavigationOnRequestMenuListener(this);
-        navigationFragment.setCustomTitle(mTitle);
+        //navigationFragment.setCustomTitle(mTitle);
     }
 
     /**

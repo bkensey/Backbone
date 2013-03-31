@@ -339,7 +339,7 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
         theme.setBaseTheme(this, false);
 
         // -View
-        theme.setBackgroundDrawable(this, this.mListView, "background_drawable"); //$NON-NLS-1$
+        theme.setBackgroundDrawable(this, getWindow().getDecorView(), "background_drawable"); //$NON-NLS-1$
         if (this.mAdapter != null) {
             this.mAdapter.notifyThemeChanged();
             this.mAdapter.notifyDataSetChanged();

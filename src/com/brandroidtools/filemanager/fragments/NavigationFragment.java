@@ -196,7 +196,7 @@ public class NavigationFragment extends Fragment implements
     /**
      * @hide
      */
-    RelativeLayout mNavigationViewHolder;
+    LinearLayout mNavigationViewHolder;
     /**
      * @hide
      */
@@ -291,7 +291,7 @@ public class NavigationFragment extends Fragment implements
      * Method that initializes the navigation views of the activity
      */
     private void initNavigationViewContainer() {
-        mNavigationViewHolder = (RelativeLayout)getView().findViewById(R.id.navigation_view_container);
+        mNavigationViewHolder = (LinearLayout)getView().findViewById(R.id.navigation_view_container);
         TypedArray a = mActivity.obtainStyledAttributes(R.styleable.Navigable);
         try {
             init(a);
@@ -1435,7 +1435,7 @@ public class NavigationFragment extends Fragment implements
 
         //- Redraw the adapter view
         ThemeManager.Theme theme = ThemeManager.getCurrentTheme(mActivity);
-        theme.setBackgroundDrawable(mActivity, mNavigationViewHolder, "background_drawable"); //$NON-NLS-1$
+        //theme.setBackgroundDrawable(mActivity, mNavigationViewHolder, "background_drawable"); //$NON-NLS-1$
         if (this.mAdapter != null) {
             this.mAdapter.notifyThemeChanged();
         }

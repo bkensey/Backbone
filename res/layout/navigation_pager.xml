@@ -15,22 +15,12 @@
      limitations under the License.
  -->
 
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/navigation_pager_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+<!-- Navigation Pager -->
+<android.support.v4.view.ViewPager
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/navigation_pager"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_weight="1">
+</android.support.v4.view.ViewPager>
 
-    <!-- Navigation Pager -->
-    <android.support.v4.view.ViewPager
-            android:id="@+id/navigation_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0px"
-            android:layout_weight="1">
-    </android.support.v4.view.ViewPager>
-
-    <!-- StatusBar -->
-    <!--<include layout="@layout/navigation_view_statusbar" />-->
-
-</LinearLayout>

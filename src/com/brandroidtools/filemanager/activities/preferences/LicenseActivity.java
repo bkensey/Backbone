@@ -239,7 +239,7 @@ public class LicenseActivity extends Activity {
         theme.setBaseTheme(this, false);
 
         // -View
-        theme.setBackgroundDrawable(this, this.mListView, "background_drawable"); //$NON-NLS-1$
+        theme.setBackgroundDrawable(this, getWindow().getDecorView(), "background_drawable"); //$NON-NLS-1$
         this.mListView.setDivider(
                 theme.getDrawable(this, "horizontal_divider_drawable")); //$NON-NLS-1$
         this.mListView.invalidate();
