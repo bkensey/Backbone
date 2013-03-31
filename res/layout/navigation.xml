@@ -17,18 +17,9 @@
 
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:filemanager="http://schemas.android.com/apk/res/com.brandroidtools.filemanager"
-  android:id="@+id/navigation_layout"
+  android:id="@+id/navigation_view_container"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical">
-
-  <!-- Navigation View -->
-  <RelativeLayout
-    android:id="@+id/navigation_view_container"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    filemanager:navigation="browsable" />
 
 </LinearLayout>
