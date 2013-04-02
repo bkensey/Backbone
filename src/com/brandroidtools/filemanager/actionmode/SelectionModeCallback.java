@@ -135,7 +135,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
         MenuInflater inflater = mActivity.getMenuInflater();
         inflater.inflate(R.menu.actionmode, menu);
 
-        View customTitle = mActivity.getLayoutInflater().inflate(R.layout.navigation_action_mode_test, null, false);
+        View customTitle = mActivity.getLayoutInflater().inflate(R.layout.navigation_action_mode, null, false);
         mFileCount = (TextView)customTitle.findViewById(R.id.file_count);
         mFolderCount = (TextView)customTitle.findViewById(R.id.folder_count);
         mode.setCustomView(customTitle);

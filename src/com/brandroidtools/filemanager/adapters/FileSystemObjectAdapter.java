@@ -434,6 +434,9 @@ public class FileSystemObjectAdapter
      */
     private void doSelectDeselectAllVisibleItems(boolean select) {
         if (this.mData != null && this.mData.length > 0) {
+            // Clear mSelectedItems.  Both deselect all and select all require a blank slate.
+            FileSystemObjectAdapter.this.mSelectedItems.clear();
+
             Theme theme = ThemeManager.getCurrentTheme(getContext());
             int cc = this.mData.length;
             for (int i = 0; i < cc; i++) {
