@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.brandroidtools.filemanager.ui.actionmode;
+package com.brandroidtools.filemanager.actionmode;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -28,14 +28,11 @@ import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.listeners.OnSelectionListener;
 import com.brandroidtools.filemanager.model.FileSystemObject;
-import com.brandroidtools.filemanager.model.SystemFile;
 import com.brandroidtools.filemanager.preferences.AccessMode;
 import com.brandroidtools.filemanager.ui.dialogs.InputNameDialog;
 import com.brandroidtools.filemanager.ui.policy.*;
 import com.brandroidtools.filemanager.util.*;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelectionModeCallback implements ActionMode.Callback {
