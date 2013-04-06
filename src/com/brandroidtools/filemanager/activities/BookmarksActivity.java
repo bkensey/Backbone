@@ -58,7 +58,6 @@ public class BookmarksActivity extends Activity{
     /**
      * @hide
      */
-    ListView mBookmarksListView;
     BookmarksFragment mBookmarksFragment;
 
     /**
@@ -76,8 +75,12 @@ public class BookmarksActivity extends Activity{
         // Load the BoookmarksFragment
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.add(R.id.fragment_content, new BookmarksFragment());
+        mBookmarksFragment = new BookmarksFragment();
+        ft.add(R.id.fragment_content, mBookmarksFragment);
         ft.commit();
+
+        //Set in transition
+        overridePendingTransition(R.anim.translate_to_right_in, R.anim.hold_out);
 
         //Initialize action bar
         initTitleActionBar();

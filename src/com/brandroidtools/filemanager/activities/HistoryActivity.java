@@ -18,6 +18,8 @@
 package com.brandroidtools.filemanager.activities;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +35,8 @@ import android.widget.ListView;
 
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.adapters.HistoryAdapter;
+import com.brandroidtools.filemanager.fragments.BookmarksFragment;
+import com.brandroidtools.filemanager.fragments.HistoryFragment;
 import com.brandroidtools.filemanager.model.History;
 import com.brandroidtools.filemanager.preferences.FileManagerSettings;
 import com.brandroidtools.filemanager.ui.ThemeManager;
@@ -46,11 +50,13 @@ import java.util.List;
 /**
  * An activity for show navigation history.
  */
-public class HistoryActivity extends Activity implements OnItemClickListener {
+public class HistoryActivity extends Activity {
 
     private static final String TAG = "HistoryActivity"; //$NON-NLS-1$
 
     private static boolean DEBUG = false;
+
+    HistoryFragment mHistoryFragment;
 
     private final BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
         @Override
@@ -62,27 +68,6 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
             }
         }
     };
-
-    /**
-     * @hide
-     */
-    ListView mListView;
-    /**
-     * @hide
-     */
-    HistoryAdapter mAdapter;
-    /**
-     * @hide
-     */
-    boolean mIsEmpty;
-    private boolean mIsClearHistory;
-
-    private View mOptionsAnchorView;
-
-    /**
-     * Intent extra parameter for the history data.
-     */
-    public static final String EXTRA_HISTORY_LIST = "extra_history_list";  //$NON-NLS-1$
 
     /**
      * {@inheritDoc}
@@ -98,21 +83,21 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
         filter.addAction(FileManagerSettings.INTENT_THEME_CHANGED);
         registerReceiver(this.mNotificationReceiver, filter);
 
-        this.mIsEmpty = false;
-        this.mIsClearHistory = false;
+        //Set the main layout of the activity
+        setContentView(R.layout.history);
+
+        // Load the BoookmarksFragment
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        mHistoryFragment = new HistoryFragment();
+        ft.add(R.id.fragment_content, mHistoryFragment);
+        ft.commit();
 
         //Set in transition
         overridePendingTransition(R.anim.translate_to_right_in, R.anim.hold_out);
 
-        //Set the main layout of the activity
-        setContentView(R.layout.history);
-
-        //Initialize action bars and data
+        //Initialize action bar
         initTitleActionBar();
-        initHistory();
-
-        // Apply the theme
-        applyTheme();
 
         //Save state
         super.onCreate(state);
@@ -136,14 +121,6 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
 
         //All destroy. Continue
         super.onDestroy();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -193,84 +170,10 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
                 back(true, null);
                 break;
             case R.id.mnu_clear_history:
-                clearHistory();
+                mHistoryFragment.clearHistory();
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Method that initializes the history listview of the activity.
-     */
-    @SuppressWarnings("unchecked")
-    private void initHistory() {
-        // Retrieve the loading view
-        final View waiting = findViewById(R.id.history_waiting);
-
-        this.mListView = (ListView)findViewById(R.id.history_listview);
-
-        // Load the history in background
-        AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
-            Exception mCause;
-            List<History> mHistory;
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
-                    this.mHistory =
-                            (List<History>)getIntent().getSerializableExtra(EXTRA_HISTORY_LIST);
-                    if (this.mHistory.isEmpty()) {
-                        View msg = findViewById(R.id.history_empty_msg);
-                        msg.setVisibility(View.VISIBLE);
-                        return Boolean.TRUE;
-                    }
-                    HistoryActivity.this.mIsEmpty = this.mHistory.isEmpty();
-
-                    //Show inverted history
-                    final List<History> adapterList = new ArrayList<History>(this.mHistory);
-                    Collections.reverse(adapterList);
-                    HistoryActivity.this.mAdapter =
-                            new HistoryAdapter(HistoryActivity.this, adapterList);
-
-                    return Boolean.TRUE;
-
-                } catch (Exception e) {
-                    this.mCause = e;
-                    return Boolean.FALSE;
-                }
-            }
-
-            @Override
-            protected void onPreExecute() {
-                waiting.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            protected void onPostExecute(Boolean result) {
-                waiting.setVisibility(View.GONE);
-                if (result.booleanValue()) {
-                    if (HistoryActivity.this.mListView != null &&
-                        HistoryActivity.this.mAdapter != null) {
-
-                        HistoryActivity.this.mListView.
-                            setAdapter(HistoryActivity.this.mAdapter);
-                        HistoryActivity.this.mListView.
-                            setOnItemClickListener(HistoryActivity.this);
-                    }
-
-                } else {
-                    if (this.mCause != null) {
-                        ExceptionUtil.translateException(HistoryActivity.this, this.mCause);
-                    }
-                }
-            }
-
-            @Override
-            protected void onCancelled() {
-                waiting.setVisibility(View.GONE);
-            }
-        };
-        task.execute();
     }
 
     /**
@@ -288,24 +191,15 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        History history = ((HistoryAdapter)parent.getAdapter()).getItem(position);
-        back(false, history);
-    }
-
-    /**
      * Method that returns to previous activity and.
      *
      * @param cancelled Indicates if the activity was cancelled
      * @param history The selected history
      */
-    private void back(final boolean cancelled, final History history) {
+    public void back(final boolean cancelled, final History history) {
         Intent intent =  new Intent();
         if (cancelled) {
-            if (this.mIsClearHistory) {
+            if (mHistoryFragment.mIsClearHistory) {
                 intent.putExtra(NavigationActivity.EXTRA_HISTORY_CLEAR, true);
             }
             setResult(RESULT_CANCELED, intent);
@@ -314,20 +208,6 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
             setResult(RESULT_OK, intent);
         }
         finish();
-    }
-
-    /**
-     * Method that clean the history and return back to navigation view
-     *  @hide
-     */
-    void clearHistory() {
-        if (this.mAdapter != null) {
-            this.mAdapter.clear();
-            this.mAdapter.notifyDataSetChanged();
-            View msg = findViewById(R.id.history_empty_msg);
-            msg.setVisibility(View.VISIBLE);
-            this.mIsClearHistory = true;
-        }
     }
 
     /**
@@ -340,12 +220,5 @@ public class HistoryActivity extends Activity implements OnItemClickListener {
 
         // -View
         theme.setBackgroundDrawable(this, getWindow().getDecorView(), "background_drawable"); //$NON-NLS-1$
-        if (this.mAdapter != null) {
-            this.mAdapter.notifyThemeChanged();
-            this.mAdapter.notifyDataSetChanged();
-        }
-        this.mListView.setDivider(
-                theme.getDrawable(this, "horizontal_divider_drawable")); //$NON-NLS-1$
-        this.mListView.invalidate();
     }
 }
