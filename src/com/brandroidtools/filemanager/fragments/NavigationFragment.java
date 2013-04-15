@@ -45,6 +45,7 @@ import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.listeners.OnSelectionListener;
 import com.brandroidtools.filemanager.model.*;
+import com.brandroidtools.filemanager.parcelables.HistoryNavigable;
 import com.brandroidtools.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.brandroidtools.filemanager.parcelables.SearchInfoParcelable;
 import com.brandroidtools.filemanager.preferences.*;
@@ -58,7 +59,7 @@ import com.brandroidtools.filemanager.util.*;
 
 public class NavigationFragment extends Fragment implements
         AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener,
-        OnSelectionChangedListener, OnSelectionListener, OnRequestRefreshListener {
+        OnHistoryListener, OnSelectionChangedListener, OnSelectionListener, OnRequestRefreshListener {
 
     private static final String TAG = "NavigationFragment"; //$NON-NLS-1$
 
@@ -176,6 +177,8 @@ public class NavigationFragment extends Fragment implements
      */
     List<FileSystemObject> mFiles;
     private FileSystemObjectAdapter mAdapter;
+
+    public List<History> mHistory;
 
     private final Object mSync = new Object();
 
@@ -305,6 +308,7 @@ public class NavigationFragment extends Fragment implements
      * @hide
      */
     void initNavigation(final boolean restore) {
+        this.mHistory = new ArrayList<History>();
         this.mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -358,6 +362,8 @@ public class NavigationFragment extends Fragment implements
      * @return NavigationViewInfoParcelable The serialized info
      */
     public NavigationViewInfoParcelable onSaveState() {
+        int top;
+
         //Return the persistent the data
         NavigationViewInfoParcelable parcel = new NavigationViewInfoParcelable();
         parcel.setId(this.mId);
@@ -365,6 +371,14 @@ public class NavigationFragment extends Fragment implements
         parcel.setChRooted(this.mChRooted);
         parcel.setSelectedFiles(this.mAdapter.getSelectedItems());
         parcel.setFiles(this.mFiles);
+        parcel.setScrollIndex(this.mAdapterView.getFirstVisiblePosition());
+        if (this.mAdapterView instanceof ListView) {
+            View topView = this.mAdapterView.getChildAt(0);
+            top = (topView == null) ? 0 : topView.getTop();
+        } else {
+            top = 0;
+        }
+        parcel.setScrollIndexOffset(top);
         return parcel;
     }
 
@@ -382,7 +396,7 @@ public class NavigationFragment extends Fragment implements
         this.mAdapter.setSelectedItems(info.getSelectedFiles());
 
         //Update the views
-        refresh();
+        refresh(info.getScrollIndex(), info.getScrollIndexOffset());
     }
 
     /**
@@ -427,6 +441,49 @@ public class NavigationFragment extends Fragment implements
         } else {
             // Pick mode has always a details layout
             changeViewMode(NavigationLayoutMode.DETAILS);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onNewHistory(HistoryNavigable navigable) {
+        //Recollect information about current status
+        History history = new History(this.mHistory.size(), navigable);
+        this.mHistory.add(history);
+        mActivity.getActionBar().setDisplayHomeAsUpEnabled(true);
+        mActivity.getActionBar().setHomeButtonEnabled(true);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onCheckHistory() {
+        //Need to show HomeUp Button
+        boolean enabled = this.mHistory != null && this.mHistory.size() > 0;
+        mActivity.getActionBar().setDisplayHomeAsUpEnabled(enabled);
+        mActivity.getActionBar().setHomeButtonEnabled(enabled);
+    }
+
+    /**
+     * Method that remove the {@link com.brandroidtools.filemanager.model.FileSystemObject} from the history
+     */
+    public void removeFromHistory(FileSystemObject fso) {
+        if (this.mHistory != null) {
+            int cc = this.mHistory.size();
+            for (int i = cc-1; i >= 0 ; i--) {
+                History history = this.mHistory.get(i);
+                if (history.getItem() instanceof NavigationViewInfoParcelable) {
+                    String p0 = fso.getFullPath();
+                    String p1 =
+                            ((NavigationViewInfoParcelable)history.getItem()).getCurrentDir();
+                    if (p0.compareTo(p1) == 0) {
+                        this.mHistory.remove(i);
+                    }
+                }
+            }
         }
     }
 
@@ -608,17 +665,35 @@ public class NavigationFragment extends Fragment implements
      * @param restore Restore previous position
      */
     public void refresh(boolean restore) {
-        FileSystemObject fso = null;
+        int scrollIndex = 0;
+        int scrollIndexOffset = 0;
         // Try to restore the previous scroll position
         if (restore) {
             try {
                 if (this.mAdapterView != null && this.mAdapter != null) {
-                    int position = this.mAdapterView.getFirstVisiblePosition();
-                    fso = this.mAdapter.getItem(position);
+                    scrollIndex = this.mAdapterView.getFirstVisiblePosition();
+                    View topView = this.mAdapterView.getChildAt(0);
+                    scrollIndexOffset = (topView == null) ? 0 : topView.getTop();
                 }
             } catch (Throwable _throw) {/**NON BLOCK**/}
         }
-        refresh(fso);
+        refresh(scrollIndex, scrollIndexOffset);
+    }
+
+    /**
+     * Method that refresh the view data.
+     *
+     * @param scrollIndex The index of the item at the top of the file list.
+     * @param scrollIndexOffset The exact scroll offset within the item at the top of the file list.
+     */
+    public void refresh(Integer scrollIndex, Integer scrollIndexOffset) {
+        //Check that current directory was set
+        if (this.mCurrentDir == null || this.mFiles == null) {
+            return;
+        }
+
+        //Reload data
+        changeCurrentDir(this.mCurrentDir, false, true, false, null, null, scrollIndex, scrollIndexOffset);
     }
 
     /**
@@ -633,7 +708,7 @@ public class NavigationFragment extends Fragment implements
         }
 
         //Reload data
-        changeCurrentDir(this.mCurrentDir, false, true, false, null, scrollTo);
+        changeCurrentDir(this.mCurrentDir, false, true, false, null, scrollTo, null, null);
     }
 
     /**
@@ -797,7 +872,7 @@ public class NavigationFragment extends Fragment implements
      * @param newDir The new directory location
      */
     public void changeCurrentDir(final String newDir) {
-        changeCurrentDir(newDir, true, false, false, null, null);
+        changeCurrentDir(newDir, true, false, false, null, null, null, null);
     }
 
     /**
@@ -807,7 +882,7 @@ public class NavigationFragment extends Fragment implements
      * @param searchInfo The search information (if calling activity is {@link "SearchActivity"})
      */
     public void changeCurrentDir(final String newDir, SearchInfoParcelable searchInfo) {
-        changeCurrentDir(newDir, true, false, false, searchInfo, null);
+        changeCurrentDir(newDir, true, false, false, searchInfo, null, null, null);
     }
 
     /**
@@ -818,12 +893,15 @@ public class NavigationFragment extends Fragment implements
      * @param reload Force the reload of the data
      * @param useCurrent If this method must use the actual data (for back actions)
      * @param searchInfo The search information (if calling activity is {@link "SearchActivity"})
-     * @param scrollTo If not null, then listview must scroll to this item
+     * @param scrollTo The new FileSystemObject to scroll to, since it isn't an existing view yet
+     * @param scrollIndex If not null, then listview must scroll to this item
+     * @param scrollIndexOffset If not null, then listview must scroll to this offset within the item
      */
     private void changeCurrentDir(
             final String newDir, final boolean addToHistory,
             final boolean reload, final boolean useCurrent,
-            final SearchInfoParcelable searchInfo, final FileSystemObject scrollTo) {
+            final SearchInfoParcelable searchInfo, final FileSystemObject scrollTo,
+            final Integer scrollIndex, final Integer scrollIndexOffset) {
 
         // Check navigation security (don't allow to go outside the ChRooted environment if one
         // is created)
@@ -927,7 +1005,8 @@ public class NavigationFragment extends Fragment implements
                                                 onPostExecuteTask(
                                                         mTaskFiles, addToHistory,
                                                         isNewHistory, hasChanged,
-                                                        searchInfo, fNewDir, scrollTo);
+                                                        searchInfo, fNewDir, scrollTo,
+                                                        scrollIndex, scrollIndexOffset);
                                             }
                                         });
                                 final ExceptionUtil.OnRelaunchCommandResult exListener =
@@ -973,7 +1052,8 @@ public class NavigationFragment extends Fragment implements
                             if (files != null) {
                                 onPostExecuteTask(
                                         files, addToHistory, isNewHistory,
-                                        hasChanged, searchInfo, fNewDir, scrollTo);
+                                        hasChanged, searchInfo, fNewDir,
+                                        scrollTo, scrollIndex, scrollIndexOffset);
 
                                 // Do animation
                                 fadeEfect(false);
@@ -1014,13 +1094,16 @@ public class NavigationFragment extends Fragment implements
      * @param hasChanged If current directory was changed
      * @param searchInfo The search information (if calling activity is {@link "SearchActivity"})
      * @param newDir The new directory
-     * @param scrollTo If not null, then listview must scroll to this item
+     * @param scrollTo The new FileSystemObject to scroll to, since it isn't an existing view yet
+     * @param scrollIndex If not null, then listview must scroll to this item
+     * @param scrollIndexOffset If not null, then listview must scroll to this offset within the item
      * @hide
      */
     void onPostExecuteTask(
             List<FileSystemObject> files, boolean addToHistory, boolean isNewHistory,
             boolean hasChanged, SearchInfoParcelable searchInfo,
-            String newDir, final FileSystemObject scrollTo) {
+            String newDir, final FileSystemObject scrollTo,
+            final Integer scrollIndex, final Integer scrollIndexOffset) {
         try {
             //Check that there is not errors and have some data
             if (files == null) {
@@ -1058,9 +1141,26 @@ public class NavigationFragment extends Fragment implements
                 this.mBreadcrumb.changeBreadcrumbPath(newDir, this.mChRooted);
             }
 
-            //Scroll to object?
+            //Scroll to stored scroll location?
             if (scrollTo != null) {
                 scrollTo(scrollTo);
+            } else if (scrollIndex != null && scrollIndexOffset != null) {
+                if(this.mAdapterView instanceof FlingerListView) {
+                    this.mAdapterView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((FlingerListView)mAdapterView).setSelectionFromTop(scrollIndex, scrollIndexOffset);
+                        }
+                    });
+
+                } else {
+                    this.mAdapterView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapterView.setSelection(scrollIndex);
+                        }
+                    });
+                }
             }
 
             //The current directory is now the "newDir"
@@ -1160,16 +1260,16 @@ public class NavigationFragment extends Fragment implements
         try {
             FileSystemObject fso = ((FileSystemObjectAdapter)parent.getAdapter()).getItem(position);
             if (fso instanceof ParentDirectory) {
-                changeCurrentDir(fso.getParent(), true, false, false, null, null);
+                changeCurrentDir(fso.getParent(), true, false, false, null, null, null, null);
                 return;
             } else if (fso instanceof Directory) {
-                changeCurrentDir(fso.getFullPath(), true, false, false, null, null);
+                changeCurrentDir(fso.getFullPath(), true, false, false, null, null, null, null);
                 return;
             } else if (fso instanceof Symlink) {
                 Symlink symlink = (Symlink)fso;
                 if (symlink.getLinkRef() != null && symlink.getLinkRef() instanceof Directory) {
                     changeCurrentDir(
-                            symlink.getLinkRef().getFullPath(), true, false, false, null, null);
+                            symlink.getLinkRef().getFullPath(), true, false, false, null, null, null, null);
                     return;
                 }
 
@@ -1385,7 +1485,7 @@ public class NavigationFragment extends Fragment implements
         FileSystemStorageVolume[] volumes =
                 StorageHelper.getStorageVolumes(mActivity);
         if (volumes != null && volumes.length > 0) {
-            changeCurrentDir(volumes[0].getPath(), false, true, false, null, null);
+            changeCurrentDir(volumes[0].getPath(), false, true, false, null, null, null, null);
         }
     }
 

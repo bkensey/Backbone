@@ -102,7 +102,7 @@ import java.util.List;
  * the app is killed, is restarted from his initial state.
  */
 public class NavigationActivity extends Activity
-    implements OnHistoryListener, OnRequestRefreshListener, OnCopyMoveListener,
+    implements OnRequestRefreshListener, OnCopyMoveListener,
         OnNavigationRequestMenuListener, OnPageChangeListener, BreadcrumbListener {
 
     private static final String TAG = "NavigationActivity"; //$NON-NLS-1$
@@ -256,7 +256,7 @@ public class NavigationActivity extends Activity
      * @hide
      */
 
-    private List<History> mHistory;
+
 
     private ActionBar mActionBar;
     private View mTitleLayout;
@@ -411,7 +411,6 @@ public class NavigationActivity extends Activity
      * Method that initializes the activity.
      */
     private void init() {
-        this.mHistory = new ArrayList<History>();
         this.mChRooted = FileManagerApplication.getAccessMode().compareTo(AccessMode.SAFE) == 0;
 
         this.mHandler = new Handler();
@@ -497,8 +496,6 @@ public class NavigationActivity extends Activity
         mTitle = (NavigationCustomTitleView)mTitleLayout.findViewById(R.id.navigation_title_flipper);
         mBreadcrumb = (Breadcrumb)mTitle.findViewById(R.id.breadcrumb_view);
 
-        mTitle.setOnHistoryListener(this);
-
         // Set the free disk space warning level of the breadcrumb widget
         String fds = Preferences.getSharedPreferences().getString(
                 FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getId(),
@@ -516,8 +513,9 @@ public class NavigationActivity extends Activity
     public void updateTitleActionBar() {
 
         NavigationFragment navigationFragment = getCurrentNavigationFragment();
+        mTitle.setOnHistoryListener(navigationFragment);
         navigationFragment.setBreadcrumb(mBreadcrumb);
-        navigationFragment.setOnHistoryListener(this);
+        navigationFragment.setOnHistoryListener(navigationFragment);
         navigationFragment.setOnNavigationOnRequestMenuListener(this);
         navigationFragment.setCustomTitle(mTitle);
     }
@@ -836,29 +834,6 @@ public class NavigationActivity extends Activity
      * {@inheritDoc}
      */
     @Override
-    public void onNewHistory(HistoryNavigable navigable) {
-        //Recollect information about current status
-        History history = new History(this.mHistory.size(), navigable);
-        this.mHistory.add(history);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onCheckHistory() {
-        //Need to show HomeUp Button
-        boolean enabled = this.mHistory != null && this.mHistory.size() > 0;
-        getActionBar().setDisplayHomeAsUpEnabled(enabled);
-        getActionBar().setHomeButtonEnabled(enabled);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void onRequestRefresh(Object o, boolean clearSelection) {
         if (o instanceof FileSystemObject) {
             // Refresh only the item
@@ -882,7 +857,7 @@ public class NavigationActivity extends Activity
             this.getCurrentNavigationFragment().removeItem((FileSystemObject) o);
 
             //Remove from history
-            removeFromHistory((FileSystemObject)o);
+            getCurrentNavigationFragment().removeFromHistory((FileSystemObject) o);
         } else {
             onRequestRefresh(null, clearSelection);
         }
@@ -1074,11 +1049,11 @@ public class NavigationActivity extends Activity
     }
 
     /**
-     * Method that returns the history size.
+     * Method that clears the fragment history.
      */
     private void clearHistory() {
-        this.mHistory.clear();
-        onCheckHistory();
+        getCurrentNavigationFragment().mHistory.clear();
+        getCurrentNavigationFragment().onCheckHistory();
     }
 
     /**
@@ -1089,19 +1064,18 @@ public class NavigationActivity extends Activity
      */
     public boolean navigateToHistory(History history) {
         try {
+            NavigationFragment currentNavFragment = getCurrentNavigationFragment();
             //Gets the history
-            History realHistory = this.mHistory.get(history.getPosition());
+            History realHistory = currentNavFragment.mHistory.get(history.getPosition());
 
             //Navigate to item. Check what kind of history is
             if (realHistory.getItem() instanceof NavigationViewInfoParcelable) {
                 //Navigation
                 NavigationViewInfoParcelable info =
                         (NavigationViewInfoParcelable)realHistory.getItem();
-                int fragId = info.getId();
-                NavigationFragment fragment = getNavigationFragment(fragId);
                 // Selected items must not be restored from on history navigation
-                info.setSelectedFiles(fragment.getSelectedFiles());
-                fragment.onRestoreState(info);
+                info.setSelectedFiles(currentNavFragment.getSelectedFiles());
+                currentNavFragment.onRestoreState(info);
 
             } else if (realHistory.getItem() instanceof SearchInfoParcelable) {
                 //Search (open search with the search results)
@@ -1117,10 +1091,10 @@ public class NavigationActivity extends Activity
 
             //Remove the old history
             int cc = realHistory.getPosition();
-            for (int i = this.mHistory.size() - 1; i >= cc; i--) {
-                this.mHistory.remove(i);
+            for (int i = currentNavFragment.mHistory.size() - 1; i >= cc; i--) {
+                currentNavFragment.mHistory.remove(i);
             }
-            if (this.mHistory.size() == 0) {
+            if (currentNavFragment.mHistory.size() == 0) {
                 getActionBar().setDisplayHomeAsUpEnabled(false);
                 getActionBar().setHomeButtonEnabled(false);
             }
@@ -1158,9 +1132,10 @@ public class NavigationActivity extends Activity
      * @return boolean If a back action was applied
      */
     public boolean back() {
+        NavigationFragment currentNavFragment = getCurrentNavigationFragment();
         // Check that has valid history
-        while (this.mHistory.size() > 0) {
-            History h = this.mHistory.get(this.mHistory.size() - 1);
+        while (currentNavFragment.mHistory.size() > 0) {
+            History h = currentNavFragment.mHistory.get(currentNavFragment.mHistory.size() - 1);
             if (h.getItem() instanceof NavigationViewInfoParcelable) {
                 // Verify that the path exists
                 String path = ((NavigationViewInfoParcelable)h.getItem()).getCurrentDir();
@@ -1170,10 +1145,10 @@ public class NavigationActivity extends Activity
                     if (info != null) {
                         break;
                     }
-                    this.mHistory.remove(this.mHistory.size() - 1);
+                    currentNavFragment.mHistory.remove(currentNavFragment.mHistory.size() - 1);
                 } catch (Exception e) {
                     ExceptionUtil.translateException(this, e, true, false);
-                    this.mHistory.remove(this.mHistory.size() - 1);
+                    currentNavFragment.mHistory.remove(currentNavFragment.mHistory.size() - 1);
                 }
             } else {
                 break;
@@ -1181,9 +1156,9 @@ public class NavigationActivity extends Activity
         }
 
         //Extract a history from the
-        if (this.mHistory.size() > 0) {
+        if (currentNavFragment.mHistory.size() > 0) {
             //Navigate to history
-            return navigateToHistory(this.mHistory.get(this.mHistory.size() - 1));
+            return navigateToHistory(currentNavFragment.mHistory.get(currentNavFragment.mHistory.size() - 1));
         }
 
         //Nothing to apply
@@ -1291,7 +1266,7 @@ public class NavigationActivity extends Activity
      */
     void openHistory() {
         Intent historyIntent = new Intent(this, HistoryActivity.class);
-        historyIntent.putExtra(HistoryActivity.EXTRA_HISTORY_LIST, (Serializable)this.mHistory);
+        historyIntent.putExtra(HistoryActivity.EXTRA_HISTORY_LIST, (Serializable)getCurrentNavigationFragment().mHistory);
         historyIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
         startActivityForResult(historyIntent, INTENT_REQUEST_HISTORY);
     }
@@ -1302,26 +1277,6 @@ public class NavigationActivity extends Activity
      */
     void openSearch() {
         onSearchRequested();
-    }
-
-    /**
-     * Method that remove the {@link com.brandroidtools.filemanager.model.FileSystemObject} from the history
-     */
-    private void removeFromHistory(FileSystemObject fso) {
-        if (this.mHistory != null) {
-            int cc = this.mHistory.size();
-            for (int i = cc-1; i >= 0 ; i--) {
-                History history = this.mHistory.get(i);
-                if (history.getItem() instanceof NavigationViewInfoParcelable) {
-                    String p0 = fso.getFullPath();
-                    String p1 =
-                            ((NavigationViewInfoParcelable)history.getItem()).getCurrentDir();
-                    if (p0.compareTo(p1) == 0) {
-                        this.mHistory.remove(i);
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -1501,7 +1456,7 @@ public class NavigationActivity extends Activity
         // Tell the breadcrumb that the new fragment will now be the one sending dir changes
         NavigationFragment navigationFragment = getCurrentNavigationFragment();
         navigationFragment.setBreadcrumb(mBreadcrumb);
-        navigationFragment.setOnHistoryListener(this);
+        navigationFragment.setOnHistoryListener(navigationFragment);
         navigationFragment.setOnNavigationOnRequestMenuListener(this);
         navigationFragment.setCustomTitle(mTitle);
     }

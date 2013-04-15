@@ -40,6 +40,9 @@ public class NavigationViewInfoParcelable extends HistoryNavigable {
     private boolean mChRooted;
     private List<FileSystemObject> mFiles;
     private List<FileSystemObject> mSelectedFiles;
+    private Integer mScrollIndex;
+    private Integer mScrollIndexOffset;
+
 
     /**
      * Constructor of <code>NavigationViewInfoParcelable</code>.
@@ -168,6 +171,42 @@ public class NavigationViewInfoParcelable extends HistoryNavigable {
     }
 
     /**
+     * Method that returns the index of the item at the top of the file list.
+     *
+     * @return Integer The current selected file list
+     */
+    public Integer getScrollIndex() {
+        return this.mScrollIndex;
+    }
+
+    /**
+     * Method that sets the index of the item at the top of the file list.
+     *
+     * @param mHistoryScroll The current selected file list
+     */
+    public void setScrollIndex(Integer mHistoryScroll) {
+        this.mScrollIndex = mHistoryScroll;
+    }
+
+    /**
+     * Method that returns the exact scroll offset within the item at the top of the file list.
+     *
+     * @return Integer The current selected file list
+     */
+    public Integer getScrollIndexOffset() {
+        return this.mScrollIndexOffset;
+    }
+
+    /**
+     * Method that sets the exact scroll offset within the item at the top of the file list.
+     *
+     * @param scrollIndexOffset The current selected file list
+     */
+    public void setScrollIndexOffset(Integer scrollIndexOffset) {
+        this.mScrollIndexOffset = scrollIndexOffset;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -199,6 +238,10 @@ public class NavigationViewInfoParcelable extends HistoryNavigable {
         if (this.mFiles != null) {
             dest.writeList(this.mFiles);
         }
+        //- 5
+        dest.writeInt(this.mScrollIndex == null? 0 : this.mScrollIndex);
+        //- 6
+        dest.writeInt(this.mScrollIndexOffset == null? 0 : this.mScrollIndexOffset);
     }
 
     /**
@@ -230,6 +273,10 @@ public class NavigationViewInfoParcelable extends HistoryNavigable {
             in.readList(files, NavigationViewInfoParcelable.class.getClassLoader());
             this.mFiles = new ArrayList<FileSystemObject>(files);
         }
+        //- 5
+        this.mScrollIndex = in.readInt();
+        //- 6
+        this.mScrollIndexOffset = in.readInt();
     }
 
     /**
