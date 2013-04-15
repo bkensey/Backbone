@@ -1267,7 +1267,7 @@ public class NavigationActivity extends Activity
      */
     void openHistory() {
         Intent historyIntent = new Intent(this, HistoryActivity.class);
-        historyIntent.putExtra(HistoryFragment.EXTRA_HISTORY_LIST, (Serializable)this.mHistory);
+        historyIntent.putExtra(HistoryFragment.EXTRA_HISTORY_LIST, (Serializable)this.getCurrentNavigationFragment().mHistory);
         historyIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
         startActivityForResult(historyIntent, INTENT_REQUEST_HISTORY);
     }
