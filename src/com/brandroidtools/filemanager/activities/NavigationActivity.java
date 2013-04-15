@@ -51,6 +51,7 @@ import com.brandroidtools.filemanager.console.ConsoleAllocException;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
 import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
+import com.brandroidtools.filemanager.fragments.HistoryFragment;
 import com.brandroidtools.filemanager.fragments.NavigationFragment;
 import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationRequestMenuListener;
 import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
@@ -1266,7 +1267,7 @@ public class NavigationActivity extends Activity
      */
     void openHistory() {
         Intent historyIntent = new Intent(this, HistoryActivity.class);
-        historyIntent.putExtra(HistoryActivity.EXTRA_HISTORY_LIST, (Serializable)getCurrentNavigationFragment().mHistory);
+        historyIntent.putExtra(HistoryFragment.EXTRA_HISTORY_LIST, (Serializable)this.mHistory);
         historyIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
         startActivityForResult(historyIntent, INTENT_REQUEST_HISTORY);
     }

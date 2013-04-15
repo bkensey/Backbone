@@ -146,6 +146,9 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
 
     private boolean mChRooted;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -182,19 +185,11 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
     @Override
     public void onDestroy() {
         if (DEBUG) {
-            Log.d(TAG, "BookmarksActivity.onDestroy"); //$NON-NLS-1$
+            Log.d(TAG, "BookmarksFragment.onDestroy"); //$NON-NLS-1$
         }
 
         //All destroy. Continue
         super.onDestroy();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 
     /**
