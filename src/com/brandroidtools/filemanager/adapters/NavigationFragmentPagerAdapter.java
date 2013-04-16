@@ -18,8 +18,10 @@
 package com.brandroidtools.filemanager.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -132,6 +134,7 @@ public class NavigationFragmentPagerAdapter extends PagerAdapter {
     /**
      * {@inheritDoc}
      */
+    @TargetApi(15)
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         if (mCurTransaction == null) {
@@ -153,7 +156,9 @@ public class NavigationFragmentPagerAdapter extends PagerAdapter {
         }
         if (fragment != mCurrentPrimaryItem) {
             fragment.setMenuVisibility(false);
-            fragment.setUserVisibleHint(false);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            	fragment.setUserVisibleHint(false);
+            }
         }
 
         return fragment;
@@ -175,17 +180,22 @@ public class NavigationFragmentPagerAdapter extends PagerAdapter {
     /**
      * {@inheritDoc}
      */
-    @Override
+    @TargetApi(15)
+	@Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         Fragment fragment = (Fragment) object;
         if (fragment != mCurrentPrimaryItem) {
             if (mCurrentPrimaryItem != null) {
                 mCurrentPrimaryItem.setMenuVisibility(false);
-                mCurrentPrimaryItem.setUserVisibleHint(false);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                	mCurrentPrimaryItem.setUserVisibleHint(false);
+                }
             }
             if (fragment != null) {
                 fragment.setMenuVisibility(true);
-                fragment.setUserVisibleHint(true);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                	fragment.setUserVisibleHint(true);
+                }
             }
             mCurrentPrimaryItem = fragment;
         }
