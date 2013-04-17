@@ -10,7 +10,6 @@ lint.xml
 .classpath
 .settings
 .checkstyle
-project.properties
 
 #IntelliJ IDEA
 .idea
@@ -31,6 +30,10 @@ ant.properties
 local.properties
 proguard.cfg
 proguard-project.txt
+
+#Gradle
+build/
+.gradle
 
 #Other
 .DS_Store

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2012 The CyanogenMod Project
+<!--
+     Copyright (C) 2012 The CyanogenMod Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -12,8 +13,9 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
- -->
+-->
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
     <string name="app_name">G. de Arquivos</string>
     <string name="app_description">Um gerenciador de arquivos por CyanogenMod</string>
     <string name="device_blockdevice">Bloquear dispositivo</string>
@@ -25,7 +27,7 @@
     <string name="all">Todos</string>
     <string name="overwrite">Sobrescrever</string>
     <string name="root_directory_name"><![CDATA[<Pasta raiz>]]></string>
-    <string name="search_result_name">Buscar: <xliff:g id="terms" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g></string>
+    <string name="search_result_name">Buscar: <xliff:g id="terms">%1$s</xliff:g></string>
     <string name="loading_message">Carregando\u2026</string>
     <string name="cancelled_message">Cancelado</string>
     <string name="error_message">Erro</string>
@@ -39,7 +41,7 @@
     <string name="msgs_cant_create_console">Não foi possível ganhar os privilégios necessarios para funcionar</string>
     <string name="msgs_privileged_console_alloc_failed">Não foi possível rodar em modo de Acesso Root. Alterando para o modo Seguro.</string>
     <string name="msgs_settings_save_failure">A configuração não pode ser aplicada ou gravada</string>
-    <string name="msgs_settings_invalid_initial_directory">A pasta inicial "<xliff:g id="initial_dir" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g>" é inválida. Alterando para a pasta raiz.</string>
+    <string name="msgs_settings_invalid_initial_directory">A pasta inicial "<xliff:g id="initial_dir">%1$s</xliff:g>" é inválida. Alterando para a pasta raiz.</string>
     <string name="msgs_success">A operação foi completada com sucesso</string>
     <string name="msgs_unknown">Um erro foi detectado. A operação não foi bem sucedida</string>
     <string name="msgs_insufficient_permissions">A operação requer permissões de superusuário. Tente trocar para modo de Acesso Root</string>
@@ -119,16 +121,18 @@
     <string name="fso_properties_dialog_owner">Proprietário:</string>
     <string name="fso_properties_dialog_group">Grupo:</string>
     <string name="fso_properties_dialog_others">Outros:</string>
+
     <plurals name="fso_properties_dialog_folders">
         <item quantity="zero">0 pastas</item>
         <item quantity="one">1 pasta</item>
-        <item quantity="other"><xliff:g id="folders" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$d</xliff:g> pastas</item>
+        <item quantity="other"><xliff:g id="folders">%1$d</xliff:g> pastas</item>
     </plurals>
     <plurals name="fso_properties_dialog_files">
         <item quantity="zero">0 arquivos</item>
         <item quantity="one">1 arquivos</item>
-        <item quantity="other"><xliff:g id="files" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$d</xliff:g> arquivos</item>
+        <item quantity="other"><xliff:g id="files">%1$d</xliff:g> arquivos</item>
     </plurals>
+
     <string name="history">Histórico</string>
     <string name="msgs_history_empty">Histórico está vazio</string>
     <string name="msgs_history_unknown">Histórico desconhecido</string>
@@ -137,13 +141,15 @@
     <string name="search_voice_hint">Fale para buscar</string>
     <string name="search_error_msg">Um erro ocorreu enquanto buscando. Nenhum resultado encontrado</string>
     <string name="search_no_results_msg">Nenhum resultado encontrado</string>
+
     <plurals name="search_found_items">
         <item quantity="zero">Nenhum ítem encontrado</item>
         <item quantity="one">1 ítem encontrado</item>
-        <item quantity="other"><xliff:g id="count" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%d</xliff:g> ítems encontrados</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> ítems encontrados</item>
     </plurals>
-    <string name="search_found_items_in_directory"><xliff:g id="items" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> em <xliff:g id="path" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g></string>
-    <string name="search_terms"><![CDATA[<b>Termos:</b>]]> <xliff:g id="terms" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g></string>
+
+    <string name="search_found_items_in_directory"><xliff:g id="items">%1$s</xliff:g> em <xliff:g id="path">%2$s</xliff:g></string>
+    <string name="search_terms"><![CDATA[<b>Termos:</b>]]><xliff:g id="terms">%1$s</xliff:g></string>
     <string name="search_few_characters_title">Confirmar busca</string>
     <string name="search_few_characters_msg">Alguns termos de busca tem um número pequeno de caracteres. A operação pode demorar muito tempo e custar recursos de sistema.\n\nVocê deseja proceguir?</string>
     <string name="searching">Favor aguarde\u2036</string>
@@ -173,22 +179,22 @@
     <string name="menu_search">Buscar</string>
     <string name="menu_settings">Configurações</string>
     <string name="menu_clear_history">Limpar histórico</string>
-    <string name="create_copy_regexp"><xliff:g id="name" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> - cópia<xliff:g id="extension" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g></string>
-    <string name="create_new_compress_file_regexp"><xliff:g id="name" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> - novo<xliff:g id="extension" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g></string>
+    <string name="create_copy_regexp"><xliff:g id="name">%1$s</xliff:g> - cópia<xliff:g id="extension">%2$s</xliff:g></string>
+    <string name="create_new_compress_file_regexp"><xliff:g id="name">%1$s</xliff:g> - novo<xliff:g id="extension">%2$s</xliff:g></string>
     <string name="waiting_dialog_msg">Executando a operação\u2026</string>
     <string name="waiting_dialog_copying_title">Copiando\u2026</string>
-    <string name="waiting_dialog_copying_msg"><![CDATA[<b>De</b>]]><xliff:g id="from" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g><![CDATA[<br/>]]><![CDATA[<b>Para</b>]]><xliff:g id="to" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g></string>
+    <string name="waiting_dialog_copying_msg"><![CDATA[<b>De</b>]]><xliff:g id="from">%1$s</xliff:g><![CDATA[<br/>]]><![CDATA[<b>Para</b>]]><xliff:g id="to">%2$s</xliff:g></string>
     <string name="waiting_dialog_moving_title">Movendo\u2026</string>
-    <string name="waiting_dialog_moving_msg"><![CDATA[<b>De</b>]]><xliff:g id="from" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g><![CDATA[<br/>]]><![CDATA[<b>Para</b>]]><xliff:g id="to" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g></string>
+    <string name="waiting_dialog_moving_msg"><![CDATA[<b>De</b>]]><xliff:g id="from">%1$s</xliff:g><![CDATA[<br/>]]><![CDATA[<b>Para</b>]]><xliff:g id="to">%2$s</xliff:g></string>
     <string name="waiting_dialog_deleting_title">Excluindo\u2026</string>
-    <string name="waiting_dialog_deleting_msg"><![CDATA[<b>Arquivo</b>]]><xliff:g id="file" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g></string>
+    <string name="waiting_dialog_deleting_msg"><![CDATA[<b>Arquivo</b>]]><xliff:g id="file">%1$s</xliff:g></string>
     <string name="waiting_dialog_extracting_title">Extraindo\u2026</string>
-    <string name="waiting_dialog_extracting_msg"><![CDATA[<b>Arquivo</b>]]><xliff:g id="file" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g></string>
+    <string name="waiting_dialog_extracting_msg"><![CDATA[<b>Arquivo</b>]]><xliff:g id="file">%1$s</xliff:g></string>
     <string name="waiting_dialog_compressing_title">Comprimindo\u2026</string>
-    <string name="waiting_dialog_compressing_msg"><![CDATA[<b>Arquivo</b>]]><xliff:g id="file" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g></string>
+    <string name="waiting_dialog_compressing_msg"><![CDATA[<b>Arquivo</b>]]><xliff:g id="file">%1$s</xliff:g></string>
     <string name="waiting_dialog_analizing_msg"><![CDATA[<b>Analizando\u2026</b>]]></string>
-    <string name="msgs_extracting_success">O processo de extração foi completado com sucesso. Os dados foram extraídos para <xliff:g id="destination" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g></string>
-    <string name="msgs_compressing_success">O processo de compressão foi completado com sucesso. Os dados foram comprimidos para <xliff:g id="destination" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g></string>
+    <string name="msgs_extracting_success">O processo de extração foi completado com sucesso. Os dados foram extraídos para <xliff:g id="destination">%1$s</xliff:g></string>
+    <string name="msgs_compressing_success">O processo de compressão foi completado com sucesso. Os dados foram comprimidos para <xliff:g id="destination">%1$s</xliff:g></string>
     <string name="actions_dialog_title">Ações</string>
     <string name="actions_menu_properties_current_folder">Propriedades</string>
     <string name="actions_menu_refresh">Atualizar</string>
@@ -233,17 +239,17 @@
     <string name="execution_console_script_name_label">Script:</string>
     <string name="execution_console_script_execution_time_label">Tempo:</string>
     <string name="execution_console_script_exitcode_label">Código de saída:</string>
-    <string name="execution_console_script_execution_time_text"><xliff:g id="seconds" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> segundos</string>
+    <string name="execution_console_script_execution_time_text"><xliff:g id="seconds">%1$s</xliff:g> segundos</string>
     <string name="mime_folder">Pasta</string>
     <string name="mime_symlink">Link simbólico</string>
     <string name="mime_unknown">Desconhecido</string>
-    <string name="selection_one_folder"><xliff:g id="folders" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> pasta selecionada</string>
-    <string name="selection_other_folders"><xliff:g id="folders" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> pastas selecionadas</string>
-    <string name="selection_one_file"><xliff:g id="files" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> arquivo selecionado</string>
-    <string name="selection_other_files"><xliff:g id="files" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> arquivos selecionados</string>
-    <string name="selection_other_folders_one_file"><xliff:g id="folders" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> pastas e <xliff:g id="files" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g> arquivo selecionados</string>
-    <string name="selection_one_folder_other_files"><xliff:g id="folder2" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> pasta e <xliff:g id="file2" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g> arquivos selecionados</string>
-    <string name="selection_other_folders_other_files"><xliff:g id="folder2" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> pastas e <xliff:g id="files" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%2$s</xliff:g> arquivos selecionados</string>
+    <string name="selection_one_folder"><xliff:g id="folders">%1$s</xliff:g> pasta selecionada</string>
+    <string name="selection_other_folders"><xliff:g id="folders">%1$s</xliff:g> pastas selecionadas</string>
+    <string name="selection_one_file"><xliff:g id="files">%1$s</xliff:g> arquivo selecionado</string>
+    <string name="selection_other_files"><xliff:g id="files">%1$s</xliff:g> arquivos selecionados</string>
+    <string name="selection_other_folders_one_file"><xliff:g id="folders">%1$s</xliff:g> pastas e <xliff:g id="files">%2$s</xliff:g> arquivo selecionados</string>
+    <string name="selection_one_folder_other_files"><xliff:g id="folder2">%1$s</xliff:g> pasta e <xliff:g id="file2">%2$s</xliff:g> arquivos selecionados</string>
+    <string name="selection_other_folders_other_files"><xliff:g id="folder2">%1$s</xliff:g> pastas e <xliff:g id="files">%2$s</xliff:g> arquivos selecionados</string>
     <string name="category_system">SISTEMA</string>
     <string name="category_app">APLICATIVO</string>
     <string name="category_binary">BINÁRIO</string>
@@ -267,12 +273,12 @@
     <string name="pref_general">Configurações gerais</string>
     <string name="pref_search">Opções de busca</string>
     <string name="pref_about">Sobre</string>
-    <string name="pref_about_summary">Gerenciador de Arquivos v<xliff:g id="version" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g>\nCopyright \u00A9 2013 The CyanogenMod Project</string>
+    <string name="pref_about_summary">Gerenciador de Arquivos v<xliff:g id="version">%1$s</xliff:g>\nCopyright \u00A9 2013 The CyanogenMod Project</string>
     <string name="pref_general_behaviour_category">Geral</string>
     <string name="pref_case_sensitive_sort">Maiúsculas/minúsculas</string>
     <string name="pref_case_sensitive_sort_summary">Considerar maiúsculas/minúsculas quando navegando ou ordenando resultados de buscas</string>
     <string name="pref_disk_usage_warning_level">Aviso sobre o uso do disco</string>
-    <string name="pref_disk_usage_warning_level_summary" formatted="false">Exibir uma cor diferente nos widgets de uso de disco quando chegar a <xliff:g id="level" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">%1$s</xliff:g> porcento de espaço disponível</string>
+    <string name="pref_disk_usage_warning_level_summary" formatted="false">Exibir uma cor diferente nos widgets de uso de disco quando chegar a <xliff:g id="level">%1$s</xliff:g> porcento de espaço disponível</string>
     <string name="pref_compute_folder_statistics">Gerar estatísticas da pasta</string>
     <string name="pref_compute_folder_statistics_on">Aviso! A computação das estatísticas da pasta gasta tempo e recursos do sistema</string>
     <string name="pref_use_flinger">Usar gestos</string>
@@ -332,4 +338,5 @@
     <string name="compute_checksum_title">Calcular checksum</string>
     <string name="compute_checksum_filename_label">Arquivo:</string>
     <string name="compute_checksum_computing_checksum_msg">Calculando checksum\u2026</string>
+
 </resources>

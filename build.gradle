@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'android'
 
 android {
-	target='android-17'
+	compileSdkVersion 17
 	sourceSets {
 		main {
 			manifest {
@@ -32,5 +32,12 @@ android {
 				srcDir 'src'
 			}
 		}
+		
+		instrumentTest.setRoot('tests')
+		
 	}
+}
+
+dependencies {
+	compile files('libs/android-support-v4.jar')
 }
