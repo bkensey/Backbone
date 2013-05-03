@@ -37,7 +37,6 @@ import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.util.FileHelper;
 import com.brandroidtools.filemanager.util.MimeTypeHelper;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -201,7 +200,6 @@ public class FileSystemObjectAdapter
     private void processData(List<FileSystemObject> files) {
         Theme theme = ThemeManager.getCurrentTheme(getContext());
         Resources res = getContext().getResources();
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
         this.mData = new DataHolder[getCount()];
         int cc = (files == null) ? getCount() : files.size();
         for (int i = 0; i < cc; i++) {
@@ -213,7 +211,9 @@ public class FileSystemObjectAdapter
             if (fso instanceof ParentDirectory) {
                 sbSummary.append(res.getString(R.string.parent_dir));
             } else {
-                sbSummary.append(df.format(fso.getLastModifiedTime()));
+                sbSummary.append(
+                        FileHelper.formatFileTime(
+                                getContext(), fso.getLastModifiedTime()));
                 sbSummary.append("   "); //$NON-NLS-1$
                 sbSummary.append(fso.toRawPermissionString());
             }
@@ -381,17 +381,22 @@ public class FileSystemObjectAdapter
                     }
 
                     //Add or remove from the global selected items
+                    final List<FileSystemObject> selectedItems =
+                            FileSystemObjectAdapter.this.mSelectedItems;
                     if (data.mSelected) {
-                        FileSystemObjectAdapter.this.mSelectedItems.add(fso);
+                        if (!selectedItems.contains(fso)) {
+                            selectedItems.add(fso);
+                        }
                     } else {
-                        FileSystemObjectAdapter.this.mSelectedItems.remove(fso);
+                        if (selectedItems.contains(fso)) {
+                            selectedItems.remove(fso);
+                        }
                     }
 
                     //Communicate event
                     if (this.mOnSelectionChangedListener != null) {
                         List<FileSystemObject> selection =
-                                new ArrayList<FileSystemObject>(
-                                        FileSystemObjectAdapter.this.mSelectedItems);
+                                new ArrayList<FileSystemObject>(selectedItems);
                         this.mOnSelectionChangedListener.onSelectionChanged(selection);
                     }
 
@@ -458,11 +463,15 @@ public class FileSystemObjectAdapter
 
                 //Add or remove from the global selected items
                 FileSystemObject fso = getItem(i);
+                final List<FileSystemObject> selectedItems =
+                        FileSystemObjectAdapter.this.mSelectedItems;
                 if (data.mSelected) {
-                    FileSystemObjectAdapter.this.mSelectedItems.add(fso);
+                    if (!selectedItems.contains(fso)) {
+                        selectedItems.add(fso);
+                    }
                 } else {
-                    if (FileSystemObjectAdapter.this.mSelectedItems.contains(fso)) {
-                        FileSystemObjectAdapter.this.mSelectedItems.remove(fso);
+                    if (selectedItems.contains(fso)) {
+                        selectedItems.remove(fso);
                     }
                 }
             }
