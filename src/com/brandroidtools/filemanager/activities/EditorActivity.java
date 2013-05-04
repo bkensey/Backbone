@@ -38,10 +38,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
@@ -52,7 +49,7 @@ import android.widget.TextView;
 import android.widget.TextView.BufferType;
 import android.widget.Toast;
 
-import com.android.internal.util.HexDump;
+import com.brandroidtools.filemanager.util.HexDump;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.preferences.EditorPreferenceFragment;
 import com.brandroidtools.filemanager.activities.preferences.EditorSHColorSchemePreferenceFragment;
@@ -612,12 +609,6 @@ public class EditorActivity extends Activity implements TextWatcher {
     public boolean onPrepareOptionsMenu(Menu menu) {
         mWordWrapAction.setChecked(this.mWordWrap);
         mSaveAction.setVisible(this.mDirty);
-
-        // stuff
-        View status = findViewById(R.id.editor_status);
-        boolean showOptionsMenu = AndroidHelper.showOptionsMenu(getApplicationContext());
-        configuration.setVisibility(showOptionsMenu ? View.VISIBLE : View.GONE);
-        this.mOptionsAnchorView = showOptionsMenu ? configuration : status;
         
         return super.onPrepareOptionsMenu(menu);
     }
@@ -636,10 +627,16 @@ public class EditorActivity extends Activity implements TextWatcher {
                 break;
             case R.id.mnu_save:
                 // Save the file
-                writeFile();
+                checkAndWrite();
+                break;
+            case R.id.mnu_no_suggestions:
+                toggleNoSuggestions();
                 break;
             case R.id.mnu_word_wrap:
                 toggleWordWrap();
+                break;
+            case R.id.mnu_syntax_highlight:
+                toggleSyntaxHighlight();
                 break;
             case R.id.mnu_settings:
                 //Settings
@@ -794,111 +791,6 @@ public class EditorActivity extends Activity implements TextWatcher {
                 return true;
             default:
                 return super.onKeyUp(keyCode, event);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-       switch (item.getItemId()) {
-          case android.R.id.home:
-              if ((getActionBar().getDisplayOptions() & ActionBar.DISPLAY_HOME_AS_UP)
-                      == ActionBar.DISPLAY_HOME_AS_UP) {
-                  checkDirtyState();
-              }
-              return true;
-          default:
-             return super.onOptionsItemSelected(item);
-       }
-    }
-
-    /**
-     * Method that shows a popup with the activity main menu.
-     *
-     * @param anchor The anchor of the popup
-     */
-    private void showOverflowPopUp(View anchor) {
-        SimpleMenuListAdapter adapter =
-                new HighlightedSimpleMenuListAdapter(this, R.menu.editor);
-        MenuItem noSuggestions = adapter.getMenu().findItem(R.id.mnu_no_suggestions);
-        if (noSuggestions != null) {
-            if (this.mBinary) {
-                adapter.getMenu().removeItem(R.id.mnu_no_suggestions);
-            } else {
-                noSuggestions.setChecked(this.mNoSuggestions);
-            }
-        }
-        MenuItem wordWrap = adapter.getMenu().findItem(R.id.mnu_word_wrap);
-        if (wordWrap != null) {
-            if (this.mBinary) {
-                adapter.getMenu().removeItem(R.id.mnu_word_wrap);
-            } else {
-                wordWrap.setChecked(this.mWordWrap);
-            }
-        }
-        MenuItem syntaxHighlight = adapter.getMenu().findItem(R.id.mnu_syntax_highlight);
-        if (syntaxHighlight != null) {
-            if (this.mBinary) {
-                adapter.getMenu().removeItem(R.id.mnu_syntax_highlight);
-            } else {
-                syntaxHighlight.setChecked(this.mSyntaxHighlight);
-            }
-        }
-
-        final ListPopupWindow popup =
-                DialogHelper.createListPopupWindow(this, adapter, anchor);
-        popup.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(
-                    final AdapterView<?> parent, final View v,
-                    final int position, final long id) {
-                final int itemId = (int)id;
-                switch (itemId) {
-                    case R.id.mnu_no_suggestions:
-                        toggleNoSuggestions();
-                        break;
-                    case R.id.mnu_word_wrap:
-                        toggleWordWrap();
-                        break;
-                    case R.id.mnu_syntax_highlight:
-                        toggleSyntaxHighlight();
-                        break;
-                    case R.id.mnu_settings:
-                        //Settings
-                        Intent settings = new Intent(EditorActivity.this, SettingsPreferences.class);
-                        settings.putExtra(
-                                PreferenceActivity.EXTRA_SHOW_FRAGMENT,
-                                EditorPreferenceFragment.class.getName());
-                        startActivity(settings);
-                        break;
-                }
-                popup.dismiss();
-            }
-        });
-        popup.show();
-    }
-
-    /**
-     * Method invoked when an action item is clicked.
-     *
-     * @param view The button pushed
-     */
-    public void onActionBarItemClick(View view) {
-        switch (view.getId()) {
-            case R.id.ab_button1:
-                // Save the file
-                checkAndWrite();
-                break;
-
-            case R.id.ab_button2:
-                // Show overflow menu
-                showOverflowPopUp(this.mOptionsAnchorView);
-                break;
-
-            default:
-                break;
         }
     }
 

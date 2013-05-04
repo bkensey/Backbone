@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.ash.scanners;
+package com.brandroidtools.filemanager.ash.scanners;
 
 import java.util.regex.Matcher;
 
-import com.cyanogenmod.filemanager.ash.RegExpUtil;
+import com.brandroidtools.filemanager.ash.RegExpUtil;
 
 /**
  * An scanner to process an input, reporting every text into new lines.

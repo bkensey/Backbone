@@ -33,9 +33,7 @@ import android.provider.SearchRecentSuggestions;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -49,7 +47,7 @@ import android.widget.Toast;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences;
-import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences.SearchPreferenceFragment;
+import com.brandroidtools.filemanager.activities.preferences.SearchPreferenceFragment;
 import com.brandroidtools.filemanager.adapters.SearchResultAdapter;
 import com.brandroidtools.filemanager.commands.AsyncResultExecutable;
 import com.brandroidtools.filemanager.commands.AsyncResultListener;
@@ -580,7 +578,7 @@ public class SearchActivity extends Activity
                                 //Close search activity
                                 back(true, null, false);
                             }
-                       });
+                        });
         DialogHelper.delegateDialogShow(this, dialog);
     }
 

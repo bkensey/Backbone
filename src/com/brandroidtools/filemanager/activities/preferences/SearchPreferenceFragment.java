@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.activities.preferences;
+package com.brandroidtools.filemanager.activities.preferences;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,12 +28,12 @@ import android.provider.SearchRecentSuggestions;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cyanogenmod.filemanager.R;
-import com.cyanogenmod.filemanager.preferences.FileManagerSettings;
-import com.cyanogenmod.filemanager.preferences.ObjectStringIdentifier;
-import com.cyanogenmod.filemanager.preferences.Preferences;
-import com.cyanogenmod.filemanager.providers.RecentSearchesContentProvider;
-import com.cyanogenmod.filemanager.util.DialogHelper;
+import com.brandroidtools.filemanager.R;
+import com.brandroidtools.filemanager.preferences.FileManagerSettings;
+import com.brandroidtools.filemanager.preferences.ObjectStringIdentifier;
+import com.brandroidtools.filemanager.preferences.Preferences;
+import com.brandroidtools.filemanager.providers.RecentSearchesContentProvider;
+import com.brandroidtools.filemanager.util.DialogHelper;
 
 /**
  * A class that manages the search options

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.activities.preferences;
+package com.brandroidtools.filemanager.activities.preferences;
 
 import android.preference.PreferenceFragment;
 

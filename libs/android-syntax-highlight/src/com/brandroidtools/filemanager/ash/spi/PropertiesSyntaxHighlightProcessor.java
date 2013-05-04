@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.ash.spi;
+package com.brandroidtools.filemanager.ash.spi;
 
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 
-import com.cyanogenmod.filemanager.ash.HighlightColors;
-import com.cyanogenmod.filemanager.ash.ISyntaxHighlightResourcesResolver;
-import com.cyanogenmod.filemanager.ash.RegExpUtil;
-import com.cyanogenmod.filemanager.ash.SyntaxHighlightProcessor;
-import com.cyanogenmod.filemanager.ash.scanners.NewLineScanner;
-import com.cyanogenmod.filemanager.ash.scanners.NewLineScanner.NewLineScannerListener;
+import com.brandroidtools.filemanager.ash.HighlightColors;
+import com.brandroidtools.filemanager.ash.ISyntaxHighlightResourcesResolver;
+import com.brandroidtools.filemanager.ash.RegExpUtil;
+import com.brandroidtools.filemanager.ash.SyntaxHighlightProcessor;
+import com.brandroidtools.filemanager.ash.scanners.NewLineScanner;
+import com.brandroidtools.filemanager.ash.scanners.NewLineScanner.NewLineScannerListener;
 
 import java.io.File;
 import java.util.regex.Matcher;

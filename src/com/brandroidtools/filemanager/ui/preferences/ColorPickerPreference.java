@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.ui.preferences;
+package com.brandroidtools.filemanager.ui.preferences;
 
 import afzkl.development.mColorPicker.views.ColorDialogView;
 import afzkl.development.mColorPicker.views.ColorPanelView;
@@ -32,7 +32,7 @@ import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.cyanogenmod.filemanager.R;
+import com.brandroidtools.filemanager.R;
 
 /**
  * A {@link Preference} that allow to select/pick a color in a new window dialog.

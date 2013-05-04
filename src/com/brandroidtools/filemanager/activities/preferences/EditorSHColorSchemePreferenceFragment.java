@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.activities.preferences;
+package com.brandroidtools.filemanager.activities.preferences;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,13 +26,13 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.cyanogenmod.filemanager.R;
-import com.cyanogenmod.filemanager.ash.HighlightColors;
-import com.cyanogenmod.filemanager.preferences.FileManagerSettings;
-import com.cyanogenmod.filemanager.preferences.Preferences;
-import com.cyanogenmod.filemanager.ui.ThemeManager;
-import com.cyanogenmod.filemanager.ui.preferences.ColorPickerPreference;
-import com.cyanogenmod.filemanager.util.ExceptionUtil;
+import com.brandroidtools.filemanager.R;
+import com.brandroidtools.filemanager.ash.HighlightColors;
+import com.brandroidtools.filemanager.preferences.FileManagerSettings;
+import com.brandroidtools.filemanager.preferences.Preferences;
+import com.brandroidtools.filemanager.ui.ThemeManager;
+import com.brandroidtools.filemanager.ui.preferences.ColorPickerPreference;
+import com.brandroidtools.filemanager.util.ExceptionUtil;
 
 /**
  * A class that manages the color scheme of the syntax highlight processor.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.preferences;
+package com.brandroidtools.filemanager.preferences;
 
 /**
  * An enumeration of the search result sort modes.

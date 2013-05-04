@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
@@ -41,6 +42,7 @@ import com.brandroidtools.filemanager.activities.NavigationActivity;
 import com.brandroidtools.filemanager.adapters.FileSystemObjectAdapter;
 import com.brandroidtools.filemanager.adapters.FileSystemObjectAdapter.OnSelectionChangedListener;
 import com.brandroidtools.filemanager.console.ConsoleAllocException;
+import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.listeners.OnSelectionListener;
@@ -266,7 +268,7 @@ public class NavigationFragment extends Fragment implements
             @Override
             public void run() {
                 //Initialize navigation
-                initNavigation(false);
+                initNavigation(false, null);
                 if (mActivity.isFirstRun() == true)
                     mActivity.updateTitleActionBar();
                 mActivity.setFirstRun(false);
@@ -305,10 +307,20 @@ public class NavigationFragment extends Fragment implements
      * Method that initializes the navigation.
      *
      * @param restore Initialize from a restore info
+     * @param intent The current intent
      * @hide
      */
-    void initNavigation(final boolean restore) {
+    public void initNavigation(final boolean restore, final Intent intent) {
         this.mHistory = new ArrayList<History>();
+        this.mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                //Is necessary navigate?
+                if (!restore) {
+                    applyInitialDir(intent);
+                }
+            }
+        });
         this.mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -354,6 +366,112 @@ public class NavigationFragment extends Fragment implements
                 }
             }
         });
+    }
+
+    /**
+     * Method that applies the user-defined initial directory
+     *
+     * @param intent The current intent
+     * @hide
+     */
+    void applyInitialDir(final Intent intent) {
+        //Load the user-defined initial directory
+        String initialDir =
+                Preferences.getSharedPreferences().getString(
+                        FileManagerSettings.SETTINGS_INITIAL_DIR.getId(),
+                        (String)FileManagerSettings.
+                                SETTINGS_INITIAL_DIR.getDefaultValue());
+
+        // Check if request navigation to directory (use as default), and
+        // ensure chrooted and absolute path
+        if (intent != null) {
+            String navigateTo = intent.getStringExtra(NavigationActivity.EXTRA_NAVIGATE_TO);
+            if (navigateTo != null && navigateTo.length() > 0) {
+                initialDir = navigateTo;
+            }
+        }
+
+        if (this.mChRooted) {
+            // Initial directory is the first external sdcard (sdcard, emmc, usb, ...)
+            FileSystemStorageVolume[] volumes =
+                    StorageHelper.getStorageVolumes(mActivity);
+            if (volumes != null && volumes.length > 0) {
+                initialDir = volumes[0].getPath();
+                //Ensure that initial directory is an absolute directory
+                initialDir = FileHelper.getAbsPath(initialDir);
+            } else {
+                // Show exception and exit
+                DialogHelper.showToast(
+                        mActivity,
+                        R.string.msgs_cant_create_console, Toast.LENGTH_LONG);
+                mActivity.exit();
+                return;
+            }
+        } else {
+            //Ensure that initial directory is an absolute directory
+            final String userInitialDir = initialDir;
+            initialDir = FileHelper.getAbsPath(initialDir);
+            final String absInitialDir = initialDir;
+            File f = new File(initialDir);
+            boolean exists = f.exists();
+            if (!exists) {
+                // Fix for /data/media/0. Libcore doesn't detect it correctly.
+                try {
+                    exists = CommandHelper.getFileInfo(mActivity, initialDir, false, null) != null;
+                } catch (InsufficientPermissionsException ipex) {
+                    ExceptionUtil.translateException(
+                            mActivity, ipex, false, true, new ExceptionUtil.OnRelaunchCommandResult() {
+                        @Override
+                        public void onSuccess() {
+                            changeCurrentDir(absInitialDir);
+                        }
+                        @Override
+                        public void onFailed(Throwable cause) {
+                            showInitialInvalidDirectoryMsg(userInitialDir);
+                            changeCurrentDir(FileHelper.ROOT_DIRECTORY);
+                        }
+                        @Override
+                        public void onCancelled() {
+                            showInitialInvalidDirectoryMsg(userInitialDir);
+                            changeCurrentDir(FileHelper.ROOT_DIRECTORY);
+                        }
+                    });
+
+                    // Asynchronous mode
+                    return;
+                } catch (Exception ex) {
+                    // We are not interested in other exceptions
+                    ExceptionUtil.translateException(mActivity, ex, true, false);
+                }
+
+                // Check again the initial directory
+                if (!exists) {
+                    showInitialInvalidDirectoryMsg(userInitialDir);
+                    initialDir = FileHelper.ROOT_DIRECTORY;
+                }
+
+                // Weird, but we have a valid initial directory
+            }
+        }
+
+        // Change the current directory to the user-defined initial directory
+        changeCurrentDir(initialDir);
+    }
+
+    /**
+     * Displays a message reporting invalid directory
+     *
+     * @param initialDir The initial directory
+     * @hide
+     */
+    void showInitialInvalidDirectoryMsg(String initialDir) {
+        // Change to root directory
+        DialogHelper.showToast(
+                mActivity,
+                getString(
+                        R.string.msgs_settings_invalid_initial_directory,
+                        initialDir),
+                Toast.LENGTH_SHORT);
     }
 
     /**

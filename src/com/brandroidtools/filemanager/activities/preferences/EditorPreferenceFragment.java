@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.activities.preferences;
+package com.brandroidtools.filemanager.activities.preferences;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,9 +24,9 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.util.Log;
 
-import com.cyanogenmod.filemanager.R;
-import com.cyanogenmod.filemanager.preferences.FileManagerSettings;
-import com.cyanogenmod.filemanager.preferences.Preferences;
+import com.brandroidtools.filemanager.R;
+import com.brandroidtools.filemanager.preferences.FileManagerSettings;
+import com.brandroidtools.filemanager.preferences.Preferences;
 
 /**
  * A class that manages the editor options

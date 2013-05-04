@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.ash;
+package com.brandroidtools.filemanager.ash;
 
-import com.cyanogenmod.filemanager.ash.spi.PropertiesSyntaxHighlightProcessor;
+import com.brandroidtools.filemanager.ash.spi.PropertiesSyntaxHighlightProcessor;
 
 import java.io.File;
 import java.util.ArrayList;

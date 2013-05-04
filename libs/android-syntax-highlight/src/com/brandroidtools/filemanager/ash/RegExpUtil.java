@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.ash;
+package com.brandroidtools.filemanager.ash;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

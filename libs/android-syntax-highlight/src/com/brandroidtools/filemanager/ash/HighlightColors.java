@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.ash;
+package com.brandroidtools.filemanager.ash;
 
 import android.graphics.Color;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.filemanager.activities.preferences;
+package com.brandroidtools.filemanager.activities.preferences;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,13 +26,13 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.util.Log;
 
-import com.cyanogenmod.filemanager.FileManagerApplication;
-import com.cyanogenmod.filemanager.R;
-import com.cyanogenmod.filemanager.console.ConsoleBuilder;
-import com.cyanogenmod.filemanager.preferences.AccessMode;
-import com.cyanogenmod.filemanager.preferences.FileManagerSettings;
-import com.cyanogenmod.filemanager.preferences.ObjectStringIdentifier;
-import com.cyanogenmod.filemanager.preferences.Preferences;
+import com.brandroidtools.filemanager.FileManagerApplication;
+import com.brandroidtools.filemanager.R;
+import com.brandroidtools.filemanager.console.ConsoleBuilder;
+import com.brandroidtools.filemanager.preferences.AccessMode;
+import com.brandroidtools.filemanager.preferences.FileManagerSettings;
+import com.brandroidtools.filemanager.preferences.ObjectStringIdentifier;
+import com.brandroidtools.filemanager.preferences.Preferences;
 
 /**
  * A class that manages the commons options of the application

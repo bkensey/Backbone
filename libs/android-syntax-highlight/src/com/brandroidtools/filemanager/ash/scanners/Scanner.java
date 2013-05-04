@@ -15,7 +15,7 @@
  */
 
 
-package com.cyanogenmod.filemanager.ash.scanners;
+package com.brandroidtools.filemanager.ash.scanners;
 
 
 /**
