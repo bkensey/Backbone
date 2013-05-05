@@ -40,4 +40,7 @@ android {
 
 dependencies {
 	compile files('libs/android-support-v4.jar')
+
+    compile project(':libs:android-syntax-highlight')
+    compile project(':libs:color-picker-view')
 }
