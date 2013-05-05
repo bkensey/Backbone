@@ -580,12 +580,6 @@ public class NavigationActivity extends Activity
             startActivityForResult(searchIntent, INTENT_REQUEST_SEARCH);
             return;
         }
-
-        // Navigate to the requested path
-        String navigateTo = intent.getStringExtra(EXTRA_NAVIGATE_TO);
-        if (navigateTo != null && navigateTo.length() >= 0) {
-            getCurrentNavigationFragment().changeCurrentDir(navigateTo);
-        }
     }
 
     /**

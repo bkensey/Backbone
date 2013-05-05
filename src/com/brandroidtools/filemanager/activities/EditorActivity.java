@@ -459,6 +459,8 @@ public class EditorActivity extends Activity implements TextWatcher {
     ButtonItem mSave;
     MenuItem mSaveAction;
     MenuItem mWordWrapAction;
+    MenuItem mNoSuggestionsAction;
+    MenuItem mSyntaxHighlightAction;
 
     // No suggestions status
     /**
@@ -599,6 +601,9 @@ public class EditorActivity extends Activity implements TextWatcher {
         menuInflater.inflate(R.menu.editor, menu);
         mSaveAction = menu.findItem(R.id.mnu_save);
         mWordWrapAction = menu.findItem(R.id.mnu_word_wrap);
+        mNoSuggestionsAction = menu.findItem(R.id.mnu_no_suggestions);
+        mSyntaxHighlightAction = menu.findItem(R.id.mnu_syntax_highlight);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -608,8 +613,10 @@ public class EditorActivity extends Activity implements TextWatcher {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         mWordWrapAction.setChecked(this.mWordWrap);
+        mNoSuggestionsAction.setChecked(mNoSuggestions);
+        mSyntaxHighlightAction.setChecked(mSyntaxHighlight);
         mSaveAction.setVisible(this.mDirty);
-        
+
         return super.onPrepareOptionsMenu(menu);
     }
 

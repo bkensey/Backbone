@@ -48,8 +48,6 @@ public class SettingsPreferences extends PreferenceActivity {
 
     private static final boolean DEBUG = false;
 
-    private TextView mTitle;
-
     private final BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -142,9 +140,9 @@ public class SettingsPreferences extends PreferenceActivity {
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
         if (!AndroidHelper.isTablet(this) && fragment instanceof TitlePreferenceFragment) {
-            this.mTitle.setText(((TitlePreferenceFragment)fragment).getTitle());
+            getActionBar().setTitle(((TitlePreferenceFragment)fragment).getTitle());
         } else {
-            this.mTitle.setText(R.string.pref);
+            getActionBar().setTitle(R.string.pref);
         }
     }
 

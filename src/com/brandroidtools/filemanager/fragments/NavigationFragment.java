@@ -393,19 +393,21 @@ public class NavigationFragment extends Fragment implements
 
         if (this.mChRooted) {
             // Initial directory is the first external sdcard (sdcard, emmc, usb, ...)
-            FileSystemStorageVolume[] volumes =
-                    StorageHelper.getStorageVolumes(mActivity);
-            if (volumes != null && volumes.length > 0) {
-                initialDir = volumes[0].getPath();
-                //Ensure that initial directory is an absolute directory
-                initialDir = FileHelper.getAbsPath(initialDir);
-            } else {
-                // Show exception and exit
-                DialogHelper.showToast(
-                        mActivity,
-                        R.string.msgs_cant_create_console, Toast.LENGTH_LONG);
-                mActivity.exit();
-                return;
+            if (!StorageHelper.isPathInStorageVolume(initialDir)) {
+                FileSystemStorageVolume[] volumes =
+                        StorageHelper.getStorageVolumes(mActivity);
+                if (volumes != null && volumes.length > 0) {
+                    initialDir = volumes[0].getPath();
+                    //Ensure that initial directory is an absolute directory
+                    initialDir = FileHelper.getAbsPath(initialDir);
+                } else {
+                    // Show exception and exit
+                    DialogHelper.showToast(
+                            mActivity,
+                            R.string.msgs_cant_create_console, Toast.LENGTH_LONG);
+                    mActivity.exit();
+                    return;
+                }
             }
         } else {
             //Ensure that initial directory is an absolute directory
@@ -1341,7 +1343,7 @@ public class NavigationFragment extends Fragment implements
             return false;
         }
 
-        updateSelectionMode();
+        onToggleSelection(fso);
         return true; //Always consume the event
     }
 
