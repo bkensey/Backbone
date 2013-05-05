@@ -14,19 +14,10 @@
      limitations under the License.
  -->
 
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
 
-  <!-- The name of the application -->
-  <string name="app_name">File Manager Themes</string>
-  <!-- The description of the application -->
-  <string name="app_description">Themes for CyanogenMod File Manager.</string>
-
-  <!-- The author of the themes -->
-  <string name="themes_author" translatable="false">CyanogenMod</string>
-
-  <!-- The dark theme name -->
+  <!-- The dark theme strings -->
   <string name="dark_theme_name">Dark Theme</string>
-  <!-- The dark theme description -->
   <string name="dark_theme_desc">A dark theme for CyanogenMod File Manager.</string>
 
 </resources>
