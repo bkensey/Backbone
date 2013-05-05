@@ -44,7 +44,6 @@ import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences;
 import com.brandroidtools.filemanager.adapters.MenuSettingsAdapter;
-
 import com.brandroidtools.filemanager.adapters.NavigationFragmentPagerAdapter;
 import com.brandroidtools.filemanager.console.Console;
 import com.brandroidtools.filemanager.console.ConsoleAllocException;
@@ -79,7 +78,6 @@ import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.COPY_MOVE_O
 import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
 import com.brandroidtools.filemanager.ui.policy.NewActionPolicy;
 import com.brandroidtools.filemanager.ui.widgets.*;
-
 import com.brandroidtools.filemanager.util.*;
 import com.brandroidtools.filemanager.util.ExceptionUtil.OnRelaunchCommandResult;
 
@@ -283,6 +281,8 @@ public class NavigationActivity extends Activity
     private View mTitleLayout;
     private NavigationCustomTitleView mTitle;
     private Breadcrumb mBreadcrumb;
+
+//    private MenuDrawer mDrawer;
 
     public NavigationFragmentPagerAdapter mPagerAdapter;
     public ViewPager mViewPager;

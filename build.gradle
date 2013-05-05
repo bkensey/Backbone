@@ -43,4 +43,5 @@ dependencies {
 
     compile project(':libs:android-syntax-highlight')
     compile project(':libs:color-picker-view')
+    compile project(':libs:android-menudrawer')
 }
