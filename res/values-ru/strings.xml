@@ -78,9 +78,9 @@
 
   <string name="advise_insufficient_permissions">Операция требует повышенных привилегий.\n\nВы хотите изменить режим Root-доступа?</string>
 
-  <string name="parent_dir">Домашняя папка</string>
+  <string name="parent_dir">Вверх</string>
   <string name="external_storage">Внешний накопитель</string>
-  <string name="usb_storage">USB накопитель</string>
+  <string name="usb_storage">USB-накопитель</string>
 
   <string name="actionbar_button_filesystem_cd">Инф. о системе</string>
   <string name="actionbar_button_sort_mode_cd">Режим сортировки</string>
@@ -146,7 +146,7 @@
   <string name="fso_properties_dialog_last_changed_date">Изменено:</string>
   <string name="fso_properties_dialog_owner">Владелец:</string>
   <string name="fso_properties_dialog_group">Группа:</string>
-  <string name="fso_properties_dialog_others">Другое:</string>
+  <string name="fso_properties_dialog_others">Другие:</string>
   <plurals name="fso_properties_dialog_folders">
     <item quantity="zero">0 папок</item>
     <item quantity="one">1 папка</item>
@@ -196,6 +196,8 @@
   <string name="editor_dirty_ask_msg">Имеются не сохранённые изменения.\n\nВыйти без сохранения?</string>
   <string name="editor_successfully_saved">Файл успешно сохранён</string>
   <string name="editor_read_only_mode">Файл открыт только для чтения</string>
+  <string name="dumping_message">Создание дампа\u2026</string>
+  <string name="displaying_message">Отображение\u2026</string>
 
   <string name="bookmarks">Закладки</string>
   <string name="bookmarks_home">Домой</string>
@@ -215,6 +217,8 @@
   <string name="menu_search">Поиск</string>
   <string name="menu_settings">Настройки</string>
   <string name="menu_clear_history">Очистить историю</string>
+  <string name="menu_no_suggestions">Не предлагать исправления</string>
+  <string name="menu_syntax_highlight">Подсветка синтаксиса</string>
   <string name="menu_word_wrap">Перенос слов</string>
 
   <string name="create_copy_regexp"><xliff:g id="name">%1$s</xliff:g> - копия <xliff:g id="extension">%2$s</xliff:g></string>
@@ -259,7 +263,7 @@
   <string name="actions_menu_open_parent_folder">Открыть папку с файлом</string>
   <string name="actions_menu_compute_checksum">Контрольные суммы</string>
 
-  <string name="actions_ask_undone_operation_msg">Это действие не обратимо. Вы хотите продолжить?</string>
+  <string name="actions_ask_undone_operation_msg">Это действие необратимо. Вы хотите продолжить?</string>
 
   <string name="input_name_dialog_label">Имя:</string>
   <string name="input_name_dialog_message_empty_name">Имя не может быть пустым</string>
@@ -289,6 +293,12 @@
   <string name="mime_folder">Папка</string>
   <string name="mime_symlink">Симлинк</string>
   <string name="mime_unknown">Неизвестно</string>
+
+  <string name="filetime_format_mode_system">Системный</string>
+  <string name="filetime_format_mode_locale">Региональный</string>
+  <string name="filetime_format_mode_ddMMyyyy_HHmmss">дд/мм/гггг чч:мм:сс</string>
+  <string name="filetime_format_mode_MMddyyyy_HHmmss">мм/дд/гггг чч:мм:сс</string>
+  <string name="filetime_format_mode_yyyyMMdd_HHmmss">гггг-мм-дд чч:мм:сс</string>
 
   <string name="selection_one_folder"><xliff:g id="folders">%1$s</xliff:g> папка выделена</string>
   <string name="selection_other_folders"><xliff:g id="folders">%1$s</xliff:g> папки(-ок) выделено</string>
@@ -330,6 +340,7 @@
   <string name="pref_general_behaviour_category">Основные</string>
   <string name="pref_case_sensitive_sort">Учитывать регистр при сортировке</string>
   <string name="pref_case_sensitive_sort_summary">Сортировка результатов при поиске или навигации</string>
+  <string name="pref_filetime_format_mode">Формат даты/времени</string>
   <string name="pref_disk_usage_warning_level">Предупреждения исп. памяти</string>
   <string name="pref_disk_usage_warning_level_summary" formatted="false">Показывать разноцветные индикации дискового пространства, когда они достигают <xliff:g id="level">%1$s</xliff:g> процентов свободного места</string>
   <string name="pref_compute_folder_statistics">Расчёт статистики по папкам</string>
@@ -359,7 +370,19 @@
   <string name="pref_remove_saved_search_terms_summary">Нажмите для удаления всех сохранённых условий поиска</string>
   <string name="pref_remove_saved_search_terms_msg">Все сохранённые условия поиска были удалены</string>
   <string name="pref_editor_behaviour_category">Поведение</string>
+  <string name="pref_no_suggestions">Не предлагать исправления</string>
+  <string name="pref_no_suggestions_desc">Не показывать варианты исправлений при редактировании файла</string>
   <string name="pref_word_wrap">Перенос слов</string>
+  <string name="pref_hexdump">Шестнадцатиричный формат</string>
+  <string name="pref_hexdump_desc">Вывод содержимого бинарных файлов в шестнадцатиричном формате</string>
+  <string name="pref_editor_syntax_highlight_category">Подсветка синтаксиса</string>
+  <string name="pref_syntax_highlight">Подсветка синтаксиса</string>
+  <string name="pref_syntax_highlight_desc">Подсвечивать синтаксис редактируемого файла (только для поддерживаемых редактором типов файлов)</string>
+  <string name="pref_syntax_highlight_color_scheme">Цветовая схема</string>
+  <string name="pref_syntax_highlight_color_scheme_desc">Нажмите для выбора цветовой схемы подсветки синтаксиса</string>
+  <string name="pref_syntax_sh_use_theme_default">Тема по умолчанию</string>
+  <string name="pref_syntax_sh_use_theme_default_desc">Использовать текущую тему в качестве темы по умолчанию</string>
+  <string name="pref_editor_sh_item_category">Элементы</string>
   <string name="pref_themes_selection_category">Темы</string>
   <string name="pref_themes_set_theme">Применить</string>
   <string name="pref_themes_no_preview">Превью недоступно</string>
@@ -370,6 +393,20 @@
 
   <string name="theme_default_name">Светлая тема</string>
   <string name="theme_default_description">Светлая тема для файлового менеджера CyanogenMod</string>
+
+  <string name="color_picker_alpha_slider_text">Прозрачность</string>
+  <string name="color_picker_current_text">Текущий:</string>
+  <string name="color_picker_new_text">Новый:</string>
+  <string name="color_picker_color">Цвет:</string>
+
+  <string name="ash_reset_color_scheme">Нажмите для восстановления цветовой схемы по умолчанию</string>
+  <string name="ash_text">Текст</string>
+  <string name="ash_assignment">Назначение</string>
+  <string name="ash_singleline_comment">Однострочный комментарий</string>
+  <string name="ash_multiline_comment">Многострочный комментарий</string>
+  <string name="ash_keyword">Ключевое слово</string>
+  <string name="ash_quoted_string">Строка в кавычках</string>
+  <string name="ash_variable">Переменная</string>
 
   <string name="security_warning_extract">Внимание!\n\n Извлечение архива с относительными или абсолютными путями может привести к повреждению устройства путём перезаписи системных файлов.\n\nВы действительно хотите продолжить?</string>
 

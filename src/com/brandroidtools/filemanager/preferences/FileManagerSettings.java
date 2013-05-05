@@ -79,6 +79,12 @@ public enum FileManagerSettings {
      */
     SETTINGS_CASE_SENSITIVE_SORT("cm_filemanager_case_sensitive_sort", Boolean.FALSE), //$NON-NLS-1$
     /**
+     * Defines the filetime format mode to use
+     * @hide
+     */
+    SETTINGS_FILETIME_FORMAT_MODE(
+            "cm_filemanager_filetime_format_mode", FileTimeFormatMode.LOCALE), //$NON-NLS-1$
+    /**
      * When display a warning in free disk widget
      * @hide
      */
@@ -130,10 +136,44 @@ public enum FileManagerSettings {
     SETTINGS_SHOW_TRACES("cm_filemanager_show_debug_traces", Boolean.FALSE), //$NON-NLS-1$
 
     /**
+     * When to editor should display suggestions
+     * @hide
+     */
+    SETTINGS_EDITOR_NO_SUGGESTIONS(
+            "cm_filemanager_editor_no_suggestions", Boolean.FALSE), //$NON-NLS-1$
+
+    /**
      * When to editor should use word wrap
      * @hide
      */
     SETTINGS_EDITOR_WORD_WRAP("cm_filemanager_editor_word_wrap", Boolean.TRUE), //$NON-NLS-1$
+
+    /**
+     * When to editor should open a binary file in a hex viewer
+     * @hide
+     */
+    SETTINGS_EDITOR_HEXDUMP("cm_filemanager_editor_hexdump", Boolean.TRUE), //$NON-NLS-1$
+
+    /**
+     * When to editor should use the syntax highlight
+     * @hide
+     */
+    SETTINGS_EDITOR_SYNTAX_HIGHLIGHT(
+            "cm_filemanager_editor_syntax_highlight", Boolean.TRUE), //$NON-NLS-1$
+
+    /**
+     * When to editor should use the default color scheme of the theme for syntax highlight
+     * @hide
+     */
+    SETTINGS_EDITOR_SH_USE_THEME_DEFAULT(
+            "cm_filemanager_editor_sh_use_theme_default", Boolean.TRUE), //$NON-NLS-1$
+
+    /**
+     * When to editor should use the default color scheme of the theme for syntax highlight
+     * @hide
+     */
+    SETTINGS_EDITOR_SH_COLOR_SCHEME(
+            "cm_filemanager_editor_sh_color_scheme", ""), //$NON-NLS-1$ //$NON-NLS-2$
 
     /**
      * The current theme to use in the app
