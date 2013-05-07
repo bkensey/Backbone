@@ -321,51 +321,6 @@ public class NavigationFragment extends Fragment implements
                 }
             }
         });
-        this.mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-
-                //Is necessary navigate?
-                if (!restore) {
-                    //Load the preference initial directory
-                    String initialDir =
-                            Preferences.getSharedPreferences().getString(
-                                    FileManagerSettings.SETTINGS_INITIAL_DIR.getId(),
-                                    (String)FileManagerSettings.
-                                            SETTINGS_INITIAL_DIR.getDefaultValue());
-                    if (mActivity.isChRooted()) {
-                        // Initial directory is the first external sdcard (sdcard, emmc, usb, ...)
-                        FileSystemStorageVolume[] volumes =
-                                StorageHelper.getStorageVolumes(mActivity);
-                        if (volumes != null && volumes.length > 0) {
-                            initialDir = volumes[0].getPath();
-                        }
-                    }
-
-                    //Ensure initial is an absolute directory
-                    try {
-                        initialDir = new File(initialDir).getAbsolutePath();
-                    } catch (Throwable e) {
-                        Log.e(TAG, "Resolve of initital directory fails", e); //$NON-NLS-1$
-                        String msg =
-                                getString(
-                                        R.string.msgs_settings_invalid_initial_directory,
-                                        initialDir);
-                        DialogHelper.showToast(mActivity, msg, Toast.LENGTH_SHORT);
-                        initialDir = FileHelper.ROOT_DIRECTORY;
-                    }
-
-                    // Change the current directory to the preference initial directory or the
-                    // request if exists
-                    String navigateTo = mActivity.getIntent().getStringExtra(mActivity.EXTRA_NAVIGATE_TO);
-                    if (navigateTo != null && navigateTo.length() > 0) {
-                        NavigationFragment.this.changeCurrentDir(navigateTo);
-                    } else {
-                        NavigationFragment.this.changeCurrentDir(initialDir);
-                    }
-                }
-            }
-        });
     }
 
     /**
