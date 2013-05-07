@@ -1,0 +1,3 @@
+[submodule "android-menudrawer"]
+	path = android-menudrawer
+	url = git://github.com/SimonVT/android-menudrawer.git
