@@ -17,6 +17,7 @@
 
 package com.brandroidtools.filemanager.activities;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,6 +52,7 @@ import com.brandroidtools.filemanager.console.ConsoleAllocException;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
 import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
+import com.brandroidtools.filemanager.fragments.BookmarksFragment;
 import com.brandroidtools.filemanager.fragments.HistoryFragment;
 import com.brandroidtools.filemanager.fragments.NavigationFragment;
 import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationRequestMenuListener;
@@ -89,6 +91,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import net.simonvt.menudrawer.MenuDrawer;
+import net.simonvt.menudrawer.Position;
 
 /**
  * The main navigation activity. This activity is the center of the application.
@@ -283,6 +288,8 @@ public class NavigationActivity extends Activity
     private View mTitleLayout;
     private NavigationCustomTitleView mTitle;
     private Breadcrumb mBreadcrumb;
+    
+    private MenuDrawer mMenuDrawer;
 
     public NavigationFragmentPagerAdapter mPagerAdapter;
     public ViewPager mViewPager;
@@ -312,14 +319,13 @@ public class NavigationActivity extends Activity
     /**
      * {@inheritDoc}
      */
-    @Override
+    @TargetApi(16)
+	@Override
     protected void onCreate(Bundle state) {
 
         if (DEBUG) {
             Log.d(TAG, "NavigationActivity.onCreate"); //$NON-NLS-1$
         }
-
-
 
         // Register the broadcast receiver
         IntentFilter filter = new IntentFilter();
@@ -331,12 +337,9 @@ public class NavigationActivity extends Activity
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         registerReceiver(this.mNotificationReceiver, filter);
 
-        //Set the main layout of the activity
-        setContentView(R.layout.navigation_pager);
-
         //Initialize nfc adapter
         NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if (mNfcAdapter != null && Build.VERSION.SDK_INT > 15) {
+        if (mNfcAdapter != null && Build.VERSION.SDK_INT > 16) {
             mNfcAdapter.setBeamPushUrisCallback(new NfcAdapter.CreateBeamUrisCallback() {
                 @Override
                 public Uri[] createBeamUris(NfcEvent event) {
@@ -358,10 +361,22 @@ public class NavigationActivity extends Activity
                 }
             }, this);
         }
-
-        //Initialize activity
+        
+        //Initialize menu drawer
+        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_CONTENT);
+        
+        //Set the main layout of the activity
+        mMenuDrawer.setContentView(R.layout.navigation_pager);
+        
+        //Set the layout of the menu drawer
+        BookmarksFragment bookmarksFragment = new BookmarksFragment();
+        getFragmentManager().beginTransaction().add(R.id.menu_frame_holder, bookmarksFragment).commit();
+        mMenuDrawer.setMenuView(R.layout.menu_frame_holder);
+        mMenuDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
+        
+        //Initialize activity console
         init();
-
+        
         //Initialize viewPager
         initViewPager();
 
@@ -1465,7 +1480,12 @@ public class NavigationActivity extends Activity
      */
     @Override
     public void onPageSelected(int position) {
-        // Load the new fragments current dir into the breadcrumb
+        
+        mMenuDrawer.setTouchMode(position == 0
+        	? MenuDrawer.TOUCH_MODE_FULLSCREEN
+        	: MenuDrawer.TOUCH_MODE_NONE);
+
+    	// Load the new fragments current dir into the breadcrumb
         if (this.mBreadcrumb != null) {
             this.mBreadcrumb.changeBreadcrumbPath(getCurrentNavigationFragment().getCurrentDir(), this.mChRooted);
         }
