@@ -433,6 +433,8 @@
   <string name="menu_settings">Settings</string>
   <!-- Menu * History * Clear history -->
   <string name="menu_clear_history">Clear history</string>
+  <!-- Menu * Editor * Save -->
+  <string name="menu_save">Save</string>
   <!-- Menu * Editor * No suggestions -->
   <string name="menu_no_suggestions">No suggestions</string>
   <!-- Menu * Editor * Word wrap -->

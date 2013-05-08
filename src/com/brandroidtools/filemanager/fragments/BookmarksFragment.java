@@ -40,6 +40,7 @@ import com.brandroidtools.filemanager.activities.BookmarksActivity;
 import com.brandroidtools.filemanager.adapters.BookmarksAdapter;
 import com.brandroidtools.filemanager.model.Bookmark;
 import com.brandroidtools.filemanager.model.Bookmark.BOOKMARK_TYPE;
+import com.brandroidtools.filemanager.model.FileSystemObject;
 import com.brandroidtools.filemanager.model.FileSystemStorageVolume;
 import com.brandroidtools.filemanager.preferences.AccessMode;
 import com.brandroidtools.filemanager.preferences.Bookmarks;
@@ -65,7 +66,11 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
     private static final String TAG = "BookmarksActivity"; //$NON-NLS-1$
 
     private static boolean DEBUG = false;
-
+    
+    public interface OnBookmarkSelectedListener {
+    	public void onBookmarkSelected(String path);
+    }
+    
     /**
      * A listener for flinging events from {@link com.brandroidtools.filemanager.ui.widgets.FlingerListView}
      */
@@ -143,6 +148,8 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
     ListView mBookmarksListView;
 
     private Activity mActivity;
+    
+    OnBookmarkSelectedListener mListener;
 
     private boolean mChRooted;
 
@@ -164,10 +171,10 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
             Log.d(TAG, "BookmarksFragment.onActivityCreated"); //$NON-NLS-1$
         }
 
-        mActivity = getActivity();
-
         // Is ChRooted?
         this.mChRooted = FileManagerApplication.getAccessMode().compareTo(AccessMode.SAFE) == 0;
+        
+        mActivity = getActivity();
 
         //Initialize action bars and data
         initBookmarks();
@@ -190,6 +197,16 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
 
         //All destroy. Continue
         super.onDestroy();
+    }
+    
+    @Override
+    public void onAttach(Activity activity) {
+    	super.onAttach(activity);
+    	try {
+    		mListener = (OnBookmarkSelectedListener) activity;
+    	} catch (ClassCastException e) {
+    		throw new ClassCastException(activity.toString() + " must implement OnBookmarkSelectedListner");
+    	}
     }
 
     /**
@@ -278,7 +295,8 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bookmark bookmark = ((BookmarksAdapter)parent.getAdapter()).getItem(position);
-        back(false, bookmark.mPath);
+        mListener.onBookmarkSelected(bookmark.mPath);
+        //back(false, bookmark.mPath);
     }
 
     /**
@@ -510,8 +528,10 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
             ((BookmarksAdapter)this.mBookmarksListView.getAdapter()).notifyThemeChanged();
             ((BookmarksAdapter)this.mBookmarksListView.getAdapter()).notifyDataSetChanged();
         }
+        this.mBookmarksListView.setBackgroundColor(
+        		theme.getColor(mActivity, "menu_drawer_background_color"));
         this.mBookmarksListView.setDivider(
-                theme.getDrawable(mActivity, "horizontal_divider_drawable")); //$NON-NLS-1$
+                theme.getDrawable(mActivity, "dark_horizontal_divider_drawable")); //$NON-NLS-1$
         this.mBookmarksListView.invalidate();
     }
 }

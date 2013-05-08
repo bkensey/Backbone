@@ -191,9 +191,9 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
             theme.setBackgroundDrawable(
                     getContext(), v, "selectors_deselected_drawable"); //$NON-NLS-1$
             theme.setTextColor(
-                    getContext(), viewHolder.mTvName, "text_color"); //$NON-NLS-1$
+                    getContext(), viewHolder.mTvName, "dialog_text_color"); //$NON-NLS-1$
             theme.setTextColor(
-                    getContext(), viewHolder.mTvPath, "text_color"); //$NON-NLS-1$
+                    getContext(), viewHolder.mTvPath, "dialog_text_color"); //$NON-NLS-1$
         }
 
         //Retrieve data holder

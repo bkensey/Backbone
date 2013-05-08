@@ -53,12 +53,14 @@ import com.brandroidtools.filemanager.console.ConsoleBuilder;
 import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
 import com.brandroidtools.filemanager.fragments.BookmarksFragment;
+import com.brandroidtools.filemanager.fragments.BookmarksFragment.OnBookmarkSelectedListener;
 import com.brandroidtools.filemanager.fragments.HistoryFragment;
 import com.brandroidtools.filemanager.fragments.NavigationFragment;
 import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationRequestMenuListener;
 import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
+import com.brandroidtools.filemanager.model.Bookmark;
 import com.brandroidtools.filemanager.model.DiskUsage;
 import com.brandroidtools.filemanager.model.FileSystemObject;
 import com.brandroidtools.filemanager.model.History;
@@ -67,6 +69,7 @@ import com.brandroidtools.filemanager.parcelables.HistoryNavigable;
 import com.brandroidtools.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.brandroidtools.filemanager.parcelables.SearchInfoParcelable;
 import com.brandroidtools.filemanager.preferences.AccessMode;
+import com.brandroidtools.filemanager.preferences.Bookmarks;
 import com.brandroidtools.filemanager.preferences.FileManagerSettings;
 import com.brandroidtools.filemanager.preferences.NavigationLayoutMode;
 import com.brandroidtools.filemanager.preferences.ObjectIdentifier;
@@ -109,7 +112,8 @@ import net.simonvt.menudrawer.Position;
  */
 public class NavigationActivity extends Activity
     implements OnRequestRefreshListener, OnCopyMoveListener,
-        OnNavigationRequestMenuListener, OnPageChangeListener, BreadcrumbListener {
+        OnNavigationRequestMenuListener, OnPageChangeListener,
+        BreadcrumbListener, OnBookmarkSelectedListener {
 
     private static final String TAG = "NavigationActivity"; //$NON-NLS-1$
 
@@ -385,6 +389,7 @@ public class NavigationActivity extends Activity
         mActionBar = getActionBar();
         initTitleActionBar();
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
 
         // Apply the theme
         applyTheme();
@@ -728,8 +733,6 @@ public class NavigationActivity extends Activity
             case R.id.ab_configuration:
                 //Show navigation view configuration toolbar
                 getCurrentNavigationFragment().getCustomTitle().showConfigurationView();
-                getActionBar().setDisplayHomeAsUpEnabled(true);
-                getActionBar().setHomeButtonEnabled(true);
                 break;
             case R.id.ab_close:
                 //Hide navigation view configuration toolbar
@@ -793,6 +796,36 @@ public class NavigationActivity extends Activity
 
             default:
                 break;
+        }
+    }
+    
+    public void onBookmarkSelected(String path) {
+    	// Check that the bookmark exists
+        try {
+            FileSystemObject fso = CommandHelper.getFileInfo(this, path, null);
+            if (fso != null) {
+            	getCurrentNavigationFragment().open(fso);
+            	mMenuDrawer.closeMenu();
+            } else {
+                // The bookmark not exists, delete the user-defined bookmark
+                try {
+                    Bookmark b = Bookmarks.getBookmark(getContentResolver(), path);
+                    Bookmarks.removeBookmark(this, b);
+                    //mBookmarksFragment.refresh();
+                } catch (Exception ex) {/**NON BLOCK**/}
+            }
+        } catch (Exception e) {
+            // Capture the exception
+            ExceptionUtil.translateException(this, e);
+            if (e instanceof NoSuchFileOrDirectory || e instanceof FileNotFoundException) {
+                // The bookmark not exists, delete the user-defined bookmark
+                try {
+                    Bookmark b = Bookmarks.getBookmark(getContentResolver(), path);
+                    Bookmarks.removeBookmark(this, b);
+                    //mBookmarksFragment.refresh();
+                } catch (Exception ex) {/**NON BLOCK**/}
+            }
+            return;
         }
     }
 
@@ -1125,10 +1158,6 @@ public class NavigationActivity extends Activity
             for (int i = currentNavFragment.mHistory.size() - 1; i >= cc; i--) {
                 currentNavFragment.mHistory.remove(i);
             }
-            if (currentNavFragment.mHistory.size() == 0) {
-                getActionBar().setDisplayHomeAsUpEnabled(false);
-                getActionBar().setHomeButtonEnabled(false);
-            }
 
             //Navigate
             return true;
@@ -1421,44 +1450,6 @@ public class NavigationActivity extends Activity
     }
 
     /**
-     * Method that applies the current theme to the activity
-     * @hide
-     */
-    void applyTheme() {
-        Theme theme = ThemeManager.getCurrentTheme(this);
-        theme.setBaseTheme(this, false);
-
-        View v;
-
-        /*
-        TODO: Either find a way to update action item icons via current methods or ensure the theme update mechanism
-        can trigger a normal theme update.
-        */
-
-        /*        View v = findViewById(R.id.ab_overflow);
-        theme.setImageDrawable(this, (ImageView)v, "ab_overflow_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_actions);
-        theme.setImageDrawable(this, (ImageView)v, "ab_actions_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_search);
-        theme.setImageDrawable(this, (ImageView)v, "ab_search_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_bookmarks);
-        theme.setImageDrawable(this, (ImageView)v, "ab_bookmarks_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_history);
-        theme.setImageDrawable(this, (ImageView)v, "ab_history_drawable"); //$NON-NLS-1$*/
-        //- Expanders
-        v = findViewById(R.id.ab_configuration);
-        theme.setImageDrawable(this, (ImageView)v, "expander_open_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_close);
-        theme.setImageDrawable(this, (ImageView)v, "expander_close_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_sort_mode);
-        theme.setImageDrawable(this, (ImageView)v, "ab_sort_mode_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_layout_mode);
-        theme.setImageDrawable(this, (ImageView)v, "ab_layout_mode_drawable"); //$NON-NLS-1$
-        v = findViewById(R.id.ab_view_options);
-        theme.setImageDrawable(this, (ImageView)v, "ab_view_options_drawable"); //$NON-NLS-1$
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -1567,5 +1558,43 @@ public class NavigationActivity extends Activity
     @Override
     public String onRequestDestinationDir() {
         return getCurrentNavigationFragment().getCurrentDir();
+    }
+    
+    /**
+     * Method that applies the current theme to the activity
+     * @hide
+     */
+    void applyTheme() {
+        Theme theme = ThemeManager.getCurrentTheme(this);
+        theme.setBaseTheme(this, false);
+
+        View v;
+
+        /*
+        TODO: Either find a way to update action item icons via current methods or ensure the theme update mechanism
+        can trigger a normal theme update.
+        */
+
+        /*        View v = findViewById(R.id.ab_overflow);
+        theme.setImageDrawable(this, (ImageView)v, "ab_overflow_drawable"); //$NON-NLS-1$
+        v = findViewById(R.id.ab_actions);
+        theme.setImageDrawable(this, (ImageView)v, "ab_actions_drawable"); //$NON-NLS-1$
+        v = findViewById(R.id.ab_search);
+        theme.setImageDrawable(this, (ImageView)v, "ab_search_drawable"); //$NON-NLS-1$
+        v = findViewById(R.id.ab_bookmarks);
+        theme.setImageDrawable(this, (ImageView)v, "ab_bookmarks_drawable"); //$NON-NLS-1$
+        v = findViewById(R.id.ab_history);
+        theme.setImageDrawable(this, (ImageView)v, "ab_history_drawable"); //$NON-NLS-1$*/
+        //- Expanders
+        v = findViewById(R.id.ab_configuration);
+        theme.setImageDrawable(this, (ImageView)v, "expander_open_drawable"); //$NON-NLS-1$
+        v = findViewById(R.id.ab_close);
+        theme.setImageDrawable(this, (ImageView)v, "expander_close_drawable"); //$NON-NLS-1$
+        v = findViewById(R.id.ab_sort_mode);
+        theme.setImageDrawable(this, (ImageView)v, "ab_sort_mode_drawable"); //$NON-NLS-1$
+        v = findViewById(R.id.ab_layout_mode);
+        theme.setImageDrawable(this, (ImageView)v, "ab_layout_mode_drawable"); //$NON-NLS-1$
+        v = findViewById(R.id.ab_view_options);
+        theme.setImageDrawable(this, (ImageView)v, "ab_view_options_drawable"); //$NON-NLS-1$
     }
 }

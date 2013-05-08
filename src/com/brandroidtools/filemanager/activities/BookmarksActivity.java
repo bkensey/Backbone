@@ -32,6 +32,7 @@ import android.widget.ListView;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
 import com.brandroidtools.filemanager.fragments.BookmarksFragment;
+import com.brandroidtools.filemanager.fragments.BookmarksFragment.OnBookmarkSelectedListener;
 import com.brandroidtools.filemanager.model.Bookmark;
 import com.brandroidtools.filemanager.model.FileSystemObject;
 import com.brandroidtools.filemanager.preferences.Bookmarks;
@@ -45,7 +46,8 @@ import java.io.FileNotFoundException;
 /**
  * An activity for show bookmarks and links.
  */
-public class BookmarksActivity extends Activity{
+public class BookmarksActivity extends Activity
+		implements OnBookmarkSelectedListener {
 
     private static final String TAG = "BookmarksActivity"; //$NON-NLS-1$
 
@@ -148,7 +150,11 @@ public class BookmarksActivity extends Activity{
              return super.onOptionsItemSelected(item);
        }
     }
-
+    
+    public void onBookmarkSelected(String path) {
+    	back(false, path);
+    }
+    
     /**
      * Method that returns to previous activity and.
      *

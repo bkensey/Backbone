@@ -21,6 +21,8 @@
 
   <!-- A black color with some transparency -->
   <color name="black_transparent">#99000000</color>
+  <!-- A white color with some transparency -->
+  <color name="white_transparent">#99FFFFFF</color>
   <!-- A derivated blue from @android:color/holo_blue_light with some transparency -->
   <color name="blue_transparent">#9933b5e5</color>
   <!-- A white color for use in the action bar -->
@@ -59,5 +61,8 @@
   <!-- Execution console -->
   <color name="console_bg">#99000000</color>
   <color name="console_fg">#99FFFFFF</color>
+  
+  <!-- Action bar colors -->
+  <color name="pressed_holo_dark">#CC33B5E5</color>
 
 </resources>

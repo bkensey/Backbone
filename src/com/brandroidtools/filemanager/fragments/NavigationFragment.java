@@ -538,8 +538,8 @@ public class NavigationFragment extends Fragment implements
     public void onCheckHistory() {
         //Need to show HomeUp Button
         boolean enabled = this.mHistory != null && this.mHistory.size() > 0;
-        mActivity.getActionBar().setDisplayHomeAsUpEnabled(enabled);
-        mActivity.getActionBar().setHomeButtonEnabled(enabled);
+//        mActivity.getActionBar().setDisplayHomeAsUpEnabled(enabled);
+//        mActivity.getActionBar().setHomeButtonEnabled(enabled);
     }
 
     /**
