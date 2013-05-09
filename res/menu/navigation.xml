@@ -28,11 +28,6 @@
     android:icon="@drawable/ic_action_holo_dark_history"
     android:title="@string/menu_history"/>
   <item
-    android:id="@+id/mnu_bookmarks"
-    android:showAsAction="ifRoom"
-    android:icon="@drawable/ic_action_holo_dark_bookmark"
-    android:title="@string/menu_bookmarks"/>
-  <item
     android:id="@+id/mnu_actions_properties_current_folder"
     android:showAsAction="ifRoom"
     android:icon="?attr/actionIconFolderProperties"

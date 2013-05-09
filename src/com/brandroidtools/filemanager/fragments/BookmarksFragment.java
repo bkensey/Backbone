@@ -36,7 +36,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
-import com.brandroidtools.filemanager.activities.BookmarksActivity;
 import com.brandroidtools.filemanager.adapters.BookmarksAdapter;
 import com.brandroidtools.filemanager.model.Bookmark;
 import com.brandroidtools.filemanager.model.Bookmark.BOOKMARK_TYPE;
@@ -296,7 +295,6 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bookmark bookmark = ((BookmarksAdapter)parent.getAdapter()).getItem(position);
         mListener.onBookmarkSelected(bookmark.mPath);
-        //back(false, bookmark.mPath);
     }
 
     /**
@@ -336,18 +334,6 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
           adapter.notifyDataSetChanged();
           return;
       }
-    }
-
-    /**
-     * Method that returns to previous activity and.
-     *
-     * @param cancelled Indicates if the activity was cancelled
-     * @param path The path of the selected bookmark
-     */
-    private void back(final boolean cancelled, final String path) {
-        if (mActivity instanceof BookmarksActivity) {
-            ((BookmarksActivity) mActivity).back(cancelled, path);
-        }
     }
 
     /**

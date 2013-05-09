@@ -120,11 +120,6 @@ public class NavigationActivity extends Activity
     private static boolean DEBUG = false;
 
     /**
-     * Intent code for request a bookmark selection.
-     */
-    public static final int INTENT_REQUEST_BOOKMARK = 10001;
-
-    /**
      * Intent code for request a history selection.
      */
     public static final int INTENT_REQUEST_HISTORY = 20001;
@@ -670,10 +665,6 @@ public class NavigationActivity extends Activity
             //######################
             // Action Buttons
             //######################
-             case R.id.mnu_bookmarks:
-                openBookmarks();
-                break;
-
             case R.id.mnu_history:
                 openHistory();
                 break;
@@ -836,18 +827,6 @@ public class NavigationActivity extends Activity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data != null) {
             switch (requestCode) {
-                case INTENT_REQUEST_BOOKMARK:
-                    if (resultCode == RESULT_OK) {
-                        FileSystemObject fso =
-                                (FileSystemObject)data.
-                                    getSerializableExtra(EXTRA_BOOKMARK_SELECTION);
-                        if (fso != null) {
-                            //Open the fso
-                            getCurrentNavigationFragment().open(fso);
-                        }
-                    }
-                    break;
-
                 case INTENT_REQUEST_HISTORY:
                     if (resultCode == RESULT_OK) {
                         //Change current directory
@@ -1308,16 +1287,6 @@ public class NavigationActivity extends Activity
 
         InfoActionPolicy.showPropertiesDialog(this, fso, this);
 
-    }
-
-    /**
-     * Method that opens the bookmarks activity.
-     * @hide
-     */
-    void openBookmarks() {
-        Intent bookmarksIntent = new Intent(this, BookmarksActivity.class);
-        bookmarksIntent.addFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-        startActivityForResult(bookmarksIntent, INTENT_REQUEST_BOOKMARK);
     }
 
     /**
