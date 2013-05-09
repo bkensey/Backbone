@@ -125,7 +125,7 @@
     <!-- Icons -->
     <drawable name="ic_close_drawable">@drawable/ic_holo_dark_close</drawable>
     <drawable name="ic_config_drawable">@drawable/ic_holo_dark_config</drawable>
-    <drawable name="ic_home_drawable">@drawable/ic_holo_light_home</drawable>
+    <drawable name="ic_home_drawable">@drawable/ic_holo_dark_home</drawable>
     <drawable name="ic_filesystem_drawable">@drawable/ic_holo_dark_filesystem</drawable>
     <drawable name="ic_sdcard_drawable">@drawable/ic_holo_dark_sdcard</drawable>
     <drawable name="ic_usb_drawable">@drawable/ic_holo_dark_usb</drawable>
