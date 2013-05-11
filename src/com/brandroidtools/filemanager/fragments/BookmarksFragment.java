@@ -315,7 +315,6 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bookmark bookmark = ((BookmarksAdapter)parent.getAdapter()).getItem(position);
         BusProvider.getInstance().post(new BookmarkOpenEvent(bookmark.mPath));
-        //mListener.onBookmarkSelected(bookmark.mPath);
     }
 
     /**
