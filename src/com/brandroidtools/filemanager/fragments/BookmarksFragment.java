@@ -37,6 +37,10 @@ import android.widget.Toast;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.adapters.BookmarksAdapter;
+import com.brandroidtools.filemanager.bus.BusProvider;
+import com.brandroidtools.filemanager.bus.events.BookmarkDeleteEvent;
+import com.brandroidtools.filemanager.bus.events.BookmarkOpenEvent;
+import com.brandroidtools.filemanager.bus.events.BookmarkRefreshEvent;
 import com.brandroidtools.filemanager.model.Bookmark;
 import com.brandroidtools.filemanager.model.Bookmark.BOOKMARK_TYPE;
 import com.brandroidtools.filemanager.model.FileSystemObject;
@@ -52,6 +56,8 @@ import com.brandroidtools.filemanager.ui.widgets.FlingerListView;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerListener;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerResponder;
 import com.brandroidtools.filemanager.util.*;
+import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -199,13 +205,15 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
     }
     
     @Override
-    public void onAttach(Activity activity) {
-    	super.onAttach(activity);
-    	try {
-    		mListener = (OnBookmarkSelectedListener) activity;
-    	} catch (ClassCastException e) {
-    		throw new ClassCastException(activity.toString() + " must implement OnBookmarkSelectedListner");
-    	}
+    public void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
     }
 
     /**
@@ -234,6 +242,18 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
         refresh();
     }
 
+    @Subscribe
+    public void onBookmarkDeleteEvent (BookmarkDeleteEvent event) {
+    	Bookmark b = Bookmarks.getBookmark(mActivity.getContentResolver(), event.path);
+        Bookmarks.removeBookmark(mActivity, b);
+        refresh();
+    }
+    
+    @Subscribe
+    public void onBookmarkRefreshEvent (BookmarkRefreshEvent event) {
+    	refresh();
+    }
+    
     /**
      * Method that makes the refresh of the data.
      */
@@ -294,7 +314,8 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bookmark bookmark = ((BookmarksAdapter)parent.getAdapter()).getItem(position);
-        mListener.onBookmarkSelected(bookmark.mPath);
+        BusProvider.getInstance().post(new BookmarkOpenEvent(bookmark.mPath));
+        //mListener.onBookmarkSelected(bookmark.mPath);
     }
 
     /**

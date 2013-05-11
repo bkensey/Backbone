@@ -1,3 +1,6 @@
 [submodule "android-menudrawer"]
 	path = android-menudrawer
 	url = git://github.com/SimonVT/android-menudrawer.git
+[submodule "otto"]
+	path = otto
+	url = git://github.com/square/otto.git

@@ -47,6 +47,10 @@ import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences
 import com.brandroidtools.filemanager.adapters.MenuSettingsAdapter;
 
 import com.brandroidtools.filemanager.adapters.NavigationFragmentPagerAdapter;
+import com.brandroidtools.filemanager.bus.BusProvider;
+import com.brandroidtools.filemanager.bus.events.BookmarkDeleteEvent;
+import com.brandroidtools.filemanager.bus.events.BookmarkOpenEvent;
+import com.brandroidtools.filemanager.bus.events.BookmarkRefreshEvent;
 import com.brandroidtools.filemanager.console.Console;
 import com.brandroidtools.filemanager.console.ConsoleAllocException;
 import com.brandroidtools.filemanager.console.ConsoleBuilder;
@@ -87,6 +91,7 @@ import com.brandroidtools.filemanager.ui.widgets.*;
 
 import com.brandroidtools.filemanager.util.*;
 import com.brandroidtools.filemanager.util.ExceptionUtil.OnRelaunchCommandResult;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -113,7 +118,7 @@ import net.simonvt.menudrawer.Position;
 public class NavigationActivity extends Activity
     implements OnRequestRefreshListener, OnCopyMoveListener,
         OnNavigationRequestMenuListener, OnPageChangeListener,
-        BreadcrumbListener, OnBookmarkSelectedListener {
+        BreadcrumbListener {
 
     private static final String TAG = "NavigationActivity"; //$NON-NLS-1$
 
@@ -280,9 +285,6 @@ public class NavigationActivity extends Activity
     /**
      * @hide
      */
-
-
-
     private ActionBar mActionBar;
     private View mTitleLayout;
     private NavigationCustomTitleView mTitle;
@@ -406,6 +408,23 @@ public class NavigationActivity extends Activity
 
         //Check the intent action
         checkIntent(intent);
+    }
+      
+    @Override 
+    protected void onResume() {
+        super.onResume();
+        mViewPager.setOnPageChangeListener(this);
+        
+        // Register ourselves so that we can provide the initial value.
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override 
+    protected void onPause() {
+        super.onPause();
+
+        // Always unregister when an object no longer should be on the bus.
+        BusProvider.getInstance().unregister(this);
     }
 
     /**
@@ -615,15 +634,6 @@ public class NavigationActivity extends Activity
         return super.onKeyUp(keyCode, event);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-        mViewPager.setOnPageChangeListener(this);
-    }
-
 
     /**
      * {@inheritDoc}
@@ -790,7 +800,8 @@ public class NavigationActivity extends Activity
         }
     }
     
-    public void onBookmarkSelected(String path) {
+    @Subscribe public void onBookmarkOpenEvent(BookmarkOpenEvent event) {
+    	String path = event.path;
     	// Check that the bookmark exists
         try {
             FileSystemObject fso = CommandHelper.getFileInfo(this, path, null);
@@ -800,9 +811,10 @@ public class NavigationActivity extends Activity
             } else {
                 // The bookmark not exists, delete the user-defined bookmark
                 try {
-                    Bookmark b = Bookmarks.getBookmark(getContentResolver(), path);
+                	BusProvider.getInstance().post(new BookmarkDeleteEvent(path));
+                	Bookmark b = Bookmarks.getBookmark(getContentResolver(), path);
                     Bookmarks.removeBookmark(this, b);
-                    //mBookmarksFragment.refresh();
+                    //BusProvider.getInstance().post(new BookmarkRefreshEvent());
                 } catch (Exception ex) {/**NON BLOCK**/}
             }
         } catch (Exception e) {
@@ -811,9 +823,7 @@ public class NavigationActivity extends Activity
             if (e instanceof NoSuchFileOrDirectory || e instanceof FileNotFoundException) {
                 // The bookmark not exists, delete the user-defined bookmark
                 try {
-                    Bookmark b = Bookmarks.getBookmark(getContentResolver(), path);
-                    Bookmarks.removeBookmark(this, b);
-                    //mBookmarksFragment.refresh();
+                	BusProvider.getInstance().post(new BookmarkDeleteEvent(path));
                 } catch (Exception ex) {/**NON BLOCK**/}
             }
             return;
