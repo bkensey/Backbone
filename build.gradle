@@ -8,9 +8,6 @@ buildscript {
 }
 apply plugin: 'android'
 
-dependencies {
-}
-
 android {
     compileSdkVersion 17
     buildToolsVersion "17"
@@ -20,16 +17,36 @@ android {
         targetSdkVersion 17
     }
     sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src','libs\color-picker-view\src','libs\android-syntax-highlight\src','otto\library\src\main\java','themes\src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-        }
+    	main {
+			manifest {
+				srcFile 'AndroidManifest.xml'
+			}
+			java {
+				srcDir 'src'
+			}
+			res {
+				srcDir 'res'
+			}
+			assets {
+				srcDir 'assets'
+			}
+			resources {
+				srcDir 'src'
+			}
+			aidl {
+				srcDir 'src'
+			}
+		}
+		
+		instrumentTest.setRoot('tests')
+		
+	}
+}
 
-        instrumentTest.setRoot('tests')
-    }
+dependencies {
+	compile files('libs/android-support-v4.jar')
+
+    compile project(':libs:android-syntax-highlight')
+    compile project(':libs:color-picker-view')
+    compile project(':libs:android-menudrawer')
 }
