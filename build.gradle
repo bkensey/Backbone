@@ -37,9 +37,9 @@ android {
 				srcDir 'src'
 			}
 		}
-		
+
 		instrumentTest.setRoot('tests')
-		
+
 	}
 }
 
