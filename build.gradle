@@ -50,3 +50,7 @@ dependencies {
     compile project(':libs:color-picker-view')
     compile project(':libs:android-menudrawer')
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
+}
