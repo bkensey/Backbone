@@ -19,7 +19,7 @@
     android:id="@+id/mnu_save"
     android:icon="?attr/actionIconSave"
     android:showAsAction="ifRoom"
-    android:title="@string/menu_settings"/>
+    android:title="@string/menu_save"/>
   <item
     android:id="@+id/mnu_no_suggestions"
     android:showAsAction="never"
