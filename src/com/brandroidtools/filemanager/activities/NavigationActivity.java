@@ -93,9 +93,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import net.simonvt.menudrawer.MenuDrawer;
-import net.simonvt.menudrawer.Position;
-
 /**
  * The main navigation activity. This activity is the center of the application.
  * From this the user can navigate, search, make actions.<br/>
@@ -285,8 +282,6 @@ public class NavigationActivity extends Activity
     private View mTitleLayout;
     private NavigationCustomTitleView mTitle;
     private Breadcrumb mBreadcrumb;
-    
-    private MenuDrawer mMenuDrawer;
 
     public NavigationFragmentPagerAdapter mPagerAdapter;
     public ViewPager mViewPager;
@@ -358,12 +353,14 @@ public class NavigationActivity extends Activity
                 }
             }, this);
         }
-        
+
+        setContentView(R.layout.navigation);
+
         //Initialize menu drawer
 //        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
-        
+
         //Set the main layout of the activity
-//        mMenuDrawer.setContentView(R.layout.navigation);
+//        mMenuDrawer.setContentView(R.layout.navigation_pager);
         
         //Set the layout of the menu drawer
 //        BookmarksFragment bookmarksFragment = new BookmarksFragment();
@@ -657,7 +654,7 @@ public class NavigationActivity extends Activity
             // Home/Up button
             //######################
             case android.R.id.home:
-            	mMenuDrawer.toggleMenu();
+            	//mMenuDrawer.toggleMenu();
                 return true;
 
             //######################
@@ -794,7 +791,7 @@ public class NavigationActivity extends Activity
             FileSystemObject fso = CommandHelper.getFileInfo(this, path, null);
             if (fso != null) {
             	getCurrentNavigationFragment().open(fso);
-            	mMenuDrawer.closeMenu();
+            	//mMenuDrawer.closeMenu();
             } else {
                 // The bookmark not exists, delete the user-defined bookmark
                 try {
@@ -1438,9 +1435,9 @@ public class NavigationActivity extends Activity
     @Override
     public void onPageSelected(int position) {
         
-        mMenuDrawer.setTouchMode(position == 0
-        	? MenuDrawer.TOUCH_MODE_FULLSCREEN
-        	: MenuDrawer.TOUCH_MODE_NONE);
+//        mMenuDrawer.setTouchMode(position == 0
+//        	? MenuDrawer.TOUCH_MODE_FULLSCREEN
+//        	: MenuDrawer.TOUCH_MODE_NONE);
 
     	// Load the new fragments current dir into the breadcrumb
         if (this.mBreadcrumb != null) {
