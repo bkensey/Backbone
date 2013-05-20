@@ -163,6 +163,11 @@
   <!-- Usb storage descripton -->
   <string name="usb_storage">USB storage</string>
 
+  <!-- ActionBar Drawer Toggle open -->
+  <string name="drawer_open">Open drawer</string>
+  <!-- ActionBar Drawer Toggle close -->
+  <string name="drawer_close">Close Drawer</string>
+
   <!-- ActionBar Buttons * FileSystem -->
   <string name="actionbar_button_filesystem_cd">File system info</string>
   <!-- ActionBar Buttons * Sort Mode -->

@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.nfc.NfcEvent;
@@ -34,8 +35,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -279,6 +282,8 @@ public class NavigationActivity extends Activity
 
 
     private ActionBar mActionBar;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
     private View mTitleLayout;
     private NavigationCustomTitleView mTitle;
     private Breadcrumb mBreadcrumb;
@@ -329,7 +334,7 @@ public class NavigationActivity extends Activity
         filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
         registerReceiver(this.mNotificationReceiver, filter);
 
-        //Initialize nfc adapter
+        // Initialize NFC adapter
         NfcAdapter mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (mNfcAdapter != null && Build.VERSION.SDK_INT > 16) {
             mNfcAdapter.setBeamPushUrisCallback(new NfcAdapter.CreateBeamUrisCallback() {
@@ -378,6 +383,31 @@ public class NavigationActivity extends Activity
         //Initialize action bar
         mActionBar = getActionBar();
         initTitleActionBar();
+
+        // Create ActionBar drawer toggle drawable
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                // Reload the fragments current dir into the breadcrumb
+                if (mBreadcrumb != null) {
+                    mBreadcrumb.changeBreadcrumbPath(getCurrentNavigationFragment().getCurrentDir(), mChRooted);
+                }
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(R.string.bookmarks);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
@@ -407,6 +437,16 @@ public class NavigationActivity extends Activity
      * {@inheritDoc}
      */
     @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected void onDestroy() {
         if (DEBUG) {
             Log.d(TAG, "NavigationActivity.onDestroy"); //$NON-NLS-1$
@@ -421,6 +461,12 @@ public class NavigationActivity extends Activity
 
         //All destroy. Continue
         super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     /**
@@ -649,17 +695,14 @@ public class NavigationActivity extends Activity
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            //######################
-            // Home/Up button
-            //######################
-            case android.R.id.home:
-            	//mMenuDrawer.toggleMenu();
-                return true;
 
-            //######################
-            // Action Buttons
-            //######################
+        // Drawer Toggle pass-off
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        // Action Items
+        switch (item.getItemId()) {
             case R.id.mnu_history:
                 openHistory();
                 break;
@@ -1434,10 +1477,6 @@ public class NavigationActivity extends Activity
      */
     @Override
     public void onPageSelected(int position) {
-        
-//        mMenuDrawer.setTouchMode(position == 0
-//        	? MenuDrawer.TOUCH_MODE_FULLSCREEN
-//        	: MenuDrawer.TOUCH_MODE_NONE);
 
     	// Load the new fragments current dir into the breadcrumb
         if (this.mBreadcrumb != null) {
