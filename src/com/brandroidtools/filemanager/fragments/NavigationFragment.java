@@ -246,7 +246,7 @@ public class NavigationFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.navigation, container, false);
+        return inflater.inflate(R.layout.navigation_fragment, container, false);
     }
 
     /**

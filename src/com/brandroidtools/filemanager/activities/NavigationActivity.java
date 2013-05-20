@@ -288,8 +288,6 @@ public class NavigationActivity extends Activity
     
     private MenuDrawer mMenuDrawer;
 
-//    private MenuDrawer mDrawer;
-
     public NavigationFragmentPagerAdapter mPagerAdapter;
     public ViewPager mViewPager;
 
@@ -362,17 +360,17 @@ public class NavigationActivity extends Activity
         }
         
         //Initialize menu drawer
-        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
+//        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
         
         //Set the main layout of the activity
-        mMenuDrawer.setContentView(R.layout.navigation_pager);
+//        mMenuDrawer.setContentView(R.layout.navigation);
         
         //Set the layout of the menu drawer
-        BookmarksFragment bookmarksFragment = new BookmarksFragment();
-        getFragmentManager().beginTransaction().add(R.id.menu_frame_holder, bookmarksFragment).commit();
-        mMenuDrawer.setMenuView(R.layout.menu_frame_holder);
-        mMenuDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
-        mMenuDrawer.peekDrawer(1000, 0);
+//        BookmarksFragment bookmarksFragment = new BookmarksFragment();
+//        getFragmentManager().beginTransaction().add(R.id.menu_frame_holder, bookmarksFragment).commit();
+//        mMenuDrawer.setMenuView(R.layout.menu_frame_holder);
+//        mMenuDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
+//        mMenuDrawer.peekDrawer(1000, 0);
         
         //Initialize activity console
         init();

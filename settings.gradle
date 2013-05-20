@@ -1,1 +1,1 @@
-include ':libs:android-menudrawer', ':libs:android-syntax-highlight', ':libs:color-picker-view'
+include ':libs:android-menudrawer'
