@@ -471,6 +471,7 @@
               android:layout_height="wrap_content">
               <CheckBox
                 android:layout_weight="0"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
@@ -489,6 +490,7 @@
               android:layout_height="wrap_content">
               <CheckBox
                 android:layout_weight="0"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
@@ -507,6 +509,7 @@
               android:layout_height="wrap_content">
               <CheckBox
                 android:layout_weight="0"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
