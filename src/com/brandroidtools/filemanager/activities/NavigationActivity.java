@@ -47,6 +47,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.activities.preferences.SettingsPreferences;
+import com.brandroidtools.filemanager.adapters.BookmarksAdapter;
 import com.brandroidtools.filemanager.adapters.MenuSettingsAdapter;
 import com.brandroidtools.filemanager.adapters.NavigationFragmentPagerAdapter;
 import com.brandroidtools.filemanager.console.Console;
@@ -278,12 +279,10 @@ public class NavigationActivity extends Activity
     /**
      * @hide
      */
-
-
-
     private ActionBar mActionBar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private BookmarksListView mDrawerList;
     private View mTitleLayout;
     private NavigationCustomTitleView mTitle;
     private Breadcrumb mBreadcrumb;
@@ -410,6 +409,8 @@ public class NavigationActivity extends Activity
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+
+        mDrawerList = (BookmarksListView) findViewById(R.id.left_drawer);
 
         // Apply the theme
         applyTheme();
