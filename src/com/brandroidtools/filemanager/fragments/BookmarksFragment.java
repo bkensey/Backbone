@@ -56,7 +56,6 @@ import com.brandroidtools.filemanager.ui.widgets.FlingerListView;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerListener;
 import com.brandroidtools.filemanager.ui.widgets.FlingerListView.OnItemFlingerResponder;
 import com.brandroidtools.filemanager.util.*;
-import com.squareup.otto.Produce;
 import com.squareup.otto.Subscribe;
 
 import java.io.FileNotFoundException;

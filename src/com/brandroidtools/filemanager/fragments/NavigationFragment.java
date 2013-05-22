@@ -527,8 +527,6 @@ public class NavigationFragment extends Fragment implements
         //Recollect information about current status
         History history = new History(this.mHistory.size(), navigable);
         this.mHistory.add(history);
-        mActivity.getActionBar().setDisplayHomeAsUpEnabled(true);
-        mActivity.getActionBar().setHomeButtonEnabled(true);
     }
 
     /**
@@ -1551,17 +1549,19 @@ public class NavigationFragment extends Fragment implements
      * in the device
      * @hide
      */
-    public void createChRooted() {
+    public void enterChRooted(String chRootedVolumePath) {
         // If we are in a ChRooted environment, then do nothing
         if (this.mChRooted) return;
         this.mChRooted = true;
 
-        //Change to first storage volume
-        FileSystemStorageVolume[] volumes =
-                StorageHelper.getStorageVolumes(mActivity);
-        if (volumes != null && volumes.length > 0) {
-            changeCurrentDir(volumes[0].getPath(), false, true, false, null, null, null, null);
+        if (FileHelper.isSubDirectoryOf(this.mCurrentDir, chRootedVolumePath)) {
+            // current directory is already inside the ChRooted environment, so
+            // no directory change or selection removal is necessary
+        } else {
+            changeCurrentDir(chRootedVolumePath, false, true, false, null, null, null, null);
+            onDeselectAll();
         }
+
     }
 
     /**

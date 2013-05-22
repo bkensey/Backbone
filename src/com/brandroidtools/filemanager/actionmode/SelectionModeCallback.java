@@ -24,6 +24,8 @@ import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
+import com.brandroidtools.filemanager.bus.BusProvider;
+import com.brandroidtools.filemanager.bus.events.BookmarkRefreshEvent;
 import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
 import com.brandroidtools.filemanager.listeners.OnSelectionListener;
@@ -510,6 +512,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             //- Add to bookmarks
             case R.id.mnu_actions_add_to_bookmarks:
                 BookmarksActionPolicy.addToBookmarks(this.mActivity, this.mFso);
+                BusProvider.getInstance().post(new BookmarkRefreshEvent());
                 break;
 
             //- Add shortcut

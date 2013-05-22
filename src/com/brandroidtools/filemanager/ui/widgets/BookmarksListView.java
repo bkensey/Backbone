@@ -33,6 +33,10 @@ import android.widget.Toast;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.adapters.BookmarksAdapter;
+import com.brandroidtools.filemanager.bus.BusProvider;
+import com.brandroidtools.filemanager.bus.events.BookmarkDeleteEvent;
+import com.brandroidtools.filemanager.bus.events.BookmarkOpenEvent;
+import com.brandroidtools.filemanager.bus.events.BookmarkRefreshEvent;
 import com.brandroidtools.filemanager.model.Bookmark;
 import com.brandroidtools.filemanager.model.FileSystemStorageVolume;
 import com.brandroidtools.filemanager.preferences.AccessMode;
@@ -45,6 +49,7 @@ import com.brandroidtools.filemanager.util.DialogHelper;
 import com.brandroidtools.filemanager.util.ExceptionUtil;
 import com.brandroidtools.filemanager.util.StorageHelper;
 import com.brandroidtools.filemanager.util.XmlUtils;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +87,17 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
         initBookmarks();
     }
 
+    @Subscribe
+    public void onBookmarkDeleteEvent (BookmarkDeleteEvent event) {
+        Bookmark b = Bookmarks.getBookmark(mActivity.getContentResolver(), event.path);
+        Bookmarks.removeBookmark(mActivity, b);
+        refresh();
+    }
+
+    @Subscribe
+    public void onBookmarkRefreshEvent (BookmarkRefreshEvent event) {
+        reInitBookmarks();
+    }
 
     /**
      * Method that initializes the titlebar of the activity.
@@ -99,12 +115,21 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
         refresh();
     }
 
+    private void reInitBookmarks() {
+
+        this.mChRooted = FileManagerApplication.getAccessMode().compareTo(AccessMode.SAFE) == 0;
+
+        // Reload the data
+        refresh();
+    }
+
+
     /**
      * Method that makes the refresh of the data.
      */
     public void refresh() {
         // Retrieve the loading view
-        final View waiting = findViewById(R.id.bookmarks_waiting);
+        //final View waiting = findViewById(R.id.bookmarks_waiting);
         final BookmarksAdapter adapter = (BookmarksAdapter)this.getAdapter();
 
         // Load the history in background
@@ -126,14 +151,15 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
 
             @Override
             protected void onPreExecute() {
-                waiting.setVisibility(View.VISIBLE);
+                //waiting.setVisibility(View.VISIBLE);
                 mAdapter.clear();
             }
 
             @Override
             protected void onPostExecute(Boolean result) {
-                waiting.setVisibility(View.GONE);
+                //waiting.setVisibility(View.GONE);
                 if (result.booleanValue()) {
+                    mAdapter.clear();
                     mAdapter.addAll(this.mBookmarks);
                     mAdapter.notifyDataSetChanged();
                     BookmarksListView.this.setSelection(0);
@@ -147,7 +173,7 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
 
             @Override
             protected void onCancelled() {
-                waiting.setVisibility(View.GONE);
+                //waiting.setVisibility(View.GONE);
             }
         };
         task.execute();
@@ -159,7 +185,7 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bookmark bookmark = mAdapter.getItem(position);
-        //mListener.onBookmarkSelected(bookmark.mPath);
+        BusProvider.getInstance().post(new BookmarkOpenEvent(bookmark.mPath));
     }
 
     /**
@@ -309,7 +335,7 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
 
         try {
             //Recovery sdcards from storage manager
-            FileSystemStorageVolume[] volumes = StorageHelper.getStorageVolumes(mActivity.getApplication());
+            FileSystemStorageVolume[] volumes = StorageHelper.getStorageVolumes(mActivity);
             int cc = volumes.length;
             for (int i = 0; i < cc ; i++) {
                 if (volumes[i].getPath().toLowerCase().indexOf("usb") != -1) { //$NON-NLS-1$
@@ -317,14 +343,14 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
                             new Bookmark(
                                     Bookmark.BOOKMARK_TYPE.USB,
                                     StorageHelper.getStorageVolumeDescription(
-                                            mActivity.getApplication(), volumes[i]),
+                                            mActivity, volumes[i]),
                                     volumes[i].getPath()));
                 } else {
                     bookmarks.add(
                             new Bookmark(
                                     Bookmark.BOOKMARK_TYPE.SDCARD,
                                     StorageHelper.getStorageVolumeDescription(
-                                            mActivity.getApplication(), volumes[i]),
+                                            mActivity, volumes[i]),
                                     volumes[i].getPath()));
                 }
             }

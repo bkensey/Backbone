@@ -19,6 +19,7 @@ package com.brandroidtools.filemanager.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.util.Log;
 
 import com.brandroidtools.filemanager.FileManagerApplication;
@@ -469,6 +470,21 @@ public final class FileHelper {
             return true;
         }
         return false;
+    }
+
+    public static boolean isSubDirectoryOf(String childPath, String comparisonPath)
+    {
+        String parentPath = getParentDir(childPath);
+
+        while( parentPath != null ) {
+            if( parentPath == comparisonPath ) {
+                return true ;
+            }
+
+            parentPath = getParentDir(parentPath);
+        }
+
+        return false ;
     }
 
     /**

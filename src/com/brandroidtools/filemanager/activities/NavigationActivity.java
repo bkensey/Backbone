@@ -54,11 +54,8 @@ import com.brandroidtools.filemanager.bus.BusProvider;
 import com.brandroidtools.filemanager.bus.events.BookmarkDeleteEvent;
 import com.brandroidtools.filemanager.bus.events.BookmarkOpenEvent;
 import com.brandroidtools.filemanager.bus.events.BookmarkRefreshEvent;
-import com.brandroidtools.filemanager.console.Console;
-import com.brandroidtools.filemanager.console.ConsoleAllocException;
-import com.brandroidtools.filemanager.console.ConsoleBuilder;
-import com.brandroidtools.filemanager.console.InsufficientPermissionsException;
-import com.brandroidtools.filemanager.console.NoSuchFileOrDirectory;
+import com.brandroidtools.filemanager.commands.shell.InvalidCommandDefinitionException;
+import com.brandroidtools.filemanager.console.*;
 import com.brandroidtools.filemanager.fragments.BookmarksFragment;
 import com.brandroidtools.filemanager.fragments.BookmarksFragment.OnBookmarkSelectedListener;
 import com.brandroidtools.filemanager.fragments.HistoryFragment;
@@ -67,11 +64,7 @@ import com.brandroidtools.filemanager.fragments.NavigationFragment.OnNavigationR
 import com.brandroidtools.filemanager.listeners.OnCopyMoveListener;
 import com.brandroidtools.filemanager.listeners.OnHistoryListener;
 import com.brandroidtools.filemanager.listeners.OnRequestRefreshListener;
-import com.brandroidtools.filemanager.model.Bookmark;
-import com.brandroidtools.filemanager.model.DiskUsage;
-import com.brandroidtools.filemanager.model.FileSystemObject;
-import com.brandroidtools.filemanager.model.History;
-import com.brandroidtools.filemanager.model.MountPoint;
+import com.brandroidtools.filemanager.model.*;
 import com.brandroidtools.filemanager.parcelables.HistoryNavigable;
 import com.brandroidtools.filemanager.parcelables.NavigationViewInfoParcelable;
 import com.brandroidtools.filemanager.parcelables.SearchInfoParcelable;
@@ -86,6 +79,7 @@ import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog;
 import com.brandroidtools.filemanager.ui.dialogs.FilesystemInfoDialog.OnMountListener;
 import com.brandroidtools.filemanager.ui.dialogs.InputNameDialog;
+import com.brandroidtools.filemanager.ui.policy.BookmarksActionPolicy;
 import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy;
 import com.brandroidtools.filemanager.ui.policy.CopyMoveActionPolicy.COPY_MOVE_OPERATION;
 import com.brandroidtools.filemanager.ui.policy.InfoActionPolicy;
@@ -97,6 +91,7 @@ import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -237,6 +232,8 @@ public class NavigationActivity extends Activity
                                     exitChRooted();
                                 }
                             }
+                            // Update bookmarks to reflect access mode change
+                            BusProvider.getInstance().post(new BookmarkRefreshEvent());
                         }
 
                         // Filetime format mode
@@ -364,19 +361,6 @@ public class NavigationActivity extends Activity
         }
 
         setContentView(R.layout.navigation);
-
-        //Initialize menu drawer
-//        mMenuDrawer = MenuDrawer.attach(this, MenuDrawer.MENU_DRAG_WINDOW);
-
-        //Set the main layout of the activity
-//        mMenuDrawer.setContentView(R.layout.navigation_pager);
-        
-        //Set the layout of the menu drawer
-//        BookmarksFragment bookmarksFragment = new BookmarksFragment();
-//        getFragmentManager().beginTransaction().add(R.id.menu_frame_holder, bookmarksFragment).commit();
-//        mMenuDrawer.setMenuView(R.layout.menu_frame_holder);
-//        mMenuDrawer.setTouchMode(MenuDrawer.TOUCH_MODE_FULLSCREEN);
-//        mMenuDrawer.peekDrawer(1000, 0);
         
         //Initialize activity console
         init();
@@ -446,6 +430,9 @@ public class NavigationActivity extends Activity
         
         // Register ourselves so that we can provide the initial value.
         BusProvider.getInstance().register(this);
+        BusProvider.getInstance().register(mDrawerList);
+
+        BusProvider.getInstance().post(new BookmarkRefreshEvent());
     }
 
     @Override 
@@ -454,6 +441,7 @@ public class NavigationActivity extends Activity
 
         // Always unregister when an object no longer should be on the bus.
         BusProvider.getInstance().unregister(this);
+        BusProvider.getInstance().unregister(mDrawerList);
     }
 
     /**
@@ -725,6 +713,10 @@ public class NavigationActivity extends Activity
                 openSearch();
                 break;
 
+            case R.id.mnu_actions_refresh:
+                getCurrentNavigationFragment().refresh();
+                break;
+
             //- Create new object
             case R.id.mnu_actions_new_directory:
             case R.id.mnu_actions_new_file:
@@ -746,6 +738,19 @@ public class NavigationActivity extends Activity
 
             case R.id.mnu_actions_properties_current_folder:
                 openPropertiesDialog(getCurrentNavigationFragment().getCurrentDir());
+                break;
+
+            //- Add to bookmarks
+            case R.id.mnu_actions_add_to_bookmarks:
+                try {
+                    FileSystemObject bookmarkFso = CommandHelper.getFileInfo(this,
+                            getCurrentNavigationFragment().getCurrentDir(),
+                            null);
+                    BookmarksActionPolicy.addToBookmarks(this, bookmarkFso);
+                    BusProvider.getInstance().post(new BookmarkRefreshEvent());
+                } catch (Exception e) {
+                    ExceptionUtil.translateException(this, e, true, false);
+                }
                 break;
 
             case R.id.mnu_settings:
@@ -842,21 +847,22 @@ public class NavigationActivity extends Activity
         }
     }
     
-    @Subscribe public void onBookmarkOpenEvent(BookmarkOpenEvent event) {
+    @Subscribe
+    public void onBookmarkOpenEvent(BookmarkOpenEvent event) {
     	String path = event.path;
     	// Check that the bookmark exists
         try {
             FileSystemObject fso = CommandHelper.getFileInfo(this, path, null);
             if (fso != null) {
             	getCurrentNavigationFragment().open(fso);
-            	//mMenuDrawer.closeMenu();
+                mDrawerLayout.closeDrawers();
             } else {
                 // The bookmark not exists, delete the user-defined bookmark
                 try {
                 	BusProvider.getInstance().post(new BookmarkDeleteEvent(path));
                 	Bookmark b = Bookmarks.getBookmark(getContentResolver(), path);
                     Bookmarks.removeBookmark(this, b);
-                    //BusProvider.getInstance().post(new BookmarkRefreshEvent());
+                    BusProvider.getInstance().post(new BookmarkRefreshEvent());
                 } catch (Exception ex) {/**NON BLOCK**/}
             }
         } catch (Exception e) {
@@ -1418,11 +1424,13 @@ public class NavigationActivity extends Activity
         if (this.mChRooted) return;
         this.mChRooted = true;
 
-        for (int x = 0; x < mPagerAdapter.getCount();x++) {
-            NavigationFragment navigationFragment = (NavigationFragment) mPagerAdapter.getItem(x);
-            navigationFragment.createChRooted();
-            navigationFragment.onDeselectAll();
-
+        //Change to first storage volume
+        FileSystemStorageVolume[] volumes =
+                StorageHelper.getStorageVolumes(this);
+        if (volumes != null && volumes.length > 0) {
+            for (int x = 0; x < mPagerAdapter.getCount();x++) {
+                mPagerAdapter.getFragment(mViewPager, x).enterChRooted(volumes[0].getPath());
+            }
         }
 
         // Remove the history (don't allow to access to previous data)
