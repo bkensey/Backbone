@@ -15,24 +15,24 @@
  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center|center_horizontal">
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:gravity="center|center_horizontal">
 
     <GridView android:id="@+id/associations_gridview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchMode="columnWidth"
-        android:scrollbars="vertical"
-        android:horizontalSpacing="@dimen/default_margin"
-        android:numColumns="3" />
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:stretchMode="columnWidth"
+              android:scrollbars="vertical"
+              android:horizontalSpacing="@dimen/default_margin"
+              android:numColumns="3"/>
 
     <CheckBox android:id="@+id/associations_remember"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/extra_margin"
-        android:textAppearance="@style/secondary_text_appearance"
-        android:text="@string/associations_dialog_remember" />
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="@dimen/extra_margin"
+              android:textAppearance="@style/secondary_text_appearance"
+              android:text="@string/associations_dialog_remember"/>
 
 </LinearLayout>

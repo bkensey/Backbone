@@ -16,11 +16,11 @@
 -->
 <!-- Animation to holds the exiting view (do a small scale effect) -->
 <scale xmlns:android="http://schemas.android.com/apk/res/android"
-  android:duration="@android:integer/config_shortAnimTime"
-  android:interpolator="@android:anim/decelerate_interpolator"
-  android:fromXScale="100%"
-  android:fromYScale="100%"
-  android:pivotX="50%"
-  android:pivotY="50%"
-  android:toXScale="98%"
-  android:toYScale="98%" />
+       android:duration="@android:integer/config_shortAnimTime"
+       android:interpolator="@android:anim/decelerate_interpolator"
+       android:fromXScale="100%"
+       android:fromYScale="100%"
+       android:pivotX="50%"
+       android:pivotY="50%"
+       android:toXScale="98%"
+       android:toYScale="98%"/>

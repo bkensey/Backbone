@@ -279,10 +279,10 @@ public class FileSystemObjectAdapter
                 getContext(), v, "background_drawable"); //$NON-NLS-1$
         theme.setTextColor(
                 getContext(), viewHolder.mTvName, "text_color"); //$NON-NLS-1$
-        if (viewHolder.mTvSummary != null) {
+/*        if (viewHolder.mTvSummary != null) {
             theme.setTextColor(
                     getContext(), viewHolder.mTvSummary, "text_color"); //$NON-NLS-1$
-        }
+        }*/
         if (viewHolder.mTvSize != null) {
             theme.setTextColor(
                     getContext(), viewHolder.mTvSize, "text_color"); //$NON-NLS-1$

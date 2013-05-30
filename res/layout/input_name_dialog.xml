@@ -15,53 +15,53 @@
  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:orientation="vertical">
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-  <TextView
-    android:id="@+id/input_name_dialog_label"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/default_row_height"
-    android:layout_marginLeft="@dimen/extra_large_margin"
-    android:layout_marginRight="@dimen/extra_large_margin"
-    android:gravity="left|center_vertical"
-    android:text="@string/initial_directory_label"
-    android:textAppearance="@style/primary_text_appearance"
-    android:textStyle="normal" />
+    <TextView
+            android:id="@+id/input_name_dialog_label"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/default_row_height"
+            android:layout_marginLeft="@dimen/extra_large_margin"
+            android:layout_marginRight="@dimen/extra_large_margin"
+            android:gravity="left|center_vertical"
+            android:text="@string/initial_directory_label"
+            android:textAppearance="@style/primary_text_appearance"
+            android:textStyle="normal"/>
 
-  <EditText
-    android:id="@+id/input_name_dialog_edit"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:textSize="@dimen/primary_text_size"
-    android:textStyle="normal"
-    android:layout_marginBottom="@dimen/extra_large_margin"
-    android:layout_marginLeft="@dimen/extra_large_margin"
-    android:layout_marginRight="@dimen/extra_large_margin"
-    android:ems="@integer/default_edit_text_ems"
-    android:imeOptions="actionDone|flagNoFullscreen"
-    android:scrollHorizontally="true"
-    android:selectAllOnFocus="true"
-    android:inputType="textNoSuggestions">
-    <requestFocus />
-  </EditText>
+    <EditText
+            android:id="@+id/input_name_dialog_edit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/primary_text_size"
+            android:textStyle="normal"
+            android:layout_marginBottom="@dimen/extra_large_margin"
+            android:layout_marginLeft="@dimen/extra_large_margin"
+            android:layout_marginRight="@dimen/extra_large_margin"
+            android:ems="@integer/default_edit_text_ems"
+            android:imeOptions="actionDone|flagNoFullscreen"
+            android:scrollHorizontally="true"
+            android:selectAllOnFocus="true"
+            android:inputType="textNoSuggestions">
+        <requestFocus/>
+    </EditText>
 
-  <TextView
-    android:id="@+id/input_name_dialog_message"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:layout_marginLeft="@dimen/extra_large_margin"
-    android:layout_marginRight="@dimen/extra_large_margin"
-    android:contentDescription="@null"
-    android:drawableLeft="@drawable/ic_holo_dark_fs_warning"
-    android:drawablePadding="@dimen/default_margin"
-    android:gravity="left|center_vertical"
-    android:singleLine="false"
-    android:text="@null"
-    android:textAppearance="@style/secondary_text_appearance"
-    android:textSize="@dimen/note_text_size"
-    android:visibility="gone" />
+    <TextView
+            android:id="@+id/input_name_dialog_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/extra_large_margin"
+            android:layout_marginRight="@dimen/extra_large_margin"
+            android:contentDescription="@null"
+            android:drawableLeft="@drawable/ic_holo_dark_fs_warning"
+            android:drawablePadding="@dimen/default_margin"
+            android:gravity="left|center_vertical"
+            android:singleLine="false"
+            android:text="@null"
+            android:textAppearance="@style/secondary_text_appearance"
+            android:textSize="@dimen/note_text_size"
+            android:visibility="gone"/>
 
 </LinearLayout>

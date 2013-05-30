@@ -15,51 +15,51 @@
  -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/tb_configuration"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent" >
+                android:id="@+id/tb_configuration"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentRight="true"
-    android:layout_marginLeft="@dimen/default_inverse_buttom_width"
-    android:gravity="center_horizontal"
-    android:orientation="horizontal" >
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/default_inverse_buttom_width"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+        <com.brandroidtools.filemanager.ui.widgets.ButtonItem
+                android:id="@+id/ab_sort_mode"
+                android:layout_width="@dimen/default_buttom_width"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/actionbar_button_sort_mode_cd"
+                android:onClick="onActionBarItemClick"
+                android:src="@drawable/ic_action_holo_dark_sort_alphabetically"/>
+
+        <com.brandroidtools.filemanager.ui.widgets.ButtonItem
+                android:id="@+id/ab_layout_mode"
+                android:layout_width="@dimen/default_buttom_width"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/actionbar_button_layout_mode_cd"
+                android:onClick="onActionBarItemClick"
+                android:src="@drawable/ic_action_holo_dark_layout"/>
+
+        <com.brandroidtools.filemanager.ui.widgets.ButtonItem
+                android:id="@+id/ab_view_options"
+                android:layout_width="@dimen/default_buttom_width"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/actionbar_button_other_view_options_cd"
+                android:onClick="onActionBarItemClick"
+                android:src="@drawable/ic_action_holo_dark_view"/>
+    </LinearLayout>
 
     <com.brandroidtools.filemanager.ui.widgets.ButtonItem
-      android:id="@+id/ab_sort_mode"
-      android:layout_width="@dimen/default_buttom_width"
-      android:layout_height="match_parent"
-      android:contentDescription="@string/actionbar_button_sort_mode_cd"
-      android:onClick="onActionBarItemClick"
-      android:src="@drawable/ic_action_holo_dark_sort_alphabetically" />
-
-    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
-      android:id="@+id/ab_layout_mode"
-      android:layout_width="@dimen/default_buttom_width"
-      android:layout_height="match_parent"
-      android:contentDescription="@string/actionbar_button_layout_mode_cd"
-      android:onClick="onActionBarItemClick"
-      android:src="@drawable/ic_action_holo_dark_layout" />
-
-    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
-      android:id="@+id/ab_view_options"
-      android:layout_width="@dimen/default_buttom_width"
-      android:layout_height="match_parent"
-      android:contentDescription="@string/actionbar_button_other_view_options_cd"
-      android:onClick="onActionBarItemClick"
-      android:src="@drawable/ic_action_holo_dark_view" />
-  </LinearLayout>
-
-  <com.brandroidtools.filemanager.ui.widgets.ButtonItem
-    android:id="@+id/ab_close"
-    android:layout_width="@dimen/default_buttom_width"
-    android:layout_height="match_parent"
-    android:layout_alignParentRight="true"
-    android:contentDescription="@null"
-    android:onClick="onActionBarItemClick"
-    android:src="@drawable/ic_holo_dark_expander_close" />
+            android:id="@+id/ab_close"
+            android:layout_width="@dimen/default_buttom_width"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@null"
+            android:onClick="onActionBarItemClick"
+            android:src="@drawable/ic_holo_dark_expander_close"/>
 
 </RelativeLayout>

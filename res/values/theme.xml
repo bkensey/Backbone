@@ -15,17 +15,91 @@
      limitations under the License.
  -->
 
-<!--
-    The default light theme for CMFileManager. This is the default theme
-    of the app, only has the definitions and comments of every customizable
-    part of the app. Developers MUST take this theme as the base for building
-    new themes for CMFileManager.
-    Developers MUST replace the "light" prefix of every resource for the identifier
-    of the theme.
- -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- The base theme used to customize some (non-themeables) widgets like dialogs
+    <!--
+    ##
+    ##  App Themes
+    ##
+     -->
+    <!-- Base theme: Light with Dark Actionbar -->
+    <style name="FileManager.Theme.Holo.Light.DarkActionBar" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_holo_dark</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Holo_dark</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Holo_dark</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Holo_dark</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Holo_dark</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Holo_dark</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_holo_dark</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_holo_dark</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Holo_dark</item>
+
+        <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Holo_dark.Widget</item>
+
+        <!-- Action item icons -->
+        <item name="actionIconFolderProperties">@drawable/ic_action_holo_dark_properties</item>
+        <item name="actionIconRefresh">@drawable/ic_action_holo_dark_refresh</item>
+        <item name="actionIconNewDirectory">@drawable/ic_action_holo_dark_add</item>
+        <item name="actionIconNewFile">@drawable/ic_action_holo_dark_add</item>
+        <item name="actionIconPasteSelection">@drawable/ic_action_holo_dark_paste</item>
+        <item name="actionIconMoveSelection">@drawable/ic_action_holo_dark_cut</item>
+        <item name="actionIconDeleteSelection">@drawable/ic_action_holo_dark_delete</item>
+        <item name="actionIconCompressSelection">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconCreateLinkGlobal">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconSendSelection">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconAddFolderBookmark">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconAddFolderShortcut">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconProperties">@drawable/ic_action_holo_dark_properties</item>
+        <item name="actionIconOpen">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconOpenWith">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconDelete">@drawable/ic_action_holo_dark_delete</item>
+        <item name="actionIconRename">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconCompress">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconExtract">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconCreateCopy">@drawable/ic_action_holo_dark_copy</item>
+        <item name="actionIconCreateLink">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconExecute">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconSend">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconAddShortcut">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconOpenParentFolder">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconSelectAll">@drawable/ic_action_holo_dark_select_all</item>
+        <item name="actionIconSearchSettings">@drawable/ic_action_holo_dark_settings</item>
+        <item name="actionIconSave">@drawable/ic_action_holo_dark_save</item>
+        <item name="actionIconChecksum">@drawable/ic_action_holo_dark</item>
+
+        <!-- Action mode selection count icons -->
+        <item name="indicatorIconFolder">@drawable/ic_indicator_holo_dark_folder</item>
+        <item name="indicatorIconFile">@drawable/ic_indicator_holo_dark_file</item>
+
+    </style>
+
+    <!-- Base theme: Dark Actionbar (not implemented yet)  -->
+    <style name="FileManager.Theme.Holo" parent="@android:style/Theme.Holo">
+    </style>
+
+    <!-- Overlay theme derivatives -->
+    <style name="FileManager.Theme.Holo.Light.Overlay" parent="@style/FileManager.Theme.Holo.Light.DarkActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/black_transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <style name="FileManager.Theme.Holo.Overlay" parent="@style/FileManager.Theme.Holo">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/black_transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <!--
+    Legacy CM theme stuff below
+    The base theme used to customize some (non-themeables) widgets like dialogs
          2 possibles values:
            * holo: @android:style/Theme.Holo
            * holo_light: @android:style/Theme.Holo.Light
@@ -77,8 +151,8 @@
     <color name="action_bar_text_color">@color/white_transparent</color>
     <!-- The text color of Dialog -->
     <color name="dialog_text_color">@android:color/holo_blue_dark</color>
-    <!-- The text color of MenuDrawer text -->
-    <color name="dialog_text_color">@color/white_transparent</color>
+    <!-- The text color of Nav Drawer text -->
+    <color name="nav_drawer_text_color">@color/white_transparent</color>
 
     <!-- The highlight color for terms found in the search result -->
     <color name="search_highlight_color">@color/search_highlight</color>
@@ -114,11 +188,11 @@
     <drawable name="vertical_divider_drawable">@drawable/divider_vertical_bright_opaque</drawable>
     <color name="horizontal_divider_color">@color/divider_color_light</color>
     <color name="vertical_divider_color">@color/divider_color</color>
-    
+
     <drawable name="dark_horizontal_divider_drawable">@drawable/divider_horizontal_dark_opaque</drawable>
-  	<drawable name="dark_vertical_divider_drawable">@drawable/divider_vertical_dark_opaque</drawable>
-  	<color name="dark_horizontal_divider_color">#99505050</color>
-  	<color name="dark_vertical_divider_color">#99505050</color>
+    <drawable name="dark_vertical_divider_drawable">@drawable/divider_vertical_dark_opaque</drawable>
+    <color name="dark_horizontal_divider_color">#99505050</color>
+    <color name="dark_vertical_divider_color">#99505050</color>
 
     <!-- Icons -->
     <drawable name="ic_close_drawable">@drawable/ic_holo_dark_close</drawable>
@@ -130,7 +204,7 @@
     <drawable name="ic_user_defined_bookmark_drawable">@drawable/ic_holo_dark_user_defined_bookmark</drawable>
     <drawable name="ic_history_search_drawable">@drawable/ic_holo_light_history_search</drawable>
     <drawable name="ic_copy_drawable">@drawable/ic_holo_light_copy</drawable>
-    
+
     <!-- Disk usage graph -->
     <color name="disk_usage_total_color">@color/disk_usage_total</color>
     <color name="disk_usage_used_color">@color/disk_usage_used</color>
@@ -188,8 +262,8 @@
     <color name="ash_keyword_color">#ff773b63</color>
     <color name="ash_quoted_string_color">#990000C0</color>
     <color name="ash_variable_color">#ff5080bd</color>
-    
+
     <!-- Menu Drawer -->
     <color name="menu_drawer_background_color">#1d1e20</color>
-    
+
 </resources>

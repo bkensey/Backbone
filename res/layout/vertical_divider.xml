@@ -15,6 +15,6 @@
  -->
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-  style="@style/vertical_divider"
-  android:layout_width="match_parent"
-  android:layout_height="@dimen/vertical_divider_height" />
+          style="@style/vertical_divider"
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/vertical_divider_height"/>

@@ -22,6 +22,6 @@
         directory:   (string) The folder where to point to
 -->
 <Bookmarks xmlns="http://schemas.android.com/apk/res/com.brandroidtools.filemanager">
-  <bookmark name="@string/bookmarks_root_folder" directory="@string/root_dir" />
-  <bookmark name="@string/bookmarks_system_folder" directory="@string/system_dir" />
+    <bookmark name="@string/bookmarks_root_folder" directory="@string/root_dir"/>
+    <bookmark name="@string/bookmarks_system_folder" directory="@string/system_dir"/>
 </Bookmarks>

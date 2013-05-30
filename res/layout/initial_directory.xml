@@ -15,44 +15,44 @@
  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="wrap_content"
-  android:orientation="vertical" >
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-  <TextView
-    android:id="@+id/initial_directory_label"
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/default_row_height"
-    android:layout_marginLeft="@dimen/extra_large_margin"
-    android:layout_marginRight="@dimen/extra_large_margin"
-    android:gravity="left|center_vertical"
-    android:text="@string/initial_directory_label"
-    android:textAppearance="@style/primary_text_appearance"
-    android:textStyle="normal" />
+    <TextView
+            android:id="@+id/initial_directory_label"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/default_row_height"
+            android:layout_marginLeft="@dimen/extra_large_margin"
+            android:layout_marginRight="@dimen/extra_large_margin"
+            android:gravity="left|center_vertical"
+            android:text="@string/initial_directory_label"
+            android:textAppearance="@style/primary_text_appearance"
+            android:textStyle="normal"/>
 
-  <com.brandroidtools.filemanager.ui.widgets.DirectoryInlineAutocompleteTextView
-    android:id="@+id/initial_directory_edittext"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/extra_large_margin"
-    android:layout_marginLeft="@dimen/extra_large_margin"
-    android:layout_marginRight="@dimen/extra_large_margin" />
+    <com.brandroidtools.filemanager.ui.widgets.DirectoryInlineAutocompleteTextView
+            android:id="@+id/initial_directory_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/extra_large_margin"
+            android:layout_marginLeft="@dimen/extra_large_margin"
+            android:layout_marginRight="@dimen/extra_large_margin"/>
 
-  <TextView
-    android:id="@+id/initial_directory_info_msg"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_vertical"
-    android:layout_marginLeft="@dimen/extra_large_margin"
-    android:layout_marginRight="@dimen/extra_large_margin"
-    android:contentDescription="@null"
-    android:drawableLeft="@drawable/ic_holo_dark_fs_warning"
-    android:drawablePadding="@dimen/default_margin"
-    android:gravity="left|center_vertical"
-    android:singleLine="false"
-    android:text="@string/initial_directory_relative_msg"
-    android:textAppearance="@style/secondary_text_appearance"
-    android:textSize="@dimen/note_text_size"
-    android:visibility="visible" />
+    <TextView
+            android:id="@+id/initial_directory_info_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/extra_large_margin"
+            android:layout_marginRight="@dimen/extra_large_margin"
+            android:contentDescription="@null"
+            android:drawableLeft="@drawable/ic_holo_dark_fs_warning"
+            android:drawablePadding="@dimen/default_margin"
+            android:gravity="left|center_vertical"
+            android:singleLine="false"
+            android:text="@string/initial_directory_relative_msg"
+            android:textAppearance="@style/secondary_text_appearance"
+            android:textSize="@dimen/note_text_size"
+            android:visibility="visible"/>
 
 </LinearLayout>

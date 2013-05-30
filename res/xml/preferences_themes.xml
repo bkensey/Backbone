@@ -15,18 +15,18 @@
  -->
 
 <PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Search Results -->
     <PreferenceCategory
-      android:key="themes_selection"
-      android:title="@string/pref_themes_selection_category">
+            android:key="themes_selection"
+            android:title="@string/pref_themes_selection_category">
 
-      <!-- Themes selector -->
-      <com.brandroidtools.filemanager.ui.preferences.ThemeSelectorPreference
-        android:key="cm_filemanager_theme"
-        android:persistent="true"
-        android:defaultValue="com.brandroidtools.filemanager:light" />
+        <!-- Themes selector -->
+        <com.brandroidtools.filemanager.ui.preferences.ThemeSelectorPreference
+                android:key="cm_filemanager_theme"
+                android:persistent="true"
+                android:defaultValue="com.brandroidtools.filemanager:light"/>
 
     </PreferenceCategory>
 

@@ -15,17 +15,17 @@
  -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical">
 
-  <TextView
-    android:id="@+id/dialog_message"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/extra_large_margin"
-    android:gravity="left|center_vertical"
-    android:textAppearance="@style/primary_text_appearance"
-    android:textStyle="normal" />
+    <TextView
+            android:id="@+id/dialog_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/extra_large_margin"
+            android:gravity="left|center_vertical"
+            android:textAppearance="@style/primary_text_appearance"
+            android:textStyle="normal"/>
 
 </ScrollView>

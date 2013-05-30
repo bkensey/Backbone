@@ -15,33 +15,33 @@
  -->
 
 <PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Frequently asked questions -->
     <Preference
-      android:key="bb_filemanager_faq"
-      android:title="@string/pref_about_faq"
-      android:summary="@string/pref_about_faq_summary" />
+            android:key="bb_filemanager_faq"
+            android:title="@string/pref_about_faq"
+            android:summary="@string/pref_about_faq_summary"/>
 
     <!-- Changelog -->
     <Preference
-      android:key="bb_filemanager_changelog"
-      android:title="@string/pref_about_changelog" />
+            android:key="bb_filemanager_changelog"
+            android:title="@string/pref_about_changelog"/>
 
     <!-- Privacy Policy -->
     <Preference
-      android:key="bb_filemanager_privacy_policy"
-      android:title="@string/pref_about_privacy_policy" />
+            android:key="bb_filemanager_privacy_policy"
+            android:title="@string/pref_about_privacy_policy"/>
 
     <!-- Credits and Licenses -->
     <Preference
             android:key="bb_filemanager_credits_licenses"
             android:title="@string/pref_about_credits_licenses"
-            android:summary="@string/pref_about_credits_licenses_summary" />
+            android:summary="@string/pref_about_credits_licenses_summary"/>
 
     <!-- Version -->
     <Preference
-      android:key="bb_filemanager_version"
-      android:title="@string/pref_about_version" />
+            android:key="bb_filemanager_version"
+            android:title="@string/pref_about_version"/>
 
 </PreferenceScreen>

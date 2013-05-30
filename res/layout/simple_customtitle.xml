@@ -15,48 +15,48 @@
  -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-  <LinearLayout
-    android:id="@+id/ab_button_cluster"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:layout_alignParentRight="true">
+    <LinearLayout
+            android:id="@+id/ab_button_cluster"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true">
 
-    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
-      android:id="@+id/ab_button1"
-      style="@style/breadcrumb_actionbar_buttom"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:onClick="onActionBarItemClick"
-      android:visibility="gone" />
+        <com.brandroidtools.filemanager.ui.widgets.ButtonItem
+                android:id="@+id/ab_button1"
+                style="@style/breadcrumb_actionbar_buttom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="onActionBarItemClick"
+                android:visibility="gone"/>
 
-    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
-      android:id="@+id/ab_button2"
-      style="@style/breadcrumb_actionbar_buttom"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:onClick="onActionBarItemClick"
-      android:visibility="gone" />
+        <com.brandroidtools.filemanager.ui.widgets.ButtonItem
+                android:id="@+id/ab_button2"
+                style="@style/breadcrumb_actionbar_buttom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:onClick="onActionBarItemClick"
+                android:visibility="gone"/>
 
-  </LinearLayout>
+    </LinearLayout>
 
 
-  <TextView
-    android:id="@+id/customtitle_title"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/default_margin"
-    android:layout_marginRight="@dimen/extra_large_margin"
-    android:textAppearance="@style/title_text_appearance"
-    android:layout_alignParentLeft="true"
-    android:layout_toLeftOf="@id/ab_button1"
-    android:layout_alignWithParentIfMissing="true"
-    android:contentDescription="@null"
-    android:gravity="left|center_vertical"
-    android:singleLine="true"
-    android:ellipsize="end"
-    android:text="@null" />
+    <TextView
+            android:id="@+id/customtitle_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/extra_large_margin"
+            android:textAppearance="@style/title_text_appearance"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@id/ab_button1"
+            android:layout_alignWithParentIfMissing="true"
+            android:contentDescription="@null"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="@null"/>
 
 </RelativeLayout>

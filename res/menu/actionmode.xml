@@ -13,105 +13,104 @@
      See the License for the specific language governing permissions and
      limitations under the License.
  -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-      android:id="@+id/mnu_actions_copy"
-      android:icon="?attr/actionIconCreateCopy"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_copy"/>
+            android:id="@+id/mnu_actions_copy"
+            android:icon="?attr/actionIconCreateCopy"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_copy"/>
     <item
-      android:id="@+id/mnu_actions_move"
-      android:icon="?attr/actionIconMoveSelection"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_move_selection"/>
+            android:id="@+id/mnu_actions_move"
+            android:icon="?attr/actionIconMoveSelection"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_move_selection"/>
     <item
-      android:id="@+id/mnu_actions_delete_selection"
-      android:icon="?attr/actionIconDeleteSelection"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_delete_selection"/>
+            android:id="@+id/mnu_actions_delete_selection"
+            android:icon="?attr/actionIconDeleteSelection"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_delete_selection"/>
     <item
-      android:id="@+id/mnu_actions_delete"
-      android:icon="?attr/actionIconDelete"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_delete"/>
+            android:id="@+id/mnu_actions_delete"
+            android:icon="?attr/actionIconDelete"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_delete"/>
     <item
-      android:id="@+id/mnu_actions_properties"
-      android:icon="?attr/actionIconProperties"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_properties"/>
+            android:id="@+id/mnu_actions_properties"
+            android:icon="?attr/actionIconProperties"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_properties"/>
     <item
-      android:id="@+id/mnu_actions_compress_selection"
-      android:icon="?attr/actionIconCompressSelection"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_compress_selection"/>
+            android:id="@+id/mnu_actions_compress_selection"
+            android:icon="?attr/actionIconCompressSelection"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_compress_selection"/>
     <item
-      android:id="@+id/mnu_actions_create_link_global"
-      android:icon="?attr/actionIconCreateLinkGlobal"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_create_link"/>
+            android:id="@+id/mnu_actions_create_link_global"
+            android:icon="?attr/actionIconCreateLinkGlobal"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_create_link"/>
     <item
-      android:id="@+id/mnu_actions_send_selection"
-      android:icon="?attr/actionIconSendSelection"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_send_selection"/>
+            android:id="@+id/mnu_actions_send_selection"
+            android:icon="?attr/actionIconSendSelection"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_send_selection"/>
     <item
-      android:id="@+id/mnu_actions_send"
-      android:icon="?attr/actionIconSend"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_send"/>
+            android:id="@+id/mnu_actions_send"
+            android:icon="?attr/actionIconSend"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_send"/>
 
 
-
     <item
-      android:id="@+id/mnu_actions_open"
-      android:icon="?attr/actionIconOpen"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_open"/>
+            android:id="@+id/mnu_actions_open"
+            android:icon="?attr/actionIconOpen"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_open"/>
     <item
-      android:id="@+id/mnu_actions_open_with"
-      android:icon="?attr/actionIconOpenWith"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_open_with"/>
+            android:id="@+id/mnu_actions_open_with"
+            android:icon="?attr/actionIconOpenWith"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_open_with"/>
     <item
-      android:id="@+id/mnu_actions_rename"
-      android:icon="?attr/actionIconRename"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_rename"/>
+            android:id="@+id/mnu_actions_rename"
+            android:icon="?attr/actionIconRename"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_rename"/>
     <item
-      android:id="@+id/mnu_actions_compress"
-      android:icon="?attr/actionIconCompress"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_compress"/>
+            android:id="@+id/mnu_actions_compress"
+            android:icon="?attr/actionIconCompress"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_compress"/>
     <item
-      android:id="@+id/mnu_actions_extract"
-      android:icon="?attr/actionIconExtract"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_extract"/>
+            android:id="@+id/mnu_actions_extract"
+            android:icon="?attr/actionIconExtract"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_extract"/>
     <item
-      android:id="@+id/mnu_actions_compute_checksum"
-      android:icon="?attr/actionIconChecksum"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_compute_checksum"/>
+            android:id="@+id/mnu_actions_compute_checksum"
+            android:icon="?attr/actionIconChecksum"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_compute_checksum"/>
     <item
-      android:id="@+id/mnu_actions_create_link"
-      android:icon="?attr/actionIconCreateLink"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_create_link"/>
+            android:id="@+id/mnu_actions_create_link"
+            android:icon="?attr/actionIconCreateLink"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_create_link"/>
     <item
-      android:id="@+id/mnu_actions_execute"
-      android:icon="?attr/actionIconExecute"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_execute"/>
+            android:id="@+id/mnu_actions_execute"
+            android:icon="?attr/actionIconExecute"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_execute"/>
     <item
-      android:id="@+id/mnu_actions_add_to_bookmarks"
-      android:icon="?attr/actionIconAddBookmark"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_add_to_bookmarks"/>
+            android:id="@+id/mnu_actions_add_to_bookmarks"
+            android:icon="?attr/actionIconAddBookmark"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_add_to_bookmarks"/>
     <item
-      android:id="@+id/mnu_actions_add_shortcut"
-      android:icon="?attr/actionIconAddShortcut"
-      android:showAsAction="ifRoom"
-      android:title="@string/actions_menu_add_shortcut"/>
+            android:id="@+id/mnu_actions_add_shortcut"
+            android:icon="?attr/actionIconAddShortcut"
+            android:showAsAction="ifRoom"
+            android:title="@string/actions_menu_add_shortcut"/>
 
 </menu>

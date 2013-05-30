@@ -15,28 +15,28 @@
  -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:orientation="horizontal">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
 
-  <com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView
-    android:id="@+id/navigation_title_flipper"
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:animateFirstView="true">
+    <com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView
+            android:id="@+id/navigation_title_flipper"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:animateFirstView="true">
 
-    <!-- The breadcrumb layout (breadcrumb + configuration buttom) -->
-    <include layout="@layout/navigation_view_customtitle_breadcrumb" />
+        <!-- The breadcrumb layout (breadcrumb + configuration buttom) -->
+        <include layout="@layout/navigation_view_customtitle_breadcrumb"/>
 
-    <!-- The configuration layout (sort, layout, other options, ...) -->
-    <include layout="@layout/navigation_view_customtitle_configuration" />
+        <!-- The configuration layout (sort, layout, other options, ...) -->
+        <include layout="@layout/navigation_view_customtitle_configuration"/>
 
-  </com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView>
+    </com.brandroidtools.filemanager.ui.widgets.NavigationCustomTitleView>
 
-  <LinearLayout
-    android:id="@+id/navigation_title_landscape_holder"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent" />
+    <LinearLayout
+            android:id="@+id/navigation_title_landscape_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
 
 </LinearLayout>

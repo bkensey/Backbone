@@ -14,94 +14,94 @@
      limitations under the License.
  -->
 
-<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/editor_layout"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/editor_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
-  <!-- Dummy item to prevent Editor from receiving focus -->
-  <View
-      android:layout_width="0px"
-      android:layout_height="0px"
-      android:focusable="true"
-      android:focusableInTouchMode="true" />
+    <!-- Dummy item to prevent Editor from receiving focus -->
+    <View
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
-  <!-- word wrap layout -->
-  <ScrollView
-      android:id="@+id/editor_word_wrap_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:padding="@dimen/default_margin"
-      android:scrollbars="vertical"
-      android:scrollbarStyle="outsideOverlay"
-      android:fillViewport="true"
-      android:visibility="gone">
-    <EditText
-      android:id="@+id/editor"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:singleLine="false"
-      android:maxLength="@integer/editor_max_file_size"
-      android:gravity="top|left"
-      android:cursorVisible="true"
-      android:background="@null"
-      android:imeOptions="actionDone|flagNoFullscreen"
-      android:inputType="textMultiLine|textImeMultiLine"
-      android:text="@null"
-      android:textAppearance="@style/secondary_text_appearance" />
-  </ScrollView>
-
-  <!-- no word wrap layout -->
-  <HorizontalScrollView
-      android:id="@+id/editor_no_word_wrap_view"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/default_margin"
-      android:fillViewport="false"
-      android:visibility="gone">
+    <!-- word wrap layout -->
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
-        <!-- Editor is placed here in no word wrap mode -->
+            android:id="@+id/editor_word_wrap_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/default_margin"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:fillViewport="true"
+            android:visibility="gone">
+        <EditText
+                android:id="@+id/editor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:maxLength="@integer/editor_max_file_size"
+                android:gravity="top|left"
+                android:cursorVisible="true"
+                android:background="@null"
+                android:imeOptions="actionDone|flagNoFullscreen"
+                android:inputType="textMultiLine|textImeMultiLine"
+                android:text="@null"
+                android:textAppearance="@style/secondary_text_appearance"/>
     </ScrollView>
-  </HorizontalScrollView>
 
-  <RelativeLayout
-    android:id="@+id/editor_progress"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/default_progress_height"
-    android:maxWidth="400dip"
-    android:layout_margin="@dimen/extra_large_margin"
-    android:layout_centerHorizontal="true"
-    android:layout_alignParentBottom="true"
-    android:visibility="gone">
+    <!-- no word wrap layout -->
+    <HorizontalScrollView
+            android:id="@+id/editor_no_word_wrap_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_margin"
+            android:fillViewport="false"
+            android:visibility="gone">
+        <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical">
+            <!-- Editor is placed here in no word wrap mode -->
+        </ScrollView>
+    </HorizontalScrollView>
 
-    <TextView
-      android:id="@+id/editor_progress_msg"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:textAppearance="@style/primary_text_appearance"
-      android:text="@string/loading_message"
-      android:gravity="center_vertical|center_horizontal"
-      android:contentDescription="@null" />
+    <RelativeLayout
+            android:id="@+id/editor_progress"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_progress_height"
+            android:maxWidth="400dip"
+            android:layout_margin="@dimen/extra_large_margin"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
 
-    <ProgressBar
-      android:id="@+id/editor_progress_bar"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      style="@android:style/Widget.ProgressBar.Horizontal"
-      android:layout_above="@id/editor_progress_msg"
-      android:indeterminate="false" />
+        <TextView
+                android:id="@+id/editor_progress_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:textAppearance="@style/primary_text_appearance"
+                android:text="@string/loading_message"
+                android:gravity="center_vertical|center_horizontal"
+                android:contentDescription="@null"/>
 
-  </RelativeLayout>
+        <ProgressBar
+                android:id="@+id/editor_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_above="@id/editor_progress_msg"
+                android:indeterminate="false"/>
 
-  <View
-    android:id="@+id/editor_status"
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_alignParentBottom="true"
-    android:visibility="invisible"/>
+    </RelativeLayout>
+
+    <View
+            android:id="@+id/editor_status"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="invisible"/>
 
 </RelativeLayout>

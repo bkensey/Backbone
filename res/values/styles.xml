@@ -16,251 +16,173 @@
  -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <!--
-  ##
-  ##  App Themes
-  ## 
-   -->
-  <!-- Base theme: Light with Dark Actionbar -->
-  <style name="FileManager.Theme.Holo.Light.DarkActionBar" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-	
-	<item name="android:actionBarItemBackground">@drawable/selectable_background_holo_dark</item>
-    <item name="android:popupMenuStyle">@style/PopupMenu.Holo_dark</item>
-    <item name="android:dropDownListViewStyle">@style/DropDownListView.Holo_dark</item>
-    <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Holo_dark</item>
-    <item name="android:actionDropDownStyle">@style/DropDownNav.Holo_dark</item>
-    <item name="android:actionBarStyle">@style/ActionBar.Solid.Holo_dark</item>
-    <item name="android:actionModeBackground">@drawable/cab_background_top_holo_dark</item>
-    <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_holo_dark</item>
-    <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Holo_dark</item>
-        
-    <!-- Light.DarkActionBar specific -->
-    <item name="android:actionBarWidgetTheme">@style/Theme.Holo_dark.Widget</item>
-    
-    <item name="actionIconFolderProperties">@drawable/ic_action_holo_dark_properties</item>
-    <item name="actionIconRefresh">@drawable/ic_action_holo_dark_refresh</item>
-    <item name="actionIconNewDirectory">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconNewFile">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconPasteSelection">@drawable/ic_action_holo_dark_paste</item>
-    <item name="actionIconMoveSelection">@drawable/ic_action_holo_dark_cut</item>
-    <item name="actionIconDeleteSelection">@drawable/ic_action_holo_dark_delete</item>
-    <item name="actionIconCompressSelection">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconCreateLinkGlobal">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconSendSelection">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconAddFolderBookmark">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconAddFolderShortcut">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconProperties">@drawable/ic_action_holo_dark_properties</item>
-    <item name="actionIconOpen">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconOpenWith">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconDelete">@drawable/ic_action_holo_dark_delete</item>
-    <item name="actionIconRename">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconCompress">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconExtract">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconCreateCopy">@drawable/ic_action_holo_dark_copy</item>
-    <item name="actionIconCreateLink">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconExecute">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconSend">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconAddShortcut">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconOpenParentFolder">@drawable/ic_action_holo_dark</item>
-    <item name="actionIconSelectAll">@drawable/ic_action_holo_dark_select_all</item>
-    <item name="actionIconSearchSettings">@drawable/ic_action_holo_dark_settings</item>
-    <item name="actionIconSave">@drawable/ic_action_holo_dark_save</item>
-    <item name="actionIconChecksum">@drawable/ic_action_holo_dark</item>
+    <!--
+    ##
+    ##  App Theme Component Styles
+    ##
+    -->
 
-    <item name="indicatorIconFolder">@drawable/ic_indicator_holo_dark_folder</item>
-    <item name="indicatorIconFile">@drawable/ic_indicator_holo_dark_file</item>
+    <style name="ActionBar.Solid.Holo_dark" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_solid_holo_dark</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_holo_dark</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_holo_dark</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Holo_dark</item>
+    </style>
 
-  </style>
-  
-  <!-- Base theme: Dark Actionbar -->
-  <style name="FileManager.Theme.Holo" parent="@android:style/Theme.Holo">
-  </style>
+    <style name="ActionBar.Transparent.Holo_dark" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_holo_dark</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Holo_dark</item>
+    </style>
 
-  <!-- Overlay theme derivatives -->
-  <style name="FileManager.Theme.Holo.Light.Overlay" parent="@style/FileManager.Theme.Holo.Light.DarkActionBar">
-    <item name="android:windowIsTranslucent">true</item>
-    <item name="android:windowBackground">@color/black_transparent</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowIsFloating">true</item>
-    <item name="android:backgroundDimEnabled">false</item>
-  </style>
-  <style name="FileManager.Theme.Holo.Overlay" parent="@style/FileManager.Theme.Holo">
-    <item name="android:windowIsTranslucent">true</item>
-    <item name="android:windowBackground">@color/black_transparent</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowIsFloating">true</item>
-    <item name="android:backgroundDimEnabled">false</item>
-  </style>
-	
-  <!--
-  ##
-  ##  App Theme Component Styles
-  ## 
-  -->
-   
-  <style name="ActionBar.Solid.Holo_dark" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-    <item name="android:background">@drawable/ab_solid_holo_dark</item>
-    <item name="android:backgroundStacked">@drawable/ab_stacked_solid_holo_dark</item>
-    <item name="android:backgroundSplit">@drawable/ab_bottom_solid_holo_dark</item>
-    <item name="android:progressBarStyle">@style/ProgressBar.Holo_dark</item>
-  </style>
+    <style name="PopupMenu.Holo_dark" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_holo_dark</item>
+    </style>
 
-  <style name="ActionBar.Transparent.Holo_dark" parent="@android:style/Widget.Holo.ActionBar">
-    <item name="android:background">@drawable/ab_transparent_holo_dark</item>
-    <item name="android:progressBarStyle">@style/ProgressBar.Holo_dark</item>
-  </style>
+    <style name="DropDownListView.Holo_dark" parent="@android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_holo_dark</item>
+    </style>
 
-  <style name="PopupMenu.Holo_dark" parent="@android:style/Widget.Holo.ListPopupWindow">
-    <item name="android:popupBackground">@drawable/menu_dropdown_panel_holo_dark</item>	
-  </style>
+    <style name="ActionBarTabStyle.Holo_dark" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_holo_dark</item>
+    </style>
 
-  <style name="DropDownListView.Holo_dark" parent="@android:style/Widget.Holo.ListView.DropDown">
-   <item name="android:listSelector">@drawable/selectable_background_holo_dark</item>
-  </style>
+    <style name="DropDownNav.Holo_dark" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_holo_dark</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_holo_dark</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_holo_dark</item>
+    </style>
 
-  <style name="ActionBarTabStyle.Holo_dark" parent="@android:style/Widget.Holo.ActionBar.TabView">
-    <item name="android:background">@drawable/tab_indicator_ab_holo_dark</item>
-  </style>
+    <style name="ProgressBar.Holo_dark" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_holo_dark</item>
+    </style>
 
-  <style name="DropDownNav.Holo_dark" parent="@android:style/Widget.Holo.Spinner">
-    <item name="android:background">@drawable/spinner_background_ab_holo_dark</item>
-    <item name="android:popupBackground">@drawable/menu_dropdown_panel_holo_dark</item>
-    <item name="android:dropDownSelector">@drawable/selectable_background_holo_dark</item>
-  </style>
-    
-  <style name="ProgressBar.Holo_dark" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
-    <item name="android:progressDrawable">@drawable/progress_horizontal_holo_dark</item>
-  </style>
-    
-  <style name="ActionButton.CloseMode.Holo_dark" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
-    <item name="android:background">@drawable/btn_cab_done_holo_dark</item>
-  </style>
+    <style name="ActionButton.CloseMode.Holo_dark" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_holo_dark</item>
+    </style>
 
-  <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-  <style name="Theme.Holo_dark.Widget" parent="@android:style/Theme.Holo">
-    <item name="android:popupMenuStyle">@style/PopupMenu.Holo_dark</item>
-    <item name="android:dropDownListViewStyle">@style/DropDownListView.Holo_dark</item>
-  </style>
-    
-  <!--
-  ##
-  ##  Independant Style Definitions
-  ## 
-  --> 
-  
-  <!-- Action mode count-->
-  <style name="selectedCount">
-      <item name="android:layout_width">wrap_content</item>
-      <item name="android:layout_height">wrap_content</item>
-      <item name="android:layout_gravity">center_vertical</item>
-      <item name="android:layout_centerVertical">true</item>
-      <item name="android:layout_marginLeft">8dip</item>
-      <item name="android:singleLine">true</item>
-      <item name="android:includeFontPadding">false</item>
-      <!-- Use dp rather than sp for size since starts large and must not get too large -->
-      <item name="android:textSize">32sp</item>
-      <item name="android:textColor">@color/white_transparent</item>
-  </style>
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Holo_dark.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Holo_dark</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Holo_dark</item>
+    </style>
 
-  <!-- Title -->
-  <style name="title_text_appearance">
-    <item name="android:textSize">@dimen/title_text_size</item>
-    <item name="android:textColor">@android:color/white</item>
-    <item name="android:textStyle">bold</item>
-  </style>
-  <!-- The text appearance for breadcrumb information -->
-  <style name="breadcrumb_text_appearance">
-    <item name="android:textSize">@dimen/primary_text_size</item>
-    <item name="android:textColor">@android:color/white</item>
-    <item name="android:textStyle">bold</item>
-  </style>
-  <!-- The text appearance for principal information (text that need to be highlighted) -->
-  <style name="primary_text_appearance">
-    <item name="android:textSize">@dimen/primary_text_size</item>
-    <item name="android:textColor">@color/black_transparent</item>
-    <item name="android:textStyle">bold</item>
-  </style>
-  <!-- The text appearance for principal information (important but not highlight) -->
-  <style name="primary_text_appearance_nohighlight" parent="@style/primary_text_appearance">
-    <item name="android:textStyle">normal</item>
-  </style>
-  <!-- The text appearance for secondary information (text with a lower importance) -->
-  <style name="secondary_text_appearance">
-    <item name="android:textSize">@dimen/secondary_text_size</item>
-    <item name="android:textColor">@color/black_transparent</item>
-    <item name="android:textStyle">normal</item>
-  </style>
-  <!-- The text appearance for primary menu drawer information -->
-  <style name="menu_drawer_primary_text_appearance">
-    <item name="android:textSize">@dimen/menu_drawer_primary_text_size</item>
-    <item name="android:textStyle">bold</item>
-  </style>
-  <!-- The text appearance for secondary menu drawer information -->
-  <style name="menu_drawer_secondary_text_appearance">
-    <item name="android:textSize">@dimen/menu_drawer_secondary_text_size</item>
-    <item name="android:textStyle">normal</item>
-  </style>
-  <!-- The text appearance for hexeditor -->
-  <style name="hexeditor_text_appearance">
-    <item name="android:textSize">@dimen/hexeditor_text_size</item>
-    <item name="android:textColor">@color/black_transparent</item>
-    <item name="android:textStyle">normal</item>
-  </style>
-  <!-- The text appearance for a console widget -->
-  <style name="console_text_appearance">
-    <item name="android:textSize">@dimen/console_text_size</item>
-    <item name="android:textColor">@color/console_fg</item>
-    <item name="android:textStyle">normal</item>
-  </style>
-  <!-- The text appearance for dialog titles -->
-  <style name="dialog_title_text_appearance">
-    <item name="android:textSize">@dimen/dialog_title_text_size</item>
-    <item name="android:textColor">@android:color/holo_blue_dark</item>
-    <item name="android:textStyle">bold</item>
-  </style>
+    <!--
+    ##
+    ##  Independant Style Definitions
+    ##
+    -->
 
-  <!-- Breadcrumb Element -->
-  <style name="breadcrumb_elemement">
-    <item name="android:gravity">center|center_vertical</item>
-  </style>
+    <!-- Action mode count-->
+    <style name="selectedCount">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">8dip</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:includeFontPadding">false</item>
+        <!-- Use dp rather than sp for size since starts large and must not get too large -->
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/white_transparent</item>
+    </style>
 
-  <!-- Breadcrumb Item -->
-  <style name="breadcrumb_item" parent="@style/breadcrumb_elemement">
-    <item name="android:textAppearance">@style/breadcrumb_text_appearance</item>
-    <item name="android:singleLine">true</item>
-    <item name="android:paddingLeft">@dimen/breadcrumb_item_margin_space</item>
-    <item name="android:paddingRight">@dimen/breadcrumb_item_margin_space</item>
-    <item name="android:minWidth">@dimen/breadcrumb_item_min_size</item>
-  </style>
+    <!-- Title -->
+    <style name="title_text_appearance">
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- The text appearance for breadcrumb information -->
+    <style name="breadcrumb_text_appearance">
+        <item name="android:textSize">@dimen/primary_text_size</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- The text appearance for principal information (text that need to be highlighted) -->
+    <style name="primary_text_appearance" parent="android:TextAppearance.Holo.Large">
+        <item name="android:textSize">@dimen/primary_text_size</item>
+        <item name="android:textColor">@color/black_transparent</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!-- The text appearance for principal information (important but not highlight) -->
+    <style name="primary_text_appearance_nohighlight" parent="@style/primary_text_appearance">
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!-- The text appearance for secondary information (text with a lower importance) -->
+    <style name="secondary_text_appearance" parent="android:TextAppearance.Holo.Medium">
+        <item name="android:textSize">@dimen/secondary_text_size</item>
+        <item name="android:textColor">@color/grey_transparent</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!-- The text appearance for primary menu drawer information -->
+    <style name="menu_drawer_primary_text_appearance">
+        <item name="android:textSize">@dimen/menu_drawer_primary_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- The text appearance for secondary menu drawer information -->
+    <style name="menu_drawer_secondary_text_appearance">
+        <item name="android:textSize">@dimen/menu_drawer_secondary_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!-- The text appearance for hexeditor -->
+    <style name="hexeditor_text_appearance">
+        <item name="android:textSize">@dimen/hexeditor_text_size</item>
+        <item name="android:textColor">@color/black_transparent</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!-- The text appearance for a console widget -->
+    <style name="console_text_appearance">
+        <item name="android:textSize">@dimen/console_text_size</item>
+        <item name="android:textColor">@color/console_fg</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!-- The text appearance for dialog titles -->
+    <style name="dialog_title_text_appearance">
+        <item name="android:textSize">@dimen/dialog_title_text_size</item>
+        <item name="android:textColor">@android:color/holo_blue_dark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
-  <!-- Breadcrumb ActionBar Buttom -->
-  <style name="breadcrumb_actionbar_buttom">
-    <item name="android:paddingLeft">@dimen/extra_margin</item>
-    <item name="android:paddingRight">@dimen/default_margin</item>
-  </style>
+    <!-- Breadcrumb Element -->
+    <style name="breadcrumb_elemement">
+        <item name="android:gravity">center|center_vertical</item>
+    </style>
 
-  <!-- Navigation Grid Layout -->
-  <style name="navigation_grid">
-    <item name="android:numColumns">@integer/default_grid_columns</item>
-    <item name="android:stretchMode">columnWidth</item>
-    <item name="android:horizontalSpacing">@dimen/default_horizontal_grid_spacing</item>
-    <item name="android:verticalSpacing">@dimen/default_vertical_grid_spacing</item>
-  </style>
+    <!-- Breadcrumb Item -->
+    <style name="breadcrumb_item" parent="@style/breadcrumb_elemement">
+        <item name="android:textAppearance">@style/breadcrumb_text_appearance</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingLeft">@dimen/breadcrumb_item_margin_space</item>
+        <item name="android:paddingRight">@dimen/breadcrumb_item_margin_space</item>
+        <item name="android:minWidth">@dimen/breadcrumb_item_min_size</item>
+    </style>
 
-  <!-- Horizontal Divider -->
-  <style name="horizontal_divider">
-    <item name="android:layout_marginTop">@dimen/default_margin</item>
-    <item name="android:layout_marginBottom">@dimen/default_margin</item>
-    <item name="android:background">@color/divider_color_light</item>
-  </style>
+    <!-- Breadcrumb ActionBar Buttom -->
+    <style name="breadcrumb_actionbar_buttom">
+        <item name="android:paddingLeft">@dimen/extra_margin</item>
+        <item name="android:paddingRight">@dimen/default_margin</item>
+    </style>
 
-  <!-- Vertical Divider -->
-  <style name="vertical_divider">
-    <item name="android:layout_marginLeft">@dimen/default_margin</item>
-    <item name="android:layout_marginRight">@dimen/default_margin</item>
-    <item name="android:background">@color/divider_color</item>
-  </style>
+    <!-- Navigation Grid Layout -->
+    <style name="navigation_grid">
+        <item name="android:numColumns">@integer/default_grid_columns</item>
+        <item name="android:stretchMode">columnWidth</item>
+        <item name="android:horizontalSpacing">@dimen/default_horizontal_grid_spacing</item>
+        <item name="android:verticalSpacing">@dimen/default_vertical_grid_spacing</item>
+    </style>
+
+    <!-- Horizontal Divider -->
+    <style name="horizontal_divider">
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+        <item name="android:layout_marginBottom">@dimen/default_margin</item>
+        <item name="android:background">@color/divider_color_light</item>
+    </style>
+
+    <!-- Vertical Divider -->
+    <style name="vertical_divider">
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+        <item name="android:background">@color/divider_color</item>
+    </style>
 
 </resources>

@@ -15,29 +15,29 @@
  -->
 
 <LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:filemanager="http://schemas.android.com/apk/res/com.brandroidtools.filemanager"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="@color/default_background"
-  android:orientation="vertical">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:filemanager="http://schemas.android.com/apk/res/com.brandroidtools.filemanager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_background"
+        android:orientation="vertical">
 
-  <!-- Breadcrumb -->
-  <com.brandroidtools.filemanager.ui.widgets.BreadcrumbView
-    android:id="@+id/breadcrumb_view"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/default_row_height"
-    android:layout_marginLeft="@dimen/extra_large_margin"
-    android:layout_marginRight="@dimen/extra_large_margin"/>
+    <!-- Breadcrumb -->
+    <com.brandroidtools.filemanager.ui.widgets.BreadcrumbView
+            android:id="@+id/breadcrumb_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_row_height"
+            android:layout_marginLeft="@dimen/extra_large_margin"
+            android:layout_marginRight="@dimen/extra_large_margin"/>
 
-  <include layout="@layout/vertical_divider" />
+    <include layout="@layout/vertical_divider"/>
 
-  <!-- Picker Navigation View -->
-  <fragment
-      android:name="com.brandroidtools.filemanager.fragments.NavigationFragment"
-      android:id="@+id/navigation_fragment"
-      android:layout_weight="1"
-      android:layout_width="0dp"
-      android:layout_height="match_parent" />
+    <!-- Picker Navigation View -->
+    <fragment
+            android:name="com.brandroidtools.filemanager.fragments.NavigationFragment"
+            android:id="@+id/navigation_fragment"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
 
 </LinearLayout>

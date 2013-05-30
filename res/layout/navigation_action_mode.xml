@@ -48,6 +48,6 @@
             android:layout_alignParentRight="true"
             style="?android:attr/actionButtonStyle"
             android:src="?attr/actionIconSelectAll"
-            android:onClick="onActionBarItemClick" />
+            android:onClick="onActionBarItemClick"/>
 
 </RelativeLayout>

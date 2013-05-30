@@ -15,9 +15,9 @@
  -->
 
 <com.brandroidtools.filemanager.ui.widgets.BreadcrumbItem
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/breadcrumb_item"
-  style="@style/breadcrumb_item"
-  android:layout_width="wrap_content"
-  android:layout_height="match_parent"
-  android:clickable="true" />
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/breadcrumb_item"
+        style="@style/breadcrumb_item"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"/>

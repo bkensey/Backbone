@@ -16,18 +16,18 @@
 
 <preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
     <header
-      android:fragment="com.brandroidtools.filemanager.activities.preferences.GeneralPreferenceFragment"
-      android:title="@string/pref_general" />
+            android:fragment="com.brandroidtools.filemanager.activities.preferences.GeneralPreferenceFragment"
+            android:title="@string/pref_general"/>
     <header
-      android:fragment="com.brandroidtools.filemanager.activities.preferences.SearchPreferenceFragment"
-      android:title="@string/pref_search" />
+            android:fragment="com.brandroidtools.filemanager.activities.preferences.SearchPreferenceFragment"
+            android:title="@string/pref_search"/>
     <header
-      android:fragment="com.brandroidtools.filemanager.activities.preferences.EditorPreferenceFragment"
-      android:title="@string/pref_editor" />
+            android:fragment="com.brandroidtools.filemanager.activities.preferences.EditorPreferenceFragment"
+            android:title="@string/pref_editor"/>
     <header
-      android:fragment="com.brandroidtools.filemanager.activities.preferences.ThemesPreferenceFragment"
-      android:title="@string/pref_themes" />
+            android:fragment="com.brandroidtools.filemanager.activities.preferences.ThemesPreferenceFragment"
+            android:title="@string/pref_themes"/>
     <header
-      android:fragment="com.brandroidtools.filemanager.activities.preferences.AboutPreferenceFragment"
-      android:title="@string/pref_about" />
+            android:fragment="com.brandroidtools.filemanager.activities.preferences.AboutPreferenceFragment"
+            android:title="@string/pref_about"/>
 </preference-headers>

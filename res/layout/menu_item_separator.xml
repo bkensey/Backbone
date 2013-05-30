@@ -18,12 +18,12 @@
      it is not resolved in themed context, because theme context and app context are
      not the same -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="0.75dp">
+                android:layout_width="wrap_content"
+                android:layout_height="0.75dp">
 
-  <TextView
-    android:id="@+id/menu_item_text"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    <TextView
+            android:id="@+id/menu_item_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 </RelativeLayout>
