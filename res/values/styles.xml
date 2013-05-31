@@ -96,7 +96,7 @@
     <style name="breadcrumb_text_appearance">
         <item name="android:textSize">@dimen/primary_text_size</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">normal</item>
     </style>
     <!-- The text appearance for principal information (text that need to be highlighted) -->
     <style name="primary_text_appearance" parent="android:TextAppearance.Holo.Large">

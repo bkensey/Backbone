@@ -18,7 +18,6 @@
 package com.brandroidtools.filemanager.ui.widgets;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +25,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.model.DiskUsage;
 import com.brandroidtools.filemanager.model.MountPoint;
@@ -60,7 +57,7 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
     /**
      * @hide
      */
-    ProgressBar mDiskUsageInfo;
+    View mDiskUsageInfo;
     /**
      * @hide
      */
@@ -125,7 +122,7 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
         this.mScrollView = (HorizontalScrollView)findViewById(R.id.breadcrumb_scrollview);
         this.mBreadcrumbBar = (ViewGroup)findViewById(R.id.breadcrumb);
         this.mFilesystemInfo = (ImageView)findViewById(R.id.ab_filesystem_info);
-        this.mDiskUsageInfo = (ProgressBar)findViewById(R.id.breadcrumb_diskusage);
+        this.mDiskUsageInfo = (View)findViewById(R.id.breadcrumb_scrollview);
         this.mLoading = findViewById(R.id.breadcrumb_loading);
 
         // Change the image of filesystem (this is not called after a changeBreadcrumbPath call,
@@ -169,7 +166,6 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
             @Override
             public void run() {
                 BreadcrumbView.this.mFilesystemInfo.setVisibility(View.INVISIBLE);
-                BreadcrumbView.this.mDiskUsageInfo.setVisibility(View.INVISIBLE);
                 BreadcrumbView.this.mLoading.setVisibility(View.VISIBLE);
             }
         });
@@ -186,7 +182,6 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
             public void run() {
                 BreadcrumbView.this.mLoading.setVisibility(View.INVISIBLE);
                 BreadcrumbView.this.mFilesystemInfo.setVisibility(View.VISIBLE);
-                BreadcrumbView.this.mDiskUsageInfo.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -254,7 +249,7 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
            this.mFilesystemAsyncTask.cancel(true);
         }
         final ImageView filesystemInfo = (ImageView)findViewById(R.id.ab_filesystem_info);
-        final ProgressBar diskUsageInfo = (ProgressBar)findViewById(R.id.breadcrumb_diskusage);
+        final View diskUsageInfo = findViewById(R.id.breadcrumb_scrollview);
         this.mFilesystemAsyncTask =
                 new FilesystemAsyncTask(
                         getContext(), filesystemInfo,
@@ -367,9 +362,9 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
                 }
             }
         }
-        if (this.mDiskUsageInfo != null) {
+        /*if (this.mDiskUsageInfo != null) {
             Drawable dw = theme.getDrawable(getContext(), "horizontal_progress_bar"); //$NON-NLS-1$
             this.mDiskUsageInfo.setProgressDrawable(dw);
-        }
+        }*/
     }
 }

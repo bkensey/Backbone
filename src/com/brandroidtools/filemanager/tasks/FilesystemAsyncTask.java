@@ -17,13 +17,10 @@
 package com.brandroidtools.filemanager.tasks;
 
 import android.content.Context;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffColorFilter;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-
 import com.brandroidtools.filemanager.model.DiskUsage;
 import com.brandroidtools.filemanager.model.MountPoint;
 import com.brandroidtools.filemanager.ui.ThemeManager;
@@ -48,7 +45,7 @@ public class FilesystemAsyncTask extends AsyncTask<String, Integer, Boolean> {
     /**
      * @hide
      */
-    final ProgressBar mDiskUsageInfo;
+    final View mDiskUsageInfo;
     /**
      * @hide
      */
@@ -65,12 +62,12 @@ public class FilesystemAsyncTask extends AsyncTask<String, Integer, Boolean> {
      *
      * @param context The current context
      * @param mountPointInfo The mount point info view
-     * @param diskUsageInfo The mount point info view
+     * @param diskUsageInfo The disk usage anchor
      * @param freeDiskSpaceWarningLevel The free disk space warning level
      */
     public FilesystemAsyncTask(
             Context context, ImageView mountPointInfo,
-            ProgressBar diskUsageInfo, int freeDiskSpaceWarningLevel) {
+            View diskUsageInfo, int freeDiskSpaceWarningLevel) {
         super();
         this.mContext = context;
         this.mMountPointInfo = mountPointInfo;
@@ -159,11 +156,11 @@ public class FilesystemAsyncTask extends AsyncTask<String, Integer, Boolean> {
                     int usage = 0;
                     if (du != null && du.getTotal() != 0) {
                         usage = (int)(du.getUsed() * 100 / du.getTotal());
-                        FilesystemAsyncTask.this.mDiskUsageInfo.setProgress(usage);
+                        //FilesystemAsyncTask.this.fileSystemInfo.setProgress(usage);  ** CM progress bar removed
                         FilesystemAsyncTask.this.mDiskUsageInfo.setTag(du);
                     } else {
                         usage = du == null ? 0 : 100;
-                        FilesystemAsyncTask.this.mDiskUsageInfo.setProgress(usage);
+                        //FilesystemAsyncTask.this.fileSystemInfo.setProgress(usage); ** CM progress bar removed
                         FilesystemAsyncTask.this.mDiskUsageInfo.setTag(null);
                     }
 
@@ -171,15 +168,15 @@ public class FilesystemAsyncTask extends AsyncTask<String, Integer, Boolean> {
                     Theme theme = ThemeManager.getCurrentTheme(FilesystemAsyncTask.this.mContext);
                     int filter =
                             usage >= FilesystemAsyncTask.this.mFreeDiskSpaceWarningLevel ?
-                               theme.getColor(
-                                       FilesystemAsyncTask.this.mContext,
-                                       "disk_usage_filter_warning_color") : //$NON-NLS-1$
-                               theme.getColor(
-                                       FilesystemAsyncTask.this.mContext,
-                                       "disk_usage_filter_normal_color"); //$NON-NLS-1$
-                    FilesystemAsyncTask.this.mDiskUsageInfo.
-                                getProgressDrawable().setColorFilter(
-                                        new PorterDuffColorFilter(filter, Mode.MULTIPLY));
+                                    theme.getColor(
+                                            FilesystemAsyncTask.this.mContext,
+                                            "disk_usage_filter_warning_color") : //$NON-NLS-1$
+                                    theme.getColor(
+                                            FilesystemAsyncTask.this.mContext,
+                                            "disk_usage_filter_normal_color"); //$NON-NLS-1$
+/*                    FilesystemAsyncTask.this.fileSystemInfo.
+                            getProgressDrawable().setColorFilter(
+                            new PorterDuffColorFilter(filter, Mode.MULTIPLY));  ** CM progress bar removed */
                 }
             });
         }

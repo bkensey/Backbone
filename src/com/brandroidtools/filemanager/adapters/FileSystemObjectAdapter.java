@@ -277,16 +277,18 @@ public class FileSystemObjectAdapter
         Theme theme = ThemeManager.getCurrentTheme(getContext());
         theme.setBackgroundDrawable(
                 getContext(), v, "background_drawable"); //$NON-NLS-1$
+/*      Legacy CM theme code. We should be getting this stuff exclusively
+        from the layout, because this is a nightmare to keep orderly.
         theme.setTextColor(
                 getContext(), viewHolder.mTvName, "text_color"); //$NON-NLS-1$
-/*        if (viewHolder.mTvSummary != null) {
+        if (viewHolder.mTvSummary != null) {
             theme.setTextColor(
                     getContext(), viewHolder.mTvSummary, "text_color"); //$NON-NLS-1$
-        }*/
+        }
         if (viewHolder.mTvSize != null) {
             theme.setTextColor(
                     getContext(), viewHolder.mTvSize, "text_color"); //$NON-NLS-1$
-        }
+        }*/
 
         //Set the data
         viewHolder.mIvIcon.setImageDrawable(dataHolder.mDwIcon);
