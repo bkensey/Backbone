@@ -33,9 +33,8 @@
                 android:id="@+id/navigation_view_item_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/default_margin"
+                android:layout_margin="@dimen/icon_margin"
                 android:gravity="center_horizontal|center_vertical"
-                android:layout_alignWithParentIfMissing="true"
                 android:contentDescription="@null"
                 android:src="@null"/>
     </LinearLayout>
