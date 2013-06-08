@@ -111,8 +111,16 @@
     <!-- The text appearance for secondary information (text with a lower importance) -->
     <style name="secondary_text_appearance" parent="android:TextAppearance.Holo.Medium">
         <item name="android:textSize">@dimen/secondary_text_size</item>
-        <item name="android:textColor">@color/grey_transparent</item>
+        <item name="android:textColor">@color/black_transparent</item>
         <item name="android:textStyle">normal</item>
+    </style>
+    <!-- The text appearance for primary navigation item information -->
+    <style name="navigation_item_primary_text_appearance" parent="@style/primary_text_appearance">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <!-- The text appearance for secondary navigation item information -->
+    <style name="navigation_item_secondary_text_appearance" parent="@style/secondary_text_appearance">
+        <item name="android:textColor">@color/grey_transparent</item>
     </style>
     <!-- The text appearance for primary menu drawer information -->
     <style name="menu_drawer_primary_text_appearance">
