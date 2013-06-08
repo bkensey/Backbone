@@ -28,7 +28,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignWithParentIfMissing="true"
-            android:background="@color/light_grey">
+            android:background="@color/light_grey_transparent">
         <ImageView
                 android:id="@+id/navigation_view_item_icon"
                 android:layout_width="match_parent"

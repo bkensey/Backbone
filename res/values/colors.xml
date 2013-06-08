@@ -30,7 +30,9 @@
     <!-- A derivated blue from @android:color/holo_blue_light with some transparency -->
     <color name="blue_transparent">#9933b5e5</color>
     <!-- A light grey color for backgrounds -->
-    <color name="light_grey">#66d1d1d1</color>
+    <color name="light_grey_transparent">#66d1d1d1</color>
+    <!-- A solid dark grey color for backgrounds -->
+    <color name="dark_grey">#2c2c2c</color>
 
     <!-- Disk usage total color -->
     <color name="disk_usage_total">#7ecccccc</color>
