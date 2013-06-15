@@ -454,6 +454,8 @@
     <string name="bookmarks_header_locations">Locations</string>
     <!-- Bookmarks * Bookmark List Header Title * User Bookmarks -->
     <string name="bookmarks_header_user_bookmarks">User Bookmarks</string>
+    <!-- Bookmarks * Bookmark List Header Title * Cloud -->
+    <string name="bookmarks_header_cloud">Cloud</string>
     <!-- Bookmarks * Bookmark name * Home -->
     <string name="bookmarks_home">Home</string>
     <!-- Bookmarks * Bookmark name * Root folder -->

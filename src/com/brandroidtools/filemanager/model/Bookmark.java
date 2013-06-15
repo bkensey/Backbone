@@ -58,6 +58,24 @@ public class Bookmark implements Serializable, Comparable<Bookmark>, Parcelable 
         USER_DEFINED
     }
 
+    /**
+     * Enumeration for displayed bookmark categories.
+     */
+    public enum BOOKMARK_CATEGORY {
+        /**
+         * Filesystem locations including filesystems, mounted sd cards and mounted usb drives.
+         */
+        LOCATIONS,
+        /**
+         * User bookmarks.
+         */
+        USER_BOOKMARKS,
+        /**
+         * Cloud drives.
+         */
+        CLOUD
+    }
+
     private static final long serialVersionUID = -7524744999056506867L;
 
     /**
@@ -111,6 +129,8 @@ public class Bookmark implements Serializable, Comparable<Bookmark>, Parcelable 
     /** @hide **/
     public BOOKMARK_TYPE mType;
     /** @hide **/
+    public BOOKMARK_CATEGORY mCategory;
+    /** @hide **/
     public String mName;
     /** @hide **/
     public String mPath;
@@ -119,13 +139,15 @@ public class Bookmark implements Serializable, Comparable<Bookmark>, Parcelable 
      * Constructor of <code>Bookmark</code>.
      *
      * @param type The type of the bookmark
+     * @param category The display category of the bookmark
      * @param name The name of the bookmark
      * @param path The path that the bookmark points to
      * @hide
      */
-    public Bookmark(BOOKMARK_TYPE type, String name, String path) {
+    public Bookmark(BOOKMARK_TYPE type, BOOKMARK_CATEGORY category, String name, String path) {
         super();
         this.mType = type;
+        this.mCategory = category;
         this.mName = name;
         this.mPath = path;
     }
@@ -139,6 +161,7 @@ public class Bookmark implements Serializable, Comparable<Bookmark>, Parcelable 
         super();
         this.mId = c.getInt(Columns.BOOKMARK_ID_INDEX);
         this.mType = BOOKMARK_TYPE.USER_DEFINED;
+        this.mCategory = BOOKMARK_CATEGORY.USER_BOOKMARKS;
         this.mPath = c.getString(Columns.BOOKMARK_PATH_INDEX);
         this.mName = new File(this.mPath).getName();
     }
@@ -206,6 +229,7 @@ public class Bookmark implements Serializable, Comparable<Bookmark>, Parcelable 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.mId);
         dest.writeString(this.mType.toString());
+        dest.writeString(this.mCategory.toString());
         dest.writeString(this.mName);
         dest.writeString(this.mPath);
     }
@@ -218,9 +242,10 @@ public class Bookmark implements Serializable, Comparable<Bookmark>, Parcelable 
         public Bookmark createFromParcel(Parcel in) {
             int id = in.readInt();
             BOOKMARK_TYPE type = BOOKMARK_TYPE.valueOf(in.readString());
+            BOOKMARK_CATEGORY category = BOOKMARK_CATEGORY.valueOf(in.readString());
             String name = in.readString();
             String path = in.readString();
-            Bookmark b = new Bookmark(type, name, path);
+            Bookmark b = new Bookmark(type, category, name, path);
             b.mId = id;
             return b;
         }
@@ -249,8 +274,9 @@ public class Bookmark implements Serializable, Comparable<Bookmark>, Parcelable 
     @Override
     public String toString() {
         return "Bookmark [id=" + this.mId + ", type=" + //$NON-NLS-1$//$NON-NLS-2$
-                this.mType + ", name=" + this.mName +  //$NON-NLS-1$
-                ", path=" + this.mPath + "]"; //$NON-NLS-1$//$NON-NLS-2$
+                this.mType + ", category=" + this.mCategory + //$NON-NLS-1$
+                ", name=" + this.mName + ", path=" //$NON-NLS-1$//$NON-NLS-2$
+                + this.mPath + "]"; //$NON-NLS-1$
     }
 
 }
