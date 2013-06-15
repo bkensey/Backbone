@@ -95,13 +95,15 @@
     <!-- The text appearance for breadcrumb information -->
     <style name="breadcrumb_text_appearance">
         <item name="android:textSize">@dimen/primary_text_size</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:textStyle">normal</item>
     </style>
     <!-- The text appearance for principal information (text that need to be highlighted) -->
-    <style name="primary_text_appearance" parent="android:TextAppearance.Holo.Large">
+    <style name="primary_text_appearance">
         <item name="android:textSize">@dimen/primary_text_size</item>
-        <item name="android:textColor">@color/black_transparent</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">normal</item>
     </style>
     <!-- The text appearance for principal information (important but not highlight) -->
@@ -109,27 +111,34 @@
         <item name="android:textStyle">normal</item>
     </style>
     <!-- The text appearance for secondary information (text with a lower importance) -->
-    <style name="secondary_text_appearance" parent="android:TextAppearance.Holo.Medium">
+    <style name="secondary_text_appearance">
         <item name="android:textSize">@dimen/secondary_text_size</item>
-        <item name="android:textColor">@color/black_transparent</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
         <item name="android:textStyle">normal</item>
     </style>
-    <!-- The text appearance for primary navigation item information -->
-    <style name="navigation_item_primary_text_appearance" parent="@style/primary_text_appearance">
-        <item name="android:textColor">@color/black</item>
+
+    <!-- The text appearance for primary menu drawer information -->
+    <style name="navigation_item_primary_text_appearance" parent="primary_text_appearance">
+
     </style>
-    <!-- The text appearance for secondary navigation item information -->
-    <style name="navigation_item_secondary_text_appearance" parent="@style/secondary_text_appearance">
-        <item name="android:textColor">@color/grey_transparent</item>
+    <!-- The text appearance for secondary menu drawer information -->
+    <style name="navigation_item_secondary_text_appearance" parent="secondary_text_appearance">
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
+
     <!-- The text appearance for primary menu drawer information -->
     <style name="menu_drawer_primary_text_appearance">
         <item name="android:textSize">@dimen/menu_drawer_primary_text_size</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
     </style>
     <!-- The text appearance for secondary menu drawer information -->
     <style name="menu_drawer_secondary_text_appearance">
         <item name="android:textSize">@dimen/menu_drawer_secondary_text_size</item>
+        <item name="android:textColor">?android:textColorSecondaryInverse</item>
+        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textStyle">normal</item>
     </style>
     <!-- The text appearance for hexeditor -->
@@ -145,10 +154,8 @@
         <item name="android:textStyle">normal</item>
     </style>
     <!-- The text appearance for dialog titles -->
-    <style name="dialog_title_text_appearance">
-        <item name="android:textSize">@dimen/dialog_title_text_size</item>
+    <style name="dialog_title_text_appearance" parent="android:TextAppearance.DialogWindowTitle">
         <item name="android:textColor">@android:color/holo_blue_dark</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- Breadcrumb Element -->

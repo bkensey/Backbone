@@ -190,10 +190,12 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
             Theme theme = ThemeManager.getCurrentTheme(getContext());
             theme.setBackgroundDrawable(
                     getContext(), v, "selectors_deselected_drawable"); //$NON-NLS-1$
+/*          Legacy CM theme code. We should be getting this stuff exclusively
+            from the layout, because this is a nightmare to keep orderly.
             theme.setTextColor(
                     getContext(), viewHolder.mTvName, "nav_drawer_text_color"); //$NON-NLS-1$
             theme.setTextColor(
-                    getContext(), viewHolder.mTvPath, "nav_drawer_text_color"); //$NON-NLS-1$
+                    getContext(), viewHolder.mTvPath, "nav_drawer_text_color"); //$NON-NLS-1$*/
         }
 
         //Retrieve data holder
