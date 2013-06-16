@@ -101,18 +101,7 @@ public final class StorageHelper {
      */
     public static String getStorageVolumeDescription(Context ctx, FileSystemStorageVolume volume) {
         try {
-            Method method = volume.getClass().getMethod(
-                                            "getDescription", //$NON-NLS-1$
-                                            new Class[]{Context.class});
-            if (method == null) {
-                // AOSP
-                method = volume.getClass().getMethod("getDescription"); //$NON-NLS-1$
-                return (String)method.invoke(volume);
-            }
-
-            // CM10
-            return (String)method.invoke(volume, ctx);
-
+            return volume.getDescription();
         } catch (Throwable _throw) {
             // Returns the volume storage path
             return volume.getPath();
