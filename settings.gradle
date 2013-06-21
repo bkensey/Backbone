@@ -1,0 +1,2 @@
+include ':Backbone'
+include ':libraries:android-syntax-highlight'

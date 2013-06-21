@@ -1,0 +1,30 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.4.2'
+    }
+}
+apply plugin: 'android'
+
+dependencies {
+    compile 'com.android.support:support-v4:13.0.0'
+    compile files('libs/square-otto-1.3.2.jar')
+}
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 17
+    }
+
+    sourceSets {
+        main {
+            resources.srcDirs = ['libs/color-picker-view/src','libs/android-syntax-highlight/src','themes/src']
+        }
+    }
+}
