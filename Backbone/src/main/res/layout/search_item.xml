@@ -17,23 +17,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/search_item"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_row_height"
+                android:layout_height="@dimen/navigation_row_height"
                 android:background="@drawable/holo_list_selector_deselected">
 
-    <ImageView
+    <LinearLayout
+        android:id="@+id/search_item_icon_container"
+        android:layout_width="@dimen/navigation_row_height"
+        android:layout_height="@dimen/navigation_row_height"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="@color/light_grey_transparent">
+        <ImageView
             android:id="@+id/search_item_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
+            android:layout_margin="@dimen/icon_margin"
+            android:gravity="center_horizontal|center_vertical"
             android:contentDescription="@null"
             android:src="@null"/>
+    </LinearLayout>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/search_item_icon"
-            android:layout_marginRight="@dimen/extra_margin">
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/search_item_icon_container">
 
         <TextView
                 android:id="@+id/search_item_name"
@@ -44,7 +55,8 @@
                 android:layout_marginLeft="@dimen/default_margin"
                 android:layout_marginTop="@dimen/default_margin"
                 android:singleLine="true"
-                android:textAppearance="@style/primary_text_appearance_nohighlight"/>
+                android:textAppearance="@style/primary_text_appearance_nohighlight"
+                android:text="@null"/>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -69,7 +81,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left|center_vertical"
                     android:singleLine="true"
-                    android:textAppearance="@style/secondary_text_appearance"/>
+                    android:textAppearance="@style/secondary_text_appearance"
+                    android:text="@null"/>
         </LinearLayout>
     </RelativeLayout>
 
