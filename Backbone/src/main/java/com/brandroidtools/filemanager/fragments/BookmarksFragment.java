@@ -384,7 +384,7 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
         String initialDir = Preferences.getSharedPreferences().getString(
                                 FileManagerSettings.SETTINGS_INITIAL_DIR.getId(),
                                 (String)FileManagerSettings.SETTINGS_INITIAL_DIR.getDefaultValue());
-        return new Bookmark(BOOKMARK_TYPE.HOME, getString(R.string.bookmarks_home), initialDir);
+        return new Bookmark(BOOKMARK_TYPE.HOME, Bookmark.BOOKMARK_CATEGORY.LOCATIONS, getString(R.string.bookmarks_home), initialDir);
     }
 
     /**
@@ -433,6 +433,7 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
                             bookmarks.add(
                                     new Bookmark(
                                             BOOKMARK_TYPE.FILESYSTEM,
+                                            Bookmark.BOOKMARK_CATEGORY.LOCATIONS,
                                             name.toString(),
                                             directory.toString()));
                         }
@@ -471,6 +472,7 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
                     bookmarks.add(
                             new Bookmark(
                                     BOOKMARK_TYPE.USB,
+                                    Bookmark.BOOKMARK_CATEGORY.LOCATIONS,
                                     StorageHelper.getStorageVolumeDescription(
                                             mActivity.getApplication(), volumes[i]),
                                     volumes[i].getPath()));
@@ -478,6 +480,7 @@ public class BookmarksFragment extends Fragment implements OnItemClickListener, 
                     bookmarks.add(
                             new Bookmark(
                                     BOOKMARK_TYPE.SDCARD,
+                                    Bookmark.BOOKMARK_CATEGORY.LOCATIONS,
                                     StorageHelper.getStorageVolumeDescription(
                                             mActivity.getApplication(), volumes[i]),
                                     volumes[i].getPath()));

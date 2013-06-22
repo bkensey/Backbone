@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.model.Bookmark;
 import com.brandroidtools.filemanager.model.Bookmark.BOOKMARK_TYPE;
+import com.brandroidtools.filemanager.model.Bookmark.BOOKMARK_CATEGORY;
 import com.brandroidtools.filemanager.ui.IconHolder;
 import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
@@ -53,7 +54,8 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
         public ViewHolder() {
             super();
         }
-        ImageView mIvIcon;
+        TextView mTvSeparator;
+        ImageView mTvIcon;
         TextView mTvName;
         TextView mTvPath;
         ImageButton mBtAction;
@@ -72,6 +74,7 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
         Drawable mDwIcon;
         String mName;
         String mPath;
+        String mCategoryTitle;
         Drawable mDwAction;
         String mActionCd;
     }
@@ -79,20 +82,30 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
 
 
     private DataHolder[] mData;
+    private int[] mCellStates;
     private IconHolder mIconHolder;
     private final OnClickListener mOnActionClickListener;
 
-    //The resource item layout
+    // The resource item layout
     private static final int RESOURCE_LAYOUT = R.layout.bookmarks_item;
 
-    //The resource of the item icon
+    // The resource of the item separator
+    private static final int RESOURCE_ITEM_SEPARATOR = R.id.bookmarks_item_separator;
+    // The resource of the item icon
     private static final int RESOURCE_ITEM_ICON = R.id.bookmarks_item_icon;
-    //The resource of the item name
+    // The resource of the item name
     private static final int RESOURCE_ITEM_NAME = R.id.bookmarks_item_name;
-    //The resource of the item directory
+    // The resource of the item directory
     private static final int RESOURCE_ITEM_PATH = R.id.bookmarks_item_path;
-    //The resource of the item button action
+    // The resource of the item button action
     private static final int RESOURCE_ITEM_ACTION = R.id.bookmarks_item_action;
+
+    // State of ListView item that has never been determined.
+    private static final int STATE_UNKNOWN = 0;
+    //State of a ListView item that is sectioned. A sectioned item must display the separator.
+    private static final int STATE_SECTIONED_CELL = 1;
+    //State of a ListView item that is not sectioned and therefore does not display the separator.
+    private static final int STATE_REGULAR_CELL = 2;
 
     /**
      * Constructor of <code>BookmarksAdapter</code>.
@@ -136,6 +149,7 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
      */
     private void processData(List<Bookmark> bookmarks) {
         this.mData = new DataHolder[getCount()];
+        this.mCellStates = new int[getCount()];
         int cc = (bookmarks == null) ? getCount() : bookmarks.size();
         for (int i = 0; i < cc; i++) {
             //Bookmark info
@@ -147,6 +161,17 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
                     this.mIconHolder.getDrawable(getContext(), BookmarksHelper.getIcon(bookmark));
             this.mData[i].mName = bookmark.mName;
             this.mData[i].mPath = bookmark.mPath;
+            switch (bookmark.mCategory) {
+                case LOCATIONS:
+                    this.mData[i].mCategoryTitle = getContext().getString(R.string.bookmarks_header_locations);
+                    break;
+                case USER_BOOKMARKS:
+                    this.mData[i].mCategoryTitle = getContext().getString(R.string.bookmarks_header_user_bookmarks);
+                    break;
+                case CLOUD:
+                    this.mData[i].mCategoryTitle = getContext().getString(R.string.bookmarks_header_cloud);
+                    break;
+            }
             this.mData[i].mDwAction = null;
             this.mData[i].mActionCd = null;
             if (bookmark.mType.compareTo(BOOKMARK_TYPE.HOME) == 0) {
@@ -171,6 +196,37 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        // Separator List View Header
+        boolean needSeparator = false;
+        switch (mCellStates[position]) {
+            case STATE_SECTIONED_CELL:
+                needSeparator = true;
+                break;
+
+            case STATE_REGULAR_CELL:
+                needSeparator = false;
+                break;
+
+            case STATE_UNKNOWN:
+            default:
+                // A separator is needed if it's the first itemview of the
+                // ListView or if the group of the current cell is different
+                // from the previous itemview.
+                if (position == 0) {
+                    needSeparator = true;
+                } else {
+                    // Test to see if the category has changed since the last bookmark
+                    if (getItem(position).mCategory != null && getItem(position-1).mCategory != null &&
+                            getItem(position).mCategory != getItem(position-1).mCategory) {
+                        needSeparator = true;
+                    }
+                }
+
+                // Cache the result
+                mCellStates[position] = needSeparator ? STATE_SECTIONED_CELL : STATE_REGULAR_CELL;
+                break;
+        }
+
         //Check to reuse view
         View v = convertView;
         if (v == null) {
@@ -179,7 +235,8 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
                     (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = li.inflate(RESOURCE_LAYOUT, parent, false);
             ViewHolder viewHolder = new BookmarksAdapter.ViewHolder();
-            viewHolder.mIvIcon = (ImageView)v.findViewById(RESOURCE_ITEM_ICON);
+            viewHolder.mTvSeparator = (TextView)v.findViewById(RESOURCE_ITEM_SEPARATOR);
+            viewHolder.mTvIcon = (ImageView)v.findViewById(RESOURCE_ITEM_ICON);
             viewHolder.mTvName = (TextView)v.findViewById(RESOURCE_ITEM_NAME);
             viewHolder.mTvPath = (TextView)v.findViewById(RESOURCE_ITEM_PATH);
             viewHolder.mBtAction = (ImageButton)v.findViewById(RESOURCE_ITEM_ACTION);
@@ -190,10 +247,12 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
             Theme theme = ThemeManager.getCurrentTheme(getContext());
             theme.setBackgroundDrawable(
                     getContext(), v, "selectors_deselected_drawable"); //$NON-NLS-1$
+/*          Legacy CM theme code. We should be getting this stuff exclusively
+            from the layout, because this is a nightmare to keep orderly.
             theme.setTextColor(
                     getContext(), viewHolder.mTvName, "nav_drawer_text_color"); //$NON-NLS-1$
             theme.setTextColor(
-                    getContext(), viewHolder.mTvPath, "nav_drawer_text_color"); //$NON-NLS-1$
+                    getContext(), viewHolder.mTvPath, "nav_drawer_text_color"); //$NON-NLS-1$*/
         }
 
         //Retrieve data holder
@@ -203,7 +262,13 @@ public class BookmarksAdapter extends ArrayAdapter<Bookmark> {
         ViewHolder viewHolder = (ViewHolder)v.getTag();
 
         //Set the data
-        viewHolder.mIvIcon.setImageDrawable(dataHolder.mDwIcon);
+        if (needSeparator) {
+            viewHolder.mTvSeparator.setText(dataHolder.mCategoryTitle);
+            viewHolder.mTvSeparator.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.mTvSeparator.setVisibility(View.GONE);
+        }
+        viewHolder.mTvIcon.setImageDrawable(dataHolder.mDwIcon);
         viewHolder.mTvName.setText(dataHolder.mName);
         viewHolder.mTvPath.setText(dataHolder.mPath);
         boolean hasAction = dataHolder.mDwAction != null;

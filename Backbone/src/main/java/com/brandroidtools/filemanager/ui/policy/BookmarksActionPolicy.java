@@ -42,7 +42,7 @@ public final class BookmarksActionPolicy extends ActionsPolicy {
         try {
             // Create the bookmark
             Bookmark bookmark =
-                    new Bookmark(BOOKMARK_TYPE.USER_DEFINED, fso.getName(), fso.getFullPath());
+                    new Bookmark(BOOKMARK_TYPE.USER_DEFINED, Bookmark.BOOKMARK_CATEGORY.USER_BOOKMARKS, fso.getName(), fso.getFullPath());
             bookmark = Bookmarks.addBookmark(ctx, bookmark);
             if (bookmark == null) {
                 // The operation fails
