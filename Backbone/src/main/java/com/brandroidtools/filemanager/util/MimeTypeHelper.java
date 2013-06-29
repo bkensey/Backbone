@@ -120,6 +120,7 @@ public final class MimeTypeHelper {
         public MimeTypeCategory mCategory;
         public String mMimeType;
         public String mDrawable;
+        public String mIsDynamic;
 
         /**
          * {@inheritDoc}
@@ -134,6 +135,8 @@ public final class MimeTypeHelper {
                     + ((this.mDrawable == null) ? 0 : this.mDrawable.hashCode());
             result = prime * result
                     + ((this.mMimeType == null) ? 0 : this.mMimeType.hashCode());
+            result = prime * result
+                    + ((this.mIsDynamic == null) ? 0 : this.mIsDynamic.hashCode());
             return result;
         }
 
@@ -161,6 +164,11 @@ public final class MimeTypeHelper {
                     return false;
             } else if (!this.mMimeType.equals(other.mMimeType))
                 return false;
+            if (this.mIsDynamic == null) {
+                if (other.mIsDynamic != null)
+                    return false;
+            } else if (!this.mIsDynamic.equals(other.mIsDynamic))
+                return false;
             return true;
         }
 
@@ -171,7 +179,8 @@ public final class MimeTypeHelper {
         public String toString() {
             return "MimeTypeInfo [mCategory=" + this.mCategory + //$NON-NLS-1$
                     ", mMimeType="+ this.mMimeType + //$NON-NLS-1$
-                    ", mDrawable=" + this.mDrawable + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+                    ", mDrawable=" + this.mDrawable + //$NON-NLS-1$
+                    ", mIsDynamic" + this.mIsDynamic + "]"; //$NON-NLS-1$ //$NON-NLS-2$
         }
     }
 
@@ -490,6 +499,37 @@ public final class MimeTypeHelper {
     }
 
     /**
+     * Method that returns whether or not the icon of the {@link FileSystemObject} is dynamic,
+     * e.g. an apk file with its own icon or an image file with a thumbnail.
+     *
+     * @param context The current context
+     * @param fso The file system object
+     * @return boolean Whether or not the file has a dynamic icon
+     */
+    public static final boolean getIsDynamic(Context context, FileSystemObject fso) {
+        //Ensure that mime types are loaded
+        if (sMimeTypes == null) {
+            loadMimeTypes(context);
+        }
+
+        //Directories don't have a mime type
+        if (FileHelper.isDirectory(fso)) {
+            return false;
+        }
+
+        //Get the extension and delivery
+        String ext = FileHelper.getExtension(fso);
+        if (ext != null) {
+            //Load from the database of mime types
+            MimeTypeInfo mimeTypeInfo = sMimeTypes.get(ext.toLowerCase());
+            if (mimeTypeInfo != null) {
+                return mimeTypeInfo.mIsDynamic.equals("Y");
+            }
+        }
+        return false;
+    }
+
+    /**
      * Method that returns if a file system object matches with a mime-type expression.
      *
      * @param ctx The current context
@@ -518,7 +558,7 @@ public final class MimeTypeHelper {
                 mimeTypes.load(context.getResources().openRawResource(R.raw.mime_types));
 
                 // Parse the properties to an in-memory structure
-                // Format:  <extension> = <category> | <mime type> | <drawable>
+                // Format:  <extension> = <category> | <mime type> | <drawable> | <dynamic>
                 sMimeTypes = new HashMap<String, MimeTypeInfo>(mimeTypes.size());
                 Enumeration<Object> e = mimeTypes.keys();
                 while (e.hasMoreElements()) {
@@ -532,6 +572,7 @@ public final class MimeTypeHelper {
                         mimeTypeInfo.mCategory = MimeTypeCategory.valueOf(mimeData[0].trim());
                         mimeTypeInfo.mMimeType = mimeData[1].trim();
                         mimeTypeInfo.mDrawable = mimeData[2].trim();
+                        mimeTypeInfo.mIsDynamic = mimeData[3].trim();
                         sMimeTypes.put(extension, mimeTypeInfo);
 
                     } catch (Exception e2) { /**NON BLOCK**/}

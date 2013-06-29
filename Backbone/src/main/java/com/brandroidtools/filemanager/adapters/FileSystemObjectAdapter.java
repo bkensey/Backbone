@@ -17,8 +17,12 @@
 package com.brandroidtools.filemanager.adapters;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -92,6 +96,7 @@ public class FileSystemObjectAdapter
         String mName;
         String mSummary;
         String mSize;
+        boolean mDynamic;
     }
 
 
@@ -230,9 +235,35 @@ public class FileSystemObjectAdapter
                         theme.getDrawable(
                                 getContext(), "checkbox_deselected_drawable"); //$NON-NLS-1$
             }
-            this.mData[i].mDwIcon = this.mIconHolder.getDrawable(
-                    getContext(),
-                    MimeTypeHelper.getIcon(getContext(), fso));
+            this.mData[i].mDynamic = MimeTypeHelper.getIsDynamic(getContext(), fso);
+            if (this.mData[i].mDynamic) {
+                // Produce specific icon for file (e.g. apk or image thumbnail)
+                // TODO: Generate lazy loader instead of loading icon during processData()
+                if (FileHelper.getExtension(fso).equals("apk")) {
+                    String filePath = fso.getFullPath();
+                    PackageInfo packageInfo = getContext().getPackageManager().getPackageArchiveInfo(
+                            filePath, PackageManager.GET_ACTIVITIES);
+                    if (packageInfo != null) {
+                        ApplicationInfo appInfo = packageInfo.applicationInfo;
+                        if (Build.VERSION.SDK_INT >= 8) {
+                            appInfo.sourceDir = filePath;
+                            appInfo.publicSourceDir = filePath;
+                        }
+                        this.mData[i].mDwIcon = appInfo.loadIcon(getContext().getPackageManager());
+                    }
+                } else if (MimeTypeHelper.getCategory(getContext(), fso).equals("IMAGE")) {
+                    // TODO: generate thumbnail for dynamic image
+                } else {
+                    // Icon is marked as dynamic in mimetypes.properties but wasn't handled above
+                    this.mData[i].mDwIcon = this.mIconHolder.getDrawable(
+                            getContext(), "ic_holo_dark_fs_warning");
+                }
+            } else {
+                // Display icon according to mimetype
+                this.mData[i].mDwIcon = this.mIconHolder.getDrawable(
+                        getContext(),
+                        MimeTypeHelper.getIcon(getContext(), fso));
+            }
             this.mData[i].mName = fso.getName();
             this.mData[i].mSummary = sbSummary.toString();
             this.mData[i].mSize = FileHelper.getHumanReadableSize(fso);
