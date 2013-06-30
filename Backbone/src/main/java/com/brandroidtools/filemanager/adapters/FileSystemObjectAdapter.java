@@ -38,8 +38,10 @@ import com.brandroidtools.filemanager.model.ParentDirectory;
 import com.brandroidtools.filemanager.ui.IconHolder;
 import com.brandroidtools.filemanager.ui.ThemeManager;
 import com.brandroidtools.filemanager.ui.ThemeManager.Theme;
+import com.brandroidtools.filemanager.ui.image.ImageFetcher;
 import com.brandroidtools.filemanager.util.FileHelper;
 import com.brandroidtools.filemanager.util.MimeTypeHelper;
+import com.brandroidtools.filemanager.util.MimeTypeHelper.MimeTypeCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,7 @@ public class FileSystemObjectAdapter
         }
         ImageButton mBtCheck;
         ImageView mIvIcon;
+        ImageView mIvDynamicIcon;
         TextView mTvName;
         TextView mTvSummary;
         TextView mTvSize;
@@ -96,6 +99,7 @@ public class FileSystemObjectAdapter
         String mName;
         String mSummary;
         String mSize;
+        String mImagePath;
         boolean mDynamic;
     }
 
@@ -105,6 +109,7 @@ public class FileSystemObjectAdapter
     private final int mItemViewResourceId;
     private List<FileSystemObject> mSelectedItems;
     private final boolean mPickable;
+    private ImageFetcher mImageFetcher;
 
     private OnSelectionChangedListener mOnSelectionChangedListener;
 
@@ -112,6 +117,8 @@ public class FileSystemObjectAdapter
     private static final int RESOURCE_ITEM_CHECK = R.id.navigation_view_item_check;
     //The resource of the item icon
     private static final int RESOURCE_ITEM_ICON = R.id.navigation_view_item_icon;
+    //The resource of the item icon
+    private static final int RESOURCE_ITEM_DYNAMIC_ICON = R.id.navigation_view_item_dynamic_icon;
     //The resource of the item name
     private static final int RESOURCE_ITEM_NAME = R.id.navigation_view_item_name;
     //The resource of the item summary information
@@ -130,12 +137,13 @@ public class FileSystemObjectAdapter
      */
     public FileSystemObjectAdapter(
             Context context, List<FileSystemObject> files,
-            int itemViewResourceId, boolean pickable) {
+            int itemViewResourceId, boolean pickable, ImageFetcher imageFetcher) {
         super(context, RESOURCE_ITEM_NAME, files);
         this.mIconHolder = new IconHolder();
         this.mItemViewResourceId = itemViewResourceId;
         this.mSelectedItems = new ArrayList<FileSystemObject>();
         this.mPickable = pickable;
+        this.mImageFetcher = imageFetcher;
 
         //Do cache of the data for better performance
         loadDefaultIcons();
@@ -251,8 +259,9 @@ public class FileSystemObjectAdapter
                         }
                         this.mData[i].mDwIcon = appInfo.loadIcon(getContext().getPackageManager());
                     }
-                } else if (MimeTypeHelper.getCategory(getContext(), fso).equals("IMAGE")) {
-                    // TODO: generate thumbnail for dynamic image
+                } else if (MimeTypeHelper.getCategory(getContext(), fso) == MimeTypeCategory.IMAGE) {
+                    // Gather image file path for lazy loading
+                    this.mData[i].mImagePath = fso.getFullPath();
                 } else {
                     // Icon is marked as dynamic in mimetypes.properties but wasn't handled above
                     this.mData[i].mDwIcon = this.mIconHolder.getDrawable(
@@ -285,6 +294,7 @@ public class FileSystemObjectAdapter
             v = li.inflate(this.mItemViewResourceId, parent, false);
             ViewHolder viewHolder = new FileSystemObjectAdapter.ViewHolder();
             viewHolder.mIvIcon = (ImageView)v.findViewById(RESOURCE_ITEM_ICON);
+            viewHolder.mIvDynamicIcon = (ImageView)v.findViewById(RESOURCE_ITEM_DYNAMIC_ICON);
             viewHolder.mTvName = (TextView)v.findViewById(RESOURCE_ITEM_NAME);
             viewHolder.mTvSummary = (TextView)v.findViewById(RESOURCE_ITEM_SUMMARY);
             viewHolder.mTvSize = (TextView)v.findViewById(RESOURCE_ITEM_SIZE);
@@ -303,6 +313,17 @@ public class FileSystemObjectAdapter
 
         //Retrieve the view holder
         ViewHolder viewHolder = (ViewHolder)v.getTag();
+
+        //Handle possible dynamic icons
+
+        if (this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
+            viewHolder.mIvIcon.setVisibility(View.GONE);
+            viewHolder.mIvDynamicIcon.setVisibility(View.VISIBLE);
+            mImageFetcher.loadImage(this.mData[position].mImagePath, viewHolder.mIvDynamicIcon);
+        } else {
+            viewHolder.mIvIcon.setVisibility(View.VISIBLE);
+            viewHolder.mIvDynamicIcon.setVisibility(View.GONE);
+        }
 
         // Apply the current theme
         Theme theme = ThemeManager.getCurrentTheme(getContext());
@@ -380,13 +401,12 @@ public class FileSystemObjectAdapter
         if (this.mData != null) {
             Theme theme = ThemeManager.getCurrentTheme(getContext());
             int cc = this.mData.length;
-            for (int i = 0; i < cc; i++) {
-                DataHolder data = this.mData[i];
+            for (DataHolder data : this.mData) {
                 if (data.mName.compareTo(fso.getName()) == 0) {
                     //Select/Deselect the item
                     data.mSelected = !data.mSelected;
                     if (v != null) {
-                        ((View)v.getParent()).setSelected(data.mSelected);
+                        ((View) v.getParent()).setSelected(data.mSelected);
                     }
                     if (data.mSelected) {
                         data.mDwCheck =
@@ -396,19 +416,19 @@ public class FileSystemObjectAdapter
                         data.mDwCheck =
                                 theme.getDrawable(
                                         getContext(),
-                                            "checkbox_deselected_drawable"); //$NON-NLS-1$
+                                        "checkbox_deselected_drawable"); //$NON-NLS-1$
                     }
                     if (v != null) {
-                        ((ImageView)v).setImageDrawable(data.mDwCheck);
+                        ((ImageView) v).setImageDrawable(data.mDwCheck);
                         if (data.mSelected) {
                             theme.setBackgroundDrawable(
                                     getContext(),
-                                    (View)v.getParent(),
+                                    (View) v.getParent(),
                                     "selectors_selected_drawable"); //$NON-NLS-1$
                         } else {
                             theme.setBackgroundDrawable(
                                     getContext(),
-                                    (View)v.getParent(),
+                                    (View) v.getParent(),
                                     "selectors_deselected_drawable"); //$NON-NLS-1$
                         }
                     }
