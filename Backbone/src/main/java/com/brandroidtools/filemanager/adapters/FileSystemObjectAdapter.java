@@ -100,6 +100,7 @@ public class FileSystemObjectAdapter
         String mSummary;
         String mSize;
         String mImagePath;
+        String mApkPath;
         boolean mDynamic;
     }
 
@@ -244,21 +245,12 @@ public class FileSystemObjectAdapter
                                 getContext(), "checkbox_deselected_drawable"); //$NON-NLS-1$
             }
             this.mData[i].mDynamic = MimeTypeHelper.getIsDynamic(getContext(), fso);
+            this.mData[i].mImagePath = null;
+            this.mData[i].mApkPath = null;
             if (this.mData[i].mDynamic) {
-                // Produce specific icon for file (e.g. apk or image thumbnail)
-                // TODO: Generate lazy loader instead of loading icon during processData()
+                // Produce specific icon for file (e.g. apk or image thumbnail) and store it
                 if (FileHelper.getExtension(fso).equals("apk")) {
-                    String filePath = fso.getFullPath();
-                    PackageInfo packageInfo = getContext().getPackageManager().getPackageArchiveInfo(
-                            filePath, PackageManager.GET_ACTIVITIES);
-                    if (packageInfo != null) {
-                        ApplicationInfo appInfo = packageInfo.applicationInfo;
-                        if (Build.VERSION.SDK_INT >= 8) {
-                            appInfo.sourceDir = filePath;
-                            appInfo.publicSourceDir = filePath;
-                        }
-                        this.mData[i].mDwIcon = appInfo.loadIcon(getContext().getPackageManager());
-                    }
+                    this.mData[i].mApkPath = fso.getFullPath();
                 } else if (MimeTypeHelper.getCategory(getContext(), fso) == MimeTypeCategory.IMAGE) {
                     // Gather image file path for lazy loading
                     this.mData[i].mImagePath = fso.getFullPath();
@@ -314,12 +306,24 @@ public class FileSystemObjectAdapter
         //Retrieve the view holder
         ViewHolder viewHolder = (ViewHolder)v.getTag();
 
-        //Handle possible dynamic icons
-
+        //Gather image thumbnail or generate apk icon if it hasn't been generated yet
         if (this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
             viewHolder.mIvIcon.setVisibility(View.GONE);
             viewHolder.mIvDynamicIcon.setVisibility(View.VISIBLE);
             mImageFetcher.loadImage(this.mData[position].mImagePath, viewHolder.mIvDynamicIcon);
+        } else if (this.mData[position].mApkPath != null
+                && !this.mData[position].mApkPath.isEmpty()
+                && this.mData[position].mDwIcon == null) {
+            PackageInfo packageInfo = getContext().getPackageManager().getPackageArchiveInfo(
+                    this.mData[position].mApkPath, PackageManager.GET_ACTIVITIES);
+            if (packageInfo != null) {
+                ApplicationInfo appInfo = packageInfo.applicationInfo;
+                if (Build.VERSION.SDK_INT >= 8) {
+                    appInfo.sourceDir = this.mData[position].mApkPath;
+                    appInfo.publicSourceDir = this.mData[position].mApkPath;
+                }
+                this.mData[position].mDwIcon = appInfo.loadIcon(getContext().getPackageManager());
+            }
         } else {
             viewHolder.mIvIcon.setVisibility(View.VISIBLE);
             viewHolder.mIvDynamicIcon.setVisibility(View.GONE);
