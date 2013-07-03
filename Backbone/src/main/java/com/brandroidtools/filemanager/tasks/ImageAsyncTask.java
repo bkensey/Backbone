@@ -21,8 +21,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
 
-import com.brandroidtools.filemanager.util.VersionHelper;
-
 import java.util.ArrayDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -226,8 +224,7 @@ public abstract class ImageAsyncTask<Params, Progress, Result> {
      * An {@link java.util.concurrent.Executor} that executes tasks one at a time in serial
      * order.  This serialization is global to a particular process.
      */
-    public static final Executor SERIAL_EXECUTOR = VersionHelper.hasHoneycomb() ? new SerialExecutor() :
-            Executors.newSingleThreadExecutor(sThreadFactory);
+    public static final Executor SERIAL_EXECUTOR =  new SerialExecutor();
 
     public static final Executor DUAL_THREAD_EXECUTOR =
             Executors.newFixedThreadPool(2, sThreadFactory);

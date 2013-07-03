@@ -33,7 +33,6 @@ import android.widget.ImageView;
 
 
 import com.brandroidtools.filemanager.tasks.ImageAsyncTask;
-import com.brandroidtools.filemanager.util.VersionHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -108,7 +107,7 @@ public abstract class ImageWorker {
     /**
      * Set placeholder bitmap that shows when the the background thread is running.
      *
-     * @param bitmap
+     * @param bitmap The bitmap to be used as the 'loading' bitmap
      */
     public void setLoadingImage(Bitmap bitmap) {
         mLoadingBitmap = bitmap;
@@ -291,14 +290,8 @@ public abstract class ImageWorker {
             // here, if it was, and the thread is still running, we may as well add the processed
             // bitmap to our cache as it might be used again in the future
             if (bitmap != null) {
-                if (VersionHelper.hasHoneycomb()) {
-                    // Running on Honeycomb or newer, so wrap in a standard BitmapDrawable
-                    drawable = new BitmapDrawable(mResources, bitmap);
-                } else {
-                    // Running on Gingerbread or older, so wrap in a RecyclingBitmapDrawable
-                    // which will recycle automagically
-                    drawable = new RecyclingBitmapDrawable(mResources, bitmap);
-                }
+                // Running on Honeycomb or newer, so wrap in a standard BitmapDrawable
+                drawable = new BitmapDrawable(mResources, bitmap);
 
                 if (mImageCache != null) {
                     mImageCache.addBitmapToCache(dataString, drawable);

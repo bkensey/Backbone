@@ -24,8 +24,6 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.util.Log;
 
-import com.brandroidtools.filemanager.util.VersionHelper;
-
 import java.io.FileDescriptor;
 
 /**
@@ -43,8 +41,8 @@ public class ImageResizer extends ImageWorker {
      * Initialize providing a single target image size (used for both width and height);
      *
      * @param context
-     * @param imageWidth
-     * @param imageHeight
+     * @param imageWidth Desired image width to be stored for later use
+     * @param imageHeight Desired image height to be stored for later use
      */
     public ImageResizer(Context context, int imageWidth, int imageHeight) {
         super(context);
@@ -55,7 +53,7 @@ public class ImageResizer extends ImageWorker {
      * Initialize providing a single target image size (used for both width and height);
      *
      * @param context
-     * @param imageSize
+     * @param imageSize Desired image height/width to be stored for later use
      */
     public ImageResizer(Context context, int imageSize) {
         super(context);
@@ -65,8 +63,8 @@ public class ImageResizer extends ImageWorker {
     /**
      * Set the target image width and height.
      *
-     * @param width
-     * @param height
+     * @param width Desired image width to be stored for later use
+     * @param height Desired image height to be stored for later use
      */
     public void setImageSize(int width, int height) {
         mImageWidth = width;
@@ -76,7 +74,7 @@ public class ImageResizer extends ImageWorker {
     /**
      * Set the target image size (width and height will be the same).
      *
-     * @param size
+     * @param size Desired image height/width to be stored for later use
      */
     public void setImageSize(int size) {
         setImageSize(size, size);
@@ -86,7 +84,7 @@ public class ImageResizer extends ImageWorker {
      * The main processing method. This happens in a background task. In this case we are just
      * sampling down the bitmap and returning it from a resource.
      *
-     * @param resId
+     * @param resId Resource id of the drawable to be downsized
      * @return
      */
     private Bitmap processBitmap(int resId) {
@@ -186,9 +184,7 @@ public class ImageResizer extends ImageWorker {
         options.inJustDecodeBounds = false;
 
         // If we're running on Honeycomb or newer, try to use inBitmap
-        if (VersionHelper.hasHoneycomb()) {
-            addInBitmapOptions(options, cache);
-        }
+        addInBitmapOptions(options, cache);
 
         return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, options);
     }

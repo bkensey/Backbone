@@ -31,11 +31,8 @@ import android.support.v4.util.LruCache;
 import android.util.Log;
 
 import com.brandroidtools.filemanager.util.DiskLruCache;
-import com.brandroidtools.filemanager.util.VersionHelper;
 
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -133,10 +130,7 @@ public class ImageCache {
                 Log.d(TAG, "Memory cache created (size = " + mCacheParams.memCacheSize + ")");
             }
 
-            // If we're running on Honeycomb or newer, then
-            if (VersionHelper.hasHoneycomb()) {
-                mReusableBitmaps = new HashSet<SoftReference<Bitmap>>();
-            }
+            mReusableBitmaps = new HashSet<SoftReference<Bitmap>>();
 
             mMemoryCache = new LruCache<String, BitmapDrawable>(mCacheParams.memCacheSize) {
 
@@ -146,19 +140,10 @@ public class ImageCache {
                 @Override
                 protected void entryRemoved(boolean evicted, String key,
                         BitmapDrawable oldValue, BitmapDrawable newValue) {
-                    if (RecyclingBitmapDrawable.class.isInstance(oldValue)) {
-                        // The removed entry is a recycling drawable, so notify it
-                        // that it has been removed from the memory cache
-                        ((RecyclingBitmapDrawable) oldValue).setIsCached(false);
-                    } else {
-                        // The removed entry is a standard BitmapDrawable
 
-                        if (VersionHelper.hasHoneycomb()) {
-                            // We're running on Honeycomb or later, so add the bitmap
-                            // to a SoftRefrence set for possible use with inBitmap later
-                            mReusableBitmaps.add(new SoftReference<Bitmap>(oldValue.getBitmap()));
-                        }
-                    }
+                    // Add the bitmap to a SoftRefrence set for possible use with inBitmap later
+                    mReusableBitmaps.add(new SoftReference<Bitmap>(oldValue.getBitmap()));
+
                 }
 
                 /**
@@ -227,11 +212,6 @@ public class ImageCache {
 
         // Add to memory cache
         if (mMemoryCache != null) {
-            if (RecyclingBitmapDrawable.class.isInstance(value)) {
-                // The removed entry is a recycling drawable, so notify it
-                // that it has been added into the memory cache
-                ((RecyclingBitmapDrawable) value).setIsCached(true);
-            }
             mMemoryCache.put(data, value);
         }
 
@@ -537,8 +517,8 @@ public class ImageCache {
     private static String bytesToHexString(byte[] bytes) {
         // http://stackoverflow.com/questions/332079
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-            String hex = Integer.toHexString(0xFF & bytes[i]);
+        for (byte aByte : bytes) {
+            String hex = Integer.toHexString(0xFF & aByte);
             if (hex.length() == 1) {
                 sb.append('0');
             }
@@ -549,18 +529,12 @@ public class ImageCache {
 
     /**
      * Get the size in bytes of a bitmap in a BitmapDrawable.
-     * @param value
+     * @param value BitmapDrawable to get the file size of
      * @return size in bytes
      */
     @TargetApi(12)
     public static int getBitmapSize(BitmapDrawable value) {
-        Bitmap bitmap = value.getBitmap();
-
-        if (VersionHelper.hasHoneycombMR1()) {
-            return bitmap.getByteCount();
-        }
-        // Pre HC-MR1
-        return bitmap.getRowBytes() * bitmap.getHeight();
+        return value.getBitmap().getByteCount();
     }
 
     /**
@@ -571,10 +545,9 @@ public class ImageCache {
      */
     @TargetApi(9)
     public static boolean isExternalStorageRemovable() {
-        if (VersionHelper.hasGingerbread()) {
-            return Environment.isExternalStorageRemovable();
-        }
-        return true;
+
+        return Environment.isExternalStorageRemovable();
+
     }
 
     /**
@@ -585,13 +558,7 @@ public class ImageCache {
      */
     @TargetApi(8)
     public static File getExternalCacheDir(Context context) {
-        if (VersionHelper.hasFroyo()) {
-            return context.getExternalCacheDir();
-        }
-
-        // Before Froyo we need to construct the external cache dir ourselves
-        final String cacheDir = "/Android/data/" + context.getPackageName() + "/cache/";
-        return new File(Environment.getExternalStorageDirectory().getPath() + cacheDir);
+        return context.getExternalCacheDir();
     }
 
     /**
@@ -602,11 +569,7 @@ public class ImageCache {
      */
     @TargetApi(9)
     public static long getUsableSpace(File path) {
-        if (VersionHelper.hasGingerbread()) {
-            return path.getUsableSpace();
-        }
-        final StatFs stats = new StatFs(path.getPath());
-        return (long) stats.getBlockSize() * (long) stats.getAvailableBlocks();
+        return path.getUsableSpace();
     }
 
     /**
