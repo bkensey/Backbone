@@ -631,5 +631,4 @@ public class ImageCache {
             return mObject;
         }
     }
-
 }
