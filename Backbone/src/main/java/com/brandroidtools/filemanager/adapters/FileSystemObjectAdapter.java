@@ -310,6 +310,10 @@ public class FileSystemObjectAdapter
         //Retrieve the view holder
         ViewHolder viewHolder = (ViewHolder)v.getTag();
 
+        //TODO: Handling image thumbnails and apk icons via these extra imageViews is messy and
+        //probably overly memory intensive.  Need to figure out a way to make the imageFetcher
+        //squash those "dyamic" bitmaps into the drawable this thing started out with: mIvIcon
+
         //Gather image thumbnail or generate apk icon if it hasn't been generated yet
         if (this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
             viewHolder.mIvIcon.setVisibility(View.GONE);

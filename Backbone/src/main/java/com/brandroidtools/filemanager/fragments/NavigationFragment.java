@@ -252,8 +252,10 @@ public class NavigationFragment extends Fragment implements
 
         mImageThumbSize = getResources().getDimensionPixelSize(R.dimen.navigation_row_height);
 
+        //TODO: This should also be set every time the view mode (list, grid) is changed
         ImageCacheParams cacheParams = new ImageCacheParams(getActivity(), IMAGE_CACHE_DIR);
 
+        //TODO: Make a way for mImageFetchers to share the same % of cache
         cacheParams.setMemCacheSizePercent(0.25f); // Set memory cache to 25% of app memory
 
         // The ImageFetcher takes care of loading images into our ImageView children asynchronously
