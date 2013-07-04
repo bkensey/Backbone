@@ -78,6 +78,7 @@ public class FileSystemObjectAdapter
         ImageButton mBtCheck;
         ImageView mIvIcon;
         ImageView mIvDynamicIcon;
+        ImageView mIvApkIcon;
         TextView mTvName;
         TextView mTvSummary;
         TextView mTvSize;
@@ -118,6 +119,8 @@ public class FileSystemObjectAdapter
     private static final int RESOURCE_ITEM_CHECK = R.id.navigation_view_item_check;
     //The resource of the item icon
     private static final int RESOURCE_ITEM_ICON = R.id.navigation_view_item_icon;
+    //The resource of the item icon
+    private static final int RESOURCE_ITEM_APK_ICON = R.id.navigation_view_item_apk_icon;
     //The resource of the item icon
     private static final int RESOURCE_ITEM_DYNAMIC_ICON = R.id.navigation_view_item_dynamic_icon;
     //The resource of the item name
@@ -287,6 +290,7 @@ public class FileSystemObjectAdapter
             ViewHolder viewHolder = new FileSystemObjectAdapter.ViewHolder();
             viewHolder.mIvIcon = (ImageView)v.findViewById(RESOURCE_ITEM_ICON);
             viewHolder.mIvDynamicIcon = (ImageView)v.findViewById(RESOURCE_ITEM_DYNAMIC_ICON);
+            viewHolder.mIvApkIcon = (ImageView)v.findViewById(RESOURCE_ITEM_APK_ICON);
             viewHolder.mTvName = (TextView)v.findViewById(RESOURCE_ITEM_NAME);
             viewHolder.mTvSummary = (TextView)v.findViewById(RESOURCE_ITEM_SUMMARY);
             viewHolder.mTvSize = (TextView)v.findViewById(RESOURCE_ITEM_SIZE);
@@ -309,23 +313,19 @@ public class FileSystemObjectAdapter
         //Gather image thumbnail or generate apk icon if it hasn't been generated yet
         if (this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
             viewHolder.mIvIcon.setVisibility(View.GONE);
+            viewHolder.mIvApkIcon.setVisibility(View.GONE);
             viewHolder.mIvDynamicIcon.setVisibility(View.VISIBLE);
             mImageFetcher.loadImage(this.mData[position].mImagePath, viewHolder.mIvDynamicIcon);
         } else if (this.mData[position].mApkPath != null
                 && !this.mData[position].mApkPath.isEmpty()
                 && this.mData[position].mDwIcon == null) {
-            PackageInfo packageInfo = getContext().getPackageManager().getPackageArchiveInfo(
-                    this.mData[position].mApkPath, PackageManager.GET_ACTIVITIES);
-            if (packageInfo != null) {
-                ApplicationInfo appInfo = packageInfo.applicationInfo;
-                if (Build.VERSION.SDK_INT >= 8) {
-                    appInfo.sourceDir = this.mData[position].mApkPath;
-                    appInfo.publicSourceDir = this.mData[position].mApkPath;
-                }
-                this.mData[position].mDwIcon = appInfo.loadIcon(getContext().getPackageManager());
-            }
+            mImageFetcher.loadApkImage(this.mData[position].mApkPath, viewHolder.mIvApkIcon);
+            viewHolder.mIvIcon.setVisibility(View.GONE);
+            viewHolder.mIvApkIcon.setVisibility(View.VISIBLE);
+            viewHolder.mIvDynamicIcon.setVisibility(View.GONE);
         } else {
             viewHolder.mIvIcon.setVisibility(View.VISIBLE);
+            viewHolder.mIvApkIcon.setVisibility(View.GONE);
             viewHolder.mIvDynamicIcon.setVisibility(View.GONE);
         }
 
