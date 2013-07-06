@@ -41,8 +41,8 @@ import java.net.URL;
  * A simple subclass of {@link ImageResizer} that fetches and resizes images fetched from a URL.
  */
 public class ImageFetcher extends ImageResizer {
-    private static final String TAG = "ImageFetcher";
-    private static boolean DEBUG = false;
+    private static final String TAG = "BB.ImageFetcher";
+    private static boolean DEBUG = true;
     private static final int HTTP_CACHE_SIZE = 10 * 1024 * 1024; // 10MB
     private static final String HTTP_CACHE_DIR = "http";
     private static final int IO_BUFFER_SIZE = 8 * 1024;

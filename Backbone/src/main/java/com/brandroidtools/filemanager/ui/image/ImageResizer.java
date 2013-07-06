@@ -194,6 +194,7 @@ public class ImageResizer extends ImageWorker {
         // inBitmap only works with mutable bitmaps so force the decoder to
         // return mutable bitmaps.
         options.inMutable = true;
+        //options.inPurgeable = true;
 
         if (cache != null) {
             // Try and find a bitmap to use for inBitmap

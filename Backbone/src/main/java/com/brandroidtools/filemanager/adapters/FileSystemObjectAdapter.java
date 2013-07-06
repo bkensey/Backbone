@@ -23,6 +23,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.brandroidtools.filemanager.R;
@@ -77,8 +79,6 @@ public class FileSystemObjectAdapter
         }
         ImageButton mBtCheck;
         ImageView mIvIcon;
-        ImageView mIvDynamicIcon;
-        ImageView mIvApkIcon;
         TextView mTvName;
         TextView mTvSummary;
         TextView mTvSize;
@@ -101,7 +101,6 @@ public class FileSystemObjectAdapter
         String mSummary;
         String mSize;
         String mImagePath;
-        String mApkPath;
         boolean mDynamic;
     }
 
@@ -119,10 +118,6 @@ public class FileSystemObjectAdapter
     private static final int RESOURCE_ITEM_CHECK = R.id.navigation_view_item_check;
     //The resource of the item icon
     private static final int RESOURCE_ITEM_ICON = R.id.navigation_view_item_icon;
-    //The resource of the item icon
-    private static final int RESOURCE_ITEM_APK_ICON = R.id.navigation_view_item_apk_icon;
-    //The resource of the item icon
-    private static final int RESOURCE_ITEM_DYNAMIC_ICON = R.id.navigation_view_item_dynamic_icon;
     //The resource of the item name
     private static final int RESOURCE_ITEM_NAME = R.id.navigation_view_item_name;
     //The resource of the item summary information
@@ -249,11 +244,10 @@ public class FileSystemObjectAdapter
             }
             this.mData[i].mDynamic = MimeTypeHelper.getIsDynamic(getContext(), fso);
             this.mData[i].mImagePath = null;
-            this.mData[i].mApkPath = null;
             if (this.mData[i].mDynamic) {
                 // Produce specific icon for file (e.g. apk or image thumbnail) and store it
                 if (FileHelper.getExtension(fso).equals("apk")) {
-                    this.mData[i].mApkPath = fso.getFullPath();
+                    this.mData[i].mImagePath = fso.getFullPath();
                 } else if (MimeTypeHelper.getCategory(getContext(), fso) == MimeTypeCategory.IMAGE) {
                     // Gather image file path for lazy loading
                     this.mData[i].mImagePath = fso.getFullPath();
@@ -289,8 +283,6 @@ public class FileSystemObjectAdapter
             v = li.inflate(this.mItemViewResourceId, parent, false);
             ViewHolder viewHolder = new FileSystemObjectAdapter.ViewHolder();
             viewHolder.mIvIcon = (ImageView)v.findViewById(RESOURCE_ITEM_ICON);
-            viewHolder.mIvDynamicIcon = (ImageView)v.findViewById(RESOURCE_ITEM_DYNAMIC_ICON);
-            viewHolder.mIvApkIcon = (ImageView)v.findViewById(RESOURCE_ITEM_APK_ICON);
             viewHolder.mTvName = (TextView)v.findViewById(RESOURCE_ITEM_NAME);
             viewHolder.mTvSummary = (TextView)v.findViewById(RESOURCE_ITEM_SUMMARY);
             viewHolder.mTvSize = (TextView)v.findViewById(RESOURCE_ITEM_SIZE);
@@ -316,21 +308,16 @@ public class FileSystemObjectAdapter
 
         //Gather image thumbnail or generate apk icon if it hasn't been generated yet
         if (this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
-            viewHolder.mIvIcon.setVisibility(View.GONE);
-            viewHolder.mIvApkIcon.setVisibility(View.GONE);
-            viewHolder.mIvDynamicIcon.setVisibility(View.VISIBLE);
-            mImageFetcher.loadImage(this.mData[position].mImagePath, viewHolder.mIvDynamicIcon);
-        } else if (this.mData[position].mApkPath != null
-                && !this.mData[position].mApkPath.isEmpty()
-                && this.mData[position].mDwIcon == null) {
-            mImageFetcher.loadApkImage(this.mData[position].mApkPath, viewHolder.mIvApkIcon);
-            viewHolder.mIvIcon.setVisibility(View.GONE);
-            viewHolder.mIvApkIcon.setVisibility(View.VISIBLE);
-            viewHolder.mIvDynamicIcon.setVisibility(View.GONE);
+            viewHolder.mIvIcon.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            RelativeLayout.LayoutParams lp = ((RelativeLayout.LayoutParams)viewHolder.mIvIcon.getLayoutParams());
+//            if(lp != null)
+//            {
+//                lp.setMargins(0, 0, 0, 0);
+//                viewHolder.mIvIcon.setLayoutParams(lp);
+//            }
+            mImageFetcher.loadImage(this.mData[position].mImagePath, viewHolder.mIvIcon);
         } else {
-            viewHolder.mIvIcon.setVisibility(View.VISIBLE);
-            viewHolder.mIvApkIcon.setVisibility(View.GONE);
-            viewHolder.mIvDynamicIcon.setVisibility(View.GONE);
+            viewHolder.mIvIcon.setImageDrawable(dataHolder.mDwIcon);
         }
 
         // Apply the current theme
@@ -351,7 +338,6 @@ public class FileSystemObjectAdapter
         }*/
 
         //Set the data
-        viewHolder.mIvIcon.setImageDrawable(dataHolder.mDwIcon);
         viewHolder.mTvName.setText(dataHolder.mName);
         if (viewHolder.mTvSummary != null) {
             viewHolder.mTvSummary.setText(dataHolder.mSummary);
