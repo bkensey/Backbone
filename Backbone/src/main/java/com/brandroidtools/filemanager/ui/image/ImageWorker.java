@@ -16,7 +16,6 @@
 
 package com.brandroidtools.filemanager.ui.image;
 
-
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -34,7 +33,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.widget.ImageView;
-
 
 import com.brandroidtools.filemanager.tasks.ImageAsyncTask;
 
@@ -282,7 +280,7 @@ public abstract class ImageWorker {
     /**
      * The actual ImageAsyncTask that will asynchronously process the image.
      */
-    private class BitmapWorkerTask extends AsyncTask<Object, Void, BitmapDrawable> {
+    private class BitmapWorkerTask extends ImageAsyncTask<Object, Void, BitmapDrawable> {
         private Object data;
         private final WeakReference<ImageView> imageViewReference;
 
@@ -413,7 +411,7 @@ public abstract class ImageWorker {
     /**
      * The actual ImageAsyncTask that will asynchronously process the image.
      */
-    private class ApkBitmapWorkerTask extends AsyncTask<Object, Void, BitmapDrawable> {
+    private class ApkBitmapWorkerTask extends ImageAsyncTask<Object, Void, BitmapDrawable> {
         private Object data;
         private final WeakReference<ImageView> imageViewReference;
 
@@ -625,7 +623,7 @@ public abstract class ImageWorker {
         }
     }
 
-    protected class CacheAsyncTask extends AsyncTask<Object, Void, Void> {
+    protected class CacheAsyncTask extends ImageAsyncTask<Object, Void, Void> {
 
         @Override
         protected Void doInBackground(Object... params) {
