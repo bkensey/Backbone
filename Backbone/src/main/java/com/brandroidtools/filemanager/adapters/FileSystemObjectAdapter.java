@@ -275,7 +275,7 @@ public class FileSystemObjectAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //Check to reuse view
-        View v = convertView;
+        View v = null;
         if (v == null) {
             //Create the view holder
             LayoutInflater li =
@@ -309,12 +309,12 @@ public class FileSystemObjectAdapter
         //Gather image thumbnail or generate apk icon if it hasn't been generated yet
         if (this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
             viewHolder.mIvIcon.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//            RelativeLayout.LayoutParams lp = ((RelativeLayout.LayoutParams)viewHolder.mIvIcon.getLayoutParams());
-//            if(lp != null)
-//            {
-//                lp.setMargins(0, 0, 0, 0);
-//                viewHolder.mIvIcon.setLayoutParams(lp);
-//            }
+            RelativeLayout.LayoutParams lp = ((RelativeLayout.LayoutParams)viewHolder.mIvIcon.getLayoutParams());
+            if(lp != null)
+            {
+                lp.setMargins(0, 0, 0, 0);
+                viewHolder.mIvIcon.setLayoutParams(lp);
+            }
             mImageFetcher.loadImage(this.mData[position].mImagePath, viewHolder.mIvIcon);
         } else {
             viewHolder.mIvIcon.setImageDrawable(dataHolder.mDwIcon);

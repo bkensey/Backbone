@@ -506,10 +506,10 @@ public class NavigationFragment extends Fragment implements
         if (this.mChRooted) {
             // Initial directory is the first external sdcard (sdcard, emmc, usb, ...)
             if (!StorageHelper.isPathInStorageVolume(initialDir)) {
-                FileSystemStorageVolume[] volumes =
+                Object[] volumes =
                         StorageHelper.getStorageVolumes(mActivity);
                 if (volumes != null && volumes.length > 0) {
-                    initialDir = volumes[0].getPath();
+                    initialDir = StorageHelper.getStoragePath(volumes[0]);
                     //Ensure that initial directory is an absolute directory
                     initialDir = FileHelper.getAbsPath(initialDir);
                 } else {
@@ -1659,9 +1659,9 @@ public class NavigationFragment extends Fragment implements
 
         // Check if the path is owned by one of the storage volumes
         if (!StorageHelper.isPathInStorageVolume(newDir)) {
-            FileSystemStorageVolume[] volumes = StorageHelper.getStorageVolumes(mActivity);
+            Object[] volumes = StorageHelper.getStorageVolumes(mActivity);
             if (volumes != null && volumes.length > 0) {
-                return volumes[0].getPath();
+                return StorageHelper.getStoragePath(volumes[0]);
             }
         }
         return newDir;
