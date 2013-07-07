@@ -17,16 +17,21 @@ package com.brandroidtools.filemanager.util;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.UserHandle;
 import android.os.storage.StorageManager;
 import android.util.Log;
 
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
+import com.brandroidtools.filemanager.model.Directory;
 import com.brandroidtools.filemanager.model.StorageVolume;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -57,34 +62,21 @@ public final class StorageHelper {
                 sStorageVolumes = (Object[])method.invoke(sm);
 
             } catch (Exception ex) {
-                if(DEBUG)
-                    Log.w(TAG, "Unable to getStorageVolumes", ex);
                 //Ignore. Android SDK StorageManager class doesn't have this method
                 //Use default android information from environment
                 try {
-                    File externalStorage = Environment.getExternalStorageDirectory();
-                    String path = externalStorage.getCanonicalPath();
-                    String description = null;
-                    if (path.toLowerCase().indexOf("usb") != -1) { //$NON-NLS-1$
-                        description = ctx.getString(R.string.usb_storage);
-                    } else {
-                        description = ctx.getString(R.string.external_storage);
+                    List<StorageVolume> lst = new ArrayList<StorageVolume>();
+                    lst.add(convertToStorageVolume(getInternalStorageDirectory()));
+                    for(File f : getExternalStorageParent().listFiles())
+                    {
+                        if(f.getName().indexOf("usb") == -1 && (
+                                f.getName().equalsIgnoreCase("emulated") ||
+                                f.getName().indexOf("0") > -1)) continue;
+                        StorageVolume sv = convertToStorageVolume(f);
+                        if(sv == null) continue;
+                        lst.add(sv);
                     }
-                    // Android SDK has a different constructor for StorageVolume. In CM10 the
-                    // description is a resource id. Create the object by reflection
-                    Constructor<StorageVolume> constructor =
-                            StorageVolume.class.
-                                getConstructor(
-                                        String.class,
-                                        String.class,
-                                        boolean.class,
-                                        boolean.class,
-                                        int.class,
-                                        boolean.class,
-                                        long.class);
-                    StorageVolume sv =
-                            constructor.newInstance(path, description, false, false, 0, false, 0);
-                    sStorageVolumes = new StorageVolume[]{sv};
+                    sStorageVolumes = lst.toArray(new StorageVolume[lst.size()]);
                 } catch (Exception ex2) {
                     /**NON BLOCK**/
                 }
@@ -94,6 +86,60 @@ public final class StorageHelper {
             }
         }
         return sStorageVolumes;
+    }
+
+    private static StorageVolume convertToStorageVolume(File f)
+    {
+        String path = f.getPath();
+        try {
+            path = f.getCanonicalPath();
+        } catch(Exception e) { }
+        int description = R.string.internal_storage;
+        if (path.toLowerCase().indexOf("usb") != -1) //$NON-NLS-1$
+            description = R.string.usb_storage;
+        else if(path.toLowerCase().indexOf("ext") > -1 ||
+                path.indexOf("1") > -1)
+            description = R.string.external_storage;
+        return new StorageVolume(f, description, false,
+                description == R.string.usb_storage, false, 0, false, 0, null);
+    }
+
+    private static File getInternalStorageDirectory()
+    {
+        return Environment.getExternalStorageDirectory();
+    }
+
+    private static File getExternalStorageParent()
+    {
+        File parent = getInternalStorageDirectory().getParentFile();
+        if(new File("/storage").exists())
+            parent = new File("/storage");
+        else if(new File("/Removable").exists())
+            parent = new File("/Removable");
+        else
+            while(true)
+                try {
+                    String path = parent.getCanonicalPath();
+                    if (path.split("/").length <= 2) break;
+                    parent = parent.getParentFile();
+                } catch (Exception e) {
+                }
+        return parent;
+    }
+    private static File getExternalStorageDirectory()
+    {
+        File parent = getExternalStorageParent();
+        for(String s : parent.list())
+            if(s.indexOf("ext") > -1 || s.indexOf("sdcard1") > -1)
+                return new File(s);
+        File f = new File("/Removable");
+        if(f.exists())
+        {
+            for(String s : f.list())
+                if(s.toLowerCase(Locale.US).indexOf("ext") > -1)
+                    return new File(s);
+        }
+        return getInternalStorageDirectory();
     }
 
     /**
