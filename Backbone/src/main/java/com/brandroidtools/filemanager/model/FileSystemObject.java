@@ -297,23 +297,6 @@ public abstract class FileSystemObject implements Serializable, Comparable<FileS
     }
 
     /**
-     * Method to determine the directory depth of the file system object.
-     *
-     * @return
-     */
-    public int getDepth()
-    {
-        if(mParent == null)
-            return 0;
-        return mParent.split("/").length;
-    }
-
-    public File getFile()
-    {
-        return new File(FileHelper.addTrailingSlash(mParent) + mName);
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

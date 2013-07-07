@@ -24,12 +24,15 @@ import android.util.Log;
 import com.brandroidtools.filemanager.FileManagerApplication;
 import com.brandroidtools.filemanager.R;
 import com.brandroidtools.filemanager.model.Directory;
+import com.brandroidtools.filemanager.model.FileSystemObject;
+import com.brandroidtools.filemanager.model.MountPoint;
 import com.brandroidtools.filemanager.model.StorageVolume;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,7 +41,7 @@ import java.util.Locale;
  * A helper class with useful methods for deal with storages.
  */
 public final class StorageHelper {
-    private final static String TAG = "BB.StorageHelper";
+    private final static String TAG = "StorageHelper";
     private final static boolean DEBUG = true;
 
     private static Object[] sStorageVolumes;
@@ -65,20 +68,30 @@ public final class StorageHelper {
                 //Ignore. Android SDK StorageManager class doesn't have this method
                 //Use default android information from environment
                 try {
-                    List<StorageVolume> lst = new ArrayList<StorageVolume>();
-                    lst.add(convertToStorageVolume(getInternalStorageDirectory()));
-                    for(File f : getExternalStorageParent().listFiles())
+                    HashMap<String, StorageVolume> lst = new HashMap<String, StorageVolume>();
+                    //lst.add(convertToStorageVolume(getInternalStorageDirectory()));
+                    for(MountPoint mp : CommandHelper.getMountPoints(ctx, null))
                     {
-                        if(f.getName().indexOf("usb") == -1 && (
-                                f.getName().equalsIgnoreCase("emulated") ||
-                                f.getName().indexOf("0") > -1)) continue;
-                        StorageVolume sv = convertToStorageVolume(f);
+                        if(!MountPointHelper.isReadWrite(mp)) continue;
+                        String path = mp.getMountPoint();
+                        if(!mp.getDevice().startsWith("/")) continue;
+                        if(path.matches("^\\/(dev|persist|cache|proc|efs|data)"))
+                           continue;
+                        StorageVolume sv = null;
+                        try {
+                            if(MountPointHelper.getMountPointDiskUsage(mp).getTotal() < 5000000)
+                                continue;
+                            FileSystemObject fso = CommandHelper.getFileInfo(ctx, path, null);
+                            sv = convertToStorageVolume(fso);
+                        } catch(Exception e3) { }
                         if(sv == null) continue;
-                        lst.add(sv);
+                        if(!lst.containsKey(mp.getDevice())) // Only one volume per device
+                            lst.put(mp.getDevice(), sv);
                     }
-                    sStorageVolumes = lst.toArray(new StorageVolume[lst.size()]);
+                    sStorageVolumes = lst.values().toArray(new StorageVolume[lst.size()]);
                 } catch (Exception ex2) {
-                    /**NON BLOCK**/
+                    if(DEBUG)
+                        Log.e(TAG, "Unable to fallback to getStorageVolumes", ex2);
                 }
             }
             if (sStorageVolumes == null) {
@@ -88,58 +101,17 @@ public final class StorageHelper {
         return sStorageVolumes;
     }
 
-    private static StorageVolume convertToStorageVolume(File f)
+    private static StorageVolume convertToStorageVolume(FileSystemObject fso)
     {
-        String path = f.getPath();
-        try {
-            path = f.getCanonicalPath();
-        } catch(Exception e) { }
+        String path = fso.getFullPath();
         int description = R.string.internal_storage;
         if (path.toLowerCase().indexOf("usb") != -1) //$NON-NLS-1$
             description = R.string.usb_storage;
         else if(path.toLowerCase().indexOf("ext") > -1 ||
                 path.indexOf("1") > -1)
             description = R.string.external_storage;
-        return new StorageVolume(f, description, false,
+        return new StorageVolume(FileHelper.getFile(fso), description, false,
                 description == R.string.usb_storage, false, 0, false, 0, null);
-    }
-
-    private static File getInternalStorageDirectory()
-    {
-        return Environment.getExternalStorageDirectory();
-    }
-
-    private static File getExternalStorageParent()
-    {
-        File parent = getInternalStorageDirectory().getParentFile();
-        if(new File("/storage").exists())
-            parent = new File("/storage");
-        else if(new File("/Removable").exists())
-            parent = new File("/Removable");
-        else
-            while(true)
-                try {
-                    String path = parent.getCanonicalPath();
-                    if (path.split("/").length <= 2) break;
-                    parent = parent.getParentFile();
-                } catch (Exception e) {
-                }
-        return parent;
-    }
-    private static File getExternalStorageDirectory()
-    {
-        File parent = getExternalStorageParent();
-        for(String s : parent.list())
-            if(s.indexOf("ext") > -1 || s.indexOf("sdcard1") > -1)
-                return new File(s);
-        File f = new File("/Removable");
-        if(f.exists())
-        {
-            for(String s : f.list())
-                if(s.toLowerCase(Locale.US).indexOf("ext") > -1)
-                    return new File(s);
-        }
-        return getInternalStorageDirectory();
     }
 
     /**
