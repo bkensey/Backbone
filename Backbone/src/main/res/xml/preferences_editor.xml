@@ -66,7 +66,7 @@
                 android:title="@string/pref_syntax_highlight_color_scheme"
                 android:summary="@string/pref_syntax_highlight_color_scheme_desc"
                 android:dependency="cm_filemanager_editor_syntax_highlight"
-                android:fragment="com.brandroidtools.filemanager.activities.preferences.EditorSHColorSchemePreferenceFragment"/>
+                android:fragment="me.toolify.backbone.activities.preferences.EditorSHColorSchemePreferenceFragment"/>
 
     </PreferenceCategory>
 

@@ -56,7 +56,7 @@
         <requestFocus/>
     </EditText>
 
-    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
+    <me.toolify.backbone.ui.widgets.ButtonItem
             android:id="@+id/inline_autocomplete_button_tab"
             android:layout_width="@dimen/small_buttom_width"
             android:layout_height="@dimen/small_buttom_width"

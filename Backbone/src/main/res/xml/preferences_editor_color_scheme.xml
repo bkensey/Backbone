@@ -37,49 +37,49 @@
                 android:persistent="false"/>
 
         <!-- Text -->
-        <com.brandroidtools.filemanager.ui.preferences.ColorPickerPreference
+        <me.toolify.backbone.ui.preferences.ColorPickerPreference
                 android:key="ash_text"
                 android:title="@string/ash_text"
                 android:persistent="false"
                 android:defaultValue="@color/ash_text_color"/>
 
         <!-- Assignment -->
-        <com.brandroidtools.filemanager.ui.preferences.ColorPickerPreference
+        <me.toolify.backbone.ui.preferences.ColorPickerPreference
                 android:key="ash_assignment"
                 android:title="@string/ash_assignment"
                 android:persistent="false"
                 android:defaultValue="@color/ash_assignment_color"/>
 
         <!-- Single-Line comment -->
-        <com.brandroidtools.filemanager.ui.preferences.ColorPickerPreference
+        <me.toolify.backbone.ui.preferences.ColorPickerPreference
                 android:key="ash_singleline_comment"
                 android:title="@string/ash_singleline_comment"
                 android:persistent="false"
                 android:defaultValue="@color/ash_singleline_comment_color"/>
 
         <!-- Multi-Line comment -->
-        <com.brandroidtools.filemanager.ui.preferences.ColorPickerPreference
+        <me.toolify.backbone.ui.preferences.ColorPickerPreference
                 android:key="ash_multiline_comment"
                 android:title="@string/ash_multiline_comment"
                 android:persistent="false"
                 android:defaultValue="@color/ash_multiline_comment_color"/>
 
         <!-- Keyword -->
-        <com.brandroidtools.filemanager.ui.preferences.ColorPickerPreference
+        <me.toolify.backbone.ui.preferences.ColorPickerPreference
                 android:key="ash_keyword"
                 android:title="@string/ash_keyword"
                 android:persistent="false"
                 android:defaultValue="@color/ash_keyword_color"/>
 
         <!-- Quoted string -->
-        <com.brandroidtools.filemanager.ui.preferences.ColorPickerPreference
+        <me.toolify.backbone.ui.preferences.ColorPickerPreference
                 android:key="ash_quoted_string"
                 android:title="@string/ash_quoted_string"
                 android:persistent="false"
                 android:defaultValue="@color/ash_quoted_string_color"/>
 
         <!-- Variable -->
-        <com.brandroidtools.filemanager.ui.preferences.ColorPickerPreference
+        <me.toolify.backbone.ui.preferences.ColorPickerPreference
                 android:key="ash_variable"
                 android:title="@string/ash_variable"
                 android:persistent="false"

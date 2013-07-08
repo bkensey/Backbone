@@ -30,7 +30,7 @@
             android:textAppearance="@style/primary_text_appearance"
             android:textStyle="normal"/>
 
-    <com.brandroidtools.filemanager.ui.widgets.DirectoryInlineAutocompleteTextView
+    <me.toolify.backbone.ui.widgets.DirectoryInlineAutocompleteTextView
             android:id="@+id/initial_directory_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -23,7 +23,7 @@
             android:title="@string/pref_themes_selection_category">
 
         <!-- Themes selector -->
-        <com.brandroidtools.filemanager.ui.preferences.ThemeSelectorPreference
+        <me.toolify.backbone.ui.preferences.ThemeSelectorPreference
                 android:key="cm_filemanager_theme"
                 android:persistent="true"
                 android:defaultValue="com.brandroidtools.filemanager:light"/>

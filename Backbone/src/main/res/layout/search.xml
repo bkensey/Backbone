@@ -70,7 +70,7 @@
           android:textAppearance="@style/secondary_text_appearance" />
       </RelativeLayout>-->
 
-    <com.brandroidtools.filemanager.ui.widgets.FlingerListView
+    <me.toolify.backbone.ui.widgets.FlingerListView
             android:id="@+id/search_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

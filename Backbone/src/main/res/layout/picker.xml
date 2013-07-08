@@ -23,7 +23,7 @@
         android:orientation="vertical">
 
     <!-- Breadcrumb -->
-    <com.brandroidtools.filemanager.ui.widgets.BreadcrumbView
+    <me.toolify.backbone.ui.widgets.BreadcrumbView
             android:id="@+id/breadcrumb_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_row_height"
@@ -34,7 +34,7 @@
 
     <!-- Picker Navigation View -->
     <fragment
-            android:name="com.brandroidtools.filemanager.fragments.NavigationFragment"
+            android:name="me.toolify.backbone.fragments.NavigationFragment"
             android:id="@+id/navigation_fragment"
             android:layout_weight="1"
             android:layout_width="0dp"

@@ -19,7 +19,7 @@
               android:layout_height="match_parent"
               android:orientation="horizontal">
 
-    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
+    <me.toolify.backbone.ui.widgets.ButtonItem
             android:id="@+id/ab_selection_done"
             android:layout_width="@dimen/small_buttom_width"
             android:layout_height="@dimen/small_buttom_width"

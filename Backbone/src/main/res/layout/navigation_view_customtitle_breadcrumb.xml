@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <com.brandroidtools.filemanager.ui.widgets.ButtonItem
+    <me.toolify.backbone.ui.widgets.ButtonItem
             android:id="@+id/ab_configuration"
             style="@style/breadcrumb_actionbar_buttom"
             android:layout_width="wrap_content"
@@ -29,7 +29,7 @@
             android:onClick="onActionBarItemClick"
             android:src="@drawable/ic_holo_light_expander_open"/>
 
-    <com.brandroidtools.filemanager.ui.widgets.BreadcrumbView
+    <me.toolify.backbone.ui.widgets.BreadcrumbView
             android:id="@+id/breadcrumb_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

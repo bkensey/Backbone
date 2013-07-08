@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<com.brandroidtools.filemanager.ui.preferences.ThemeView
+<me.toolify.backbone.ui.preferences.ThemeView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="1dp"
         android:layout_height="match_parent">
@@ -71,4 +71,4 @@
                 android:contentDescription="@null"/>
     </LinearLayout>
 
-</com.brandroidtools.filemanager.ui.preferences.ThemeView>
+</me.toolify.backbone.ui.preferences.ThemeView>

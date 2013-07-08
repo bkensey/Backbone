@@ -67,7 +67,7 @@
                 android:layout_marginLeft="@dimen/default_margin"
                 android:orientation="horizontal">
 
-            <com.brandroidtools.filemanager.ui.widgets.RelevanceView
+            <me.toolify.backbone.ui.widgets.RelevanceView
                     android:id="@+id/search_item_relevance"
                     android:layout_width="@dimen/relevance_item_width"
                     android:layout_height="@dimen/relevance_item_height"

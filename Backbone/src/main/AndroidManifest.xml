@@ -15,7 +15,7 @@
  -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.brandroidtools.filemanager"
+  package="me.toolify.backbone"
   android:versionCode="101"
   android:versionName="1.0.1">
 
@@ -45,12 +45,12 @@
 
     <provider
       android:name=".providers.RecentSearchesContentProvider"
-      android:authorities="com.brandroidtools.filemanager.providers.recentsearches"
+      android:authorities="me.toolify.backbone.providers.recentsearches"
       android:exported="false" />
 
     <provider
       android:name=".providers.BookmarksContentProvider"
-      android:authorities="com.brandroidtools.filemanager.providers.bookmarks"
+      android:authorities="me.toolify.backbone.providers.bookmarks"
       android:exported="false" />
 
     <activity
