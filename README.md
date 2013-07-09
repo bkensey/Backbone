@@ -33,5 +33,3 @@ License
 ----
 This application uses also third party libraries. Checkout the license individual
 license of every library in libs folder.
-
-Copyright © 2012 The CyanogenMod Project
