@@ -20,7 +20,7 @@
     <!-- The name of the application -->
     <string name="app_name">Backbone</string>
     <!-- The description of the application -->
-    <string name="app_description">A CyanogenMod file manager.</string>
+    <string name="app_description">A 4.0+ file manager.</string>
 
     <!-- Human readable sizes -->
     <string name="size_bytes" translatable="false">B</string>
