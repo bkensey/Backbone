@@ -1011,4 +1011,7 @@
         \n\nThe Toolify\\CyanogenMod Team.\n
     </string>
 
+    <string name="dashclock_extension_title">Backbone extension</string>
+    <string name="dashclock_extension_description">Display filesystem status.</string>
+
 </resources>
