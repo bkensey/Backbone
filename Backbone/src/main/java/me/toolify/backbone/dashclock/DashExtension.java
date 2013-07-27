@@ -34,10 +34,7 @@ public class DashExtension extends DashClockExtension {
             {
                 String desc = StorageHelper.getStorageVolumeDescription(this, storage);
                 String path = StorageHelper.getStoragePath(storage);
-                boolean useMe = true;
-                MountPoint mp = MountPointHelper.getMountPointFromDirectory(path);
-                if(mp.getOptions().indexOf("mode=0")>-1) useMe = false; // Cyanogenmod USB workaround
-                if(!MountPointHelper.isReadWrite(mp)) useMe = false;
+                boolean useMe = StorageHelper.isValidMount(path);
                 if(!prefs.getBoolean("storage_" + path, useMe)) continue;
                 DiskUsage du = CommandHelper.getDiskUsage(this, path, null);
                 long usage = showFree ? du.getFree() : du.getUsed();
