@@ -1,6 +1,7 @@
 package me.toolify.backbone.dashclock;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.android.apps.dashclock.api.DashClockExtension;
@@ -23,13 +24,9 @@ public class DashExtension extends DashClockExtension {
 
     @Override
     protected void onUpdateData(int reason) {
-        publishUpdate(new ExtensionData()
-                .status("Loading")
-                .visible(true)
-                .icon(R.drawable.ic_launcher)
-                .expandedTitle("Backbone loading...")
-                .clickIntent(new Intent(this, NavigationActivity.class))
-        );
+        final SharedPreferences prefs = getSharedPreferences("dashclock", MODE_PRIVATE);
+        final boolean showFree = prefs.getBoolean("usage", true);
+        int icon = prefs.getInt("icon", R.drawable.ic_holo_dark_sdcard);
         try {
             StringBuilder sbBody = new StringBuilder();
             long free = 0, total = 0;
@@ -37,14 +34,18 @@ public class DashExtension extends DashClockExtension {
             {
                 String desc = StorageHelper.getStorageVolumeDescription(this, storage);
                 String path = StorageHelper.getStoragePath(storage);
+                boolean useMe = true;
                 MountPoint mp = MountPointHelper.getMountPointFromDirectory(path);
-                if(!MountPointHelper.isReadWrite(mp)) continue;
+                if(mp.getOptions().indexOf("mode=0")>-1) useMe = false; // Cyanogenmod USB workaround
+                if(!MountPointHelper.isReadWrite(mp)) useMe = false;
+                if(!prefs.getBoolean("storage_" + path, useMe)) continue;
                 DiskUsage du = CommandHelper.getDiskUsage(this, path, null);
-                if(mp.getOptions().indexOf("mode=0")>-1) continue; // Cyanogenmod USB workaround
-                if(du.getTotal() == 0) continue;
-                free += du.getFree();
+                long usage = showFree ? du.getFree() : du.getUsed();
+                free += usage;
                 total += du.getTotal();
-                sbBody.append(desc + ": " + FileHelper.getHumanReadableSize(du.getFree()) + "/" + FileHelper.getHumanReadableSize(du.getTotal()) + "\n");
+                sbBody.append(desc + ": " +
+                        FileHelper.getHumanReadableSize(usage) + "/" +
+                        FileHelper.getHumanReadableSize(du.getTotal()) + "\n");
             }
             if(sbBody.length() == 0) {
                 publishUpdate(new ExtensionData().visible(false));
@@ -52,10 +53,12 @@ public class DashExtension extends DashClockExtension {
             }
             sbBody.setLength(sbBody.length() - 1);
             publishUpdate(new ExtensionData()
-                    .icon(R.drawable.ic_sdcard_drawable)
+                    .icon(icon)
                     .visible(true)
-                    .status(FileHelper.getHumanReadableSize(total))
-                    .expandedTitle("Total: " + FileHelper.getHumanReadableSize(free) + "/" + FileHelper.getHumanReadableSize(total))
+                    .status(FileHelper.getHumanReadableSize(free))
+                    .expandedTitle("Total: " +
+                            FileHelper.getHumanReadableSize(free) + "/" +
+                            FileHelper.getHumanReadableSize(total))
                     .expandedBody(sbBody.toString())
                     .clickIntent(new Intent(this, NavigationActivity.class))
             );
