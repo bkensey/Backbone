@@ -773,7 +773,8 @@ public class NavigationActivity extends Activity
                 break;
 
             case R.id.mnu_actions_properties_current_folder:
-                openPropertiesDialog(getCurrentNavigationFragment().getCurrentDir());
+
+                openPropertiesDrawer(getCurrentNavigationFragment().getCurrentDir());
                 break;
 
             //- Add to bookmarks
@@ -1388,7 +1389,7 @@ public class NavigationActivity extends Activity
         }
     }
 
-    private void openPropertiesDialog(Object item) {
+    public void openPropertiesDrawer(Object item) {
         // Resolve the full path
         String path = String.valueOf(item);
         if (item instanceof FileSystemObject) {
