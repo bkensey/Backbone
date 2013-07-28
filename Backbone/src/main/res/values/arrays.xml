@@ -124,4 +124,11 @@
         <item>@drawable/ic_fso_default_drawable</item>
     </integer-array>
 
+    <integer-array name="dash_icons">
+        <item>@drawable/ic_holo_dark_sdcard</item>
+        <item>@drawable/ic_indicator_holo_dark_folder</item>
+        <item>@drawable/ic_fso_type_cdimage</item>
+        <item>@drawable/ic_fso_type_database</item>
+        <item>@drawable/ic_holo_dark_usb</item>
+    </integer-array>
 </resources>
