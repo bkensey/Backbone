@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
@@ -1321,6 +1322,13 @@ public class NavigationActivity extends Activity
         inputNameDialog.show();
     }
 
+    private static int getFileTypeIcon(Context context, int position)
+    {
+        TypedArray ar = context.getResources().obtainTypedArray(R.array.file_type_icons);
+        if(position < 0 || position > ar.length()) return 0;
+        return ar.getResourceId(position, 0);
+    }
+
     private void showFileTypeDialog(final DialogInterface.OnClickListener onclick)
     {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -1330,12 +1338,14 @@ public class NavigationActivity extends Activity
                 View ret = super.getView(position, convertView, parent);
                 if(ret instanceof TextView)
                 {
-                    int res = R.drawable.ic_fso_folder_drawable;
-                    if(position == 1)
-                        res = R.drawable.ic_fso_default_drawable;
-                    Drawable d = getResources().getDrawable(res);
-                    ((TextView)ret).setCompoundDrawablePadding(8);
-                    ((TextView)ret).setCompoundDrawablesRelativeWithIntrinsicBounds(d, null, null, null);
+                    int res = getFileTypeIcon(getContext(), position);
+                    if(res > 0)
+                    {
+                        Drawable d = getResources().getDrawable(res);
+                        ((TextView)ret).setCompoundDrawablePadding(8);
+                        ((TextView)ret).setCompoundDrawablesRelativeWithIntrinsicBounds(
+                                d, null, null, null);
+                    }
                     return ret;
                 }
                 return ret;
