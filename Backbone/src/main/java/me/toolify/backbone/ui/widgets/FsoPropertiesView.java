@@ -182,7 +182,7 @@ public class FsoPropertiesView extends RelativeLayout
         this.mContext = context;
 
         //Inflate the view
-        this.mContentView = (View)inflate(getContext(), R.layout.fso_properties_dialog, null);
+        this.mContentView = (View)inflate(getContext(), R.layout.fso_properties_drawer, null);
         addView(mContentView);
 
         // Apply current theme
@@ -243,16 +243,6 @@ public class FsoPropertiesView extends RelativeLayout
      * @param contentView The content view
      */
     private void fillData(View contentView) {
-        //Get the tab views
-        this.mInfoViewTab = contentView.findViewById(R.id.fso_properties_dialog_tab_info);
-        this.mPermissionsViewTab =
-                contentView.findViewById(R.id.fso_properties_dialog_tab_permissions);
-        this.mInfoView = contentView.findViewById(R.id.fso_tab_info);
-        this.mPermissionsView = contentView.findViewById(R.id.fso_tab_permissions);
-
-        //Register the listeners
-        this.mInfoViewTab.setOnClickListener(this);
-        this.mPermissionsViewTab.setOnClickListener(this);
 
         //Gets text views
         TextView tvName = (TextView)contentView.findViewById(R.id.fso_properties_name);
@@ -372,8 +362,13 @@ public class FsoPropertiesView extends RelativeLayout
             this.mChkNoMedia.setOnCheckedChangeListener(this);
         }
 
-        //Change the tab
-        onClick(this.mInfoViewTab);
+        // Adjust the size of the spinners to match the parent view width
+        adjustSpinnerSize(this.mSpnOwner);
+        adjustSpinnerSize(this.mSpnGroup);
+
+        this.mInfoMsgView.setVisibility(
+                this.mHasPrivileged || !this.mIsAdvancedMode ? View.GONE : View.VISIBLE);
+
         this.mIgnoreCheckEvents = false;
     }
 
@@ -464,43 +459,6 @@ public class FsoPropertiesView extends RelativeLayout
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fso_properties_dialog_tab_info:
-                if (!this.mInfoViewTab.isSelected()) {
-                    this.mInfoViewTab.setSelected(true);
-                    ((TextView)this.mInfoViewTab).setTextAppearance(
-                            this.mContext, R.style.primary_text_appearance);
-                    this.mPermissionsViewTab.setSelected(false);
-                    ((TextView)this.mPermissionsViewTab).setTextAppearance(
-                            this.mContext, R.style.secondary_text_appearance);
-                    this.mInfoView.setVisibility(View.VISIBLE);
-                    this.mPermissionsView.setVisibility(View.GONE);
-
-                    // Apply the them
-                    applyTabTheme();
-                }
-                break;
-
-            case R.id.fso_properties_dialog_tab_permissions:
-                if (!this.mPermissionsViewTab.isSelected()) {
-                    this.mInfoViewTab.setSelected(false);
-                    ((TextView)this.mInfoViewTab).setTextAppearance(
-                            this.mContext, R.style.secondary_text_appearance);
-                    this.mPermissionsViewTab.setSelected(true);
-                    ((TextView)this.mPermissionsViewTab).setTextAppearance(
-                            this.mContext, R.style.primary_text_appearance);
-                    this.mInfoView.setVisibility(View.GONE);
-                    this.mPermissionsView.setVisibility(View.VISIBLE);
-
-                    // Apply the them
-                    applyTabTheme();
-
-                    // Adjust the size of the spinners
-                    adjustSpinnerSize(this.mSpnOwner);
-                    adjustSpinnerSize(this.mSpnGroup);
-                }
-                this.mInfoMsgView.setVisibility(
-                        this.mHasPrivileged || !this.mIsAdvancedMode ? View.GONE : View.VISIBLE);
-                break;
 
             case R.id.fso_info_msg:
                 //Change the console
@@ -1151,7 +1109,7 @@ public class FsoPropertiesView extends RelativeLayout
      * @param spinner The spinner
      */
     private void adjustSpinnerSize(final Spinner spinner) {
-        final View v = this.mContentView.findViewById(R.id.fso_properties_dialog_tabhost);
+        final View v = this.mContentView.findViewById(R.id.fso_properties);
         spinner.post(new Runnable() {
             @Override
             public void run() {
@@ -1173,13 +1131,13 @@ public class FsoPropertiesView extends RelativeLayout
         Theme theme = ThemeManager.getCurrentTheme(this.mContext);
         theme.setBackgroundDrawable(
                 this.mContext, this.mContentView, "background_drawable"); //$NON-NLS-1$
-        applyTabTheme();
-        View v = this.mContentView.findViewById(R.id.fso_properties_dialog_tab_divider1);
-        theme.setBackgroundColor(this.mContext, v, "horizontal_divider_color"); //$NON-NLS-1$
-        v = this.mContentView.findViewById(R.id.fso_properties_dialog_tab_divider2);
-        theme.setBackgroundColor(this.mContext, v, "vertical_divider_color"); //$NON-NLS-1$
-        v = this.mContentView.findViewById(R.id.fso_properties_dialog_tab_divider3);
-        theme.setBackgroundColor(this.mContext, v, "vertical_divider_color"); //$NON-NLS-1$
+        View v = null;
+//        v = this.mContentView.findViewById(R.id.fso_properties_dialog_tab_divider1);
+//        theme.setBackgroundColor(this.mContext, v, "horizontal_divider_color"); //$NON-NLS-1$
+//        v = this.mContentView.findViewById(R.id.fso_properties_dialog_tab_divider2);
+//        theme.setBackgroundColor(this.mContext, v, "vertical_divider_color"); //$NON-NLS-1$
+//        v = this.mContentView.findViewById(R.id.fso_properties_dialog_tab_divider3);
+//        theme.setBackgroundColor(this.mContext, v, "vertical_divider_color"); //$NON-NLS-1$
 
         v = this.mContentView.findViewById(R.id.fso_properties_name_label);
         theme.setTextColor(this.mContext, (TextView)v, "text_color"); //$NON-NLS-1$
@@ -1247,18 +1205,6 @@ public class FsoPropertiesView extends RelativeLayout
         ((TextView)v).setCompoundDrawablesWithIntrinsicBounds(
                 theme.getDrawable(this.mContext, "filesystem_warning_drawable"), //$NON-NLS-1$
                 null, null, null);
-    }
-
-    /**
-     * Method that applies the current theme to the tab host
-     */
-    private void applyTabTheme() {
-        // Apply the theme
-        Theme theme = ThemeManager.getCurrentTheme(this.mContext);
-        View v = this.mContentView.findViewById(R.id.fso_properties_dialog_tab_info);
-        theme.setTextColor(this.mContext, (TextView)v, "text_color"); //$NON-NLS-1$
-        v = this.mContentView.findViewById(R.id.fso_properties_dialog_tab_permissions);
-        theme.setTextColor(this.mContext, (TextView)v, "text_color"); //$NON-NLS-1$
     }
 
     /**

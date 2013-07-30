@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/bookmarks_item_separator"
-        style="@style/navigation_list_separator"
+        style="@style/bookmark_drawer_list_separator"
         android:text="@null"/>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
