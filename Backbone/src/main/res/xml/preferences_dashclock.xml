@@ -2,16 +2,12 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen
-            android:key="pref_icon"
-            android:title="@string/dashclock_icon"
-            />
-    <PreferenceScreen
         android:key="pref_usage"
         android:defaultValue="true"
         android:title="@string/dashclock_usage"
         />
     <PreferenceCategory
-        android:title="Drives Included"
+        android:title="@string/dashclock_settings_storage_title"
         android:key="pref_storage"
         >
     </PreferenceCategory>

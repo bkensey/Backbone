@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
+import java.util.Locale;
+
 import me.toolify.backbone.R;
 import me.toolify.backbone.model.MountPoint;
 import me.toolify.backbone.util.MountPointHelper;
@@ -56,9 +58,9 @@ public class DashSettings extends PreferenceActivity {
         getPreferenceManager().setSharedPreferencesName("dashclock");
         addPreferencesFromResource(R.xml.preferences_dashclock);
         final SharedPreferences prefs = getSharedPreferences("dashclock", MODE_PRIVATE);
-        final PreferenceScreen mIcon = (PreferenceScreen)findPreference("pref_icon");
+        //final PreferenceScreen mIcon = (PreferenceScreen)findPreference("pref_icon");
         final Preference mUsage = findPreference("pref_usage");
-        mIcon.setIcon(prefs.getInt("icon", R.drawable.ic_holo_dark_sdcard));
+        //mIcon.setIcon(prefs.getInt("icon", R.drawable.dashclock_sd));
         boolean showFree = prefs.getBoolean("usage", true);
         mUsage.setSummary(getUsageType(showFree));
         mUsage.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -70,45 +72,6 @@ public class DashSettings extends PreferenceActivity {
                 return false;
             }
         });
-        mIcon.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                final Context context = DashSettings.this;
-                final int iconSel = prefs.getInt("icon", R.drawable.ic_holo_dark_sdcard);
-                final LayoutInflater inflater = getLayoutInflater();
-                LinearLayout mIconParent = new LinearLayout(context);
-                mIconParent.setBackground(getResources().getDrawable(R.drawable.dark_background));
-                mIconParent.setOrientation(LinearLayout.HORIZONTAL);
-                TypedArray ar = getResources().obtainTypedArray(R.array.dash_icons);
-                final AlertDialog dialog = new AlertDialog.Builder(DashSettings.this)
-                        .setView(mIconParent)
-                        .create();
-                for(int i = 0; i < ar.length(); i++)
-                {
-                    final int icon = ar.getResourceId(i, 0);
-                    ImageView imageView = (ImageView)inflater
-                            .inflate(R.layout.simple_icon, mIconParent, false);
-                    imageView.setImageResource(icon);
-                    if(icon == iconSel)
-                        imageView.setSelected(true);
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            prefs.edit()
-                                    .putInt("icon", icon)
-                                    .apply();
-                            if (mIcon != null)
-                                mIcon.setIcon(icon);
-                            dialog.dismiss();
-                        }
-                    });
-                    mIconParent.addView(imageView);
-                }
-                ar.recycle();
-                dialog.show();
-                return false;
-            }
-        });
         PreferenceCategory mStores = (PreferenceCategory)findPreference("pref_storage");
         if(mStores == null)
             return;
@@ -117,6 +80,8 @@ public class DashSettings extends PreferenceActivity {
             final String path = StorageHelper.getStoragePath(storage);
             final String desc = StorageHelper.getStorageVolumeDescription(this, storage);
             final CheckBoxPreference p = new CheckBoxPreference(this);
+            int storeIcon = DashExtension.getIcon(desc);
+            p.setIcon(storeIcon);
             boolean useMe = true;
             MountPoint mp = MountPointHelper.getMountPointFromDirectory(path);
             if(mp.getOptions().indexOf("mode=0")>-1) useMe = false; // Cyanogenmod USB workaround
