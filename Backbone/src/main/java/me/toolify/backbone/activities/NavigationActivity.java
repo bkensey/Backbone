@@ -443,18 +443,6 @@ public class NavigationActivity extends AbstractNavigationActivity
         //Check the intent action
         checkIntent(intent);
     }
-      
-    @Override 
-    protected void onResume() {
-        super.onResume();
-        mViewPager.setOnPageChangeListener(this);
-        
-        // Register ourselves so that we can provide the initial value.
-        BusProvider.getInstance().register(this);
-        BusProvider.getInstance().register(mBookmarkDrawer);
-
-        BusProvider.getInstance().post(new BookmarkRefreshEvent());
-    }
 
     @Override 
     protected void onPause() {
@@ -463,6 +451,19 @@ public class NavigationActivity extends AbstractNavigationActivity
         // Always unregister when an object no longer should be on the bus.
         BusProvider.getInstance().unregister(this);
         BusProvider.getInstance().unregister(mBookmarkDrawer);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mViewPager.setOnPageChangeListener(this);
+
+        // Register ourselves so that we can provide the initial value.
+        BusProvider.getInstance().register(this);
+        BusProvider.getInstance().register(mBookmarkDrawer);
+
+        // Tell the bookmarks fragment to refresh itself
+        BusProvider.getInstance().post(new BookmarkRefreshEvent());
     }
 
     /**
@@ -883,7 +884,7 @@ public class NavigationActivity extends AbstractNavigationActivity
             FileSystemObject fso = CommandHelper.getFileInfo(this, path, null);
             if (fso != null) {
             	getCurrentNavigationFragment().open(fso);
-                mDrawerLayout.closeDrawers();
+                mDrawerLayout.closeDrawer(mBookmarkDrawer);
             } else {
                 // The bookmark not exists, delete the user-defined bookmark
                 try {

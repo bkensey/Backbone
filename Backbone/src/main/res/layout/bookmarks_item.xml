@@ -61,7 +61,7 @@
                     android:layout_marginLeft="@dimen/default_margin"
                     android:layout_marginTop="@dimen/default_margin"
                     android:singleLine="true"
-                    android:textAppearance="@style/menu_drawer_primary_text_appearance"
+                    android:textAppearance="@style/bookmarks_drawer_primary_text_appearance"
                     android:text="@null"/>
 
             <TextView
@@ -73,7 +73,7 @@
                     android:layout_marginBottom="@dimen/default_margin"
                     android:layout_marginLeft="@dimen/default_margin"
                     android:singleLine="true"
-                    android:textAppearance="@style/menu_drawer_secondary_text_appearance"
+                    android:textAppearance="@style/bookmarks_drawer_secondary_text_appearance"
                     android:text="@null"/>
         </RelativeLayout>
 

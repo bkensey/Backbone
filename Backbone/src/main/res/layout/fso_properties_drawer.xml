@@ -59,7 +59,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_name"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_name"
@@ -69,7 +69,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Parent -->
@@ -84,7 +84,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_parent"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_parent"
@@ -95,7 +95,7 @@
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
                             android:maxLines="5"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Type -->
@@ -110,7 +110,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_type"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_type"
@@ -120,7 +120,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Category -->
@@ -136,7 +136,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_category"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_category"
@@ -146,7 +146,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Link -->
@@ -163,7 +163,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_link"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_link"
@@ -173,7 +173,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Size -->
@@ -188,7 +188,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_size"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_size"
@@ -198,7 +198,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Contains -->
@@ -215,7 +215,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_contains"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_contains"
@@ -225,7 +225,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Last Accessed Time -->
@@ -240,7 +240,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_last_accessed_date"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_last_accessed"
@@ -250,7 +250,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Last Modified Time -->
@@ -265,7 +265,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_last_modified_date"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_last_modified"
@@ -275,7 +275,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- Last Changed Time -->
@@ -290,7 +290,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_last_changed_date"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <TextView
                             android:id="@+id/fso_properties_last_changed"
@@ -300,7 +300,7 @@
                             android:paddingRight="@dimen/double_margin"
                             android:gravity="left|center_vertical"
                             android:singleLine="false"
-                            android:textAppearance="@style/secondary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                 </TableRow>
 
                 <!-- .nomedia Toggle -->
@@ -316,7 +316,7 @@
                             android:layout_margin="@dimen/default_margin"
                             android:gravity="left|center_vertical"
                             android:text="@string/fso_properties_dialog_include_in_media_scan"
-                            android:textAppearance="@style/primary_text_appearance"/>
+                            android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                     <CheckBox
                             android:id="@+id/fso_include_in_media_scan"
@@ -360,7 +360,7 @@
                                 android:layout_margin="@dimen/default_margin"
                                 android:gravity="left|center_vertical"
                                 android:text="@string/fso_properties_dialog_owner"
-                                android:textAppearance="@style/primary_text_appearance"/>
+                                android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                         <Spinner
                                 android:id="@+id/fso_properties_owner"
@@ -369,7 +369,7 @@
                                 android:layout_margin="@dimen/default_margin"
                                 android:gravity="left|center_vertical"
                                 android:spinnerMode="dialog"
-                                android:textAppearance="@style/secondary_text_appearance"/>
+                                android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                     </TableRow>
 
                     <!-- Group -->
@@ -384,7 +384,7 @@
                                 android:layout_margin="@dimen/default_margin"
                                 android:gravity="left|center_vertical"
                                 android:text="@string/fso_properties_dialog_group"
-                                android:textAppearance="@style/primary_text_appearance"/>
+                                android:textAppearance="@style/properties_drawer_label_text_appearance"/>
 
                         <Spinner
                                 android:id="@+id/fso_properties_group"
@@ -393,7 +393,7 @@
                                 android:layout_margin="@dimen/default_margin"
                                 android:gravity="left|center_vertical"
                                 android:spinnerMode="dialog"
-                                android:textAppearance="@style/secondary_text_appearance"/>
+                                android:textAppearance="@style/properties_drawer_primary_text_appearance"/>
                     </TableRow>
 
                 </TableLayout>
@@ -427,7 +427,7 @@
                                     android:layout_margin="@dimen/default_margin"
                                     android:gravity="left|center_vertical"
                                     android:text="@null"
-                                    android:textAppearance="@style/primary_text_appearance"/>
+                                    android:textAppearance="@style/properties_drawer_label_text_appearance"/>
                             <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content">
@@ -445,7 +445,7 @@
                                         android:layout_margin="@dimen/default_margin"
                                         android:gravity="left|center_vertical"
                                         android:text="@string/fso_properties_dialog_owner"
-                                        android:textAppearance="@style/primary_text_appearance"/>
+                                        android:textAppearance="@style/properties_drawer_label_text_appearance"/>
                             </LinearLayout>
                             <LinearLayout
                                     android:layout_width="wrap_content"
@@ -464,7 +464,7 @@
                                         android:layout_margin="@dimen/default_margin"
                                         android:gravity="left|center_vertical"
                                         android:text="@string/fso_properties_dialog_group"
-                                        android:textAppearance="@style/primary_text_appearance"/>
+                                        android:textAppearance="@style/properties_drawer_label_text_appearance"/>
                             </LinearLayout>
                             <LinearLayout
                                     android:layout_width="wrap_content"
@@ -483,7 +483,7 @@
                                         android:layout_margin="@dimen/default_margin"
                                         android:gravity="left|center_vertical"
                                         android:text="@string/fso_properties_dialog_others"
-                                        android:textAppearance="@style/primary_text_appearance"/>
+                                        android:textAppearance="@style/properties_drawer_label_text_appearance"/>
                             </LinearLayout>
                         </LinearLayout>
 
@@ -499,7 +499,7 @@
                                     android:layout_margin="@dimen/default_margin"
                                     android:layout_gravity="center"
                                     android:text="@string/fso_properties_dialog_special"
-                                    android:textAppearance="@style/primary_text_appearance"/>
+                                    android:textAppearance="@style/properties_drawer_label_text_appearance"/>
                             <CheckBox
                                     android:id="@+id/fso_permissions_owner_special"
                                     android:layout_width="wrap_content"
@@ -529,7 +529,7 @@
                                     android:layout_margin="@dimen/default_margin"
                                     android:layout_gravity="center"
                                     android:text="@string/fso_properties_dialog_read"
-                                    android:textAppearance="@style/primary_text_appearance"/>
+                                    android:textAppearance="@style/properties_drawer_label_text_appearance"/>
                             <CheckBox
                                     android:id="@+id/fso_permissions_owner_read"
                                     android:layout_width="wrap_content"
@@ -559,7 +559,7 @@
                                     android:layout_margin="@dimen/default_margin"
                                     android:layout_gravity="center"
                                     android:text="@string/fso_properties_dialog_write"
-                                    android:textAppearance="@style/primary_text_appearance"/>
+                                    android:textAppearance="@style/properties_drawer_label_text_appearance"/>
                             <CheckBox
                                     android:id="@+id/fso_permissions_owner_write"
                                     android:layout_width="wrap_content"
@@ -589,7 +589,7 @@
                                     android:layout_margin="@dimen/default_margin"
                                     android:layout_gravity="center"
                                     android:text="@string/fso_properties_dialog_execute"
-                                    android:textAppearance="@style/primary_text_appearance"/>
+                                    android:textAppearance="@style/properties_drawer_label_text_appearance"/>
                             <CheckBox
                                     android:id="@+id/fso_permissions_owner_execute"
                                     android:layout_width="wrap_content"
