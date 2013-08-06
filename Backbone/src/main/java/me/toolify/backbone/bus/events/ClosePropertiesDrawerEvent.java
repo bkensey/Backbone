@@ -16,18 +16,16 @@
 
 package me.toolify.backbone.bus.events;
 
-public class BookmarkOpenEvent {
-	public final String path;
+public class ClosePropertiesDrawerEvent {
 
-	public BookmarkOpenEvent(String path) {
-		this.path = path;
+	public ClosePropertiesDrawerEvent() {
+
 	}
 
 	@Override
 	public String toString() {
 		return new StringBuilder("(")
-			.append("bus event: open bookmark ")
-			.append(path)
+			.append("bus event: close properties drawer ")
 			.append(")")
 			.toString();
 	}

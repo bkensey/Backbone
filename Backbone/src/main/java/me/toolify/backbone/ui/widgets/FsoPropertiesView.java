@@ -636,10 +636,10 @@ public class FsoPropertiesView extends RelativeLayout
         // loading, so this is explicitly disabled until we get the go ahead from loadAIDs()
         if(!mPauseSpinner) {
             try {
-                // Apply theme
-                Theme theme = ThemeManager.getCurrentTheme(this.mContext);
-                theme.setTextColor(
-                        this.mContext, ((TextView) parent.getChildAt(0)), "text_color"); //$NON-NLS-1$
+//                // Apply theme
+//                Theme theme = ThemeManager.getCurrentTheme(this.mContext);
+//                theme.setTextColor(
+//                        this.mContext, ((TextView) parent.getChildAt(0)), "text_color"); //$NON-NLS-1$
 
                 String row = parent.getItemAtPosition(position).toString();
                 int uid = Integer.parseInt(row.substring(0, row.indexOf(AID_SEPARATOR)));

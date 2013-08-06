@@ -67,6 +67,7 @@ import java.util.List;
 
 import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
+import me.toolify.backbone.actionmode.PropertiesModeCallback;
 import me.toolify.backbone.activities.preferences.SettingsPreferences;
 import me.toolify.backbone.adapters.MenuSettingsAdapter;
 import me.toolify.backbone.adapters.NavigationFragmentPagerAdapter;
@@ -74,6 +75,7 @@ import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.BookmarkDeleteEvent;
 import me.toolify.backbone.bus.events.BookmarkOpenEvent;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
+import me.toolify.backbone.bus.events.ClosePropertiesDrawerEvent;
 import me.toolify.backbone.console.Console;
 import me.toolify.backbone.console.ConsoleAllocException;
 import me.toolify.backbone.console.ConsoleBuilder;
@@ -299,6 +301,7 @@ public class NavigationActivity extends AbstractNavigationActivity
     private ActionBarDrawerToggle mDrawerToggle;
     private BookmarksListView mBookmarkDrawer;
     private FsoPropertiesView mInfoDrawer;
+    private PropertiesModeCallback mPropertiesModeCallback;
     private View mTitleLayout;
     private NavigationCustomTitleView mTitle;
     private Breadcrumb mBreadcrumb;
@@ -399,9 +402,10 @@ public class NavigationActivity extends AbstractNavigationActivity
                 }
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 
-                // The properties drawer should not be reopened once it has been closed.
+                // If the properties drawer was just closed, we should lock it closed and make sure
+                // that the properties action mode is closed too.
                 if (view instanceof FsoPropertiesView) {
-                    mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, view);
+                    BusProvider.getInstance().post(new ClosePropertiesDrawerEvent());
                 }
             }
 
@@ -1020,6 +1024,57 @@ public class NavigationActivity extends AbstractNavigationActivity
 
     }
 
+    @Subscribe
+    public void onClosePropertiesDrawerEvent(ClosePropertiesDrawerEvent event) {
+        finishPropertiesActionMode();
+    }
+
+    /**
+     * Show/hide the "selection" action mode, according to the number of
+     * selected messages and the visibility of the fragment. Also update the
+     * content (title and menus) if necessary.
+     */
+    public void startPropertiesActionMode(FileSystemObject fso) {
+        mPropertiesModeCallback = new PropertiesModeCallback(this, fso);
+        mPropertiesModeCallback.setOnRequestRefreshListener(this);
+        mPropertiesModeCallback.setOnCopyMoveListener(this);
+        startActionMode(mPropertiesModeCallback);
+    }
+
+    /**
+     * Finish the "properties" action mode.
+     *
+     */
+    private void finishPropertiesActionMode() {
+        // Close the action mode
+        if (isInPropertiesActionMode()) {
+            mPropertiesModeCallback.setClosedByUser(false);
+            mPropertiesModeCallback.finish();
+        }
+        // Close and lock the info drawer
+        if (mDrawerLayout.isDrawerOpen(mInfoDrawer)) {
+            mDrawerLayout.closeDrawer(mInfoDrawer);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, mInfoDrawer);
+        } else {
+            // The properties drawer has already manually been closed, so lets make sure it is
+            // locked shut
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, mInfoDrawer);
+        }
+    }
+
+    /**
+     * @return true if the list is in the "selection" mode.
+     */
+    private boolean isInPropertiesActionMode() {
+        if (mPropertiesModeCallback == null) {
+            return false;
+        } else if (mPropertiesModeCallback.inPropertiesActionMode()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Method that shows a popup with a menu associated a {@link me.toolify.backbone.preferences.FileManagerSettings}.
      *
@@ -1417,7 +1472,9 @@ public class NavigationActivity extends AbstractNavigationActivity
         //InfoActionPolicy.showPropertiesDialog(this, fso, this);
         if (mDrawerLayout.isDrawerOpen(mInfoDrawer)) {
             mDrawerLayout.closeDrawer(mInfoDrawer);
+            finishPropertiesActionMode();
         } else {
+            startPropertiesActionMode(fso);
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
             mDrawerLayout.openDrawer(mInfoDrawer);
             mInfoDrawer.loadFso(fso);
