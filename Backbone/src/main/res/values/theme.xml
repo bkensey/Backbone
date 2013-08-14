@@ -68,6 +68,12 @@
         <item name="actionIconSearchSettings">@drawable/ic_action_holo_dark_settings</item>
         <item name="actionIconSave">@drawable/ic_action_holo_dark_save</item>
         <item name="actionIconChecksum">@drawable/ic_action_holo_dark</item>
+        <item name="actionIconSortMode">@drawable/ic_action_holo_dark_sort_alphabetically</item>
+        <item name="actionIconLayoutMode">@drawable/ic_action_holo_dark_layout</item>
+        <item name="actionIconViewOptions">@drawable/ic_action_holo_dark_view</item>
+        <item name="actionIconLockOpen">@drawable/ic_action_holo_dark_lock_open</item>
+        <item name="actionIconLockClosed">@drawable/ic_action_holo_dark_lock_closed</item>
+        <item name="actionIconWarning">@drawable/ic_action_holo_dark_warning</item>
 
         <!-- Action mode selection count icons -->
         <item name="indicatorIconFolder">@drawable/ic_indicator_holo_dark_folder</item>

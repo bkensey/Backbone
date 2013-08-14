@@ -50,7 +50,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -76,6 +75,8 @@ import me.toolify.backbone.bus.events.BookmarkDeleteEvent;
 import me.toolify.backbone.bus.events.BookmarkOpenEvent;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
 import me.toolify.backbone.bus.events.ClosePropertiesDrawerEvent;
+import me.toolify.backbone.bus.events.FilesystemStatusUpdateEvent;
+import me.toolify.backbone.bus.events.StartPropertiesActionModeEvent;
 import me.toolify.backbone.console.Console;
 import me.toolify.backbone.console.ConsoleAllocException;
 import me.toolify.backbone.console.ConsoleBuilder;
@@ -297,6 +298,9 @@ public class NavigationActivity extends AbstractNavigationActivity
      * @hide
      */
     private ActionBar mActionBar;
+    private Menu mOptionsMenu;
+    private MenuItem mFilesystemInfo;
+    private int mFilesystemStatus;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private BookmarksListView mBookmarkDrawer;
@@ -699,11 +703,9 @@ public class NavigationActivity extends AbstractNavigationActivity
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        this.mOptionsMenu = menu;
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.navigation, menu);
-
-        // Calling super after populating the menu is necessary here to ensure
-        // that the action bar helpers have a chance to handle this event.
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -714,9 +716,77 @@ public class NavigationActivity extends AbstractNavigationActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         // Make paste action visible if there are files available for pasting
         menu.findItem(R.id.mnu_actions_paste_selection).setVisible(this.onAreFilesMarkedForPaste());
+        mFilesystemInfo = menu.findItem(R.id.mnu_actions_show_filesystem_info);
+        setFilesystemStatusDrawable(mFilesystemStatus);
         return super.onPrepareOptionsMenu(menu);
-
     }
+
+
+    /**
+     * Called by various pieces of code responsible for updating file listing or breadcrumb data.
+     * This is an Otto event designed to de-couple this activity and various asyncTasks responsible
+     * for gathering and sending file info.
+     */
+    @Subscribe
+    public void onFilesystemStatusUpdate(FilesystemStatusUpdateEvent event) {
+        mFilesystemStatus = event.status;
+        setFilesystemStatusDrawable(event.status);
+    }
+
+    private void setFilesystemStatusDrawable(int fileSystemstatus){
+        int[] iconArray = new int[] {
+                R.styleable.FileManager_actionIconLockOpen,
+                R.styleable.FileManager_actionIconLockClosed,
+                R.styleable.FileManager_actionIconWarning
+        };
+
+        TypedArray a = getTheme().obtainStyledAttributes(iconArray);
+
+        switch (fileSystemstatus) {
+
+            case FilesystemStatusUpdateEvent.INDICATOR_UNLOCKED:
+                if (mFilesystemInfo != null) {
+                    mFilesystemInfo.setIcon(getResources().
+                            getDrawable(a.getResourceId(R.styleable.FileManager_actionIconLockOpen,
+                                    R.drawable.ic_action_holo_dark_lock_open)));
+                    setActionButtonProgressState(false);
+                }
+                break;
+
+            case FilesystemStatusUpdateEvent.INDICATOR_LOCKED:
+                if (mFilesystemInfo != null) {
+                    mFilesystemInfo.setIcon(getResources().
+                            getDrawable(a.getResourceId(R.styleable.FileManager_actionIconLockClosed,
+                                    R.drawable.ic_action_holo_dark_lock_closed)));
+                    setActionButtonProgressState(false);
+                }
+                break;
+
+            case FilesystemStatusUpdateEvent.INDICATOR_WARNING:
+                if (mFilesystemInfo != null) {
+                    mFilesystemInfo.setIcon(getResources().
+                            getDrawable(a.getResourceId(R.styleable.FileManager_actionIconWarning,
+                                    R.drawable.ic_action_holo_dark_warning)));
+                    setActionButtonProgressState(false);
+                }
+                break;
+
+            case FilesystemStatusUpdateEvent.INDICATOR_REFRESHING:
+                if (mFilesystemInfo != null) {
+                    setActionButtonProgressState(true);
+                }
+                break;
+
+            case FilesystemStatusUpdateEvent.INDICATOR_STOP_REFRESHING:
+                if (mFilesystemInfo != null) {
+                    setActionButtonProgressState(false);
+                }
+                break;
+        }
+
+        a.recycle();
+    }
+
 
     /**
      * {@inheritDoc}
@@ -731,11 +801,18 @@ public class NavigationActivity extends AbstractNavigationActivity
 
         // Action Items
         switch (item.getItemId()) {
-            case R.id.mnu_history:
+            case R.id.mnu_actions_show_filesystem_info:
+                //Show information of the filesystem
+                MountPoint mp = getCurrentNavigationFragment().getBreadcrumb().getMountPointInfo();
+                DiskUsage du = getCurrentNavigationFragment().getBreadcrumb().getDiskUsageInfo();
+                showMountPointInfo(mp, du);
+                break;
+
+            case R.id.mnu_actions_history:
                 openHistory();
                 break;
 
-            case R.id.mnu_search:
+            case R.id.mnu_actions_search:
                 openSearch();
                 break;
 
@@ -769,8 +846,8 @@ public class NavigationActivity extends AbstractNavigationActivity
                 break;
 
             case R.id.mnu_actions_properties_current_folder:
-
-                openPropertiesDrawer(getCurrentNavigationFragment().getCurrentDir());
+                BusProvider.getInstance().post(new StartPropertiesActionModeEvent(
+                        getCurrentNavigationFragment().getCurrentDir()));
                 break;
 
             //- Add to bookmarks
@@ -800,6 +877,25 @@ public class NavigationActivity extends AbstractNavigationActivity
     }
 
     /**
+     * This function switches an action item between its normal icon and an indeterminate progress
+     * circle
+     * @param refreshing value is true if the action item should show the progress bar
+     */
+    public void setActionButtonProgressState(final boolean refreshing) {
+        if (mOptionsMenu != null) {
+            final MenuItem refreshItem = mOptionsMenu
+                    .findItem(R.id.mnu_actions_show_filesystem_info);
+            if (refreshItem != null) {
+                if (refreshing) {
+                    refreshItem.setActionView(R.layout.actionbar_indeterminate_progress);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
+    }
+
+    /**
      * Method invoked when a custom action item is clicked. This does not handle action items populated by the default
      * action bar menu inflater.  It does handle the custom action buttons from the "Navigation View" as views instead
      * of MenuItems.  The Navigation View is the custom view inserted into the top action bar.
@@ -811,23 +907,9 @@ public class NavigationActivity extends AbstractNavigationActivity
             //######################
             //Navigation Custom Title
             //######################
-            case R.id.ab_configuration:
-                //Show navigation view configuration toolbar
-                getCurrentNavigationFragment().getCustomTitle().showConfigurationView();
-                break;
             case R.id.ab_close:
                 //Hide navigation view configuration toolbar
                 getCurrentNavigationFragment().getCustomTitle().hideConfigurationView();
-                break;
-
-            //######################
-            //Breadcrumb Actions
-            //######################
-            case R.id.ab_filesystem_info:
-                //Show information of the filesystem
-                MountPoint mp = getCurrentNavigationFragment().getBreadcrumb().getMountPointInfo();
-                DiskUsage du = getCurrentNavigationFragment().getBreadcrumb().getDiskUsageInfo();
-                showMountPointInfo(mp, du);
                 break;
 
             //######################
@@ -881,7 +963,7 @@ public class NavigationActivity extends AbstractNavigationActivity
     }
     
     @Subscribe
-    public void onBookmarkOpenEvent(BookmarkOpenEvent event) {
+    public void onBookmarkOpen(BookmarkOpenEvent event) {
     	String path = event.path;
     	// Check that the bookmark exists
         try {
@@ -1025,7 +1107,7 @@ public class NavigationActivity extends AbstractNavigationActivity
     }
 
     @Subscribe
-    public void onClosePropertiesDrawerEvent(ClosePropertiesDrawerEvent event) {
+    public void onClosePropertiesDrawer(ClosePropertiesDrawerEvent event) {
         finishPropertiesActionMode();
     }
 
@@ -1436,11 +1518,17 @@ public class NavigationActivity extends AbstractNavigationActivity
         }
     }
 
-    public void openPropertiesDrawer(Object item) {
+    /**
+     * Function used to open a properties drawer/start a properties action mode on a file
+     */
+    @Subscribe
+    public void openPropertiesDrawer(StartPropertiesActionModeEvent event) {
+
+
         // Resolve the full path
-        String path = String.valueOf(item);
-        if (item instanceof FileSystemObject) {
-            path = ((FileSystemObject)item).getFullPath();
+        String path = String.valueOf(event.item);
+        if (event.item instanceof FileSystemObject) {
+            path = ((FileSystemObject)event.item).getFullPath();
         }
 
         // Prior to show the dialog, refresh the item reference
@@ -1459,10 +1547,10 @@ public class NavigationActivity extends AbstractNavigationActivity
             if (e instanceof FileNotFoundException || e instanceof NoSuchFileOrDirectory) {
                 // If have a FileSystemObject reference then there is no need to search
                 // the path (less resources used)
-                if (item instanceof FileSystemObject) {
-                    getCurrentNavigationFragment().removeItem((FileSystemObject) item);
+                if (event.item instanceof FileSystemObject) {
+                    getCurrentNavigationFragment().removeItem((FileSystemObject) event.item);
                 } else {
-                    getCurrentNavigationFragment().removeItem((String) item);
+                    getCurrentNavigationFragment().removeItem((String) event.item);
                 }
             }
             return;
@@ -1714,7 +1802,7 @@ public class NavigationActivity extends AbstractNavigationActivity
         v = findViewById(R.id.ab_bookmarks);
         theme.setImageDrawable(this, (ImageView)v, "ab_bookmarks_drawable"); //$NON-NLS-1$
         v = findViewById(R.id.ab_history);
-        theme.setImageDrawable(this, (ImageView)v, "ab_history_drawable"); //$NON-NLS-1$*/
+        theme.setImageDrawable(this, (ImageView)v, "ab_history_drawable"); //$NON-NLS-1$
         //- Expanders
         v = findViewById(R.id.ab_configuration);
         theme.setImageDrawable(this, (ImageView)v, "expander_open_drawable"); //$NON-NLS-1$
@@ -1725,6 +1813,6 @@ public class NavigationActivity extends AbstractNavigationActivity
         v = findViewById(R.id.ab_layout_mode);
         theme.setImageDrawable(this, (ImageView)v, "ab_layout_mode_drawable"); //$NON-NLS-1$
         v = findViewById(R.id.ab_view_options);
-        theme.setImageDrawable(this, (ImageView)v, "ab_view_options_drawable"); //$NON-NLS-1$
+        theme.setImageDrawable(this, (ImageView)v, "ab_view_options_drawable"); //$NON-NLS-1$*/
     }
 }

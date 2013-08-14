@@ -290,9 +290,12 @@ public class PickerActivity extends AbstractNavigationActivity
         this.mDialog.setOnDismissListener(this);
         DialogHelper.delegateDialogShow(this, this.mDialog);
 
-        // Set content description of storage volume button
-        ButtonItem fs = (ButtonItem)this.mRootView.findViewById(R.id.ab_filesystem_info);
-        fs.setContentDescription(getString(R.string.actionbar_button_storage_cd));
+        // TODO re-add a filesystem button to the right hand side of the breadcrumb
+        // The old filesystem button was actually part of the CM breadcrumb and was replaced by
+        // an action item.  The same visual style should apply in the PickerActivity too.
+//        // Set content description of storage volume button
+//        ButtonItem fs = (ButtonItem)this.mRootView.findViewById(R.id.ab_filesystem_info);
+//        fs.setContentDescription(getString(R.string.actionbar_button_storage_cd));
 
         final File initialDir = getInitialDirectoryFromIntent(getIntent());
         final String rootDirectory;
@@ -518,10 +521,11 @@ public class PickerActivity extends AbstractNavigationActivity
             //######################
             //Breadcrumb Actions
             //######################
-            case R.id.ab_filesystem_info:
-                //Show a popup with the storage volumes to select
-                showStorageVolumesPopUp(view);
-                break;
+            // TODO per the TODO above, attach this functionality to a new filesystem info button
+//            case R.id.ab_filesystem_info:
+//                //Show a popup with the storage volumes to select
+//                showStorageVolumesPopUp(view);
+//                break;
 
             default:
                 break;

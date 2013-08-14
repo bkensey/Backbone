@@ -26,6 +26,7 @@ import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
 import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
+import me.toolify.backbone.bus.events.StartPropertiesActionModeEvent;
 import me.toolify.backbone.listeners.OnCopyMoveListener;
 import me.toolify.backbone.listeners.OnRequestRefreshListener;
 import me.toolify.backbone.listeners.OnSelectionListener;
@@ -524,8 +525,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             //- Properties
             case R.id.mnu_actions_properties:
             case R.id.mnu_actions_properties_current_folder:
-                InfoActionPolicy.showPropertiesDialog(
-                        this.mActivity, this.mFso, this.mOnRequestRefreshListener);
+                BusProvider.getInstance().post(new StartPropertiesActionModeEvent(this.mFso));
                 break;
 
             //- Navigate to parent
