@@ -20,26 +20,30 @@
                 android:layout_height="@dimen/navigation_row_height"
                 android:background="@drawable/holo_list_selector_deselected">
 
-    <ImageButton
-            android:id="@+id/navigation_view_item_icon"
+    <RelativeLayout
+            android:id="@+id/navigation_view_item_icon_container"
             android:layout_width="@dimen/navigation_row_height"
             android:layout_height="@dimen/navigation_row_height"
+            android:layout_marginRight="@dimen/default_margin"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignWithParentIfMissing="true"
-            android:layout_marginRight="@dimen/default_margin"
-            android:padding="@dimen/icon_margin"
-            android:gravity="center_horizontal|center_vertical"
-            android:contentDescription="@null"
-            android:src="@null"
-            android:background="@color/light_grey_transparent"/>
-
+            android:background="@color/light_grey_transparent">
+        <me.toolify.backbone.ui.widgets.TransparentNonFocusableButtonItem
+                android:id="@+id/navigation_view_item_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/icon_margin"
+                android:gravity="center_horizontal|center_vertical"
+                android:contentDescription="@null"
+                android:src="@null"/>
+    </RelativeLayout>
 
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/navigation_view_item_info"
-            android:layout_toRightOf="@+id/navigation_view_item_icon">
+            android:layout_toRightOf="@+id/navigation_view_item_icon_container">
 
         <TextView
                 android:id="@+id/navigation_view_item_name"
@@ -76,7 +80,7 @@
                 android:text="@null"/>
     </RelativeLayout>
 
-    <ImageButton
+    <me.toolify.backbone.ui.widgets.TransparentNonFocusableButtonItem
             android:id="@+id/navigation_view_item_info"
             android:layout_width="@dimen/item_menu_row_button_width"
             android:layout_height="match_parent"
