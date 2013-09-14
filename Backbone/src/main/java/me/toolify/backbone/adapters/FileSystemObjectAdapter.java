@@ -277,7 +277,6 @@ public class FileSystemObjectAdapter
             if (!this.mPickable) {
                 viewHolder.mBtInfo = (ImageButton)v.findViewById(RESOURCE_ITEM_INFO);
                 viewHolder.mBtInfo.setOnClickListener(this);
-                viewHolder.mBtIcon.setOnClickListener(this);
             } else {
                 viewHolder.mBtInfo = (ImageButton)v.findViewById(RESOURCE_ITEM_INFO);
                 viewHolder.mBtInfo.setVisibility(View.GONE);
@@ -334,6 +333,10 @@ public class FileSystemObjectAdapter
             viewHolder.mBtInfo.setVisibility(
                     dataHolder.mName.compareTo(
                             FileHelper.PARENT_DIRECTORY) == 0 ? View.INVISIBLE : View.VISIBLE);
+            //Enable selection via icon clicks on non-parent directory file items
+            if (dataHolder.mName.compareTo(FileHelper.PARENT_DIRECTORY) != 0){
+                viewHolder.mBtIcon.setOnClickListener(this);
+            }
             viewHolder.mBtIcon.setTag(Integer.valueOf(position));
             viewHolder.mBtInfo.setTag(Integer.valueOf(position));
 
