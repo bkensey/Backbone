@@ -734,13 +734,8 @@ public class NavigationActivity extends AbstractNavigationActivity
     }
 
     private void setFilesystemStatusDrawable(int fileSystemstatus){
-        int[] iconArray = new int[] {
-                R.styleable.FileManager_actionIconLockOpen,
-                R.styleable.FileManager_actionIconLockClosed,
-                R.styleable.FileManager_actionIconWarning
-        };
 
-        TypedArray a = getTheme().obtainStyledAttributes(iconArray);
+        TypedArray a = getTheme().obtainStyledAttributes(R.styleable.FileManager);
 
         switch (fileSystemstatus) {
 
