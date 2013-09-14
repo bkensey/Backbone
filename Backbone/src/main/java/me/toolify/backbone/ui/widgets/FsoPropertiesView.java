@@ -429,9 +429,6 @@ public class FsoPropertiesView extends RelativeLayout
                     // to fire now
                     mPauseSpinner = false;
 
-                    // Adjust the size of the spinners to match the parent view width
-                    adjustSpinnerSize(FsoPropertiesView.this.mSpnOwner);
-                    adjustSpinnerSize(FsoPropertiesView.this.mSpnGroup);
                 }
             }
         };
@@ -1113,27 +1110,6 @@ public class FsoPropertiesView extends RelativeLayout
                 }
             });
         }
-    }
-
-    /**
-     * Method that adjust the size of the spinner to fit the window
-     *
-     * @param spinner The spinner
-     */
-    private void adjustSpinnerSize(final Spinner spinner) {
-        final View v = this.mContentView.findViewById(R.id.fso_properties);
-        spinner.post(new Runnable() {
-            @Override
-            public void run() {
-                // Align with the last checkbox of the column
-                int vW = v.getMeasuredWidth();
-                int[] cbSpn = new int[2];
-                spinner.getLocationInWindow(cbSpn);
-
-                // Set the width
-                spinner.getLayoutParams().width = vW - cbSpn[0];
-            }
-        });
     }
 
     /**
