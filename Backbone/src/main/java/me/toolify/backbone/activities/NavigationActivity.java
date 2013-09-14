@@ -1131,12 +1131,10 @@ public class NavigationActivity extends AbstractNavigationActivity
         // Close and lock the info drawer
         if (mDrawerLayout.isDrawerOpen(mInfoDrawer)) {
             mDrawerLayout.closeDrawer(mInfoDrawer);
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, mInfoDrawer);
-        } else {
-            // The properties drawer has already manually been closed, so lets make sure it is
-            // locked shut
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, mInfoDrawer);
         }
+        // The properties drawer has been closed, so lock it shut and unlock the bookmarks bar.
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, mInfoDrawer);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, mBookmarkDrawer);
     }
 
     /**
@@ -1555,10 +1553,12 @@ public class NavigationActivity extends AbstractNavigationActivity
         //InfoActionPolicy.showPropertiesDialog(this, fso, this);
         if (mDrawerLayout.isDrawerOpen(mInfoDrawer)) {
             mDrawerLayout.closeDrawer(mInfoDrawer);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, mInfoDrawer);
             finishPropertiesActionMode();
         } else {
             startPropertiesActionMode(fso);
-            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, mInfoDrawer);
+            mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, mBookmarkDrawer);
             mDrawerLayout.openDrawer(mInfoDrawer);
             mInfoDrawer.loadFso(fso);
         }
