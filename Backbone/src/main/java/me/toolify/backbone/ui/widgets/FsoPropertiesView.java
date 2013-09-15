@@ -430,6 +430,9 @@ public class FsoPropertiesView extends RelativeLayout
                     // to fire now
                     mPauseSpinner = false;
 
+                    // Adjust the size of the spinners to match the parent view width
+                    adjustSpinnerSize(FsoPropertiesView.this.mSpnOwner);
+                    adjustSpinnerSize(FsoPropertiesView.this.mSpnGroup);
                 }
             }
         };
@@ -1111,6 +1114,44 @@ public class FsoPropertiesView extends RelativeLayout
                 }
             });
         }
+    }
+
+    /**
+     * Method that adjust the size of the spinner to fit the window
+     *
+     * @param spinner The spinner
+     */
+    private void adjustSpinnerSize(final Spinner spinner) {
+        final View rootView = this.mContentView.findViewById(R.id.fso_properties);
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                // Align with the last checkbox of the column
+                int vW = rootView.getMeasuredWidth();
+                int viewOffset = (int) getRelativeX(spinner, rootView);
+
+                // Set the width
+                spinner.getLayoutParams().width = vW - viewOffset -
+                        FsoPropertiesView.this.mContext.getResources().
+                                getDimensionPixelSize(R.dimen.default_margin);
+            }
+        });
+    }
+
+    /**
+     * Method that determines the total horizontal distance between the left side of the specified
+     * root or parent view and the left side of the specified child view.
+     *
+     * @param childView the child view to obtain a relative X position for
+     * @param rootView the parent view whose left edge should be measured against
+     * @return the X coordinate position of the child view relative to the specified parent view
+     * (in pixels)
+     */
+    public float getRelativeX(View childView, View rootView) {
+        if (childView.getParent() == rootView)
+            return childView.getX();
+        else
+            return childView.getX() + getRelativeX((View)childView.getParent(), rootView);
     }
 
     /**
