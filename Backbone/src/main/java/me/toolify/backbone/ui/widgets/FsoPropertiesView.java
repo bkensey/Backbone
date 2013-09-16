@@ -84,7 +84,7 @@ public class FsoPropertiesView extends RelativeLayout
     implements OnClickListener, OnCheckedChangeListener, OnItemSelectedListener,
     AsyncResultListener {
 
-    private static final String TAG = "FsoPropertiesDialog"; //$NON-NLS-1$
+    private static final String TAG = "FsoPropertiesView"; //$NON-NLS-1$
 
     private static final String OWNER_TYPE = "owner"; //$NON-NLS-1$
     private static final String GROUP_TYPE = "group"; //$NON-NLS-1$
@@ -111,10 +111,6 @@ public class FsoPropertiesView extends RelativeLayout
      */
     Context mContext;
     private View mContentView;
-    private View mInfoViewTab;
-    private View mPermissionsViewTab;
-    private View mInfoView;
-    private View mPermissionsView;
     /**
      * @hide
      */
@@ -158,8 +154,6 @@ public class FsoPropertiesView extends RelativeLayout
      */
     boolean mDrawingFolderUsage;
 
-    private DialogInterface.OnDismissListener mOnDismissListener;
-
     public FsoPropertiesView(Context context) {
         super(context);
         init(context);
@@ -187,7 +181,7 @@ public class FsoPropertiesView extends RelativeLayout
         this.mContext = context;
 
         //Inflate the view
-        this.mContentView = (View)inflate(getContext(), R.layout.fso_properties_drawer, null);
+        this.mContentView = inflate(getContext(), R.layout.fso_properties_drawer, null);
         addView(mContentView);
 
         // Apply current theme

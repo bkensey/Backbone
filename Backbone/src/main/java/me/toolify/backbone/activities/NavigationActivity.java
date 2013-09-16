@@ -76,7 +76,7 @@ import me.toolify.backbone.bus.events.BookmarkOpenEvent;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
 import me.toolify.backbone.bus.events.ClosePropertiesDrawerEvent;
 import me.toolify.backbone.bus.events.FilesystemStatusUpdateEvent;
-import me.toolify.backbone.bus.events.StartPropertiesActionModeEvent;
+import me.toolify.backbone.bus.events.OpenPropertiesDrawerEvent;
 import me.toolify.backbone.console.Console;
 import me.toolify.backbone.console.ConsoleAllocException;
 import me.toolify.backbone.console.ConsoleBuilder;
@@ -452,6 +452,9 @@ public class NavigationActivity extends AbstractNavigationActivity
         checkIntent(intent);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override 
     protected void onPause() {
         super.onPause();
@@ -461,6 +464,9 @@ public class NavigationActivity extends AbstractNavigationActivity
         BusProvider.getInstance().unregister(mBookmarkDrawer);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -744,7 +750,7 @@ public class NavigationActivity extends AbstractNavigationActivity
                     mFilesystemInfo.setIcon(getResources().
                             getDrawable(a.getResourceId(R.styleable.FileManager_actionIconLockOpen,
                                     R.drawable.ic_action_holo_dark_lock_open)));
-                    setActionButtonProgressState(false);
+                    setFilesystemInfoProgressState(false);
                 }
                 break;
 
@@ -753,7 +759,7 @@ public class NavigationActivity extends AbstractNavigationActivity
                     mFilesystemInfo.setIcon(getResources().
                             getDrawable(a.getResourceId(R.styleable.FileManager_actionIconLockClosed,
                                     R.drawable.ic_action_holo_dark_lock_closed)));
-                    setActionButtonProgressState(false);
+                    setFilesystemInfoProgressState(false);
                 }
                 break;
 
@@ -762,19 +768,19 @@ public class NavigationActivity extends AbstractNavigationActivity
                     mFilesystemInfo.setIcon(getResources().
                             getDrawable(a.getResourceId(R.styleable.FileManager_actionIconWarning,
                                     R.drawable.ic_action_holo_dark_warning)));
-                    setActionButtonProgressState(false);
+                    setFilesystemInfoProgressState(false);
                 }
                 break;
 
             case FilesystemStatusUpdateEvent.INDICATOR_REFRESHING:
                 if (mFilesystemInfo != null) {
-                    setActionButtonProgressState(true);
+                    setFilesystemInfoProgressState(true);
                 }
                 break;
 
             case FilesystemStatusUpdateEvent.INDICATOR_STOP_REFRESHING:
                 if (mFilesystemInfo != null) {
-                    setActionButtonProgressState(false);
+                    setFilesystemInfoProgressState(false);
                 }
                 break;
         }
@@ -841,7 +847,7 @@ public class NavigationActivity extends AbstractNavigationActivity
                 break;
 
             case R.id.mnu_actions_properties_current_folder:
-                BusProvider.getInstance().post(new StartPropertiesActionModeEvent(
+                BusProvider.getInstance().post(new OpenPropertiesDrawerEvent(
                         getCurrentNavigationFragment().getCurrentDir()));
                 break;
 
@@ -876,8 +882,8 @@ public class NavigationActivity extends AbstractNavigationActivity
      * circle
      * @param refreshing value is true if the action item should show the progress bar
      */
-    public void setActionButtonProgressState(final boolean refreshing) {
-        if (mOptionsMenu != null) {
+    public void setFilesystemInfoProgressState(final boolean refreshing) {
+        if (mFilesystemInfo != null) {
             final MenuItem refreshItem = mOptionsMenu
                     .findItem(R.id.mnu_actions_show_filesystem_info);
             if (refreshItem != null) {
@@ -1515,7 +1521,7 @@ public class NavigationActivity extends AbstractNavigationActivity
      * Function used to open a properties drawer/start a properties action mode on a file
      */
     @Subscribe
-    public void openPropertiesDrawer(StartPropertiesActionModeEvent event) {
+    public void openPropertiesDrawer(OpenPropertiesDrawerEvent event) {
 
 
         // Resolve the full path
@@ -1549,8 +1555,6 @@ public class NavigationActivity extends AbstractNavigationActivity
             return;
         }
 
-        //TODO: When the properties drawer is done, remove InfoActionPolicy and FsoPropertiesDialog
-        //InfoActionPolicy.showPropertiesDialog(this, fso, this);
         if (mDrawerLayout.isDrawerOpen(mInfoDrawer)) {
             mDrawerLayout.closeDrawer(mInfoDrawer);
             mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, mInfoDrawer);

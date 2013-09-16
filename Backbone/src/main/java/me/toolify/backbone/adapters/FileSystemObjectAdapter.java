@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import me.toolify.backbone.R;
 import me.toolify.backbone.bus.BusProvider;
-import me.toolify.backbone.bus.events.StartPropertiesActionModeEvent;
+import me.toolify.backbone.bus.events.OpenPropertiesDrawerEvent;
 import me.toolify.backbone.model.FileSystemObject;
 import me.toolify.backbone.model.ParentDirectory;
 import me.toolify.backbone.ui.IconHolder;
@@ -554,7 +554,7 @@ public class FileSystemObjectAdapter
                 toggleSelection(v, fso);
                 break;
             case RESOURCE_ITEM_INFO:
-                BusProvider.getInstance().post(new StartPropertiesActionModeEvent(fso));
+                BusProvider.getInstance().post(new OpenPropertiesDrawerEvent(fso));
                 break;
             default:
                 break;

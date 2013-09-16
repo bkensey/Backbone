@@ -214,8 +214,8 @@
         <item name="android:minWidth">@dimen/breadcrumb_item_min_size</item>
     </style>
 
-    <!-- Breadcrumb ActionBar Buttom -->
-    <style name="breadcrumb_actionbar_buttom">
+    <!-- Breadcrumb ActionBar Button -->
+    <style name="breadcrumb_actionbar_button">
         <item name="android:paddingLeft">@dimen/extra_margin</item>
         <item name="android:paddingRight">@dimen/default_margin</item>
     </style>

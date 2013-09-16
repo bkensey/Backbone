@@ -286,11 +286,6 @@ public class PropertiesModeCallback implements ActionMode.Callback {
                 finish();
                 break;
 
-            //- Refresh
-            case R.id.mnu_actions_refresh:
-                // TODO either remove this action or refresh the properties drawer data
-                break;
-
             //- Open
             case R.id.mnu_actions_open:
                 IntentsActionPolicy.openFileSystemObject(
@@ -316,20 +311,6 @@ public class PropertiesModeCallback implements ActionMode.Callback {
                         this.mActivity, this.mFso, null, null);
                 finish();
                 break;
-            case R.id.mnu_actions_send_selection:
-                if (this.mOnSelectionListener != null) {
-                    List<FileSystemObject> selection =
-                            this.mOnSelectionListener.onRequestSelectedFiles();
-                    if (selection.size() == 1) {
-                        IntentsActionPolicy.sendFileSystemObject(
-                                this.mActivity, selection.get(0), null, null);
-                    } else {
-                        IntentsActionPolicy.sendMultipleFileSystemObject(
-                                this.mActivity, selection, null, null);
-                    }
-                    finish();
-                }
-                break;
 
             //- Create copy
             case R.id.mnu_actions_copy:
@@ -352,21 +333,6 @@ public class PropertiesModeCallback implements ActionMode.Callback {
                     CopyMoveActionPolicy.createMoveFileSystemObject(
                             selection,
                             this.onCopyMoveListener);
-                    finish();
-                }
-                break;
-
-            // Delete selection
-            case R.id.mnu_actions_delete_selection:
-                if (this.mOnSelectionListener != null) {
-                    List<FileSystemObject> selection =
-                            this.mOnSelectionListener.onRequestSelectedFiles();
-                    DeleteActionPolicy.removeFileSystemObjects(
-                            this.mActivity,
-                            selection,
-                            this.mOnSelectionListener,
-                            this.mOnRequestRefreshListener,
-                            null);
                     finish();
                 }
                 break;
@@ -395,15 +361,6 @@ public class PropertiesModeCallback implements ActionMode.Callback {
                     finish();
                 }
                 break;
-            case R.id.mnu_actions_compress_selection:
-                if (this.mOnSelectionListener != null) {
-                    CompressActionPolicy.compress(
-                            this.mActivity,
-                            this.mOnSelectionListener,
-                            this.mOnRequestRefreshListener);
-                    finish();
-                }
-                break;
 
             //- Add to bookmarks
             case R.id.mnu_actions_add_to_bookmarks:
@@ -414,13 +371,6 @@ public class PropertiesModeCallback implements ActionMode.Callback {
             //- Add shortcut
             case R.id.mnu_actions_add_shortcut:
                 IntentsActionPolicy.createShortcut(this.mActivity, this.mFso);
-                break;
-
-            //- Properties
-            case R.id.mnu_actions_properties:
-            case R.id.mnu_actions_properties_current_folder:
-                InfoActionPolicy.showPropertiesDialog(
-                        this.mActivity, this.mFso, this.mOnRequestRefreshListener);
                 break;
 
             //- Navigate to parent

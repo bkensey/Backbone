@@ -18,10 +18,10 @@ package me.toolify.backbone.bus.events;
 
 import me.toolify.backbone.model.FileSystemObject;
 
-public class StartPropertiesActionModeEvent {
+public class OpenPropertiesDrawerEvent {
 	public final Object item;
 
-	public StartPropertiesActionModeEvent(Object item) {
+	public OpenPropertiesDrawerEvent(Object item) {
 		this.item = item;
 	}
 
