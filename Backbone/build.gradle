@@ -62,7 +62,7 @@ android {
     }
 
     // Plug in private keystore credentials if they exist
-    //  a private gradle.properties file at the root of the project contains the properties
+    //  Note: A private gradle.properties file at the root of the project contains the properties
     //  referenced below.  Building the Debug variant will work without the file, but release and
     //  releaseAlpha will not until the properties file and its referenced keystore file are present
     if (project.hasProperty('storeFile') && project.hasProperty('storePassword')
