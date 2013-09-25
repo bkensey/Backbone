@@ -365,7 +365,7 @@ public class PropertiesModeCallback implements ActionMode.Callback {
             //- Add to bookmarks
             case R.id.mnu_actions_add_to_bookmarks:
                 BookmarksActionPolicy.addToBookmarks(this.mActivity, this.mFso);
-                BusProvider.getInstance().post(new BookmarkRefreshEvent());
+                BusProvider.postEvent(new BookmarkRefreshEvent());
                 break;
 
             //- Add shortcut
@@ -391,7 +391,7 @@ public class PropertiesModeCallback implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mPropertiesMode = null;
-        BusProvider.getInstance().post(new ClosePropertiesDrawerEvent());
+        BusProvider.postEvent(new ClosePropertiesDrawerEvent());
     }
 
     public void finish() {

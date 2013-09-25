@@ -29,6 +29,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.toolify.backbone.R;
 import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.OpenPropertiesDrawerEvent;
@@ -41,9 +44,6 @@ import me.toolify.backbone.ui.image.ImageFetcher;
 import me.toolify.backbone.util.FileHelper;
 import me.toolify.backbone.util.MimeTypeHelper;
 import me.toolify.backbone.util.MimeTypeHelper.MimeTypeCategory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * An implementation of {@link ArrayAdapter} for display file system objects.
@@ -554,7 +554,7 @@ public class FileSystemObjectAdapter
                 toggleSelection(v, fso);
                 break;
             case RESOURCE_ITEM_INFO:
-                BusProvider.getInstance().post(new OpenPropertiesDrawerEvent(fso));
+                BusProvider.postEvent(new OpenPropertiesDrawerEvent(fso));
                 break;
             default:
                 break;

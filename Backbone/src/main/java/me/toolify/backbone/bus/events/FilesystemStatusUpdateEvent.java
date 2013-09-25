@@ -16,7 +16,7 @@
 
 package me.toolify.backbone.bus.events;
 
-public class FilesystemStatusUpdateEvent {
+public class FilesystemStatusUpdateEvent extends BusEvent {
 	public final int status;
 
     public static final int INDICATOR_LOCKED = 0;

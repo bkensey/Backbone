@@ -16,17 +16,9 @@
 
 package me.toolify.backbone.bus.events;
 
-public class ClosePropertiesDrawerEvent {
+public class ClosePropertiesDrawerEvent extends BusEvent {
 
 	public ClosePropertiesDrawerEvent() {
 
-	}
-
-	@Override
-	public String toString() {
-		return new StringBuilder("(")
-			.append("bus event: close properties drawer ")
-			.append(")")
-			.toString();
 	}
 }

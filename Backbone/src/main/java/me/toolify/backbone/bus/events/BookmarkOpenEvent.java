@@ -16,7 +16,7 @@
 
 package me.toolify.backbone.bus.events;
 
-public class BookmarkOpenEvent {
+public class BookmarkOpenEvent extends BusEvent {
 	public final String path;
 
 	public BookmarkOpenEvent(String path) {
