@@ -32,6 +32,7 @@ import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
 import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
+import me.toolify.backbone.bus.events.ClosePropertiesDrawerEvent;
 import me.toolify.backbone.listeners.OnCopyMoveListener;
 import me.toolify.backbone.listeners.OnRequestRefreshListener;
 import me.toolify.backbone.listeners.OnSelectionListener;
@@ -390,6 +391,7 @@ public class PropertiesModeCallback implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mPropertiesMode = null;
+        BusProvider.postEvent(new ClosePropertiesDrawerEvent());
     }
 
     public void finish() {
