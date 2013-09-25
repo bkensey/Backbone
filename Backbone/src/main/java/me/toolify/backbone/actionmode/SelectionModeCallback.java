@@ -19,9 +19,17 @@ package me.toolify.backbone.actionmode;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.view.*;
+import android.view.ActionMode;
+import android.view.InflateException;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
+
+import java.util.List;
+
 import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
 import me.toolify.backbone.bus.BusProvider;
@@ -33,10 +41,18 @@ import me.toolify.backbone.listeners.OnSelectionListener;
 import me.toolify.backbone.model.FileSystemObject;
 import me.toolify.backbone.preferences.AccessMode;
 import me.toolify.backbone.ui.dialogs.InputNameDialog;
-import me.toolify.backbone.ui.policy.*;
-import me.toolify.backbone.util.*;
-
-import java.util.List;
+import me.toolify.backbone.ui.policy.BookmarksActionPolicy;
+import me.toolify.backbone.ui.policy.CompressActionPolicy;
+import me.toolify.backbone.ui.policy.CopyMoveActionPolicy;
+import me.toolify.backbone.ui.policy.DeleteActionPolicy;
+import me.toolify.backbone.ui.policy.ExecutionActionPolicy;
+import me.toolify.backbone.ui.policy.InfoActionPolicy;
+import me.toolify.backbone.ui.policy.IntentsActionPolicy;
+import me.toolify.backbone.ui.policy.NavigationActionPolicy;
+import me.toolify.backbone.ui.policy.NewActionPolicy;
+import me.toolify.backbone.util.FileHelper;
+import me.toolify.backbone.util.MimeTypeHelper;
+import me.toolify.backbone.util.StorageHelper;
 
 public class SelectionModeCallback implements ActionMode.Callback {
     private MenuItem mActionMoveSelection;
@@ -514,7 +530,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             //- Add to bookmarks
             case R.id.mnu_actions_add_to_bookmarks:
                 BookmarksActionPolicy.addToBookmarks(this.mActivity, this.mFso);
-                BusProvider.getInstance().post(new BookmarkRefreshEvent());
+                BusProvider.postEvent(new BookmarkRefreshEvent());
                 break;
 
             //- Add shortcut
@@ -525,7 +541,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             //- Properties
             case R.id.mnu_actions_properties:
             case R.id.mnu_actions_properties_current_folder:
-                BusProvider.getInstance().post(new OpenPropertiesDrawerEvent(this.mFso));
+                BusProvider.postEvent(new OpenPropertiesDrawerEvent(this.mFso));
                 break;
 
             //- Navigate to parent

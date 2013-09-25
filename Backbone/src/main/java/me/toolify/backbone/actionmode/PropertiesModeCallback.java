@@ -32,7 +32,6 @@ import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
 import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
-import me.toolify.backbone.bus.events.ClosePropertiesDrawerEvent;
 import me.toolify.backbone.listeners.OnCopyMoveListener;
 import me.toolify.backbone.listeners.OnRequestRefreshListener;
 import me.toolify.backbone.listeners.OnSelectionListener;
@@ -365,7 +364,7 @@ public class PropertiesModeCallback implements ActionMode.Callback {
             //- Add to bookmarks
             case R.id.mnu_actions_add_to_bookmarks:
                 BookmarksActionPolicy.addToBookmarks(this.mActivity, this.mFso);
-                BusProvider.getInstance().post(new BookmarkRefreshEvent());
+                BusProvider.postEvent(new BookmarkRefreshEvent());
                 break;
 
             //- Add shortcut
@@ -391,7 +390,6 @@ public class PropertiesModeCallback implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mPropertiesMode = null;
-        BusProvider.getInstance().post(new ClosePropertiesDrawerEvent());
     }
 
     public void finish() {

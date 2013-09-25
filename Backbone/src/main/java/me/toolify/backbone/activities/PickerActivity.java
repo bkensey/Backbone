@@ -44,6 +44,12 @@ import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import me.toolify.backbone.R;
 import me.toolify.backbone.adapters.CheckableListAdapter;
 import me.toolify.backbone.adapters.CheckableListAdapter.CheckableItem;
@@ -51,6 +57,8 @@ import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.FilesystemStatusUpdateEvent;
 import me.toolify.backbone.console.ConsoleBuilder;
 import me.toolify.backbone.fragments.NavigationFragment;
+import me.toolify.backbone.fragments.NavigationFragment.OnDirectoryChangedListener;
+import me.toolify.backbone.fragments.NavigationFragment.OnFilePickedListener;
 import me.toolify.backbone.model.FileSystemObject;
 import me.toolify.backbone.preferences.DisplayRestrictions;
 import me.toolify.backbone.preferences.FileManagerSettings;
@@ -60,19 +68,11 @@ import me.toolify.backbone.ui.ThemeManager.Theme;
 import me.toolify.backbone.ui.widgets.Breadcrumb;
 import me.toolify.backbone.ui.widgets.BreadcrumbItem;
 import me.toolify.backbone.ui.widgets.ButtonItem;
-import me.toolify.backbone.fragments.NavigationFragment.OnDirectoryChangedListener;
-import me.toolify.backbone.fragments.NavigationFragment.OnFilePickedListener;
 import me.toolify.backbone.util.DialogHelper;
 import me.toolify.backbone.util.ExceptionUtil;
 import me.toolify.backbone.util.FileHelper;
 import me.toolify.backbone.util.MimeTypeHelper;
 import me.toolify.backbone.util.StorageHelper;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The activity for allow to use a {@link FragmentActivity} like, to pick a file from other
@@ -178,7 +178,7 @@ public class PickerActivity extends AbstractNavigationActivity
     protected void onPause() {
         super.onPause();
         // Always unregister when an object no longer should be on the bus.
-        BusProvider.getInstance().unregister(this);
+        BusProvider.unregister(this);
     }
 
     /**
@@ -187,7 +187,7 @@ public class PickerActivity extends AbstractNavigationActivity
     @Override
     protected void onResume() {
         super.onResume();
-        BusProvider.getInstance().register(this);
+        BusProvider.register(this);
     }
 
     /**

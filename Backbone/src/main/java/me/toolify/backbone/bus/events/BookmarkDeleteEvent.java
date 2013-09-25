@@ -16,7 +16,7 @@
 
 package me.toolify.backbone.bus.events;
 
-public class BookmarkDeleteEvent {
+public class BookmarkDeleteEvent extends BusEvent {
 	public final String path;
 
 	public BookmarkDeleteEvent(String path) {

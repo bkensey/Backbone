@@ -26,6 +26,12 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import me.toolify.backbone.R;
 import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.FilesystemStatusUpdateEvent;
@@ -36,11 +42,6 @@ import me.toolify.backbone.ui.ThemeManager;
 import me.toolify.backbone.ui.ThemeManager.Theme;
 import me.toolify.backbone.util.FileHelper;
 import me.toolify.backbone.util.StorageHelper;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * A view that holds a navigation breadcrumb pattern.
@@ -122,7 +123,7 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
 
         // Change the image of filesystem (this is not called after a changeBreadcrumbPath call,
         // so if need to be theme previously to protect from errors)
-        BusProvider.getInstance().post(new FilesystemStatusUpdateEvent(
+        BusProvider.postEvent(new FilesystemStatusUpdateEvent(
                 FilesystemStatusUpdateEvent.INDICATOR_WARNING));
     }
 
@@ -159,7 +160,7 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
         this.post(new Runnable() {
             @Override
             public void run() {
-                BusProvider.getInstance().post(new FilesystemStatusUpdateEvent(
+                BusProvider.postEvent(new FilesystemStatusUpdateEvent(
                         FilesystemStatusUpdateEvent.INDICATOR_REFRESHING));
             }
         });
@@ -174,7 +175,7 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
         this.post(new Runnable() {
             @Override
             public void run() {
-                BusProvider.getInstance().post(new FilesystemStatusUpdateEvent(
+                BusProvider.postEvent(new FilesystemStatusUpdateEvent(
                         FilesystemStatusUpdateEvent.INDICATOR_STOP_REFRESHING));
             }
         });
