@@ -104,7 +104,7 @@ public class FilesystemAsyncTask extends AsyncTask<String, Integer, Boolean> {
             this.mBreadcrumbView.post(new Runnable() {
                 @Override
                 public void run() {
-                    BusProvider.getInstance().post(new FilesystemStatusUpdateEvent(
+                    BusProvider.postEvent(new FilesystemStatusUpdateEvent(
                             FilesystemStatusUpdateEvent.INDICATOR_WARNING));
                     FilesystemAsyncTask.this.mBreadcrumbView.setMountPointInfo(null);
                 }
@@ -121,7 +121,7 @@ public class FilesystemAsyncTask extends AsyncTask<String, Integer, Boolean> {
                             MountPointHelper.isReadOnly(mp)
                             ? FilesystemStatusUpdateEvent.INDICATOR_LOCKED
                             : FilesystemStatusUpdateEvent.INDICATOR_UNLOCKED;
-                    BusProvider.getInstance().post(new FilesystemStatusUpdateEvent(eventType));
+                    BusProvider.postEvent(new FilesystemStatusUpdateEvent(eventType));
                     FilesystemAsyncTask.this.mBreadcrumbView.setMountPointInfo(mp);
                 }
             });

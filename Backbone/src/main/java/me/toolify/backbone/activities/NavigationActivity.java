@@ -249,7 +249,7 @@ public class NavigationActivity extends AbstractNavigationActivity
                                 }
                             }
                             // Update bookmarks to reflect access mode change
-                            BusProvider.getInstance().post(new BookmarkRefreshEvent());
+                            BusProvider.postEvent(new BookmarkRefreshEvent());
                         }
 
                         // Filetime format mode
@@ -409,7 +409,7 @@ public class NavigationActivity extends AbstractNavigationActivity
                 // If the properties drawer was just closed, we should lock it closed and make sure
                 // that the properties action mode is closed too.
                 if (view instanceof FsoPropertiesView) {
-                    BusProvider.getInstance().post(new ClosePropertiesDrawerEvent());
+                    BusProvider.postEvent(new ClosePropertiesDrawerEvent());
                 }
             }
 
@@ -460,8 +460,8 @@ public class NavigationActivity extends AbstractNavigationActivity
         super.onPause();
 
         // Always unregister when an object no longer should be on the bus.
-        BusProvider.getInstance().unregister(this);
-        BusProvider.getInstance().unregister(mBookmarkDrawer);
+        BusProvider.unregister(this);
+        BusProvider.unregister(mBookmarkDrawer);
     }
 
     /**
@@ -473,11 +473,11 @@ public class NavigationActivity extends AbstractNavigationActivity
         mViewPager.setOnPageChangeListener(this);
 
         // Register ourselves so that we can provide the initial value.
-        BusProvider.getInstance().register(this);
-        BusProvider.getInstance().register(mBookmarkDrawer);
+        BusProvider.register(this);
+        BusProvider.register(mBookmarkDrawer);
 
         // Tell the bookmarks fragment to refresh itself
-        BusProvider.getInstance().post(new BookmarkRefreshEvent());
+        BusProvider.postEvent(new BookmarkRefreshEvent());
     }
 
     /**
@@ -847,7 +847,7 @@ public class NavigationActivity extends AbstractNavigationActivity
                 break;
 
             case R.id.mnu_actions_properties_current_folder:
-                BusProvider.getInstance().post(new OpenPropertiesDrawerEvent(
+                BusProvider.postEvent(new OpenPropertiesDrawerEvent(
                         getCurrentNavigationFragment().getCurrentDir()));
                 break;
 
@@ -858,7 +858,7 @@ public class NavigationActivity extends AbstractNavigationActivity
                             getCurrentNavigationFragment().getCurrentDir(),
                             null);
                     BookmarksActionPolicy.addToBookmarks(this, bookmarkFso);
-                    BusProvider.getInstance().post(new BookmarkRefreshEvent());
+                    BusProvider.postEvent(new BookmarkRefreshEvent());
                 } catch (Exception e) {
                     ExceptionUtil.translateException(this, e, true, false);
                 }
@@ -975,10 +975,10 @@ public class NavigationActivity extends AbstractNavigationActivity
             } else {
                 // The bookmark not exists, delete the user-defined bookmark
                 try {
-                	BusProvider.getInstance().post(new BookmarkDeleteEvent(path));
+                	BusProvider.postEvent(new BookmarkDeleteEvent(path));
                 	Bookmark b = Bookmarks.getBookmark(getContentResolver(), path);
                     Bookmarks.removeBookmark(this, b);
-                    BusProvider.getInstance().post(new BookmarkRefreshEvent());
+                    BusProvider.postEvent(new BookmarkRefreshEvent());
                 } catch (Exception ex) {/**NON BLOCK**/}
             }
         } catch (Exception e) {
@@ -987,7 +987,7 @@ public class NavigationActivity extends AbstractNavigationActivity
             if (e instanceof NoSuchFileOrDirectory || e instanceof FileNotFoundException) {
                 // The bookmark not exists, delete the user-defined bookmark
                 try {
-                	BusProvider.getInstance().post(new BookmarkDeleteEvent(path));
+                	BusProvider.postEvent(new BookmarkDeleteEvent(path));
                 } catch (Exception ex) {/**NON BLOCK**/}
             }
             return;

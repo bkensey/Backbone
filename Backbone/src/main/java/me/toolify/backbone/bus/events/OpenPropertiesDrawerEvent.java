@@ -18,7 +18,7 @@ package me.toolify.backbone.bus.events;
 
 import me.toolify.backbone.model.FileSystemObject;
 
-public class OpenPropertiesDrawerEvent {
+public class OpenPropertiesDrawerEvent extends BusEvent {
 	public final Object item;
 
 	public OpenPropertiesDrawerEvent(Object item) {
