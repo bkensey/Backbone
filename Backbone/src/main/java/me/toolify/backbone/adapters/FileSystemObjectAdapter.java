@@ -111,6 +111,7 @@ public class FileSystemObjectAdapter
     private List<FileSystemObject> mSelectedItems;
     private final boolean mPickable;
     private ImageFetcher mImageFetcher;
+    private boolean displayThumbs;
 
     private OnSelectionChangedListener mOnSelectionChangedListener;
 
@@ -306,7 +307,7 @@ public class FileSystemObjectAdapter
 
         //Set the data
         //Gather image thumbnail or generate apk icon if it hasn't been generated yet
-        if (this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
+        if (displayThumbs && this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
             viewHolder.mBtIcon.setScaleType(ImageView.ScaleType.CENTER_CROP);
             RelativeLayout.LayoutParams lp = ((RelativeLayout.LayoutParams)viewHolder.mBtIcon.getLayoutParams());
             if(lp != null)
@@ -567,7 +568,7 @@ public class FileSystemObjectAdapter
         if (this.mIconHolder != null) {
             this.mIconHolder.cleanup();
         }
-        final boolean displayThumbs = Preferences.getSharedPreferences().getBoolean(
+        displayThumbs = Preferences.getSharedPreferences().getBoolean(
                 FileManagerSettings.SETTINGS_DISPLAY_THUMBS.getId(),
                 ((Boolean)FileManagerSettings.SETTINGS_DISPLAY_THUMBS.getDefaultValue()).booleanValue());
         this.mIconHolder = new IconHolder(getContext());
