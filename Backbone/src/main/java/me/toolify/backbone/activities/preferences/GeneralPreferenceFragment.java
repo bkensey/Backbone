@@ -187,6 +187,12 @@ public class GeneralPreferenceFragment extends TitlePreferenceFragment {
         this.mDisplayThumbs =
                 (CheckBoxPreference)findPreference(
                         FileManagerSettings.SETTINGS_DISPLAY_THUMBS.getId());
+        Boolean defaultBooleanValue = ((Boolean)FileManagerSettings.
+                SETTINGS_DISPLAY_THUMBS.getDefaultValue());
+        Boolean booleanValue = Preferences.getSharedPreferences().getBoolean(
+                FileManagerSettings.SETTINGS_DISPLAY_THUMBS.getId(),
+                defaultBooleanValue);
+        this.mOnChangeListener.onPreferenceChange(this.mDisplayThumbs, booleanValue);
         this.mDisplayThumbs.setOnPreferenceChangeListener(this.mOnChangeListener);
 
         // Use flinger
