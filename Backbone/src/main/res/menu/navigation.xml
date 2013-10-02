@@ -83,6 +83,7 @@
             android:id="@+id/mnu_actions_layout_mode"
             android:icon="?attr/actionIconLayoutMode"
             android:showAsAction="never"
+            android:visible="@bool/DEBUG_MODE"
             android:title="@string/actionbar_button_layout_mode_cd">
         <menu>
             <group android:checkableBehavior="single">
