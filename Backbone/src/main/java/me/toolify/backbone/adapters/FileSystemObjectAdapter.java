@@ -301,10 +301,6 @@ public class FileSystemObjectAdapter
         //Retrieve the view holder
         ViewHolder viewHolder = (ViewHolder)v.getTag();
 
-        // Apply the current theme
-        theme.setBackgroundDrawable(
-                getContext(), v, "background_drawable"); //$NON-NLS-1$
-
         //Set the data
         //Gather image thumbnail or generate apk icon if it hasn't been generated yet
         if (displayThumbs && this.mData[position].mImagePath != null && !this.mData[position].mImagePath.isEmpty()) {
@@ -387,18 +383,19 @@ public class FileSystemObjectAdapter
                     //Select/Deselect the item
                     data.mSelected = !data.mSelected;
                     if (v != null) {
-                        ((View)v.getParent()).setSelected(data.mSelected);
-                    }
-                    if (v != null) {
+                        View viewParent = (View)v.getParent().getParent();
+
+                        viewParent.setSelected(data.mSelected);
+
                         if (data.mSelected) {
                             theme.setBackgroundDrawable(
                                     getContext(),
-                                    (View)v.getParent(),
+                                    viewParent,
                                     "selectors_selected_drawable"); //$NON-NLS-1$
                         } else {
                             theme.setBackgroundDrawable(
                                     getContext(),
-                                    (View)v.getParent(),
+                                    viewParent,
                                     "selectors_deselected_drawable"); //$NON-NLS-1$
                         }
                     }
