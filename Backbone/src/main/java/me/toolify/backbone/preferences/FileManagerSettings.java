@@ -271,4 +271,10 @@ public enum FileManagerSettings {
         }
         return null;
     }
+
+    public static void setSorting(NavigationSortMode sort) {
+        Preferences.getSharedPreferences().edit().putInt(
+                FileManagerSettings.SETTINGS_SORT_MODE.getId(),
+                sort.getId()).apply();
+    }
 }

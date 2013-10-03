@@ -859,30 +859,22 @@ public class NavigationActivity extends AbstractNavigationActivity
         // Action Items
         switch (item.getItemId()) {
             case R.id.mnu_actions_sort_by_date_asc:
-                Preferences.getSharedPreferences().edit().putInt(
-                        FileManagerSettings.SETTINGS_SORT_MODE.getId(),
-                        NavigationSortMode.DATE_ASC.getId()).apply();
+                FileManagerSettings.setSorting(NavigationSortMode.DATE_ASC);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_sort_by_date_desc:
-                Preferences.getSharedPreferences().edit().putInt(
-                        FileManagerSettings.SETTINGS_SORT_MODE.getId(),
-                        NavigationSortMode.DATE_DESC.getId()).apply();
+                FileManagerSettings.setSorting(NavigationSortMode.DATE_DESC);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_sort_by_name_asc:
-                Preferences.getSharedPreferences().edit().putInt(
-                        FileManagerSettings.SETTINGS_SORT_MODE.getId(),
-                        NavigationSortMode.NAME_ASC.getId()).apply();
+                FileManagerSettings.setSorting(NavigationSortMode.NAME_ASC);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_sort_by_name_desc:
-                Preferences.getSharedPreferences().edit().putInt(
-                        FileManagerSettings.SETTINGS_SORT_MODE.getId(),
-                        NavigationSortMode.NAME_DESC.getId()).apply();
+                FileManagerSettings.setSorting(NavigationSortMode.NAME_DESC);
                 getCurrentNavigationFragment().refresh();
                 break;
 
