@@ -879,43 +879,37 @@ public class NavigationActivity extends AbstractNavigationActivity
                 break;
 
             case R.id.mnu_actions_show_dirs_first:
-                toggleViewPreference(FileManagerSettings.SETTINGS_SHOW_DIRS_FIRST);
+                FileManagerSettings.toggleViewPreference(FileManagerSettings.SETTINGS_SHOW_DIRS_FIRST);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_show_hidden:
-                toggleViewPreference(FileManagerSettings.SETTINGS_SHOW_HIDDEN);
+                FileManagerSettings.toggleViewPreference(FileManagerSettings.SETTINGS_SHOW_HIDDEN);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_show_system:
-                toggleViewPreference(FileManagerSettings.SETTINGS_SHOW_SYSTEM);
+                FileManagerSettings.toggleViewPreference(FileManagerSettings.SETTINGS_SHOW_SYSTEM);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_show_symlinks:
-                toggleViewPreference(FileManagerSettings.SETTINGS_SHOW_SYMLINKS);
+                FileManagerSettings.toggleViewPreference(FileManagerSettings.SETTINGS_SHOW_SYMLINKS);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_layout_simple:
-                Preferences.getSharedPreferences().edit().putInt(
-                        FileManagerSettings.SETTINGS_LAYOUT_MODE.getId(),
-                        NavigationLayoutMode.SIMPLE.getId()).apply();
+                FileManagerSettings.setLayout(NavigationLayoutMode.SIMPLE);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_layout_details:
-                Preferences.getSharedPreferences().edit().putInt(
-                        FileManagerSettings.SETTINGS_LAYOUT_MODE.getId(),
-                        NavigationLayoutMode.DETAILS.getId()).apply();
+                FileManagerSettings.setLayout(NavigationLayoutMode.DETAILS);
                 getCurrentNavigationFragment().refresh();
                 break;
 
             case R.id.mnu_actions_layout_icons:
-                Preferences.getSharedPreferences().edit().putInt(
-                        FileManagerSettings.SETTINGS_LAYOUT_MODE.getId(),
-                        NavigationLayoutMode.ICONS.getId()).apply();
+                FileManagerSettings.setLayout(NavigationLayoutMode.ICONS);
                 getCurrentNavigationFragment().refresh();
                 break;
 
@@ -987,16 +981,6 @@ public class NavigationActivity extends AbstractNavigationActivity
                return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Convenience method for toggling a checkable view preference
-     * @param key The setting to toggle
-     */
-    public void toggleViewPreference(FileManagerSettings key) {
-        Preferences.getSharedPreferences().edit().putBoolean(key.getId(),
-                !Preferences.getSharedPreferences().getBoolean(key.getId(),
-                (Boolean.parseBoolean(key.getDefaultValue().toString())))).apply();
     }
 
     /**
