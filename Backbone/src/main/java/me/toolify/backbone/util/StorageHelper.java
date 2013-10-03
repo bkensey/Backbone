@@ -19,19 +19,18 @@ import android.content.Context;
 import android.os.storage.StorageManager;
 import android.util.Log;
 
-import me.toolify.backbone.FileManagerApplication;
-import me.toolify.backbone.R;
-import me.toolify.backbone.model.Directory;
-import me.toolify.backbone.model.DiskUsage;
-import me.toolify.backbone.model.FileSystemObject;
-import me.toolify.backbone.model.MountPoint;
-import me.toolify.backbone.model.StorageVolume;
-
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import me.toolify.backbone.FileManagerApplication;
+import me.toolify.backbone.R;
+import me.toolify.backbone.model.DiskUsage;
+import me.toolify.backbone.model.FileSystemObject;
+import me.toolify.backbone.model.MountPoint;
+import me.toolify.backbone.model.StorageVolume;
 
 
 /**
@@ -65,8 +64,6 @@ public final class StorageHelper {
                 {
                     String path = getStoragePath(o);
                     DiskUsage du = CommandHelper.getDiskUsage(ctx, path, null);
-                    if(DEBUG)
-                        Log.d(TAG, "DiskUsage: " + du.toString());
                     if(du.getTotal() <= 0) continue; // Ensure validity by checking for disk space
                     volumes.add(o);
                 }
