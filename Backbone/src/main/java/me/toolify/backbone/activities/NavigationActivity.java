@@ -1017,33 +1017,6 @@ public class NavigationActivity extends AbstractNavigationActivity
             }
         }
     }
-
-    /**
-     * Method invoked when a custom action item is clicked. This does not handle action items populated by the default
-     * action bar menu inflater.  It does handle the custom action buttons from the "Navigation View" as views instead
-     * of MenuItems.  The Navigation View is the custom view inserted into the top action bar.
-     *
-     * @param view The button pushed
-     */
-    public void onActionBarItemClick(View view) {
-        switch (view.getId()) {
-            //######################
-            //Selection Actions
-            //######################
-            case R.id.ab_selection_done:
-                // Show information of the filesystem
-                getCurrentNavigationFragment().onDeselectAll();
-                break;
-
-            case R.id.ab_select_all:
-                // Select all items in the visible navigation fragment
-                getCurrentNavigationFragment().onSelectAllVisibleItems();
-                break;
-
-            default:
-                break;
-        }
-    }
     
     @Subscribe
     public void onBookmarkOpen(BookmarkOpenEvent event) {
