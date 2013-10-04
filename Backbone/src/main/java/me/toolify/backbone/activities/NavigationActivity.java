@@ -64,6 +64,7 @@ import me.toolify.backbone.BuildConfig;
 import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
 import me.toolify.backbone.actionmode.PropertiesModeCallback;
+import me.toolify.backbone.activities.preferences.SettingsPreferences;
 import me.toolify.backbone.adapters.NavigationFragmentPagerAdapter;
 import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.BookmarkDeleteEvent;
@@ -991,6 +992,12 @@ public class NavigationActivity extends AbstractNavigationActivity
                 } catch (Exception e) {
                     ExceptionUtil.translateException(this, e, true, false);
                 }
+                break;
+            // Open settings
+            case R.id.mnu_settings:
+                Intent settings = new Intent(
+                NavigationActivity.this, SettingsPreferences.class);
+                startActivity(settings);
                 break;
 
             default:
