@@ -64,6 +64,7 @@ public final class StorageHelper {
                 {
                     String path = getStoragePath(o);
                     DiskUsage du = CommandHelper.getDiskUsage(ctx, path, null);
+                    if(du == null) continue;
                     if(du.getTotal() <= 0) continue; // Ensure validity by checking for disk space
                     volumes.add(o);
                 }
@@ -81,9 +82,9 @@ public final class StorageHelper {
                         if(!MountPointHelper.isReadWrite(mp)) continue;
                         String path = mp.getMountPoint();
                         if(!mp.getDevice().startsWith("/")) continue;
-                        if(path.matches("^\\/(dev|persist|cache|proc|efs|data|acct|sys)\\/"))
+                        if(path.matches("/(dev|persist|cache|proc|efs|data|acct|sys)/.*"))
                             continue;
-                        if(path.matches("^\\/(dev|persist|cache|proc|efs|data|acct|sys)$"))
+                        if(path.matches("/(dev|persist|cache|proc|efs|data|acct|sys)"))
                             continue;
                         StorageVolume sv = null;
                         try {
