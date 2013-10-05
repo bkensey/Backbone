@@ -145,7 +145,7 @@ public class SettingsPreferences extends PreferenceActivity {
         // Create Dashclock preference if the user has enabled our Dashclock extension
         if(DashExtension.isEnabled(this)) {
             Header dashHeader = new Header();
-            dashHeader.titleRes = R.string.dashclock_settings;
+            dashHeader.titleRes = R.string.pref_dashclock;
             dashHeader.intent = new Intent(this, DashSettings.class);
             dashHeader.iconRes = a.getResourceId(R.styleable.FileManagerPrefs_preferenceIconDashclock,
                     R.drawable.ic_preference_black_dashclock);

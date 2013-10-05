@@ -625,6 +625,9 @@
     <string name="pref_about">About</string>
     <!-- Preferences - About summary -->
     <string name="pref_about_summary">File Manager v<xliff:g id="version">%1$s</xliff:g>\nCopyright \u00A9 2013 The CyanogenMod Project</string>
+    <!-- Preferences - Dashclock title -->
+    <string name="pref_dashclock">Dashclock settings</string>
+
 
     <!-- Preferences - General - Behaviour category -->
     <string name="pref_general_behaviour_category">General</string>
