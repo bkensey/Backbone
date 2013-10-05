@@ -751,10 +751,18 @@
     <!-- Preferences - About - Build version summary -->
     <string name="pref_about_version_num">Version:<xliff:g id="version_num">%1$s</xliff:g></string>
 
-    <!-- Preferences - About - Credits and licenses * CMFileManager -->
+    <!-- Preferences - About - Credits and licenses - CMFileManager -->
     <string name="pref_license_cmfm" translatable="false"><![CDATA[<a href="https://github.com/CyanogenMod/android_packages_apps_CMFileManager">CyanogenMod File Manager</a>]]></string>
-    <!-- Preferences - About - Build version summary -->
-    <string name="pref_license_cmfm_details" translatable="false">A file manager for AOSP, focused on rooted devices and specially designed for the CyanogenMod Project. This source was released under the terms of <![CDATA[<a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>]]>  license. Visit <![CDATA[<a href="https://github.com/CyanogenMod">CyanogenMod Github</a>]]> and <![CDATA[<a href="http://review.cyanogenmod.com/">CyanogenMod Code Review</a>]]> to get the source and patches. Copyright © 2012 The CyanogenMod Project</string>
+    <!-- Preferences - About - Credits and licenses - CMFileManager license details -->
+    <string name="pref_license_cmfm_details" translatable="false">A file manager for AOSP, focused on rooted devices and specially designed for the CyanogenMod Project.<![CDATA[<br/><br/>]]>This source was released under the terms of <![CDATA[<a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>]]> license. <![CDATA[<br/><br/>]]>Visit <![CDATA[<a href="https://github.com/CyanogenMod">CyanogenMod Github</a>]]> and <![CDATA[<a href="http://review.cyanogenmod.com/">CyanogenMod Code Review</a>]]> to get the source and patches.<![CDATA[<br/><br/>]]>Copyright © 2013 The CyanogenMod Project</string>
+    <!-- Preferences - About - Credits and licenses - Android Syntax Highlight -->
+    <string name="pref_license_syntax_highlight" translatable="false"><![CDATA[<a href="https://github.com/CyanogenMod/android_packages_apps_CMFileManager">Android Syntax highlight</a>]]></string>
+    <!-- Preferences - About - Credits and licenses - Android Syntax Highlight license details -->
+    <string name="pref_license_syntax_highlight_details" translatable="false">A library for add syntax highlight to TextView and EditText widgets.<![CDATA[<br/><br/>]]>This library was developed as part of the CMFileManager app.<![CDATA[<br/><br/>]]>This source was released under the terms of <![CDATA[<a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>]]> license.<![CDATA[<br/><br/>]]>Visit <![CDATA[<a href="https://github.com/CyanogenMod">CyanogenMod Github</a>]]> and <![CDATA[<a href="http://review.cyanogenmod.com/">CyanogenMod Code Review</a>]]> to get the source and patches.<![CDATA[<br/><br/>]]>Copyright © 2013 The CyanogenMod Project</string>
+    <!-- Preferences - About - Credits and licenses - ColorPickerView -->
+    <string name="pref_license_color_picker_view" translatable="false"><![CDATA[<a href="https://github.com/CyanogenMod/android_packages_apps_CMFileManager">Color Picker View</a>]]></string>
+    <!-- Preferences - About - Credits and licenses - ColorPickerView license details -->
+    <string name="pref_license_color_picker_view_details" translatable="false">A color picker is something that has always been missing from the standard set of components which developers can build their user interface in Android with. Although there have been a few color pickers floating around on the internet I never found any that I thought was good enough for use in my applications so I sat down to write my own. This is the result and I have decided to release it as open source application for all you developers out there to use, free of charge of course.<![CDATA[<br/><br/>]]>Checkout latest sources at <![CDATA[<a href="http://code.google.com/p/color-picker-view/">http://code.google.com/p/color-picker-view/</a>]]> <![CDATA[<br/><br/>]]>This library is released under the <![CDATA[<a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</a>]]>  license.<![CDATA[<br/><br/>]]>Copyright © 2010 Daniel Nilsson Copyright © 2013 The CyanogenMod Project</string>
 
     <!-- Preferences - Debug - Capture debug traces -->
     <string name="pref_debug_traces">Log debugging information</string>
