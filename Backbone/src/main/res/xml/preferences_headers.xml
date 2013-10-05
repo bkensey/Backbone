@@ -24,9 +24,9 @@
     <header
             android:fragment="me.toolify.backbone.activities.preferences.EditorPreferenceFragment"
             android:title="@string/pref_editor"/>
-    <header
-            android:fragment="me.toolify.backbone.activities.preferences.ThemesPreferenceFragment"
-            android:title="@string/pref_themes"/>
+    <!--<header-->
+            <!--android:fragment="me.toolify.backbone.activities.preferences.ThemesPreferenceFragment"-->
+            <!--android:title="@string/pref_themes"/>-->
     <header
             android:fragment="me.toolify.backbone.activities.preferences.AboutPreferenceFragment"
             android:title="@string/pref_about"/>
