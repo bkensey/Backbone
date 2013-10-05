@@ -805,9 +805,10 @@
     <!-- Welcome Dialog - Message -->
     <string name="welcome_msg">Welcome to Backbone File Manager.\n\nThis app allows you to explore the file system and do operations that could break your device. To prevent damage, the app will start in a safe, low-privileged mode.\n\nYou can access the advanced, full-privileged mode via Settings. It\'s your responsibility to ensure that an operation doesn\'t break your system.\n\nThe Toolify Team</string>
 
+    <!-- Dashclock extension -->
     <string name="dashclock_extension_title">Filesystem status</string>
     <string name="dashclock_extension_description">Displays a summary of available drives on device. Shows either free or used disk space.</string>
-    <string name="dashclock_settings">Backbone extension settings</string>
+    <string name="dashclock_settings">Backbone Extension Settings</string>
     <string name="dashclock_icon">Icon</string>
     <string name="dashclock_usage">Disk usage to display</string>
     <string name="dashclock_settings_storage_title">Storage to display</string>
