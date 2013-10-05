@@ -34,7 +34,6 @@ public class DashSettings extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().setIcon(R.drawable.ic_launcher_settings);
         getActionBar().setHomeButtonEnabled(true);
     }
 
