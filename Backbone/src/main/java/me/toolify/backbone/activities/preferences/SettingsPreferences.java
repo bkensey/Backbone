@@ -146,7 +146,9 @@ public class SettingsPreferences extends PreferenceActivity {
         if(DashExtension.isEnabled(this)) {
             Header dashHeader = new Header();
             dashHeader.titleRes = R.string.pref_dashclock;
-            dashHeader.intent = new Intent(this, DashSettings.class);
+            Intent i =  new Intent(this, DashSettings.class);
+            i.putExtra("showLauncherIcon", true);
+            dashHeader.intent = i;
             dashHeader.iconRes = a.getResourceId(R.styleable.FileManagerPrefs_preferenceIconDashclock,
                     R.drawable.ic_preference_black_dashclock);
             target.add(dashHeader);

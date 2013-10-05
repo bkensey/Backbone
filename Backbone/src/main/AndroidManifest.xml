@@ -200,7 +200,7 @@
       </service>
 
       <activity android:name=".dashclock.DashSettings"
-                android:icon="@drawable/ic_launcher"
+                android:icon="@drawable/ic_launcher_dashclock"
                 android:label="@string/dashclock_settings"
                 android:exported="true" />
 
