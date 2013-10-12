@@ -44,6 +44,10 @@
     </declare-styleable>
 
     <declare-styleable name="FileManager">
+        <attr name="defaultBackground" format="reference"/>
+        <attr name="breadcrumbTitleTextColor" format="reference"/>
+        <attr name="breadcrumbSubtitleTextColor" format="reference"/>
+
         <attr name="actionIconFolderProperties" format="reference"/>
         <attr name="actionIconRefresh" format="reference"/>
         <attr name="actionIconNewDirectory" format="reference"/>
