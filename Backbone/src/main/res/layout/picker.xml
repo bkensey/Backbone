@@ -16,10 +16,8 @@
 
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:filemanager="http://schemas.android.com/apk/res/com.brandroidtools.filemanager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/default_background"
         android:orientation="vertical">
 
     <!-- Breadcrumb -->
@@ -47,12 +45,13 @@
             android:layout_alignParentLeft="true"
             android:visibility="invisible" />
 
-        <me.toolify.backbone.ui.widgets.BreadcrumbView
+        <me.toolify.backbone.ui.widgets.BreadcrumbSpinner
             android:id="@+id/breadcrumb_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_row_height"
             android:layout_toRightOf="@+id/button_filesystem_info"
-            android:layout_marginRight="@dimen/extra_large_margin"/>
+            android:layout_marginRight="@dimen/extra_large_margin"
+            style="@style/DropDownNav.Holo_dark"/>
 
     </RelativeLayout>
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (C) 2012 The CyanogenMod Project
+     Copyright (C) 2013 BrandroidTools
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -19,9 +20,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <me.toolify.backbone.ui.widgets.BreadcrumbView
+    <me.toolify.backbone.ui.widgets.BreadcrumbSpinner
             android:id="@+id/breadcrumb_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/DropDownNav.Holo_dark"/>
 
 </RelativeLayout>

@@ -16,6 +16,7 @@
 
 package me.toolify.backbone.ui.widgets;
 
+import android.content.res.Configuration;
 import android.view.MenuItem;
 
 import me.toolify.backbone.model.DiskUsage;
@@ -99,8 +100,4 @@ public interface Breadcrumb {
      */
     void setDiskUsageInfo(DiskUsage diskUsageInfo);
 
-    /**
-     * Method that applies the current theme to the breadcrumb
-     */
-    void applyTheme();
 }
