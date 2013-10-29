@@ -67,8 +67,8 @@ android {
             signingConfig signingConfigs.release
         }
 
-        releaseAlpha.initWith(buildTypes.release) // base alpha buildType on release buildType
-        releaseAlpha {
+        alpha.initWith(buildTypes.release) // base alpha buildType on release buildType
+        alpha {
             buildConfig "public static final String SEARCHES_PROVIDER_AUTHORITY = \"" + SEARCHES_PROVIDER_ALPHA + "\";" +
                         "public static final String BOOKMARKS_PROVIDER_AUTHORITY = \"" + BOOKMARKS_PROVIDER_ALPHA + "\";"
             packageNameSuffix ".alpha"
@@ -80,7 +80,7 @@ android {
        ==================================================
        Note! A gradle.properties (private and not checked into source control) file at the root of
        the project contains the properties referenced below.  Building the Debug variant will work
-       without the file, but release and releaseAlpha will not until the properties file and its
+       without the file, but release and alpha will not until the properties file and its
        referenced keystore file are present
        ================================================== */
     if (project.hasProperty('storeFile') && project.hasProperty('storePassword')
@@ -121,7 +121,7 @@ android {
                     'src/release/res']
         }
 
-        releaseAlpha {
+        alpha {
             res.srcDirs = [
                     'src/main/res',
                     'src/alpha/res']
