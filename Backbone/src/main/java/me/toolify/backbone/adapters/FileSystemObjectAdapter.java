@@ -326,10 +326,7 @@ public class FileSystemObjectAdapter
             viewHolder.mBtInfo.setVisibility(
                     dataHolder.mName.compareTo(
                             FileHelper.PARENT_DIRECTORY) == 0 ? View.INVISIBLE : View.VISIBLE);
-            //Enable selection via icon clicks on non-parent directory file items
-            if (dataHolder.mName.compareTo(FileHelper.PARENT_DIRECTORY) != 0){
-                viewHolder.mBtIcon.setOnClickListener(this);
-            }
+            viewHolder.mBtIcon.setOnClickListener(this);
             viewHolder.mBtIcon.setTag(Integer.valueOf(position));
             viewHolder.mBtInfo.setTag(Integer.valueOf(position));
 
@@ -546,8 +543,10 @@ public class FileSystemObjectAdapter
         //What button was pressed?
         switch (v.getId()) {
             case RESOURCE_ITEM_ICON:
-                //Get the row item view
-                toggleSelection(v, fso);
+                // If we're not dealing with a parent folder item, toggle it
+                if (fso.getName().compareTo(FileHelper.PARENT_DIRECTORY) != 0){
+                    toggleSelection(v, fso);
+                }
                 break;
             case RESOURCE_ITEM_INFO:
                 BusProvider.postEvent(new OpenPropertiesDrawerEvent(fso));
