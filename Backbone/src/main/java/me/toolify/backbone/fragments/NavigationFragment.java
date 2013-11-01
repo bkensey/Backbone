@@ -256,15 +256,15 @@ public class NavigationFragment extends Fragment implements
     Handler mHandler;
 
     /**
-     * Create a new instance of FileListFragment, providing "num" as an
+     * Create a new instance of a NavigationFragment, providing its position in the viewpager as an
      * argument.
      */
-    public static NavigationFragment newInstance(int num) {
+    public static NavigationFragment newInstance(int position) {
         NavigationFragment f = new NavigationFragment();
 
         // Supply num input as an argument.
         Bundle args = new Bundle();
-        args.putInt("position", num);
+        args.putInt("position", position);
         f.setArguments(args);
         return f;
     }
