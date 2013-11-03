@@ -658,15 +658,13 @@ public class NavigationActivity extends AbstractNavigationActivity
         mTitleLayout = getLayoutInflater().inflate(
                 R.layout.navigation_view_customtitle, null, false);
         mTitle = (NavigationCustomTitleView)mTitleLayout.findViewById(R.id.navigation_title_flipper);
-        mBreadcrumb = (Breadcrumb)mTitle.findViewById(R.id.breadcrumb_view);
-        //mSlidingStrip = (PagerSlidingTabStrip)mTitleLayout.findViewById(R.id.breadcrumb_sliding_strip);
         mBreadcrumbPager = (BreadcrumbPager)mTitleLayout.findViewById(R.id.breadcrumb_pager);
 
-        // Set the free disk space warning level of the breadcrumb widget
+        // TODO: Set the free disk space warning level of the breadcrumb spinner
         String fds = Preferences.getSharedPreferences().getString(
                 FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getId(),
                 (String)FileManagerSettings.SETTINGS_DISK_USAGE_WARNING_LEVEL.getDefaultValue());
-        mBreadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
+        //mBreadcrumb.setFreeDiskSpaceWarningLevel(Integer.parseInt(fds));
         //Configure the action bar options
         mActionBar.setDisplayOptions(
                 ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);

@@ -25,17 +25,14 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
-import android.support.v4.view.AccessibilityDelegateCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -45,7 +42,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
@@ -60,33 +56,13 @@ import me.toolify.backbone.R;
 import me.toolify.backbone.fragments.NavigationFragment;
 
 /**
- * Layout manager that allows the user to flip left and right
- * through pages of data.  You supply an implementation of a
- * {@link android.support.v4.view.PagerAdapter} to generate the pages that the view shows.
+ * Layout manager that loads paired sets of {@link me.toolify.backbone.ui.widgets.BreadcrumbSpinner}
+ * corresponding to matching {@link me.toolify.backbone.fragments.NavigationFragment} in another
+ * viewpager
  *
- * <p>Note this class is currently under early design and
- * development.  The API will likely change in later updates of
- * the compatibility library, requiring changes to the source code
- * of apps when they are compiled against the newer version.</p>
- *
- * <p>ViewPager is most often used in conjunction with {@link android.app.Fragment},
- * which is a convenient way to supply and manage the lifecycle of each page.
- * There are standard adapters implemented for using fragments with the ViewPager,
- * which cover the most common use cases.  These are
- * {@link android.support.v4.app.FragmentPagerAdapter} and
- * {@link android.support.v4.app.FragmentStatePagerAdapter}; each of these
- * classes have simple code showing how to build a full user interface
- * with them.
- *
- * <p>Here is a more complicated example of ViewPager, using it in conjuction
- * with {@link android.app.ActionBar} tabs.  You can find other examples of using
- * ViewPager in the API 4+ Support Demos and API 13+ Support Demos sample code.
- *
- * {@sample development/samples/Support13Demos/src/com/example/android/supportv13/app/ActionBarTabsPager.java
- *      complete}
  */
 public class BreadcrumbPager extends ViewGroup {
-    private static final String TAG = "ViewPager";
+    private static final String TAG = "BreadcrumbPager";
     private static final boolean DEBUG = false;
 
     private static final boolean USE_CACHE = false;
@@ -164,6 +140,7 @@ public class BreadcrumbPager extends ViewGroup {
 
     private int mChildWidthMeasureSpec;
     private int mChildHeightMeasureSpec;
+    private int mGreatestChildWidth;
     private boolean mInLayout;
 
     private boolean mScrollingCacheEnabled;
@@ -297,8 +274,6 @@ public class BreadcrumbPager extends ViewGroup {
         dividerPaint = new Paint();
         dividerPaint.setAntiAlias(true);
         dividerPaint.setStrokeWidth(dividerWidth);
-
-        ViewCompat.setAccessibilityDelegate(this, new MyAccessibilityDelegate());
 
         if (ViewCompat.getImportantForAccessibility(this)
                 == ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_AUTO) {
@@ -1324,10 +1299,9 @@ public class BreadcrumbPager extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // For simple implementation, our internal size is always 0.
-        // We depend on the container to specify the layout size of
-        // our view.  We can't really know what it is since we will be
-        // adding and removing different arbitrary views and do not
-        // want the layout to change as this happens.
+        // We depend on the largest breadcrumb to specify the layout size of
+        // our view.  We can't really know what it is yet since we will be
+        // adding and removing different arbitrary views.
         setMeasuredDimension(getDefaultSize(0, widthMeasureSpec),
                 getDefaultSize(0, heightMeasureSpec));
 
@@ -1398,8 +1372,9 @@ public class BreadcrumbPager extends ViewGroup {
         populate();
         mInLayout = false;
 
-        // Page views next.
+        // Now we set measurements for each of the breadcrumb page views
         size = getChildCount();
+        mGreatestChildWidth = 0;
         for (int i = 0; i < size; ++i) {
             final View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
@@ -1409,11 +1384,22 @@ public class BreadcrumbPager extends ViewGroup {
                 final LayoutParams lp = (LayoutParams) child.getLayoutParams();
                 if (lp == null || !lp.isDecor) {
                     final int widthSpec = MeasureSpec.makeMeasureSpec(
-                            (int) (childWidthSize * lp.widthFactor), MeasureSpec.EXACTLY);
+                            (int) (childWidthSize * lp.widthFactor), MeasureSpec.AT_MOST);
                     child.measure(widthSpec, mChildHeightMeasureSpec);
+                    // Gather child width in order to determine which breadcrumb is widest
+                    final int childWidth = child.getMeasuredWidth();
+
+                    if (childWidth > mGreatestChildWidth) {
+                        mGreatestChildWidth = childWidth;
+                    }
                 }
             }
         }
+
+        // Measure the pager again, setting pager width to that of the widest child
+        final int pagerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(mGreatestChildWidth,
+                MeasureSpec.EXACTLY);
+        setMeasuredDimension(pagerWidthMeasureSpec, getDefaultSize(0, heightMeasureSpec));
     }
 
     @Override
@@ -1895,28 +1881,6 @@ public class BreadcrumbPager extends ViewGroup {
     }
 
     @Override
-    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
-        // BreadcrumbPagers should only report accessibility info for the current page,
-        // otherwise things get very confusing.
-
-        // TODO: Should this note something about the paging container?
-
-        final int childCount = getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            final View child = getChildAt(i);
-            if (child.getVisibility() == VISIBLE) {
-                final ItemInfo ii = infoForChild(child);
-                if (ii != null && ii.position == mCurItem &&
-                        child.dispatchPopulateAccessibilityEvent(event)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    @Override
     protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
         return new LayoutParams();
     }
@@ -1934,50 +1898,6 @@ public class BreadcrumbPager extends ViewGroup {
     @Override
     public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new LayoutParams(getContext(), attrs);
-    }
-
-    class MyAccessibilityDelegate extends AccessibilityDelegateCompat {
-
-        @Override
-        public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
-            super.onInitializeAccessibilityEvent(host, event);
-            event.setClassName(BreadcrumbPager.class.getName());
-        }
-
-        @Override
-        public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfoCompat info) {
-            super.onInitializeAccessibilityNodeInfo(host, info);
-            info.setClassName(BreadcrumbPager.class.getName());
-            info.setScrollable(mAdapter != null && mAdapter.getCount() > 1);
-            if (mAdapter != null && mCurItem >= 0 && mCurItem < mAdapter.getCount() - 1) {
-                info.addAction(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD);
-            }
-            if (mAdapter != null && mCurItem > 0 && mCurItem < mAdapter.getCount()) {
-                info.addAction(AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD);
-            }
-        }
-
-        @Override
-        public boolean performAccessibilityAction(View host, int action, Bundle args) {
-            if (super.performAccessibilityAction(host, action, args)) {
-                return true;
-            }
-            switch (action) {
-                case AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD: {
-                    if (mAdapter != null && mCurItem >= 0 && mCurItem < mAdapter.getCount() - 1) {
-                        setCurrentItem(mCurItem + 1);
-                        return true;
-                    }
-                } return false;
-                case AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD: {
-                    if (mAdapter != null && mCurItem > 0 && mCurItem < mAdapter.getCount()) {
-                        setCurrentItem(mCurItem - 1);
-                        return true;
-                    }
-                } return false;
-            }
-            return false;
-        }
     }
 
     private class PagerObserver extends DataSetObserver {
@@ -2031,7 +1951,7 @@ public class BreadcrumbPager extends ViewGroup {
         int childIndex;
 
         public LayoutParams() {
-            super(FILL_PARENT, FILL_PARENT);
+            super(MATCH_PARENT, MATCH_PARENT);
         }
 
         public LayoutParams(Context context, AttributeSet attrs) {
@@ -2063,12 +1983,11 @@ public class BreadcrumbPager extends ViewGroup {
             mCurrentPage = position;
             mPositionOffset = positionOffset;
 
-            if (position == 1) {
-                boolean test = true;
-            }
-            final int width = mItems.get(position).breadcrumb.getWidth();
-
-            scrollToChild(position, (int) (positionOffset * width));
+            // We can assume that all items have the same "width" (meaning that each breadcrumb
+            // "page" has the same width as the widest breadcrumb, even each individual breadcrumb
+            // doesn't take up the full width.  Therefore, in order to achieve smooth scrolling
+            // we multiply the position offset by our assumed pager width
+            scrollToChild(position, (int) (positionOffset * mGreatestChildWidth));
 
             if (mDelegatePageListener != null) {
                 mDelegatePageListener.onPageScrolled(position, positionOffset, positionOffsetPixels);

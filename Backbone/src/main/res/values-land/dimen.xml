@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2012 The CyanogenMod Project
+<!--
      Copyright (C) 2013 BrandroidTools
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,17 +13,19 @@
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
      limitations under the License.
- -->
+-->
+<resources>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/tb_breadcrumb"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    <!-- Minimum width of the breadcrumb -->
+    <dimen name="breadcrumb_min_width">180dp</dimen>
 
-    <me.toolify.backbone.ui.widgets.BreadcrumbPager
-        android:id="@+id/breadcrumb_pager"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        />
+    <!-- Text size for breadcrumb titles -->
+    <dimen name="breadcrumb_title_text_size">18sp</dimen>
+    <!-- Text size for breadcrumb subtitles -->
+    <dimen name="breadcrumb_subtitle_text_size">12sp</dimen>
+    <!-- Top margin for breadcrumb subtitles -->
+    <dimen name="breadcrumb_title_top_margin">-4dp</dimen>
+    <!-- Bottom margin for breadcrumb subtitles -->
+    <dimen name="breadcrumb_subtitle_top_margin">-5dip</dimen>
 
-</LinearLayout>
+</resources>
