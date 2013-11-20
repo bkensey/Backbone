@@ -313,11 +313,11 @@
     <string name="pref_general_advanced_settings_category">Avanzado</string>
     <string name="pref_access_mode">Modo de acceso</string>
     <string name="pref_access_mode_safe">Modo seguro</string>
-    <string name="pref_access_mode_safe_summary">Modo seguro\n\nLa aplicación está ejecutándose sin privilegios de superusuario y solo serán accesibles los volúmenes de almacenamiento (tarjetas SD y memorias USB)</string>
+    <string name="pref_access_mode_safe_summary">La aplicación está ejecutándose sin privilegios de superusuario y solo serán accesibles los volúmenes de almacenamiento (tarjetas SD y memorias USB)</string>
     <string name="pref_access_mode_prompt">Modo confirmación</string>
-    <string name="pref_access_mode_prompt_summary">Modo confirmación\n\nLa aplicación está ejecutándose con acceso completo al sistema de archivos, pero se preguntará antes de ejecutar acciones de superusuario</string>
+    <string name="pref_access_mode_prompt_summary">La aplicación está ejecutándose con acceso completo al sistema de archivos, pero se preguntará antes de ejecutar acciones de superusuario</string>
     <string name="pref_access_mode_root">Modo superusuario</string>
-    <string name="pref_access_mode_root_summary">Modo superusuario\n\n¡Aviso! Este modo permite operaciones que pueden bloquear el dispositivo. Será tu responsabilidad asegurarte de que la operación sea segura</string>
+    <string name="pref_access_mode_root_summary">¡Aviso! Este modo permite operaciones que pueden bloquear el dispositivo. Será tu responsabilidad asegurarte de que la operación sea segura</string>
     <string name="pref_search_results_category">Resultados</string>
     <string name="pref_show_relevance_widget">Mostrar relevancia</string>
     <string name="pref_highlight_terms">Resaltar términos de búsqueda</string>

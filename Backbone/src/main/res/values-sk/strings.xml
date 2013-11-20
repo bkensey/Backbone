@@ -609,15 +609,15 @@
   <!-- Preferences * General * Safe mode -->
   <string name="pref_access_mode_safe">Bezpečný režim</string>
   <!-- Preferences * General * Safe mode summary -->
-  <string name="pref_access_mode_safe_summary">Bezpečný režim\n\nAplikácia beží bez rozšírených oprávnení a môže pristupovať iba k užívateľským súborovým systémom (SD karte a USB)</string>
+  <string name="pref_access_mode_safe_summary">Aplikácia beží bez rozšírených oprávnení a môže pristupovať iba k užívateľským súborovým systémom (SD karte a USB)</string>
   <!-- Preferences * General * Prompt user mode -->
   <string name="pref_access_mode_prompt">Režim na požiadanie</string>
   <!-- Preferences * General * Prompt user mode summary -->
-  <string name="pref_access_mode_prompt_summary">Režim na vyžiadanie\n\nAplikácia beží s plným oprávnením k súborovému systému, ale pri každej privilegovanej akcii požiada o oprávnenie.</string>
+  <string name="pref_access_mode_prompt_summary">Aplikácia beží s plným oprávnením k súborovému systému, ale pri každej privilegovanej akcii požiada o oprávnenie.</string>
   <!-- Preferences * General * Root access mode -->
   <string name="pref_access_mode_root">Režim bez obmedzenia</string>
   <!-- Preferences * General * Root access mode summary -->
-  <string name="pref_access_mode_root_summary">Režim bez obmedzenia\n\nUpozornenie! Tento režim umožňuje operácie, ktoré môžu poškodiť vaše zariaadenie. Je iba na vašom posúdení, či je požadovaná akcia bezpečná.</string>
+  <string name="pref_access_mode_root_summary">Upozornenie! Tento režim umožňuje operácie, ktoré môžu poškodiť vaše zariaadenie. Je iba na vašom posúdení, či je požadovaná akcia bezpečná.</string>
   <!-- Preferences * Search * Results category -->
   <string name="pref_search_results_category">Výsledky</string>
   <!-- Preferences * Search * Show relevance widget -->

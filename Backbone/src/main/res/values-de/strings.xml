@@ -302,11 +302,11 @@
     <string name="pref_general_advanced_settings_category">Erweitert</string>
     <string name="pref_access_mode">Zugriffsmodus</string>
     <string name="pref_access_mode_safe">Sicherer Modus</string>
-    <string name="pref_access_mode_safe_summary">Sicherer Modus\n\nDieser Modus bietet nur eingeschränkte Zugriffsrechte auf das Dateisystem (SD-Karten und USB-Speicher).</string>
+    <string name="pref_access_mode_safe_summary">Dieser Modus bietet nur eingeschränkte Zugriffsrechte auf das Dateisystem (SD-Karten und USB-Speicher).</string>
     <string name="pref_access_mode_prompt">Erweiterter Modus</string>
-    <string name="pref_access_mode_prompt_summary">Erweiterter Modus\n\nDieser Modus bietet alle Zugriffsrechte auf das Dateisystem, fragt aber vor dem Ausführen einer Aktion nach Ihrer Zustimmung.</string>
+    <string name="pref_access_mode_prompt_summary">Dieser Modus bietet alle Zugriffsrechte auf das Dateisystem, fragt aber vor dem Ausführen einer Aktion nach Ihrer Zustimmung.</string>
     <string name="pref_access_mode_root">Root-Zugriffsmodus</string>
-    <string name="pref_access_mode_root_summary">Root-Zugriffsmodus\n\nDieser Modus erlaubt Aktionen, die das Gerät beschädigen können. Sie sind für jede ausgeführte Aktion selbst verantwortlich.</string>
+    <string name="pref_access_mode_root_summary">Dieser Modus erlaubt Aktionen, die das Gerät beschädigen können. Sie sind für jede ausgeführte Aktion selbst verantwortlich.</string>
     <string name="pref_search_results_category">Suchergebnisse</string>
     <string name="pref_show_relevance_widget">Relevanzindikator anzeigen</string>
     <string name="pref_highlight_terms">Suchergebnisse hervorheben</string>

@@ -127,6 +127,10 @@ public class SettingsPreferences extends PreferenceActivity {
                     header.iconRes = a.getResourceId(R.styleable.FileManagerPrefs_preferenceIconGeneral,
                             R.drawable.ic_preference_black_general);
                     break;
+                case R.string.pref_root:
+                    header.iconRes = a.getResourceId(R.styleable.FileManagerPrefs_preferenceIconRoot,
+                            R.drawable.ic_preference_black_root);
+                    break;
                 case R.string.pref_search:
                     header.iconRes = a.getResourceId(R.styleable.FileManagerPrefs_preferenceIconSearch,
                             R.drawable.ic_preference_black_search);

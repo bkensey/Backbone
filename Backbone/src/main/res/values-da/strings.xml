@@ -312,11 +312,11 @@
   <string name="pref_general_advanced_settings_category">Avanceret</string>
   <string name="pref_access_mode">Adgangstilstand</string>
   <string name="pref_access_mode_safe">Sikker tilstand</string>
-  <string name="pref_access_mode_safe_summary">Sikker tilstand\n\nAppen kører uden priviligier, og de eneste tilgængelige filsystemer er lagringsenheder (SD-kort og USB)</string>
+  <string name="pref_access_mode_safe_summary">Appen kører uden priviligier, og de eneste tilgængelige filsystemer er lagringsenheder (SD-kort og USB)</string>
   <string name="pref_access_mode_prompt">Tilstanden Spørg bruger</string>
-  <string name="pref_access_mode_prompt_summary">Tilstanden Spørg bruger\n\nAppen kører med fuld adgang til filsystemet, men vil spørge efter tilladelse, før priviligerede handlinger foretages.</string>
+  <string name="pref_access_mode_prompt_summary">Appen kører med fuld adgang til filsystemet, men vil spørge efter tilladelse, før priviligerede handlinger foretages.</string>
   <string name="pref_access_mode_root">Tilstanden Root-adgang</string>
-  <string name="pref_access_mode_root_summary">Tilstanden Root-adgang\n\nAdvarsel! Denne tilstand tillader operationer, der kan beskadige din enhed. Det er dit ansvar at sikre, at en handling er sikker</string>
+  <string name="pref_access_mode_root_summary">Advarsel! Denne tilstand tillader operationer, der kan beskadige din enhed. Det er dit ansvar at sikre, at en handling er sikker</string>
   <string name="pref_search_results_category">Resultater</string>
   <string name="pref_show_relevance_widget">Vis relevans-widget</string>
   <string name="pref_highlight_terms">Fremhæv søgetermer</string>

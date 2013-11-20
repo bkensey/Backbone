@@ -312,11 +312,11 @@
     <string name="pref_general_advanced_settings_category">Avancé</string>
     <string name="pref_access_mode">Mode d\'accès</string>
     <string name="pref_access_mode_safe">Mode sécurisé</string>
-    <string name="pref_access_mode_safe_summary">Mode sécurisé\n\nL\'application fonctionne sans privilège et les systèmes de fichiers accessibles sont les volumes de stockage (cartes SD et USB).</string>
+    <string name="pref_access_mode_safe_summary">L\'application fonctionne sans privilège et les systèmes de fichiers accessibles sont les volumes de stockage (cartes SD et USB).</string>
     <string name="pref_access_mode_prompt">Demander le mode</string>
-    <string name="pref_access_mode_prompt_summary">Demander le mode\n\nL\'application fonctionne avec un accès complet au système de fichiers, mais demandera la permission avant d\'exécuter toutes les actions avec privilèges.</string>
+    <string name="pref_access_mode_prompt_summary">L\'application fonctionne avec un accès complet au système de fichiers, mais demandera la permission avant d\'exécuter toutes les actions avec privilèges.</string>
     <string name="pref_access_mode_root">Mode Root</string>
-    <string name="pref_access_mode_root_summary">Mode Root\n\nAttention\u00A0! Ce mode permet des opérations qui pourraient endommager votre appareil. Il est de votre responsabilité de veiller à ce que les opérations effectuées soient sûres.</string>
+    <string name="pref_access_mode_root_summary">Attention\u00A0! Ce mode permet des opérations qui pourraient endommager votre appareil. Il est de votre responsabilité de veiller à ce que les opérations effectuées soient sûres.</string>
     <string name="pref_search_results_category">Résultats</string>
     <string name="pref_show_relevance_widget">Afficher le widget des pertinences</string>
     <string name="pref_highlight_terms">Surbrillance des termes recherchés</string>

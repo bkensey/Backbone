@@ -36,6 +36,18 @@ public enum FileManagerSettings {
     SETTINGS_ACCESS_MODE("cm_filemanager_access_mode", AccessMode.SAFE), //$NON-NLS-1$
 
     /**
+     * The display of installed commands
+     * @hide
+     */
+    SETTINGS_INSTALLED_COMMANDS("cm_filemanager_installed_commands", ""), //$NON-NLS-1$
+
+    /**
+     * The display of usable but missing commands
+     * @hide
+     */
+    SETTINGS_MISSING_COMMANDS("cm_filemanager_missing_commands", ""), //$NON-NLS-1$
+
+    /**
      * The initial directory to be used.
      * @hide
      */

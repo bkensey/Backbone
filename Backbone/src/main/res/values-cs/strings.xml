@@ -337,11 +337,11 @@
   <string name="pref_general_advanced_settings_category">Pokočilé</string>
   <string name="pref_access_mode">Druh přístupu</string>
   <string name="pref_access_mode_safe">Bezpečný režim</string>
-  <string name="pref_access_mode_safe_summary">Bezpečný režim\n\nAplikace beží bez rozšířených povolení a lze přistupovat pouze k uživatelským souborovým systémům (SD karty a USB)</string>
+  <string name="pref_access_mode_safe_summary">Aplikace beží bez rozšířených povolení a lze přistupovat pouze k uživatelským souborovým systémům (SD karty a USB)</string>
   <string name="pref_access_mode_prompt">Režim na vyžádání</string>
-  <string name="pref_access_mode_prompt_summary">Režim na vyžádání\n\nAplikace běží s plným oprávněním, ale při každé privilegované akce zažádá o povolení</string>
+  <string name="pref_access_mode_prompt_summary">Aplikace běží s plným oprávněním, ale při každé privilegované akce zažádá o povolení</string>
   <string name="pref_access_mode_root">Režim bez omezení</string>
-  <string name="pref_access_mode_root_summary">Režim bez omezení\n\nVarování! Tento režim umožňuje operace, které mohou poškodit vaše zařízení. Je na uživateli posoudit, zda je požadovaná akce bezpečná.</string>
+  <string name="pref_access_mode_root_summary">Varování! Tento režim umožňuje operace, které mohou poškodit vaše zařízení. Je na uživateli posoudit, zda je požadovaná akce bezpečná.</string>
   <string name="pref_search_results_category">Výsledky</string>
   <string name="pref_show_relevance_widget">Zobrazit widget relevance</string>
   <string name="pref_highlight_terms">Zvýraznit hledaný výraz</string>

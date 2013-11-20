@@ -258,11 +258,11 @@
   <string name="pref_general_advanced_settings_category">Avansat</string>
   <string name="pref_access_mode">Mod acces</string>
   <string name="pref_access_mode_safe">Mod sigur</string>
-  <string name="pref_access_mode_safe_summary">Mod Sigur\n\nAplicaţia se execută, fără privilegii şi are acces numai la volumele de stocare (SD carduri şi USB)</string>
+  <string name="pref_access_mode_safe_summary">Aplicaţia se execută, fără privilegii şi are acces numai la volumele de stocare (SD carduri şi USB)</string>
   <string name="pref_access_mode_prompt">Mod interogare</string>
-  <string name="pref_access_mode_prompt_summary">Mod interogare\n\nAplicaţia se execută cu acces total la fişierele de sistem, dar va solicita permisiuni pentru a efectua operaţiuni privelegiate</string>
+  <string name="pref_access_mode_prompt_summary">Aplicaţia se execută cu acces total la fişierele de sistem, dar va solicita permisiuni pentru a efectua operaţiuni privelegiate</string>
   <string name="pref_access_mode_root">Mod acces Root</string>
-  <string name="pref_access_mode_root_summary">Mod acces Root\n\nAvertizare! Acest mod permite operaţiuni ce pot duce la defectarea dispozitivului Dvs. Este responsabilitatea Dvs. să vă asigurați ce operațiune este sigură</string>
+  <string name="pref_access_mode_root_summary">Avertizare! Acest mod permite operaţiuni ce pot duce la defectarea dispozitivului Dvs. Este responsabilitatea Dvs. să vă asigurați ce operațiune este sigură</string>
   <string name="pref_search_results_category">Rezultate</string>
   <string name="pref_show_relevance_widget">Afişare widget relevanţă</string>
   <string name="pref_highlight_terms">Evidenţiere termeni de căutare</string>

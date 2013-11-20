@@ -635,15 +635,15 @@
   <!-- Preferences * General * Safe mode -->
   <string name="pref_access_mode_safe">セーフモード</string>
   <!-- Preferences * General * Safe mode summary -->
-  <string name="pref_access_mode_safe_summary">セーフモード\n\nアプリは特権を持たず、ストレージボリューム(USBやSDカード)のファイルシステムのみにアクセスが可能。</string>
+  <string name="pref_access_mode_safe_summary">アプリは特権を持たず、ストレージボリューム(USBやSDカード)のファイルシステムのみにアクセスが可能。</string>
   <!-- Preferences * General * Prompt user mode -->
   <string name="pref_access_mode_prompt">プロンプトモード</string>
   <!-- Preferences * General * Prompt user mode summary -->
-  <string name="pref_access_mode_prompt_summary">プロンプトモード\n\nアプリはファイルシステムにフルアクセス可能だが、管理権限が必要な操作を実行する際にユーザーに問い合わせる。</string>
+  <string name="pref_access_mode_prompt_summary">アプリはファイルシステムにフルアクセス可能だが、管理権限が必要な操作を実行する際にユーザーに問い合わせる。</string>
   <!-- Preferences * General * Root access mode -->
   <string name="pref_access_mode_root">ルートアクセスモード</string>
   <!-- Preferences * General * Root access mode summary -->
-  <string name="pref_access_mode_root_summary">ルートアクセスモード\n\n警告! このモードはデバイスを破滅させることも可能。安全に保つにはあなたの注意深い操作が必要。</string>
+  <string name="pref_access_mode_root_summary">警告! このモードはデバイスを破滅させることも可能。安全に保つにはあなたの注意深い操作が必要。</string>
   <!-- Preferences * Search * Results category -->
   <string name="pref_search_results_category">検索結果</string>
   <!-- Preferences * Search * Show relevance widget -->

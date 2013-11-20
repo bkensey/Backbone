@@ -26,10 +26,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.util.Log;
 
-import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
-import me.toolify.backbone.console.ConsoleBuilder;
-import me.toolify.backbone.preferences.AccessMode;
 import me.toolify.backbone.preferences.FileManagerSettings;
 import me.toolify.backbone.preferences.ObjectStringIdentifier;
 import me.toolify.backbone.preferences.Preferences;
@@ -49,7 +46,6 @@ public class GeneralPreferenceFragment extends TitlePreferenceFragment {
     private CheckBoxPreference mComputeFolderStatistics;
     private CheckBoxPreference mDisplayThumbs;
 //    private CheckBoxPreference mUseFlinger;
-    private ListPreference mAccessMode;
     private CheckBoxPreference mDebugTraces;
 
     /**
@@ -88,36 +84,6 @@ public class GeneralPreferenceFragment extends TitlePreferenceFragment {
                 preference.setSummary(
                         getResources().getString(
                                 R.string.pref_disk_usage_warning_level_summary, value));
-            }
-
-            // Access mode
-            else if (FileManagerSettings.SETTINGS_ACCESS_MODE.getId().compareTo(key) == 0) {
-                Activity activity = GeneralPreferenceFragment.this.getActivity();
-
-                String value = (String)newValue;
-                AccessMode oldMode = FileManagerApplication.getAccessMode();
-                AccessMode newMode = AccessMode.fromId(value);
-                if (oldMode.compareTo(newMode) != 0) {
-                    // The mode was changes. Change the console
-                    if (newMode.compareTo(AccessMode.ROOT) == 0) {
-                        if (!ConsoleBuilder.changeToPrivilegedConsole(
-                                activity.getApplicationContext())) {
-                            value = String.valueOf(oldMode.ordinal());
-                            ret = false;
-                        }
-                    } else {
-                        if (!ConsoleBuilder.changeToNonPrivilegedConsole(
-                                activity.getApplicationContext())) {
-                            value = String.valueOf(oldMode.ordinal());
-                            ret = false;
-                        }
-                    }
-                }
-
-                int valueId = Integer.valueOf(value).intValue();
-                String[] summary = getResources().getStringArray(
-                        R.array.access_mode_summaries);
-                                    preference.setSummary(summary[valueId]);
             }
 
             // Notify the change (only if fragment is loaded. Default values are loaded
@@ -200,20 +166,6 @@ public class GeneralPreferenceFragment extends TitlePreferenceFragment {
 //                (CheckBoxPreference)findPreference(
 //                        FileManagerSettings.SETTINGS_USE_FLINGER.getId());
 //        this.mUseFlinger.setOnPreferenceChangeListener(this.mOnChangeListener);
-
-        // Access mode
-        this.mAccessMode =
-                (ListPreference)findPreference(
-                        FileManagerSettings.SETTINGS_ACCESS_MODE.getId());
-        this.mAccessMode.setOnPreferenceChangeListener(this.mOnChangeListener);
-        defaultValue = ((ObjectStringIdentifier)FileManagerSettings.
-                            SETTINGS_ACCESS_MODE.getDefaultValue()).getId();
-        value = Preferences.getSharedPreferences().getString(
-                            FileManagerSettings.SETTINGS_ACCESS_MODE.getId(),
-                            defaultValue);
-        this.mOnChangeListener.onPreferenceChange(this.mAccessMode, value);
-        // If device is not rooted, this setting cannot be changed
-        this.mAccessMode.setEnabled(FileManagerApplication.isDeviceRooted());
 
         // Capture Debug traces
         this.mDebugTraces =

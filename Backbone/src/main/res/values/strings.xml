@@ -615,6 +615,8 @@
     <string name="pref">Settings</string>
     <!-- Preferences - General title -->
     <string name="pref_general">General settings</string>
+    <!-- Preferences - General title -->
+    <string name="pref_root">Root settings</string>
     <!-- Preferences - Search title -->
     <string name="pref_search">Search options</string>
     <!-- Preferences - Editor title -->
@@ -657,22 +659,27 @@
     <string name="pref_use_flinger_summary">Use swipe left to right gesture detection to delete files or folders.</string>
     <!-- Preferences - General - Advanced settings category -->
     <string name="pref_general_advanced_settings_category">Advanced</string>
-    <!-- Preferences - General - Access mode -->
-    <string name="pref_access_mode">Access mode</string>
-    <!-- Preferences - General - Safe mode -->
-    <string name="pref_access_mode_safe">Safe mode</string>
-    <!-- Preferences - General - Safe mode summary -->
-    <string name="pref_access_mode_safe_summary">Safe mode\n\nThe app is running without privileges and the only accessible file systems are the storage volumes (SD cards and USB)</string>
-    <!-- Preferences - General - Prompt user mode -->
-    <string name="pref_access_mode_prompt">Prompt User mode</string>
-    <!-- Preferences - General - Prompt user mode summary -->
-    <string name="pref_access_mode_prompt_summary">Prompt User mode\n\nThe app is running with full access to the file system but will prompt for permission prior to executing any privileged actions</string>
-    <!-- Preferences - General - Root access mode -->
-    <string name="pref_access_mode_root">Root Access mode</string>
-    <!-- Preferences - General - Root access mode summary -->
-    <string name="pref_access_mode_root_summary">Root Access mode\n\nWarning! This mode allows operations that could break your device. It\'s your responsibility to ensure that an operation is safe</string>
     <!-- Preferences - General - Capture debug traces -->
     <string name="pref_debug_traces">Log debugging information</string>
+
+    <!-- Preferences - Root - Access mode -->
+    <string name="pref_access_mode">Access mode</string>
+    <!-- Preferences - Root - Safe mode -->
+    <string name="pref_access_mode_safe">Safe mode</string>
+    <!-- Preferences - Root - Safe mode summary -->
+    <string name="pref_access_mode_safe_summary">The app is running without privileges and the only accessible file systems are the storage volumes (SD cards and USB)</string>
+    <!-- Preferences - Root - Prompt user mode -->
+    <string name="pref_access_mode_prompt">Prompt User mode</string>
+    <!-- Preferences - Root - Prompt user mode summary -->
+    <string name="pref_access_mode_prompt_summary">The app is running with full access to the file system but will prompt for permission prior to executing any privileged actions</string>
+    <!-- Preferences - Root - Root access mode -->
+    <string name="pref_access_mode_root">Root Access mode</string>
+    <!-- Preferences - Root - Root access mode summary -->
+    <string name="pref_access_mode_root_summary">Warning! This mode allows operations that could break your device. It\'s your responsibility to ensure that an operation is safe</string>
+    <!-- Preferences - Root - Installed commands -->
+    <string name="pref_installed_commands_category">Installed Commands</string>
+    <!-- Preferences - Root - Missing commands -->
+    <string name="pref_missing_commands_category">Missing Commands</string>
 
     <!-- Preferences - Search - Results category -->
     <string name="pref_search_results_category">Results</string>

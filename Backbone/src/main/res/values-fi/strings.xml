@@ -289,11 +289,11 @@
   <string name="pref_general_advanced_settings_category">Lisäasetukset</string>
   <string name="pref_access_mode">Oikeudet</string>
   <string name="pref_access_mode_safe">Turvallinen tila</string>
-  <string name="pref_access_mode_safe_summary">Turvallinen tila\n\nSovellus toimii ilman oikeuksia ja pääsee käsiksi vain SD-kortteihin ja USB-muisteihin</string>
+  <string name="pref_access_mode_safe_summary">Sovellus toimii ilman oikeuksia ja pääsee käsiksi vain SD-kortteihin ja USB-muisteihin</string>
   <string name="pref_access_mode_prompt">Kysy käyttäjältä</string>
-  <string name="pref_access_mode_prompt_summary">Kysy käyttäjältä\n\nSovellus toimii tiedostojärjestelmän täysillä oikeuksilla mutta kysyy luvan jos oikeuksia tarvitaan</string>
+  <string name="pref_access_mode_prompt_summary">Sovellus toimii tiedostojärjestelmän täysillä oikeuksilla mutta kysyy luvan jos oikeuksia tarvitaan</string>
   <string name="pref_access_mode_root">Root-tila</string>
-  <string name="pref_access_mode_root_summary">Root-tila\n\nVaroitus! Tämä tila sallii muutokset jotka saattavat tuhota laitteesi, käytä tätä tilaa omalla vastuulla!</string>
+  <string name="pref_access_mode_root_summary">Varoitus! Tämä tila sallii muutokset jotka saattavat tuhota laitteesi, käytä tätä tilaa omalla vastuulla!</string>
   <string name="pref_search_results_category">Tulokset</string>
   <string name="pref_show_relevance_widget">Näytä merkitys</string>
   <string name="pref_highlight_terms">Merkkaa hakutermit</string>

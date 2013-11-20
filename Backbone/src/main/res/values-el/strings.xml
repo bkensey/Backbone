@@ -298,11 +298,11 @@
     <string name="pref_general_advanced_settings_category">Για προχωρημένους</string>
     <string name="pref_access_mode">Λειτουργία πρόσβασης</string>
     <string name="pref_access_mode_safe">Ασφαλής Λειτουργία</string>
-    <string name="pref_access_mode_safe_summary">Ασφαλής Λειτουργία\n\nΗ εφαρμογή τρέχει χωρίς δικαιώματα και τα μόνα προσπελάσιμα συστήματα αρχείων είναι οι κάρτες SD και οι αποθηκευτικοί χώροι USB</string>
+    <string name="pref_access_mode_safe_summary">Η εφαρμογή τρέχει χωρίς δικαιώματα και τα μόνα προσπελάσιμα συστήματα αρχείων είναι οι κάρτες SD και οι αποθηκευτικοί χώροι USB</string>
     <string name="pref_access_mode_prompt">Λειτουργία ερώτησης χρήστη</string>
-    <string name="pref_access_mode_prompt_summary">Λειτουργία ερώτησης χρήστη\n\nΗ εφαρμογή τρέχει με πλήρη πρόσβαση στο σύστημα αρχείων, αλλά θα ζητήσει άδεια πριν από την εκτέλεση οποιασδήποτε ενέργειας που απαιτεί δικαιώματα</string>
+    <string name="pref_access_mode_prompt_summary">Η εφαρμογή τρέχει με πλήρη πρόσβαση στο σύστημα αρχείων, αλλά θα ζητήσει άδεια πριν από την εκτέλεση οποιασδήποτε ενέργειας που απαιτεί δικαιώματα</string>
     <string name="pref_access_mode_root">Λειτουργία πρόσβασης Root</string>
-    <string name="pref_access_mode_root_summary">Λειτουργία πρόσβασης Root\n\nΠροσοχή! Αυτή η λειτουργία επιτρέπει ενέργειες που θα μπορούσαν να χαλάσουν τη συσκευή σας. Είναι δική σας ευθύνη να διασφαλίσετε ότι μία ενέργεια είναι ασφαλής</string>
+    <string name="pref_access_mode_root_summary">Προσοχή! Αυτή η λειτουργία επιτρέπει ενέργειες που θα μπορούσαν να χαλάσουν τη συσκευή σας. Είναι δική σας ευθύνη να διασφαλίσετε ότι μία ενέργεια είναι ασφαλής</string>
     <string name="pref_search_results_category">Αποτελέσματα</string>
     <string name="pref_show_relevance_widget">Εμφάνιση widget συνάφειας</string>
     <string name="pref_highlight_terms">Επισήμανση όρων αναζήτησης</string>

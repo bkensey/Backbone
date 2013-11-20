@@ -81,15 +81,6 @@
             android:key="general_advanced_settings"
             android:title="@string/pref_general_advanced_settings_category">
 
-        <!-- Access Mode -->
-        <ListPreference
-                android:key="cm_filemanager_access_mode"
-                android:title="@string/pref_access_mode"
-                android:entries="@array/access_mode_labels"
-                android:entryValues="@array/access_mode_values"
-                android:defaultValue="0"
-                android:persistent="true"/>
-
         <!-- Capture debug traces -->
         <CheckBoxPreference
                 android:key="cm_filemanager_show_debug_traces"

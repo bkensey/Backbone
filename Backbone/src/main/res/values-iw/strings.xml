@@ -589,15 +589,15 @@
   <!-- Preferences * General * Safe mode -->
   <string name="pref_access_mode_safe">מצב בטוח</string>
   <!-- Preferences * General * Safe mode summary -->
-  <string name="pref_access_mode_safe_summary">מצב בטוח\n\nהיישום רץ ללא הרשאות, מערכות הקבצים היחידות שנגישות הן מחיצות האחסון (כרטיסי זיכרון ו-USB)</string>
+  <string name="pref_access_mode_safe_summary">היישום רץ ללא הרשאות, מערכות הקבצים היחידות שנגישות הן מחיצות האחסון (כרטיסי זיכרון ו-USB)</string>
   <!-- Preferences * General * Prompt user mode -->
   <string name="pref_access_mode_prompt">מצב התראה למשתמש</string>
   <!-- Preferences * General * Prompt user mode summary -->
-  <string name="pref_access_mode_prompt_summary">מצב התראה למשתמש\n\nהיישום רץ עם הרשאות מלאות למערכת הקבצים, אך יתריע לפני ביצוע כל פעולה הדורשת הרשאות אלו</string>
+  <string name="pref_access_mode_prompt_summary">היישום רץ עם הרשאות מלאות למערכת הקבצים, אך יתריע לפני ביצוע כל פעולה הדורשת הרשאות אלו</string>
   <!-- Preferences * General * Root access mode -->
   <string name="pref_access_mode_root">מצב גישת Root</string>
   <!-- Preferences * General * Root access mode summary -->
-  <string name="pref_access_mode_root_summary">מצב גישת Root\n\nאזהרה! מצב זה מאפשר פעולות שעלולת להרוס את המכשיר. זוהי אחריותך לוודא שפעולות אלו בטוחות</string>
+  <string name="pref_access_mode_root_summary">nאזהרה! מצב זה מאפשר פעולות שעלולת להרוס את המכשיר. זוהי אחריותך לוודא שפעולות אלו בטוחות</string>
   <!-- Preferences * Search * Results category -->
   <string name="pref_search_results_category">תוצאות</string>
   <!-- Preferences * Search * Show relevance widget -->

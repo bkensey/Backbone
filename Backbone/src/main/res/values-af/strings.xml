@@ -645,15 +645,15 @@
   <!-- Preferences * General * Safe mode -->
   <string name="pref_access_mode_safe">Veilige modus</string>
   <!-- Preferences * General * Safe mode summary -->
-  <string name="pref_access_mode_safe_summary">Veilige modus\n\nDie program is aktief sonder regte en die enigste toeganklike lêerstelsels is skyf volumes (SD-kaart en USB-berging)</string>
+  <string name="pref_access_mode_safe_summary">Die program is aktief sonder regte en die enigste toeganklike lêerstelsels is skyf volumes (SD-kaart en USB-berging)</string>
   <!-- Preferences * General * Prompt user mode -->
   <string name="pref_access_mode_prompt">Vra Gebruiker modus</string>
   <!-- Preferences * General * Prompt user mode summary -->
-  <string name="pref_access_mode_prompt_summary">Vra Gebruiker modus\n\nDie program is aktief met volle toegang tot die lêerstelsel, maar sal vra vir toestemming voor die uitvoering van enige gevorderde aksies</string>
+  <string name="pref_access_mode_prompt_summary">Die program is aktief met volle toegang tot die lêerstelsel, maar sal vra vir toestemming voor die uitvoering van enige gevorderde aksies</string>
   <!-- Preferences * General * Root access mode -->
   <string name="pref_access_mode_root">\'Root\' modus</string>
   <!-- Preferences * General * Root access mode summary -->
-  <string name="pref_access_mode_root_summary">\'Root\' modus\n\nWaarskuwing! Hierdie modus kan die toestel breek. Dit is jou verantwoordelikheid om te verseker dat die operasies veilig is</string>
+  <string name="pref_access_mode_root_summary">Waarskuwing! Hierdie modus kan die toestel breek. Dit is jou verantwoordelikheid om te verseker dat die operasies veilig is</string>
   <!-- Preferences * Search * Results category -->
   <string name="pref_search_results_category">Uitslae</string>
   <!-- Preferences * Search * Show relevance widget -->

@@ -300,11 +300,11 @@
     <string name="pref_general_advanced_settings_category">Geavanceerd</string>
     <string name="pref_access_mode">Toegangsmodus</string>
     <string name="pref_access_mode_safe">Veilige modus</string>
-    <string name="pref_access_mode_safe_summary">Veilige modus\n\nDe app werkt zonder machtigingen en alleen opslagvolumes (SD-kaart en USB) zijn toegankelijk</string>
+    <string name="pref_access_mode_safe_summary">De app werkt zonder machtigingen en alleen opslagvolumes (SD-kaart en USB) zijn toegankelijk</string>
     <string name="pref_access_mode_prompt">Vragen naar toegangsmodus</string>
-    <string name="pref_access_mode_prompt_summary">Vragen naar toegangsmodus\n\nDe app heeft volledige toegang tot het bestandssysteem, maar zal toestemming vragen voor bewerkingen waarvoor machtigingen nodig zijn</string>
+    <string name="pref_access_mode_prompt_summary">De app heeft volledige toegang tot het bestandssysteem, maar zal toestemming vragen voor bewerkingen waarvoor machtigingen nodig zijn</string>
     <string name="pref_access_mode_root">Roottoegangsmodus</string>
-    <string name="pref_access_mode_root_summary">Roottoegangsmodus\n\nLet op! Deze modus staat bewerkingen toe die het apparaat kunnen beschadingen. Het is uw eigen verantwoordelijkheid om te zorgen dat een bewerking veilig is</string>
+    <string name="pref_access_mode_root_summary">Let op! Deze modus staat bewerkingen toe die het apparaat kunnen beschadingen. Het is uw eigen verantwoordelijkheid om te zorgen dat een bewerking veilig is</string>
     <string name="pref_search_results_category">Resultaten</string>
     <string name="pref_show_relevance_widget">Relevantiepictogram tonen</string>
     <string name="pref_highlight_terms">Zoektermen markeren</string>

@@ -258,11 +258,11 @@
     <string name="pref_general_advanced_settings_category">Avançado</string>
     <string name="pref_access_mode">Modo de acesso</string>
     <string name="pref_access_mode_safe">Modo de seguro</string>
-    <string name="pref_access_mode_safe_summary">Modo seguro\n\nO aplicativo está rodando sem privilégios, e somente os sistemas de arquivos que são acessíveis são os volumes: Cartões SD e USB</string>
+    <string name="pref_access_mode_safe_summary">O aplicativo está rodando sem privilégios, e somente os sistemas de arquivos que são acessíveis são os volumes: Cartões SD e USB</string>
     <string name="pref_access_mode_prompt">Modo de usuário</string>
-    <string name="pref_access_mode_prompt_summary">Modo de usuário\n\nO aplicativo está rodando com total acesso ao sistema de arquivo mas irá perguntar por permissão antes de executar algum ação que requer previlégios</string>
+    <string name="pref_access_mode_prompt_summary">O aplicativo está rodando com total acesso ao sistema de arquivo mas irá perguntar por permissão antes de executar algum ação que requer previlégios</string>
     <string name="pref_access_mode_root">Modo de acesso root</string>
-    <string name="pref_access_mode_root_summary">Modo de Acesso Root\n\nAviso! Este modo permite operações que pode danificar seu dispositivo. É de sua responsabilidade garantir que uma operação é segura</string>
+    <string name="pref_access_mode_root_summary">Aviso! Este modo permite operações que pode danificar seu dispositivo. É de sua responsabilidade garantir que uma operação é segura</string>
     <string name="pref_search_results_category">Resultados</string>
     <string name="pref_show_relevance_widget">Exibir widget de relevância</string>
     <string name="pref_highlight_terms">Realçar termos de busca</string>

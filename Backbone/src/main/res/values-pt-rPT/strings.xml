@@ -648,17 +648,17 @@
   <!-- Preferences * General * Safe mode -->
   <string name="pref_access_mode_safe">Modo seguro</string>
   <!-- Preferences * General * Safe mode summary -->
-  <string name="pref_access_mode_safe_summary">Modo seguro\n\nA aplicação é executada sem previlégios
+  <string name="pref_access_mode_safe_summary">A aplicação é executada sem previlégios
       e apenas será acessível sistemas de ficheiros como volumes de armazenamento (cartões SD e USB)</string>
   <!-- Preferences * General * Prompt user mode -->
   <string name="pref_access_mode_prompt">Modo de questão</string>
   <!-- Preferences * General * Prompt user mode summary -->
-  <string name="pref_access_mode_prompt_summary">Modo de Questão\n\nA aplicação é executada com acesso total
+  <string name="pref_access_mode_prompt_summary">A aplicação é executada com acesso total
       ao sistema de ficheiros mas pedirá permissões antes de executar acções previlegiadas</string>
   <!-- Preferences * General * Root access mode -->
   <string name="pref_access_mode_root">Modo de acesso Root</string>
   <!-- Preferences * General * Root access mode summary -->
-  <string name="pref_access_mode_root_summary">Modo de acesso Root\n\nAviso! Este modo permite operações que podem
+  <string name="pref_access_mode_root_summary">Aviso! Este modo permite operações que podem
       danificar o seu dispositivo. É da sua responsabilidade garantir que as operações são seguras</string>
   <!-- Preferences * Search * Results category -->
   <string name="pref_search_results_category">Resultados</string>

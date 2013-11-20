@@ -638,20 +638,20 @@
   <string name="pref_access_mode_safe">Сигурни режим</string>
   <!-- Preferences * General * Safe mode summary -->
   <string name="pref_access_mode_safe_summary">
-    Сигурни режим\n\nПрограм ради без додатних привилегија и једини
+    Програм ради без додатних привилегија и једини
     доступни системи фајлова су они за податке (SD картице и USB)</string>
   <!-- Preferences * General * Prompt user mode -->
   <string name="pref_access_mode_prompt">Режим питања корисника</string>
   <!-- Preferences * General * Prompt user mode summary -->
   <string name="pref_access_mode_prompt_summary">
-    Режим питања корисника\n\nПрограм ради са пуним приступом систему
+    Програм ради са пуним приступом систему
     фајлова, али ће питати за дозволу пре извршавања привилегованих акција
   </string>
   <!-- Preferences * General * Root access mode -->
   <string name="pref_access_mode_root">Режим Root-а</string>
   <!-- Preferences * General * Root access mode summary -->
   <string name="pref_access_mode_root_summary">
-    Режим Root-а\n\nУпозорење! Овај режим омогућава операције које
+    Упозорење! Овај режим омогућава операције које
     могу да покваре уређај. Ваша је одговорност да до тога не дође
   </string>
   <!-- Preferences * Search * Results category -->

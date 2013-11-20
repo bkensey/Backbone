@@ -21,6 +21,9 @@
             android:fragment="me.toolify.backbone.activities.preferences.GeneralPreferenceFragment"
             android:title="@string/pref_general" />
     <header
+            android:fragment="me.toolify.backbone.activities.preferences.RootPreferenceFragment"
+            android:title="@string/pref_root" />
+    <header
             android:fragment="me.toolify.backbone.activities.preferences.SearchPreferenceFragment"
             android:title="@string/pref_search" />
     <header

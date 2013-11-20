@@ -94,6 +94,7 @@
     <declare-styleable name="FileManagerPrefs">
 
         <attr name="preferenceIconGeneral" format="reference"/>
+        <attr name="preferenceIconRoot" format="reference"/>
         <attr name="preferenceIconSearch" format="reference"/>
         <attr name="preferenceIconEditor" format="reference"/>
         <attr name="preferenceIconAbout" format="reference"/>

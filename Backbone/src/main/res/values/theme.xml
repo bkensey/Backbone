@@ -87,6 +87,7 @@
 
         <!-- Preference icons -->
         <item name="preferenceIconGeneral">@drawable/ic_preference_black_general</item>
+        <item name="preferenceIconRoot">@drawable/ic_preference_black_root</item>
         <item name="preferenceIconSearch">@drawable/ic_preference_black_search</item>
         <item name="preferenceIconEditor">@drawable/ic_preference_black_editor</item>
         <item name="preferenceIconAbout">@drawable/ic_preference_black_about</item>

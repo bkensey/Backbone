@@ -345,11 +345,11 @@
   <string name="pref_general_advanced_settings_category">Zaawansowane</string>
   <string name="pref_access_mode">Tryb dostępu</string>
   <string name="pref_access_mode_safe">Tryb bezpieczny</string>
-  <string name="pref_access_mode_safe_summary">Tryb bezpieczny\n\nAplikacja działa bez podniesionych uprawnień i jedynymi dostępnymi systemami plików są woluminy danych (karty pamięci i USB)</string>
+  <string name="pref_access_mode_safe_summary">Aplikacja działa bez podniesionych uprawnień i jedynymi dostępnymi systemami plików są woluminy danych (karty pamięci i USB)</string>
   <string name="pref_access_mode_prompt">Tryb powiadamiania</string>
-  <string name="pref_access_mode_prompt_summary">Tryb powiadamiania\n\nAplikacja ma pełny dostęp do systemu plików, ale będzie prosiła o pozwolenie przed wykonaniem każdej uprzywilejowanej akcji.</string>
+  <string name="pref_access_mode_prompt_summary">Aplikacja ma pełny dostęp do systemu plików, ale będzie prosiła o pozwolenie przed wykonaniem każdej uprzywilejowanej akcji.</string>
   <string name="pref_access_mode_root">Tryb dostępu do roota</string>
-  <string name="pref_access_mode_root_summary">Tryb dostępu do roota\n\Uwaga! Tryb ten pozwala na wykonywanie operacji, które mogą uszkodzić urządzenie. Ponosisz odpowiedzialność za upewnienie się, że dana akcja jest bezpieczna.</string>
+  <string name="pref_access_mode_root_summary">Uwaga! Tryb ten pozwala na wykonywanie operacji, które mogą uszkodzić urządzenie. Ponosisz odpowiedzialność za upewnienie się, że dana akcja jest bezpieczna.</string>
   <string name="pref_search_results_category">Wyniki</string>
   <string name="pref_show_relevance_widget">Pokaż wskaźnik trafności</string>
   <string name="pref_highlight_terms">Podświetl wyszukiwane frazy</string>

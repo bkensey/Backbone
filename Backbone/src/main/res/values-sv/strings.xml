@@ -330,12 +330,11 @@
   <string name="pref_general_advanced_settings_category">Avancerat</string>
   <string name="pref_access_mode">Behörighet</string>
   <string name="pref_access_mode_safe">Säkert läge</string>
-  <string name="pref_access_mode_safe_summary">Säkert läge\n\nAppen körs utan rättigheter och de enda tillgängliga filsystemen är lagringsvolymerna (SD-kort och USB)</string>
+  <string name="pref_access_mode_safe_summary">Appen körs utan rättigheter och de enda tillgängliga filsystemen är lagringsvolymerna (SD-kort och USB)</string>
   <string name="pref_access_mode_prompt">Promptläge</string>
-  <string name="pref_access_mode_prompt_summary">Promptläge\n\nAppen körs
-    med full behörighet till filsystemet men kommer att fråga om tillstånd innan körning av förhöjda åtgärder</string>
+  <string name="pref_access_mode_prompt_summary">Appen körs med full behörighet till filsystemet men kommer att fråga om tillstånd innan körning av förhöjda åtgärder</string>
   <string name="pref_access_mode_root">Rootläge</string>
-  <string name="pref_access_mode_root_summary">Rootläge\n\nVarning! Detta läge möjliggör åtgärder som kan skada din enhet. Det är ditt eget ansvar att försäkra dig om att en åtgärd är säker</string>
+  <string name="pref_access_mode_root_summary">Varning! Detta läge möjliggör åtgärder som kan skada din enhet. Det är ditt eget ansvar att försäkra dig om att en åtgärd är säker</string>
   <string name="pref_search_results_category">Resultat</string>
   <string name="pref_show_relevance_widget">Visa relevans</string>
   <string name="pref_highlight_terms">Markera söktermer</string>

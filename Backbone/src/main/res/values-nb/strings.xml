@@ -300,11 +300,11 @@
     <string name="pref_general_advanced_settings_category">Avansert</string>
     <string name="pref_access_mode">Tilgangsmodus</string>
     <string name="pref_access_mode_safe">Sikker tilgang</string>
-    <string name="pref_access_mode_safe_summary">Sikker tilgang\n\nAppen kjører uten privileger og de eneste tilgjengelige filsystemene er lagringsenhetene (SD-kort og USB)</string>
+    <string name="pref_access_mode_safe_summary">Appen kjører uten privileger og de eneste tilgjengelige filsystemene er lagringsenhetene (SD-kort og USB)</string>
     <string name="pref_access_mode_prompt">Spør bruker</string>
-    <string name="pref_access_mode_prompt_summary">Spør bruker\n\nAppen kjører med full tilgang til filsystemene, men spør brukeren før det gjennomføres priviligerte handlinger</string>
+    <string name="pref_access_mode_prompt_summary">Appen kjører med full tilgang til filsystemene, men spør brukeren før det gjennomføres priviligerte handlinger</string>
     <string name="pref_access_mode_root">Root-tilgang</string>
-    <string name="pref_access_mode_root_summary">Root-tilgang\n\nAdvarsel! Denne innstillingen tillater operasjoner som kan ødelegge enheten. Det er ditt ansvar å forsikre deg om at en operasjon er sikker</string>
+    <string name="pref_access_mode_root_summary">Advarsel! Denne innstillingen tillater operasjoner som kan ødelegge enheten. Det er ditt ansvar å forsikre deg om at en operasjon er sikker</string>
     <string name="pref_search_results_category">Resultat</string>
     <string name="pref_show_relevance_widget">Vis revelanse-modul</string>
     <string name="pref_highlight_terms">Fremhev søketetermer</string>

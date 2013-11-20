@@ -301,11 +301,11 @@
     <string name="pref_general_advanced_settings_category">Speciális</string>
     <string name="pref_access_mode">Hozzáférési mód</string>
     <string name="pref_access_mode_safe">Biztonságos mód</string>
-    <string name="pref_access_mode_safe_summary">Biztonságos mód\n\nAz alkalmazás jogosultságok nélkül fut, csak a cserélhető fájlrendszerek hozzáférhetőek (SD-kártyák, USB kulcsok)</string>
+    <string name="pref_access_mode_safe_summary">Az alkalmazás jogosultságok nélkül fut, csak a cserélhető fájlrendszerek hozzáférhetőek (SD-kártyák, USB kulcsok)</string>
     <string name="pref_access_mode_prompt">Rákérdezéses mód</string>
-    <string name="pref_access_mode_prompt_summary">Rákérdezéses mód\n\nAz alkalmazás teljes jogkörrel hozzáfér a fájlrendszerhez, de kényes művelet végrehajtása előtt engedélyt kér a felhasználótól.</string>
+    <string name="pref_access_mode_prompt_summary">Az alkalmazás teljes jogkörrel hozzáfér a fájlrendszerhez, de kényes művelet végrehajtása előtt engedélyt kér a felhasználótól.</string>
     <string name="pref_access_mode_root">Rendszergazda mód</string>
-    <string name="pref_access_mode_root_summary">Rendszergazda mód\n\nFigyelem! Ebben a módban semmi nem akadályozza meg, hogy egy helytelen művelet tönkretegye az eszközét. Csak saját felelősségére használja!</string>
+    <string name="pref_access_mode_root_summary">Figyelem! Ebben a módban semmi nem akadályozza meg, hogy egy helytelen művelet tönkretegye az eszközét. Csak saját felelősségére használja!</string>
     <string name="pref_search_results_category">Találatok</string>
     <string name="pref_show_relevance_widget">Relevancia modul megjelenítése</string>
     <string name="pref_highlight_terms">Keresési feltételek kiemelése</string>
