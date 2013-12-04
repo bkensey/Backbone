@@ -20,6 +20,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -34,6 +36,7 @@ public class BreadcrumbSpinnerAdapter extends BaseAdapter implements SpinnerAdap
 
     private Context mContext;
     private ArrayList<File> fileList;
+    public final static int HISTORY_ID = 1000001;
 
     public BreadcrumbSpinnerAdapter(Context context, ArrayList<File> fileList) {
         this.mContext = context;
@@ -45,7 +48,8 @@ public class BreadcrumbSpinnerAdapter extends BaseAdapter implements SpinnerAdap
      */
     @Override
     public int getCount() {
-        return fileList.size();
+        // Tell the spinner that there will always be n file items + an extra for the history button
+        return fileList.size() + 1;
     }
 
     /**
@@ -53,7 +57,13 @@ public class BreadcrumbSpinnerAdapter extends BaseAdapter implements SpinnerAdap
      */
     @Override
     public Object getItem(int position) {
-        return fileList.get(position);
+        if(position > fileList.size()) {
+            // We're looking at the history button
+            return null;
+        } else {
+            // Just part of the regular file list
+            return fileList.get(position);
+        }
     }
 
     /**
@@ -61,7 +71,12 @@ public class BreadcrumbSpinnerAdapter extends BaseAdapter implements SpinnerAdap
      */
     @Override
     public long getItemId(int position) {
-        return position;
+        if (position == fileList.size()) {
+            // This is our history item
+            return HISTORY_ID;
+        } else {
+            return position;
+        }
     }
 
     /**
@@ -72,8 +87,12 @@ public class BreadcrumbSpinnerAdapter extends BaseAdapter implements SpinnerAdap
         RelativeLayout row = (RelativeLayout) View.inflate(mContext, R.layout.breadcrumb_spinner_selected_item, null);
         TextView title = (TextView)row.findViewById(R.id.breadcrumb_spinner_item_title);
         TextView subtitle = (TextView)row.findViewById(R.id.breadcrumb_spinner_item_subtitle);
-        title.setText(buildTitleString(fileList.get(position)));
-        subtitle.setText(buildSubtitleString(fileList.get(position)));
+        if(position == fileList.size()) {
+            // History item
+        } else {
+            title.setText(buildTitleString(fileList.get(position)));
+            subtitle.setText(buildSubtitleString(fileList.get(position)));
+        }
         return row;
     }
 
@@ -82,9 +101,19 @@ public class BreadcrumbSpinnerAdapter extends BaseAdapter implements SpinnerAdap
      */
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        TextView textView = (TextView) View.inflate(mContext, R.layout.breadcrumb_spinner_dropdown_item, null);
-        textView.setText(buildTitleString(fileList.get(position)));
-        return textView;
+        LinearLayout row = (LinearLayout) View.inflate(mContext, R.layout.breadcrumb_spinner_dropdown_item, null);
+        ImageView iconView = (ImageView)row.findViewById(R.id.breadcrumb_spinner_dropdown_icon);
+        TextView labelView = (TextView)row.findViewById(R.id.breadcrumb_spinner_dropdown_label);
+        TextView aliasView = (TextView)row.findViewById(R.id.breadcrumb_spinner_dropdown_alias);
+        if(position == fileList.size()) {
+            // This is the history item.  Text is already set so just let it be.
+            iconView.setVisibility(View.VISIBLE);
+        } else {
+            labelView.setText(buildTitleString(fileList.get(position)));
+            aliasView.setText(buildAliasString(fileList.get(position)));
+            iconView.setVisibility(View.GONE);
+        }
+        return row;
     }
 
     private String buildTitleString(File file) {
@@ -103,6 +132,14 @@ public class BreadcrumbSpinnerAdapter extends BaseAdapter implements SpinnerAdap
             fileString = "Filesystem Root";
         } else {
             fileString = file.getParent();
+        }
+        return fileString;
+    }
+
+    private String buildAliasString(File file) {
+        String fileString = "";
+        if (file.compareTo(new File(FileHelper.ROOT_DIRECTORY)) == 0){
+            fileString = "Filesystem Root";
         }
         return fileString;
     }

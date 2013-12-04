@@ -13,9 +13,35 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/breadcrumb_spinner_dropdown_item"
-    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    style="@style/breadcrumb_selected_dropdown_item_textappearance" />
+    android:layout_width="fill_parent">
+
+    <ImageView
+        android:id="@+id/breadcrumb_spinner_dropdown_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="-8dp"
+        android:layout_gravity="center_vertical"
+        android:src="?attr/actionIconHistory"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/breadcrumb_spinner_dropdown_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:text="@string/history"
+        style="@style/breadcrumb_selected_dropdown_item_textappearance" />
+
+    <TextView
+        android:id="@+id/breadcrumb_spinner_dropdown_alias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        style="@style/breadcrumb_selected_dropdown_item_alias_textappearance" />
+
+</LinearLayout>

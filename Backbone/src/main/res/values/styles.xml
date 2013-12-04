@@ -244,6 +244,11 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <!-- Breadcrumb Dropdown Item Alias -->
+    <style name="breadcrumb_selected_dropdown_item_alias_textappearance" parent="@style/breadcrumb_selected_dropdown_item_textappearance">
+        <item name="android:textColor">?attr/breadcrumbSubtitleTextColor</item>
+    </style>
+
     <!-- Breadcrumb ActionBar Button -->
     <style name="breadcrumb_actionbar_button">
         <item name="android:paddingLeft">@dimen/extra_margin</item>

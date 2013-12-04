@@ -41,6 +41,7 @@
 
         <!-- App colors -->
         <item name="breadcrumbTitleTextColor">@color/white</item>
+        <item name="breadcrumbTitleAliasTextColor">@color/white30</item>
         <item name="breadcrumbSubtitleTextColor">@color/white30</item>
 
         <!-- Action item icons -->
@@ -80,6 +81,7 @@
         <item name="actionIconLockOpen">@drawable/ic_action_holo_dark_lock_open</item>
         <item name="actionIconLockClosed">@drawable/ic_action_holo_dark_lock_closed</item>
         <item name="actionIconWarning">@drawable/ic_action_holo_dark_warning</item>
+        <item name="actionIconHistory">@drawable/ic_action_holo_dark_history</item>
 
         <!-- Action mode selection count icons -->
         <item name="indicatorIconFolder">@drawable/ic_indicator_holo_dark_folder</item>

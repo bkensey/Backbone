@@ -46,6 +46,7 @@
     <!-- Main application styleables -->
     <declare-styleable name="FileManager">
         <attr name="breadcrumbTitleTextColor" format="color"/>
+        <attr name="breadcrumbTitleAliasTextColor" format="color"/>
         <attr name="breadcrumbSubtitleTextColor" format="color"/>
 
         <attr name="actionIconFolderProperties" format="reference"/>
@@ -84,6 +85,7 @@
         <attr name="actionIconLockOpen" format="reference"/>
         <attr name="actionIconLockClosed" format="reference"/>
         <attr name="actionIconWarning" format="reference"/>
+        <attr name="actionIconHistory" format="reference"/>
 
         <attr name="indicatorIconFolder" format="reference"/>
         <attr name="indicatorIconFile" format="reference"/>

@@ -306,13 +306,19 @@ public class BreadcrumbSpinner extends Spinner implements Breadcrumb, OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (!mPauseSpinnerClicks) {
-            int cc = this.mBreadcrumbListeners.size();
-            for (int i = 0; i < cc; i++) {
-                this.mBreadcrumbListeners.get(i).onBreadcrumbItemClick((File) mAdapter.getItem(position));
+        if (mAdapter.getItemId(position) == BreadcrumbSpinnerAdapter.HISTORY_ID) {
+            // Open history
+            //TODO trigger a history bus event, since the NavigationActivity needs to call the method.
+        } else {
+            // Go to the selected directory
+            if (!mPauseSpinnerClicks) {
+                int cc = this.mBreadcrumbListeners.size();
+                for (int i = 0; i < cc; i++) {
+                    this.mBreadcrumbListeners.get(i).onBreadcrumbItemClick((File) mAdapter.getItem(position));
+                }
             }
+            mPauseSpinnerClicks = false;
         }
-        mPauseSpinnerClicks = false;
     }
 
     @Override
