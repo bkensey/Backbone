@@ -91,8 +91,7 @@ import java.util.List;
  * An activity for search files and folders.
  */
 public class SearchActivity extends Activity
-    implements AsyncResultListener, OnItemClickListener,
-               OnItemLongClickListener, OnRequestRefreshListener {
+    implements AsyncResultListener, OnItemClickListener, OnRequestRefreshListener {
 
     private static final String TAG = "SearchActivity"; //$NON-NLS-1$
 
@@ -460,7 +459,6 @@ public class SearchActivity extends Activity
         //The list view
         this.mSearchListView = (ListView)findViewById(R.id.search_listview);
         this.mSearchListView.setOnItemClickListener(this);
-        this.mSearchListView.setOnItemLongClickListener(this);
 
         // If we should set the listview to response to flinger gesture detection
         boolean useFlinger =
@@ -875,50 +873,6 @@ public class SearchActivity extends Activity
 
         } catch (Throwable ex) {
             ExceptionUtil.translateException(this.mSearchListView.getContext(), ex);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        // Different actions depending on user preference
-
-        // Get the adapter, the search result and the fso
-        SearchResultAdapter adapter = ((SearchResultAdapter)parent.getAdapter());
-        SearchResult searchResult = adapter.getItem(position);
-        FileSystemObject fso = searchResult.getFso();
-
-        // Open the actions menu
-        onRequestMenu(fso);
-        return true; //Always consume the event
-    }
-
-    /**
-     * Method invoked when a request to show the menu associated
-     * with an item is started.
-     *
-     * @param item The item for which the request was started
-     */
-    public void onRequestMenu(FileSystemObject item) {
-        // Prior to show the dialog, refresh the item reference
-        FileSystemObject fso = null;
-        try {
-            fso = CommandHelper.getFileInfo(this, item.getFullPath(), false, null);
-            if (fso == null) {
-                throw new NoSuchFileOrDirectory(item.getFullPath());
-            }
-
-        } catch (Exception e) {
-            // Notify the user
-            ExceptionUtil.translateException(this, e);
-
-            // Remove the object
-            if (e instanceof FileNotFoundException || e instanceof NoSuchFileOrDirectory) {
-                removeItem(item);
-            }
-            return;
         }
     }
 

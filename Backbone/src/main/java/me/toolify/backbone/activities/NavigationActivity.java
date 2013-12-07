@@ -79,7 +79,6 @@ import me.toolify.backbone.console.ConsoleBuilder;
 import me.toolify.backbone.console.NoSuchFileOrDirectory;
 import me.toolify.backbone.fragments.HistoryFragment;
 import me.toolify.backbone.fragments.NavigationFragment;
-import me.toolify.backbone.fragments.NavigationFragment.OnNavigationRequestMenuListener;
 import me.toolify.backbone.listeners.OnCopyMoveListener;
 import me.toolify.backbone.listeners.OnRequestRefreshListener;
 import me.toolify.backbone.model.Bookmark;
@@ -131,8 +130,7 @@ import me.toolify.backbone.util.StorageHelper;
  * the app is killed, is restarted from his initial state.
  */
 public class NavigationActivity extends AbstractNavigationActivity
-    implements OnRequestRefreshListener, OnCopyMoveListener,
-        OnNavigationRequestMenuListener, OnPageChangeListener {
+    implements OnRequestRefreshListener, OnCopyMoveListener, OnPageChangeListener {
 
     private static final String TAG = "NavigationActivity"; //$NON-NLS-1$
 
@@ -683,7 +681,6 @@ public class NavigationActivity extends AbstractNavigationActivity
         NavigationFragment navigationFragment = getCurrentNavigationFragment();
         mTitle.setOnHistoryListener(navigationFragment);
         navigationFragment.setOnHistoryListener(navigationFragment);
-        navigationFragment.setOnNavigationOnRequestMenuListener(this);
     }
 
     /**
@@ -1191,14 +1188,6 @@ public class NavigationActivity extends AbstractNavigationActivity
     @Override
     public void onNavigateTo(Object o) {
         // Ignored
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onRequestMenu(NavigationFragment navFragment, FileSystemObject item) {
-
     }
 
     /**
@@ -1725,11 +1714,9 @@ public class NavigationActivity extends AbstractNavigationActivity
      */
     @Override
     public void onPageSelected(int position) {
-
         // Tell the breadcrumb that the new fragment will now be the one sending dir changes
         NavigationFragment navigationFragment = getCurrentNavigationFragment();
         navigationFragment.setOnHistoryListener(navigationFragment);
-        navigationFragment.setOnNavigationOnRequestMenuListener(this);
     }
 
     /**

@@ -78,21 +78,6 @@ public class NavigationFragment extends Fragment implements
     private static final String IMAGE_CACHE_DIR = "thumbs";
 
     /**
-     * An interface to communicate a request for show the menu associated
-     * with an item.
-     */
-    public interface OnNavigationRequestMenuListener {
-        /**
-         * Method invoked when a request to show the menu associated
-         * with an item is started.
-         *
-         * @param navFragment The navigation fragment that generates the event
-         * @param item The item for which the request was started
-         */
-        void onRequestMenu(NavigationFragment navFragment, FileSystemObject item);
-    }
-
-    /**
      * An interface to communicate a request when the user choose a file.
      */
     public interface OnFilePickedListener {
@@ -203,7 +188,6 @@ public class NavigationFragment extends Fragment implements
     private final Object mSync = new Object();
 
     private OnHistoryListener mOnHistoryListener;
-    private OnNavigationRequestMenuListener mOnNavigationRequestMenuListener;
     private OnFilePickedListener mOnFilePickedListener;
     private OnDirectoryChangedListener mOnDirectoryChangedListener;
 
@@ -772,16 +756,6 @@ public class NavigationFragment extends Fragment implements
      */
     public void setOnHistoryListener(OnHistoryListener onHistoryListener) {
         this.mOnHistoryListener = onHistoryListener;
-    }
-
-    /**
-     * Method that sets the listener for menu item requests.
-     *
-     * @param onNavigationRequestMenuListener The listener reference
-     */
-    public void setOnNavigationOnRequestMenuListener(
-            OnNavigationRequestMenuListener onNavigationRequestMenuListener) {
-        this.mOnNavigationRequestMenuListener = onNavigationRequestMenuListener;
     }
 
     /**
@@ -1565,18 +1539,6 @@ public class NavigationFragment extends Fragment implements
     @Override
     public void onSelectionChanged(final List<FileSystemObject> selectedItems) {
         updateSelectionMode();
-    }
-
-    /**
-     * Method invoked when a request to show the menu associated
-     * with an item is started.
-     *
-     * @param item The item for which the request was started
-     */
-    public void onRequestMenu(final FileSystemObject item) {
-        if (this.mOnNavigationRequestMenuListener != null) {
-            this.mOnNavigationRequestMenuListener.onRequestMenu(this, item);
-        }
     }
 
     /**
