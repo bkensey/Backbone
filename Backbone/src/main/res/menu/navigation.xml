@@ -32,11 +32,7 @@
             android:showAsAction="ifRoom"
             android:icon="@drawable/ic_action_holo_dark_search"
             android:title="@string/menu_search"/>
-    <item
-            android:id="@+id/mnu_actions_history"
-            android:showAsAction="never"
-            android:icon="@drawable/ic_action_holo_dark_history"
-            android:title="@string/menu_history"/>
+
     <item
             android:id="@+id/mnu_actions_properties_current_folder"
             android:showAsAction="ifRoom"

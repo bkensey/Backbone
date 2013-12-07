@@ -31,6 +31,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import me.toolify.backbone.adapters.BreadcrumbSpinnerAdapter;
 import me.toolify.backbone.bus.events.FilesystemStatusUpdateEvent;
+import me.toolify.backbone.bus.events.OpenHistoryEvent;
 import me.toolify.backbone.fragments.NavigationFragment;
 import me.toolify.backbone.model.DiskUsage;
 import me.toolify.backbone.model.MountPoint;
@@ -66,6 +67,10 @@ public class BreadcrumbSpinner extends Spinner implements Breadcrumb, OnItemSele
      * @hide
      */
     private boolean mPauseSpinnerClicks;
+    /**
+     * @hide
+     */
+    private int mCurrentPosition;
 
     /**
      * Constructor of <code>BreadcrumbSpinner</code>.
@@ -308,7 +313,9 @@ public class BreadcrumbSpinner extends Spinner implements Breadcrumb, OnItemSele
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (mAdapter.getItemId(position) == BreadcrumbSpinnerAdapter.HISTORY_ID) {
             // Open history
-            //TODO trigger a history bus event, since the NavigationActivity needs to call the method.
+            BusProvider.postEvent(new OpenHistoryEvent());
+            mPauseSpinnerClicks = true;
+            this.setSelection(mCurrentPosition);
         } else {
             // Go to the selected directory
             if (!mPauseSpinnerClicks) {
@@ -317,6 +324,7 @@ public class BreadcrumbSpinner extends Spinner implements Breadcrumb, OnItemSele
                     this.mBreadcrumbListeners.get(i).onBreadcrumbItemClick((File) mAdapter.getItem(position));
                 }
             }
+            mCurrentPosition = position;
             mPauseSpinnerClicks = false;
         }
     }

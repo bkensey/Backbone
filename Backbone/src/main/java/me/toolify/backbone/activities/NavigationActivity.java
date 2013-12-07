@@ -70,6 +70,7 @@ import me.toolify.backbone.bus.events.BookmarkOpenEvent;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
 import me.toolify.backbone.bus.events.ClosePropertiesDrawerEvent;
 import me.toolify.backbone.bus.events.FilesystemStatusUpdateEvent;
+import me.toolify.backbone.bus.events.OpenHistoryEvent;
 import me.toolify.backbone.bus.events.OpenPropertiesDrawerEvent;
 import me.toolify.backbone.console.Console;
 import me.toolify.backbone.console.ConsoleAllocException;
@@ -1020,10 +1021,6 @@ public class NavigationActivity extends AbstractNavigationActivity
                 showMountPointInfo(mp, du);
                 break;
 
-            case R.id.mnu_actions_history:
-                openHistory();
-                break;
-
             case R.id.mnu_actions_search:
                 openSearch();
                 break;
@@ -1593,6 +1590,17 @@ public class NavigationActivity extends AbstractNavigationActivity
      */
     public void onEvent(ClosePropertiesDrawerEvent event) {
         finishPropertiesActionMode();
+    }
+
+
+    /**
+     * Method that closes an open properties drawer and finishes the paired properties action mode
+     *
+     * @param event The event referencing the file
+     */
+    @Subscribe
+    public void onEvent(OpenHistoryEvent event) {
+        openHistory();
     }
 
     /**
