@@ -7,9 +7,6 @@ def versionPatch = 0
 def versionBuild = 3 // bump for dogfood builds, public betas, etc.
 
 buildscript {
-    /* Note that the repository definition below differs from the normal mavenCentral() declaration.
-       See repositories comment and included stackoverflow URL below.
-    */
     repositories {
         mavenCentral()
     }
