@@ -32,8 +32,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import me.toolify.backbone.R;
-import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.OpenPropertiesDrawerEvent;
 import me.toolify.backbone.model.FileSystemObject;
 import me.toolify.backbone.model.ParentDirectory;
@@ -549,7 +549,7 @@ public class FileSystemObjectAdapter
                 }
                 break;
             case RESOURCE_ITEM_INFO:
-                BusProvider.postEvent(new OpenPropertiesDrawerEvent(fso));
+                EventBus.getDefault().post(new OpenPropertiesDrawerEvent(fso));
                 break;
             default:
                 break;

@@ -20,7 +20,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import me.toolify.backbone.bus.BusProvider;
+import de.greenrobot.event.EventBus;
 import me.toolify.backbone.bus.events.FilesystemStatusUpdateEvent;
 import me.toolify.backbone.model.DiskUsage;
 import me.toolify.backbone.model.MountPoint;
@@ -109,7 +109,7 @@ public class FilesystemAsyncTask extends AsyncTask<String, Integer, Boolean> {
             this.mBreadcrumbSpinner.post(new Runnable() {
                 @Override
                 public void run() {
-                    BusProvider.postEvent(new FilesystemStatusUpdateEvent(
+                    EventBus.getDefault().post(new FilesystemStatusUpdateEvent(
                             FilesystemStatusUpdateEvent.INDICATOR_WARNING));
                     FilesystemAsyncTask.this.mBreadcrumbSpinner.setMountPointInfo(null);
                 }
@@ -126,7 +126,7 @@ public class FilesystemAsyncTask extends AsyncTask<String, Integer, Boolean> {
                             MountPointHelper.isReadOnly(mp)
                             ? FilesystemStatusUpdateEvent.INDICATOR_LOCKED
                             : FilesystemStatusUpdateEvent.INDICATOR_UNLOCKED;
-                    BusProvider.postEvent(new FilesystemStatusUpdateEvent(eventType));
+                    EventBus.getDefault().post(new FilesystemStatusUpdateEvent(eventType));
                     FilesystemAsyncTask.this.mBreadcrumbSpinner.setMountPointInfo(mp);
                 }
             });

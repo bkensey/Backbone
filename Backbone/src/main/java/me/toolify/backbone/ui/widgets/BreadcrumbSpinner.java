@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import me.toolify.backbone.adapters.BreadcrumbSpinnerAdapter;
-import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.FilesystemStatusUpdateEvent;
 import me.toolify.backbone.fragments.NavigationFragment;
 import me.toolify.backbone.model.DiskUsage;
@@ -122,7 +122,7 @@ public class BreadcrumbSpinner extends Spinner implements Breadcrumb, OnItemSele
 
         // Change the image of filesystem (this is not called after a changeBreadcrumbPath call,
         // so if need to be theme previously to protect from errors)
-        BusProvider.postEvent(new FilesystemStatusUpdateEvent(
+        EventBus.getDefault().post(new FilesystemStatusUpdateEvent(
                 FilesystemStatusUpdateEvent.INDICATOR_WARNING));
     }
 
@@ -159,7 +159,7 @@ public class BreadcrumbSpinner extends Spinner implements Breadcrumb, OnItemSele
         this.post(new Runnable() {
             @Override
             public void run() {
-                BusProvider.postEvent(new FilesystemStatusUpdateEvent(
+                EventBus.getDefault().post(new FilesystemStatusUpdateEvent(
                         FilesystemStatusUpdateEvent.INDICATOR_REFRESHING));
             }
         });
@@ -174,7 +174,7 @@ public class BreadcrumbSpinner extends Spinner implements Breadcrumb, OnItemSele
         this.post(new Runnable() {
             @Override
             public void run() {
-                BusProvider.postEvent(new FilesystemStatusUpdateEvent(
+                EventBus.getDefault().post(new FilesystemStatusUpdateEvent(
                         FilesystemStatusUpdateEvent.INDICATOR_STOP_REFRESHING));
             }
         });

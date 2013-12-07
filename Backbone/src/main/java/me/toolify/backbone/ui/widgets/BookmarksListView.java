@@ -30,15 +30,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.squareup.otto.Subscribe;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
 import me.toolify.backbone.adapters.BookmarksAdapter;
-import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.BookmarkDeleteEvent;
 import me.toolify.backbone.bus.events.BookmarkOpenEvent;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
@@ -87,15 +85,26 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
         initBookmarks();
     }
 
-    @Subscribe
-    public void onBookmarkDeleteEvent (BookmarkDeleteEvent event) {
+    /**
+     * This method receives {@link me.toolify.backbone.bus.events.BookmarkDeleteEvent} events and
+     * triggers the removal of the referenced bookmark.
+     *
+     * @param event an event that references the bookmark to delete.
+     */
+    public void onEvent (BookmarkDeleteEvent event) {
         Bookmark b = Bookmarks.getBookmark(mActivity.getContentResolver(), event.path);
         Bookmarks.removeBookmark(mActivity, b);
         refresh();
     }
 
-    @Subscribe
-    public void onBookmarkRefreshEvent (BookmarkRefreshEvent event) {
+    /**
+     * This method receives {@link me.toolify.backbone.bus.events.BookmarkRefreshEvent} events and
+     * triggers a refresh of this {@link me.toolify.backbone.ui.widgets.BookmarksListView}'s
+     * bookmarks
+     *
+     * @param event a trigger event that contains no additional information.
+     */
+    public void onEvent (BookmarkRefreshEvent event) {
         refresh();
     }
 
@@ -166,7 +175,7 @@ public class BookmarksListView extends ListView implements OnItemClickListener, 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Bookmark bookmark = mAdapter.getItem(position);
-        BusProvider.postEvent(new BookmarkOpenEvent(bookmark.mPath));
+        EventBus.getDefault().post(new BookmarkOpenEvent(bookmark.mPath));
     }
 
     /**
