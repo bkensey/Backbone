@@ -30,9 +30,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
-import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
 import me.toolify.backbone.bus.events.OpenPropertiesDrawerEvent;
 import me.toolify.backbone.listeners.OnCopyMoveListener;
@@ -531,7 +531,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             //- Add to bookmarks
             case R.id.mnu_actions_add_to_bookmarks:
                 BookmarksActionPolicy.addToBookmarks(this.mActivity, this.mFso);
-                BusProvider.postEvent(new BookmarkRefreshEvent());
+                EventBus.getDefault().post(new BookmarkRefreshEvent());
                 break;
 
             //- Add shortcut
@@ -542,7 +542,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
             //- Properties
             case R.id.mnu_actions_properties:
             case R.id.mnu_actions_properties_current_folder:
-                BusProvider.postEvent(new OpenPropertiesDrawerEvent(this.mFso));
+                EventBus.getDefault().post(new OpenPropertiesDrawerEvent(this.mFso));
                 break;
 
             //- Navigate to parent
@@ -563,8 +563,7 @@ public class SelectionModeCallback implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         // Clear this before onDeselectAll() to prevent onDeselectAll() from
-        // trying to close the
-        // contextual mode again.
+        // trying to close the contextual mode again.
         mSelectionMode = null;
         mOnSelectionListener.onDeselectAll();
     }

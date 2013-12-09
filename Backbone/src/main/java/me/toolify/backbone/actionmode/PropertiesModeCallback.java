@@ -28,9 +28,9 @@ import android.widget.ShareActionProvider;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import me.toolify.backbone.FileManagerApplication;
 import me.toolify.backbone.R;
-import me.toolify.backbone.bus.BusProvider;
 import me.toolify.backbone.bus.events.BookmarkRefreshEvent;
 import me.toolify.backbone.bus.events.ClosePropertiesDrawerEvent;
 import me.toolify.backbone.listeners.OnCopyMoveListener;
@@ -365,7 +365,7 @@ public class PropertiesModeCallback implements ActionMode.Callback {
             //- Add to bookmarks
             case R.id.mnu_actions_add_to_bookmarks:
                 BookmarksActionPolicy.addToBookmarks(this.mActivity, this.mFso);
-                BusProvider.postEvent(new BookmarkRefreshEvent());
+                EventBus.getDefault().post(new BookmarkRefreshEvent());
                 break;
 
             //- Add shortcut
@@ -391,7 +391,7 @@ public class PropertiesModeCallback implements ActionMode.Callback {
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mPropertiesMode = null;
-        BusProvider.postEvent(new ClosePropertiesDrawerEvent());
+        EventBus.getDefault().post(new ClosePropertiesDrawerEvent());
     }
 
     public void finish() {
