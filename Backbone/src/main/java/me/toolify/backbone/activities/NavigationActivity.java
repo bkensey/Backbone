@@ -106,7 +106,6 @@ import me.toolify.backbone.ui.policy.CopyMoveActionPolicy.COPY_MOVE_OPERATION;
 import me.toolify.backbone.ui.policy.NewActionPolicy;
 import me.toolify.backbone.ui.widgets.BookmarksListView;
 import me.toolify.backbone.ui.widgets.Breadcrumb;
-import me.toolify.backbone.ui.widgets.BreadcrumbItem;
 import me.toolify.backbone.ui.widgets.BreadcrumbPager;
 import me.toolify.backbone.ui.widgets.BreadcrumbSpinner;
 import me.toolify.backbone.ui.widgets.FsoPropertiesView;
@@ -119,10 +118,10 @@ import me.toolify.backbone.util.StorageHelper;
 
 /**
  * The main navigation activity. This activity is the center of the application.
- * From this the user can navigate, search, make actions.<br/>
+ * From this the user can navigate, search, and take file actions.<br/>
  * This activity is singleTop, so when it is displayed no other activities exists in
  * the stack.<br/>
- * This cause an issue with the saved instance of this class, because if another activity
+ * This causes an issue with the saved instance of this class, because if another activity
  * is displayed, and the process is killed, NavigationActivity is started and the saved
  * instance gets corrupted.<br/>
  * For this reason the methods {link {@link android.app.Activity#onSaveInstanceState(android.os.Bundle)} and
@@ -198,7 +197,7 @@ public class NavigationActivity extends AbstractNavigationActivity
         public void onReceive(Context context, Intent intent) {
             if (intent != null) {
                 if (intent.getAction().compareTo(FileManagerSettings.INTENT_SETTING_CHANGED) == 0) {
-                    // The settings has changed
+                    // The settings have changed
                     String key = intent.getStringExtra(FileManagerSettings.EXTRA_SETTING_CHANGED_KEY);
                     if (key != null) {
                         // Disk usage warning level
@@ -1032,7 +1031,7 @@ public class NavigationActivity extends AbstractNavigationActivity
     }
 
     /**
-     * This function switches an action item between its normal icon and an indeterminate progress
+     * This method switches an action item between its normal icon and an indeterminate progress
      * circle
      * @param refreshing value is true if the action item should show the progress bar
      */
@@ -1203,8 +1202,8 @@ public class NavigationActivity extends AbstractNavigationActivity
     }
 
     /**
-     * Finish the "properties" action mode.
-     *
+     * Method that finishes the "properties" action mode and ensures that the two drawerLayout
+     * drawers are set to their proper locked/unlocked position.
      */
     private void finishPropertiesActionMode() {
         // Close the action mode
