@@ -1493,8 +1493,8 @@ public class NavigationActivity extends AbstractNavigationActivity
                     {
                         Drawable d = getResources().getDrawable(res);
                         ((TextView)ret).setCompoundDrawablePadding(8);
-                        ((TextView)ret).setCompoundDrawablesRelativeWithIntrinsicBounds(
-                                d, null, null, null);
+//                        ((TextView)ret).setCompoundDrawablesRelativeWithIntrinsicBounds(
+//                                d, null, null, null);
                     }
                     return ret;
                 }
@@ -1598,7 +1598,6 @@ public class NavigationActivity extends AbstractNavigationActivity
      *
      * @param event The event referencing the file
      */
-    @Subscribe
     public void onEvent(OpenHistoryEvent event) {
         openHistory();
     }

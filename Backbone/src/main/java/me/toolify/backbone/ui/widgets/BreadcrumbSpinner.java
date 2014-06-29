@@ -313,7 +313,7 @@ public class BreadcrumbSpinner extends Spinner implements Breadcrumb, OnItemSele
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (mAdapter.getItemId(position) == BreadcrumbSpinnerAdapter.HISTORY_ID) {
             // Open history
-            BusProvider.postEvent(new OpenHistoryEvent());
+            EventBus.getDefault().post(new OpenHistoryEvent());
             mPauseSpinnerClicks = true;
             this.setSelection(mCurrentPosition);
         } else {
